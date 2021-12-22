@@ -1,0 +1,12 @@
+version: "3"
+services:
+  oilstone:
+    build: .
+    ports:
+      - "3000:3000"
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - '../postgres_data:/var/lib/postgresql/data'

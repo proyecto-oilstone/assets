@@ -1,0 +1,12 @@
+version: "3"
+services:
+  oilstone:
+    build: 
+      context: .
+      args: 
+        NODE_ENV: development
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    command: npm run dev
+  db:
