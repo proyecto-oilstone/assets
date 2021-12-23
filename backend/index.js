@@ -1,5 +1,5 @@
 const express = require("express");
-
+require('dotenv').config()
 const app = express();
 
 app.get("/", (req, res) => {
@@ -12,6 +12,6 @@ db.sequelize
     .then(() => console.log("conexion a bd exitosa!"))
     .catch((e) => console.log(e));
 
-const port = process.env.PORT || 3000;
+const port = process.env.BACKEND_PORT || 3000;
 
 app.listen(port, () => console.log(`listening on port ${port}`) );
