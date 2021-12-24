@@ -1,0 +1,7 @@
+FROM node:16
+WORKDIR /app
+COPY . .
+RUN npm install --only=production
+ENV BACKEND_PORT 3000
+EXPOSE $BACKEND_PORT
+CMD ["node", "index.js"]
