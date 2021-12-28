@@ -1,0 +1,30 @@
+.icon {
+    width: 15px;
+    height: 15px;
+}
+
+#dropdownMoreOptions {
+    color: white !important;
+    margin-right: 5px;
+}
+
+#dropdownUser {
+    color: white !important;
+}
+
+.container {
+    height: 20px;
+    display: block;
+}
+
+.navBar {
+    background-color: #fcfcfc;
+    border-bottom: 1px solid #f0f0f0f0;
+    border-left: 1px solid #f0f0f0f0;
+    border-right: 1px solid #f0f0f0f0;
+    border-radius: 3px;
+}
+
+.iconTruck {
+    transform: scale(-1,1);
+}
