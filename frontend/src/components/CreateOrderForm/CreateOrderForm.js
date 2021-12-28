@@ -17,17 +17,17 @@ const CreateOrderForm = () => {
 
             <Row>
                 <Col sm="6">
-                <Form.Group as={Row} className="mb-2">
-                    <Form.Label column sm="4">Sector</Form.Label>
-                    <Col sm="8">
-                        <Form.Select>
-                            <option>Seleccionar</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </Form.Select>
-                    </Col>
-                </Form.Group>
+                    <Form.Group as={Row} className="mb-2">
+                        <Form.Label column sm="4">Sector</Form.Label>
+                        <Col sm="8">
+                            <Form.Select>
+                                <option>Seleccionar</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </Form.Select>
+                        </Col>
+                    </Form.Group>
                 </Col>
 
                 <Col sm="6">
