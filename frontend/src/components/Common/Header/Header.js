@@ -57,9 +57,9 @@ const Header = (props) => {
                 <img src="./logo.png" alt="logo"/>
 
                 <Nav className={`w-100 flex justify-content-end`}>
-                    <NavLink icon="home-solid" href="/" isActive={activeSection === "home"}>Inicio</NavLink>
+                    <NavLink icon="home-solid" href="/home" isActive={activeSection === "home"}>Inicio</NavLink>
                     <NavLink icon="truck-solid" iconClassName={styles.iconTruck} isActive={activeSection === "stock"}>Movimientos y stock (41)</NavLink>
-                    <NavLink icon="inbox-solid" isActive={activeSection === "pedidos"}>Pedidos</NavLink>
+                    <NavLink icon="inbox-solid" href="/crear-pedido" isActive={activeSection === "pedidos"}>Pedidos</NavLink>
                     <NavLink icon="shopping-cart-solid" isActive={activeSection === "compras"}>Compras</NavLink>
                     <NavLink icon="certificate-solid" isActive={activeSection === "certificaciones"}>Certificaciones</NavLink>
                 </Nav>
