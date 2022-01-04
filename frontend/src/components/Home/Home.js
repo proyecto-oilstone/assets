@@ -13,19 +13,34 @@ const Home = () => {
         <Row>
           <Col className={styles.column}>
             <a className={styles.tag}>
-              <img src="https://cdn4.iconfinder.com/data/icons/meBaze-Freebies/512/add-user.png" className={styles.img} alt="logo" title="Crear nuevo usuario" />
+              <img
+                src="https://cdn4.iconfinder.com/data/icons/meBaze-Freebies/512/add-user.png"
+                className={styles.img}
+                alt="logo"
+                title="Crear nuevo usuario"
+              />
               <p>Crear nuevo usuario</p>
             </a>
           </Col>
           <Col className={styles.column}>
             <a className={styles.tag}>
-              <img src="https://cdn4.iconfinder.com/data/icons/meBaze-Freebies/512/delete-user.png" className={styles.img} alt="logo" title="Eliminar usuario" />
+              <img
+                src="https://cdn4.iconfinder.com/data/icons/meBaze-Freebies/512/delete-user.png"
+                className={styles.img}
+                alt="logo"
+                title="Eliminar usuario"
+              />
               <p>Eliminar usuario</p>
             </a>
           </Col>
           <Col className={styles.column}>
             <a className={styles.tag}>
-              <img src="https://cdn4.iconfinder.com/data/icons/meBaze-Freebies/512/user.png" className={styles.img} alt="logo" title="Ir al perfil" />
+              <img
+                src="https://cdn4.iconfinder.com/data/icons/meBaze-Freebies/512/user.png"
+                className={styles.img}
+                alt="logo"
+                title="Ir al perfil"
+              />
               <p>Ir al perfil</p>
             </a>
           </Col>

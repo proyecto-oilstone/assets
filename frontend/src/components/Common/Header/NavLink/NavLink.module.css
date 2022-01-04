@@ -1,20 +1,22 @@
 .icon {
-    width: 25px;
-    height: 25px;
-    filter: invert(30%) sepia(92%) saturate(1540%) hue-rotate(170deg) brightness(87%) contrast(105%);/* #007ca6 */
+  width: 25px;
+  height: 25px;
+  filter: invert(30%) sepia(92%) saturate(1540%) hue-rotate(170deg)
+    brightness(87%) contrast(105%); /* #007ca6 */
 }
 
 .icon.iconActive {
-    filter: invert(29%) sepia(0%) saturate(0%) hue-rotate(151deg) brightness(100%) contrast(79%);/* #555555 */
+  filter: invert(29%) sepia(0%) saturate(0%) hue-rotate(151deg) brightness(100%)
+    contrast(79%); /* #555555 */
 }
 
 .container {
-    padding: 20px;
-    color: #007ca6;
-    border-right: 1px solid #f0f0f0;
+  padding: 20px;
+  color: #007ca6;
+  border-right: 1px solid #f0f0f0;
 }
 
 .containerActive {
-    color: #555555;
-    background-color: #e0e0e0;
+  color: #555555;
+  background-color: #e0e0e0;
 }
