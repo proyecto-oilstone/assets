@@ -1,18 +1,36 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import Header from "../Common/Header/Header";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import styles from "./Home.module.css";
+import CreateProviderModal from "../Modals/CreateProviderModal/CreateProviderModal";
+import ProviderContext from "../../contexts/providers/ProviderContext";
 
 const Home = () => {
+  const [isOpenModalProvider, setIsOpenModalProvider] = useState(false);
+  const providerContext = useContext(ProviderContext);
+
+  const toggleModalProvider = () => {
+    console.log(process.env.REACT_APP_BACKEND_HOST);
+    setIsOpenModalProvider(!isOpenModalProvider);
+  };
+
+  const openCreateProviderModal = () => {
+    setIsOpenModalProvider(true);
+  };
+
   return (
     <div>
       <Header activeSection="home" />
       <Container>
         <Row>
           <Col className={styles.column}>
-            <a className={styles.tag}>
+            <a
+              className={styles.tag}
+              href="#/"
+              onClick={openCreateProviderModal}
+            >
               <img
                 src="https://cdn4.iconfinder.com/data/icons/meBaze-Freebies/512/add-user.png"
                 className={styles.img}
@@ -23,7 +41,7 @@ const Home = () => {
             </a>
           </Col>
           <Col className={styles.column}>
-            <a className={styles.tag}>
+            <a className={styles.tag} href="#/">
               <img
                 src="https://cdn4.iconfinder.com/data/icons/meBaze-Freebies/512/delete-user.png"
                 className={styles.img}
@@ -34,7 +52,7 @@ const Home = () => {
             </a>
           </Col>
           <Col className={styles.column}>
-            <a className={styles.tag}>
+            <a className={styles.tag} href="#/">
               <img
                 src="https://cdn4.iconfinder.com/data/icons/meBaze-Freebies/512/user.png"
                 className={styles.img}
@@ -46,6 +64,10 @@ const Home = () => {
           </Col>
         </Row>
       </Container>
+      <CreateProviderModal
+        show={isOpenModalProvider}
+        toggle={toggleModalProvider}
+      />
     </div>
   );
 };
