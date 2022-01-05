@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
-import styles from "./Layout.module.css";
 
 const Layout = (props) => {
   const { children, activeSection } = props;
@@ -13,7 +12,7 @@ const Layout = (props) => {
   return (
     <>
       <Header activeSection={activeSection} />
-      <div className={styles.sidebarContainer}>
+      <div>
         <Sidebar
           show={showSidebar}
           toggle={toggleSidebar}

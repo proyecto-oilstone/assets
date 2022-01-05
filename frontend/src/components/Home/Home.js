@@ -6,6 +6,7 @@ import Col from "react-bootstrap/Col";
 import styles from "./Home.module.css";
 import CreateProviderModal from "../Modals/CreateProviderModal/CreateProviderModal";
 import ProviderContext from "../../contexts/providers/ProviderContext";
+import Layout from "../Common/Layout/Layout";
 
 const Home = () => {
   const [isOpenModalProvider, setIsOpenModalProvider] = useState(false);
@@ -21,8 +22,7 @@ const Home = () => {
   };
 
   return (
-    <div>
-      <Header activeSection="home" />
+    <Layout activeSection="home">
       <Container>
         <Row>
           <Col className={styles.column}>
@@ -68,7 +68,7 @@ const Home = () => {
         show={isOpenModalProvider}
         toggle={toggleModalProvider}
       />
-    </div>
+    </Layout>
   );
 };
 

@@ -1,14 +1,13 @@
 import React from "react";
 import { Col, Container, Form, Row } from "react-bootstrap";
-import Header from "../Common/Header/Header";
 import CreateOrderForm from "../CreateOrderForm/CreateOrderForm";
 import styles from "./CreateOrderPage.module.css";
 import ButtonPrimary from "../Buttons/Primary/ButtonPrimary";
+import Layout from "../Common/Layout/Layout";
 
 const CreateOrderPage = () => {
   return (
-    <>
-      <Header activeSection="pedidos" />
+    <Layout activeSection="pedidos">
       <Container fluid className="mt-4">
         <h4>
           <img
@@ -135,7 +134,7 @@ const CreateOrderPage = () => {
           </Row>
         </Container>
       </Container>
-    </>
+    </Layout>
   );
 };
 
