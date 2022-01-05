@@ -1,0 +1,23 @@
+.navMenu {
+  height: 100vh;
+  position: fixed;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.navItems {
+  list-style-type: none;
+  margin-top: 50px;
+}
+
+.navItem {
+  color: inherit;
+  text-decoration: inherit;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navItemArrow {
+  width: 16px;
+  height: 16px;
+}
