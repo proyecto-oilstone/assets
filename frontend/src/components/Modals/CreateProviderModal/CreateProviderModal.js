@@ -9,7 +9,7 @@ const CreateProviderModal = (props) => {
   const [name, setName] = useState("");
 
   const handleOnClick = () => {
-    providerContext.createProvider({name});
+    providerContext.createProvider({nombre: name});
     setName("")
     toggle()
   }

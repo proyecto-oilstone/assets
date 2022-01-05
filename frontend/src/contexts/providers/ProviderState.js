@@ -14,7 +14,8 @@ const ProviderState = (props) => {
   const [state, dispatch] = useReducer(ProviderReducer, initialState);
 
   const createProvider = async (provider) => {
-    provider = await axios.post("/providers", provider);
+    let response = await axios.post("/provider/provider", provider);
+    provider = response.data.provider;
     dispatch({
       type: ADD_PROVIDER,
       payload: provider.data,
