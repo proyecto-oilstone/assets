@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import { ADD_PROVIDER, SET_PROVIDERS, DELETE_PROVIDER, SELECT_PROVIDER } from "../types";
+import { ADD_PROVIDER, SET_PROVIDERS, DELETE_PROVIDER } from "../types";
 import ProviderReducer from "./ProviderReducer";
 import ProviderContext from "./ProviderContext";
 import axios from "../../helpers/axios";
@@ -8,7 +8,6 @@ const ProviderState = (props) => {
   const { children } = props;
   const initialState = {
     providers: [],
-    selectedProvider: null,
   };
 
   const [state, dispatch] = useReducer(ProviderReducer, initialState);
@@ -58,23 +57,14 @@ const ProviderState = (props) => {
     });
   }
 
-  const selectProvider = (provider) => {
-    dispatch({
-      type: SELECT_PROVIDER,
-      payload: provider,
-    });
-  }
-
   return (
     <ProviderContext.Provider
       value={{
         providers: state.providers,
-        selectedProvider: state.selectedProvider,
         createProvider,
         getProviders,
         editProvider,
         deleteProvider,
-        selectProvider,
       }}
     >
       {children}

@@ -1,4 +1,4 @@
-import { ADD_PROVIDER, SET_PROVIDERS, DELETE_PROVIDER, SELECT_PROVIDER } from "../types";
+import { ADD_PROVIDER, SET_PROVIDERS, DELETE_PROVIDER } from "../types";
 
 const ProviderReducer = (state, action) => {
   const { payload, type } = action;
@@ -18,11 +18,6 @@ const ProviderReducer = (state, action) => {
       return {
         ...state,
         providers: state.providers.filter(provider => provider.id !== payload)
-      }
-    case SELECT_PROVIDER:
-      return {
-        ...state,
-        selectedProvider: payload
       }
     default:
       return state;

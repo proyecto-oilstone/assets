@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import SidebarContext from "../../../contexts/sidebar/SidebarContext";
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
 
 const Layout = (props) => {
   const { children, activeSection } = props;
-  const [showSidebar, setShowSidebar] = useState(true);
-  const toggleSidebar = () => setShowSidebar(!showSidebar);
+  const { isOpen } = useContext(SidebarContext);
   const sidebarTransition = "850ms";
   const sidebarWidth = "250px";
 
@@ -14,15 +14,13 @@ const Layout = (props) => {
       <Header activeSection={activeSection} />
       <div>
         <Sidebar
-          show={showSidebar}
-          toggle={toggleSidebar}
           width={sidebarWidth}
           transition={sidebarTransition}
         />
         <div
           style={{
             transition: sidebarTransition,
-            marginLeft: showSidebar ? sidebarWidth : 0,
+            marginLeft: isOpen ? sidebarWidth : 0,
           }}
         >
           {children}
