@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import CustomModal from "../CustomModal/CustomModal";
-import ProviderContext from "../../../contexts/providers/ProviderContext";
+import CarTypeContext from "../../../contexts/carTypes/CarTypeContext";
 
 const CreateTypeVehicleModal = (props) => {
   const { show, toggle } = props;
+  const { createCarType } = useContext(CarTypeContext);
   const [nombreCorto, setNombreCorto] = useState("");
   const [nombreLargo, setNombreLargo] = useState("");
   const [observaciones, setObservaciones] = useState("");
@@ -16,6 +17,7 @@ const CreateTypeVehicleModal = (props) => {
   };
 
   const handleOnClick = () => {
+    createCarType({nombreCorto, nombreLargo, observaciones});
     toggle();
     resetFields();
   };
