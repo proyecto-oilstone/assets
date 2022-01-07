@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import CreateTypeVehicleModal from "../../Modals/CreateTypeVehicleModal/CreateTypeVehicleModal";
 import styles from "./Sidebar.module.css";
 
 const Sidebar = (props) => {
   const { show, toggle, width, transition } = props;
+  const [showTypeVehicleModal, setShowTypeVehicleModal] = useState(false);
+  const toggleCreateTypeVehicleModal = () => setShowTypeVehicleModal(!showTypeVehicleModal);
 
   const invertWidth = (width) => {
     let hasPX = true;
@@ -17,10 +20,10 @@ const Sidebar = (props) => {
     return width * -1 + (hasPX ? "px" : "%");
   };
 
-  const NavItem = ({ title, to = "#"}) => {
+  const NavItem = ({ title, to = "#", onClick = () => {}}) => {
     return (
     <li>
-      <Link to={to} className={styles.navItem}>
+      <Link to={to} className={styles.navItem} onClick={onClick}>
         <span>{title}</span> <img className={styles.navItemArrow} src="./icons/caret-right-solid.svg" alt="icon"/>
       </Link>
     </li>
@@ -45,8 +48,10 @@ const Sidebar = (props) => {
           <NavItem title="Documental"/>
           <NavItem title="Taller"/>
           <NavItem title="Instalaciones"/>
+          <NavItem title="Crear tipo de vehiculo" onClick={toggleCreateTypeVehicleModal}/>
         </ul>
       </nav>
+      <CreateTypeVehicleModal show={showTypeVehicleModal} toggle={toggleCreateTypeVehicleModal}/>
     </>
   );
 };
