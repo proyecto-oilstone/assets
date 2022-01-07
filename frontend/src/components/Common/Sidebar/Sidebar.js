@@ -6,7 +6,7 @@ import styles from "./Sidebar.module.css";
 
 const Sidebar = (props) => {
   const { width, transition } = props;
-  const { isOpen, closeSidebar } = useContext(SidebarContext)
+  const { isOpen } = useContext(SidebarContext)
   const [showVehiculoModal, setShowVehiculoModal] = useState(false);
   const toggleCreateVehiculoModal = () => setShowVehiculoModal(!showVehiculoModal);
 
@@ -42,9 +42,6 @@ const Sidebar = (props) => {
         }}
         className={`${styles.navMenu}`}
       >
-        <div className="d-flex justify-content-center">
-          <img src="./logo.png" alt="logo" onClick={closeSidebar}/>
-        </div>
         <ul className={styles.navItems}>
           <NavItem title="Agenda"/>
           <NavItem title="Documental"/>
