@@ -20,4 +20,10 @@
 .navItemArrow {
   width: 16px;
   height: 16px;
+  transition: all;
+  transition-duration: 350ms;
+}
+
+.navItemArrowRotated {
+  transform: rotate(90deg);
 }
