@@ -1,19 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Header from "../Common/Header/Header";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import styles from "./Home.module.css";
 import CreateProviderModal from "../Modals/CreateProviderModal/CreateProviderModal";
-import ProviderContext from "../../contexts/providers/ProviderContext";
-import ProviderList from "../ProviderList/ProviderList";
 
 const Home = () => {
   const [isOpenModalProvider, setIsOpenModalProvider] = useState(false);
-  const providerContext = useContext(ProviderContext);
 
   const toggleModalProvider = () => {
-    console.log(process.env.REACT_APP_BACKEND_HOST);
     setIsOpenModalProvider(!isOpenModalProvider);
   };
 
@@ -64,8 +60,6 @@ const Home = () => {
             </a>
           </Col>
         </Row>
-
-        <ProviderList/>
       </Container>
       <CreateProviderModal
         show={isOpenModalProvider}
