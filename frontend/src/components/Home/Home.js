@@ -6,6 +6,7 @@ import Col from "react-bootstrap/Col";
 import styles from "./Home.module.css";
 import CreateProviderModal from "../Modals/CreateProviderModal/CreateProviderModal";
 import ProviderContext from "../../contexts/providers/ProviderContext";
+import ProviderList from "../ProviderList/ProviderList";
 
 const Home = () => {
   const [isOpenModalProvider, setIsOpenModalProvider] = useState(false);
@@ -63,6 +64,8 @@ const Home = () => {
             </a>
           </Col>
         </Row>
+
+        <ProviderList/>
       </Container>
       <CreateProviderModal
         show={isOpenModalProvider}

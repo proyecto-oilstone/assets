@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import CustomModal from "../CustomModal/CustomModal";
 import ProviderContext from "../../../contexts/providers/ProviderContext";
 
 const CreateProviderModal = (props) => {
-  const { show, toggle } = props;
-  const providerContext = useContext(ProviderContext);
+  const { show, toggle, edit = false, provider = null } = props;
+  const { createProvider, editProvider } = useContext(ProviderContext);
   const [nombreCorto, setNombreCorto] = useState("");
   const [nombreLargo, setNombreLargo] = useState("");
   const [observaciones, setObservaciones] = useState("");
@@ -17,13 +17,27 @@ const CreateProviderModal = (props) => {
   }
 
   const handleOnClick = () => {
-    providerContext.createProvider({nombreCorto, nombreLargo, observaciones});
-    toggle();
+    const provider = { nombreCorto, nombreLargo, observaciones };
+    if (edit) {
+      editProvider(provider);
+    } else {
+      createProvider(provider);
+    }
     resetFields();
+    toggle();
   }
+  
+
+  useEffect(() => {
+    if (provider) {
+      setNombreCorto(provider.nombreCorto);
+      setNombreLargo(provider.nombreLargo);
+      setObservaciones(provider.observaciones);
+    }
+  }, [provider]);
 
   return (
-    <CustomModal show={show} toggle={toggle} title="Crear proveedor">
+    <CustomModal show={show} toggle={toggle} title={edit ? `Editar proveedor: ${provider.nombreCorto}` : `Crear proveedor`}>
       <Form>
         <Form.Group as={Row} className="mb-2">
           <Col sm="6">
@@ -65,7 +79,7 @@ const CreateProviderModal = (props) => {
         </Form.Group>
       </Form>
       <Col sm="6">
-        <Button onClick={handleOnClick}>Crear</Button>
+        <Button onClick={handleOnClick}>{edit ? "Editar" : "Crear"}</Button>
       </Col>
     </CustomModal>
   );

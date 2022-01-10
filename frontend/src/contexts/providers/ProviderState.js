@@ -8,7 +8,6 @@ const ProviderState = (props) => {
   const { children } = props;
   const initialState = {
     providers: [],
-    selectedProvider: null,
   };
 
   const [state, dispatch] = useReducer(ProviderReducer, initialState);
@@ -24,7 +23,8 @@ const ProviderState = (props) => {
   };
 
   const getProviders = async () => {
-    const response = await axios.get("/");
+    const response = await axios.get("/provider/providers");
+    const providers = response.data;
     dispatch({
       type: SET_PROVIDERS,
       payload: response.data,
@@ -33,7 +33,7 @@ const ProviderState = (props) => {
   };
 
   const editProvider = async (provider) => {
-    const response = await axios.put(`/providers/${provider.id}`, provider);
+    const response = await axios.put(`/provider/provider/${provider.id}`, provider);
     const editedProvider = response.data;
     let newProviders = JSON.parse(JSON.stringify(state.providers));
     newProviders = newProviders.map(provider => {
@@ -58,13 +58,6 @@ const ProviderState = (props) => {
     });
   }
 
-  const selectProvider = (provider) => {
-    dispatch({
-      type: SELECT_PROVIDER,
-      payload: provider,
-    });
-  }
-
   return (
     <ProviderContext.Provider
       value={{
@@ -74,7 +67,6 @@ const ProviderState = (props) => {
         getProviders,
         editProvider,
         deleteProvider,
-        selectProvider,
       }}
     >
       {children}
