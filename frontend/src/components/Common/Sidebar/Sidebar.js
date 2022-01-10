@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { Accordion, useAccordionButton } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CreateTypeVehicleModal from "../../Modals/CreateTypeVehicleModal/CreateTypeVehicleModal";
 import styles from "./Sidebar.module.css";
@@ -25,15 +26,45 @@ const Sidebar = (props) => {
     return width * -1 + (hasPX ? "px" : "%");
   };
 
-  const NavItem = ({ title, to = "#", onClick = () => {}}) => {
+  const NavItem = ({ title, to = "#", onClick = () => {},  rotateArrow = false}) => {
+
     return (
     <li>
       <Link to={to} className={styles.navItem} onClick={onClick}>
-        <span>{title}</span> <img className={styles.navItemArrow} src="./icons/caret-right-solid.svg" alt="icon"/>
+        <span>{title}</span>
+        <div className="d-flex justify-content-center align-items-center">
+          <img className={`${styles.navItemArrow} ${rotateArrow ? styles.navItemArrowRotated : ""}`} src="./icons/caret-right-solid.svg" alt="icon"/>
+        </div>
       </Link>
     </li>
-  );
-}
+    );
+  }
+
+  const MultipleNavItem = ({ children, title }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const toggleIsOpen = () => setIsOpen(!isOpen);
+
+    function CustomToggle({ eventKey, rotateArrow, onClick }) {
+      const decoratedOnClick = useAccordionButton(eventKey);
+      const handleOnClick = () => {
+        decoratedOnClick();
+        onClick();
+      };
+    
+      return (<NavItem title={title} rotateArrow={rotateArrow} onClick={handleOnClick}/>);
+    }
+
+    return (<>
+      <Accordion>
+        <CustomToggle eventKey="0" rotateArrow={isOpen} onClick={toggleIsOpen}/>
+        <Accordion.Collapse eventKey="0">
+          <div className="ps-2 pt-1">
+            {children}
+          </div>
+        </Accordion.Collapse>
+      </Accordion>
+    </>)
+  };
 
   return (
     <>
@@ -50,8 +81,16 @@ const Sidebar = (props) => {
           <NavItem title="Documental"/>
           <NavItem title="Taller"/>
           <NavItem title="Instalaciones"/>
-          <NavItem title="Crear vehiculo liviano" onClick={toggleCreateVehiculoModal}/>
-          <NavItem title="Crear tipo de vehiculo" onClick={toggleCreateTypeVehicleModal}/>
+          <MultipleNavItem title="Crear">
+            <NavItem title="Vehiculo liviano" onClick={toggleCreateVehiculoModal}/>
+            <NavItem title="Tipo de vehiculo" onClick={toggleCreateTypeVehicleModal}/>
+          </MultipleNavItem>
+
+          <MultipleNavItem title="Listar">
+            <NavItem title="Vehiculos" to="/vehiculos"/>
+            <NavItem title="Tipo de vehiculos" to="/tipo-de-vehiculos"/>
+            <NavItem title="Proveedores" to="/proveedores"/>
+          </MultipleNavItem>
         </ul>
       </nav>
       <CreateVehiculoLivianoModal show={showVehiculoModal} toggle={toggleCreateVehiculoModal}/>
