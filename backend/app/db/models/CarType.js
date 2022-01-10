@@ -4,8 +4,9 @@ module.exports = (sequelize) => {
   class CarType extends Model {}
   CarType.init(
     {
-      marca: { type: DataTypes.STRING, allowNull: false },
-      modelo: { type: DataTypes.STRING, allowNull: false },
+      nombreLargo: { type: DataTypes.STRING, allowNull: false },
+      nombreCorto: { type: DataTypes.STRING, allowNull: false },
+      observaciones: { type: DataTypes.STRING, allowNull: true },
     },
     { sequelize: sequelize, modelName: "CarType" }
   );

@@ -3,6 +3,7 @@ import { ADD_PROVIDER, SET_PROVIDERS, DELETE_PROVIDER } from "../types";
 import ProviderReducer from "./ProviderReducer";
 import ProviderContext from "./ProviderContext";
 import axios from "../../helpers/axios";
+import { responseToArray } from "../../helpers/utils";
 
 const ProviderState = (props) => {
   const { children } = props;
@@ -17,22 +18,23 @@ const ProviderState = (props) => {
     provider = response.data.provider;
     dispatch({
       type: ADD_PROVIDER,
-      payload: provider.data,
+      payload: provider,
     });
-    return provider.data;
+    return provider;
   };
 
   const getProviders = async () => {
-    const response = await axios.get("/");
+    const response = await axios.get("/provider/providers");
+    const providers = responseToArray(response.data);
     dispatch({
       type: SET_PROVIDERS,
-      payload: response.data,
+      payload: providers,
     });
-    return response.data;
+    return providers;
   };
 
   const editProvider = async (provider) => {
-    const response = await axios.put(`/providers/${provider.id}`, provider);
+    const response = await axios.put(`/provider/provider/${provider.id}`, provider);
     const editedProvider = response.data;
     let newProviders = JSON.parse(JSON.stringify(state.providers));
     newProviders = newProviders.map(provider => {
@@ -41,7 +43,8 @@ const ProviderState = (props) => {
       } else {
         return provider;
       }
-    })
+    });
+
     dispatch({
       type: SET_PROVIDERS,
       payload: newProviders,

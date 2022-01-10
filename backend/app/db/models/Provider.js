@@ -4,7 +4,9 @@ module.exports = (sequelize) => {
   class Provider extends Model {}
   Provider.init(
     {
-      nombre: { type: DataTypes.STRING, allowNull: false },
+      nombreLargo: { type: DataTypes.STRING, allowNull: false },
+      nombreCorto: { type: DataTypes.STRING, allowNull: false },
+      observaciones: { type: DataTypes.STRING, allowNull: true },
     },
     { sequelize: sequelize, modelName: "Provider" }
   );
