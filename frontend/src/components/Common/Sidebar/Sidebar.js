@@ -1,18 +1,21 @@
 import React, { useContext, useState } from "react";
 import { Accordion, useAccordionButton } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import CreateTypeVehicleModal from "../../Modals/CreateTypeVehicleModal/CreateTypeVehicleModal";
 import styles from "./Sidebar.module.css";
 import SidebarContext from "../../../contexts/sidebar/SidebarContext";
+import CreateTypeVehicleModal from "../../Modals/CreateTypeVehicleModal/CreateTypeVehicleModal";
 import CreateVehiculoLivianoModal from "../../Modals/CreateVehiculoLivianoModal/CreateVehiculoLivianoModal";
+import CreateProviderModal from "../../Modals/CreateProviderModal/CreateProviderModal";
 
 const Sidebar = (props) => {
   const { width, transition } = props;
   const { isOpen } = useContext(SidebarContext);
   const [showTypeVehicleModal, setShowTypeVehicleModal] = useState(false);
   const [showVehiculoModal, setShowVehiculoModal] = useState(false);
+  const [showProviderModal, setShowProviderModal] = useState(false);
   const toggleCreateTypeVehicleModal = () => setShowTypeVehicleModal(!showTypeVehicleModal);
   const toggleCreateVehiculoModal = () => setShowVehiculoModal(!showVehiculoModal);
+  const toggleCreateProviderModal = () => setShowProviderModal(!showProviderModal);
 
   const invertWidth = (width) => {
     let hasPX = true;
@@ -29,14 +32,14 @@ const Sidebar = (props) => {
   const NavItem = ({ title, to = "#", onClick = () => {},  rotateArrow = false}) => {
 
     return (
-    <li>
-      <Link to={to} className={styles.navItem} onClick={onClick}>
-        <span>{title}</span>
-        <div className="d-flex justify-content-center align-items-center">
-          <img className={`${styles.navItemArrow} ${rotateArrow ? styles.navItemArrowRotated : ""}`} src="./icons/caret-right-solid.svg" alt="icon"/>
-        </div>
-      </Link>
-    </li>
+      <li>
+        <Link to={to} className={styles.navItem} onClick={onClick}>
+          <span>{title}</span>
+          <div className="d-flex justify-content-center align-items-center">
+            <img className={`${styles.navItemArrow} ${rotateArrow ? styles.navItemArrowRotated : ""}`} src="/icons/caret-right-solid.svg" alt="icon"/>
+          </div>
+        </Link>
+      </li>
     );
   }
 
@@ -84,6 +87,7 @@ const Sidebar = (props) => {
           <MultipleNavItem title="Crear">
             <NavItem title="Vehiculo liviano" onClick={toggleCreateVehiculoModal}/>
             <NavItem title="Tipo de vehiculo" onClick={toggleCreateTypeVehicleModal}/>
+            <NavItem title="Proveedor" onClick={toggleCreateProviderModal}/>
           </MultipleNavItem>
 
           <MultipleNavItem title="Listar">
@@ -95,6 +99,7 @@ const Sidebar = (props) => {
       </nav>
       <CreateVehiculoLivianoModal show={showVehiculoModal} toggle={toggleCreateVehiculoModal}/>
       <CreateTypeVehicleModal show={showTypeVehicleModal} toggle={toggleCreateTypeVehicleModal}/>
+      <CreateProviderModal show={showProviderModal} toggle={toggleCreateProviderModal}/>
     </>
   );
 };

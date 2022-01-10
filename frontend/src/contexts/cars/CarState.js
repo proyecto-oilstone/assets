@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import { ADD_CAR, DELETE_CAR, SET_CARS } from "../types";
+import { ADD_CAR, DELETE_CAR, SET_CARS, SELECT_CAR } from "../types";
 import CarReducer from "./CarReducer";
 import CarContext from "./CarContext";
 import axios from "../../helpers/axios";
@@ -9,6 +9,7 @@ const CarState = (props) => {
   const { children } = props;
   const initialState = {
     cars: [],
+    selectedCar: null,
   };
 
   const [state, dispatch] = useReducer(CarReducer, initialState);
@@ -59,14 +60,28 @@ const CarState = (props) => {
     });
   }
 
+  const selectCar = (car) => {
+    dispatch({
+      type: SELECT_CAR,
+      payload: car,
+    });
+  }
+
+  // const getCarById = async (carId) => {
+  
+  // }
+
   return (
     <CarContext.Provider
       value={{
         cars: state.cars,
+        selectedCar: state.selectedCar,
         createCar,
         getCars,
         editCar,
         deleteCar,
+        selectCar,
+        // getCarById,
       }}
     >
       {children}

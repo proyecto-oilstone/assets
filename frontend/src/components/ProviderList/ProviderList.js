@@ -26,7 +26,7 @@ const ProviderList = () => {
           <div className='bg-light rounded p-4 mx-2'>
             <div className='d-flex justify-content-between'>
               <span>{provider.nombreCorto}</span>
-              <img className={styles.editIcon} src="./icons/edit-solid.svg" alt="editar" onClick={() => showEditProviderModal(provider)} />
+              <img className={styles.editIcon} src="/icons/edit-solid.svg" alt="editar" onClick={() => showEditProviderModal(provider)} />
             </div>
             <span>{`${provider.nombreLargo}`}</span>
           </div>

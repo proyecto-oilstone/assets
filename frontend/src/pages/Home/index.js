@@ -1,21 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import styles from "./Home.module.css";
-import CreateProviderModal from "../Modals/CreateProviderModal/CreateProviderModal";
-import Layout from "../Common/Layout/Layout";
+import styles from "./index.module.css";
+import Layout from "../../components/Common/Layout/Layout";
 
 const Home = () => {
-  const [isOpenModalProvider, setIsOpenModalProvider] = useState(false);
-
-  const toggleModalProvider = () => {
-    setIsOpenModalProvider(!isOpenModalProvider);
-  };
-
-  const openCreateProviderModal = () => {
-    setIsOpenModalProvider(true);
-  };
 
   return (
     <Layout activeSection="home">
@@ -25,7 +15,6 @@ const Home = () => {
             <a
               className={styles.tag}
               href="#/"
-              onClick={openCreateProviderModal}
             >
               <img
                 src="https://cdn4.iconfinder.com/data/icons/meBaze-Freebies/512/add-user.png"
@@ -60,10 +49,6 @@ const Home = () => {
           </Col>
         </Row>
       </Container>
-      <CreateProviderModal
-        show={isOpenModalProvider}
-        toggle={toggleModalProvider}
-      />
     </Layout>
   );
 };

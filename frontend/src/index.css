@@ -15,3 +15,12 @@ code {
 .background-primary {
   background-color: #33ccff;
 }
+
+.no-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.no-link:hover {
+  color: inherit;
+}

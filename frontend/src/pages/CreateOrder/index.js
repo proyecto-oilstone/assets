@@ -1,18 +1,18 @@
 import React from "react";
 import { Col, Container, Form, Row } from "react-bootstrap";
-import CreateOrderForm from "../CreateOrderForm/CreateOrderForm";
-import styles from "./CreateOrderPage.module.css";
-import ButtonPrimary from "../Buttons/Primary/ButtonPrimary";
-import Layout from "../Common/Layout/Layout";
+import CreateOrderForm from "../../components/CreateOrderForm/CreateOrderForm";
+import styles from "./index.module.css";
+import ButtonPrimary from "../../components/Buttons/Primary/ButtonPrimary";
+import Layout from "../../components/Common/Layout/Layout";
 
-const CreateOrderPage = () => {
+const CreateOrder = () => {
   return (
     <Layout activeSection="pedidos">
       <Container fluid className="mt-4">
         <h4>
           <img
             className={`${styles.icon} me-1`}
-            src="./icons/files.png"
+            src="/icons/files.png"
             alt="icono"
           />
           Nueva nota de pedido de Oilstone Energia S.A.
@@ -26,7 +26,7 @@ const CreateOrderPage = () => {
           <div className="d-flex align-items-center">
             <img
               className={styles.icon}
-              src="./icons/thumbtack-solid.svg"
+              src="/icons/thumbtack-solid.svg"
               alt="pin"
             />
             <h4 className="m-0 me-4">Items</h4>
@@ -138,4 +138,4 @@ const CreateOrderPage = () => {
   );
 };
 
-export default CreateOrderPage;
+export default CreateOrder;

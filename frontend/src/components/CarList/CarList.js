@@ -6,9 +6,10 @@ import CreateVehiculoLivianoModal from "../Modals/CreateVehiculoLivianoModal/Cre
 import ProviderContext from "../../contexts/providers/ProviderContext";
 import CarTypeContext from "../../contexts/carTypes/CarTypeContext";
 import { setLabelAndValue } from '../../helpers/utils';
+import { Link } from 'react-router-dom';
 
 const CarList = () => {
-  const { cars, getCars } = useContext(CarContext);
+  const { cars, getCars, selectCar } = useContext(CarContext);
   const { providers } = useContext(ProviderContext);
   const { carTypes } = useContext(CarTypeContext); 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -36,8 +37,8 @@ const CarList = () => {
         <Col key={car.id} sm="4">
           <div className='bg-light rounded p-4 mx-2'>
             <div className='d-flex justify-content-between'>
-              <span>{car.patente}</span>
-              <img className={styles.editIcon} src="./icons/edit-solid.svg" alt="editar" onClick={() => showEditCarModal(car)} />
+              <Link to={`/vehiculos/${car.id}`} className='no-link' onClick={() => selectCar(car)}>{car.patente}</Link>
+              <img className={styles.editIcon} src="/icons/edit-solid.svg" alt="editar" onClick={() => showEditCarModal(car)} />
             </div>
             <span>{`${car.proveedor} ${car.modelo}`}</span>
           </div>

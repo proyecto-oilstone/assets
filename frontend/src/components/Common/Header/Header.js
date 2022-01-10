@@ -19,7 +19,7 @@ const Header = (props) => {
                     <div className="d-inline h-100">
                       <img
                         className={`${styles.icon}`}
-                        src="./icons/building-solid.svg"
+                        src="/icons/building-solid.svg"
                         alt="more-options"
                       />
                     </div>
@@ -47,7 +47,7 @@ const Header = (props) => {
                     <div className="d-inline h-100">
                       <img
                         className={`${styles.icon}`}
-                        src="./icons/user-icon.svg"
+                        src="/icons/user-icon.svg"
                         alt="user"
                       />
                     </div>
@@ -74,7 +74,7 @@ const Header = (props) => {
 
       <Navbar className={`p-0 ${styles.navBar}`}>
         <Container fluid>
-          <img src="./logo.png" alt="logo" />
+          <img src="/logo.png" alt="logo" />
 
           <Nav className={`w-100 flex justify-content-end`}>
             <NavLink

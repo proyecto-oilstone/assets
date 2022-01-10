@@ -26,7 +26,7 @@ const CarTypeList = () => {
           <div className='bg-light rounded p-4 mx-2'>
             <div className='d-flex justify-content-between'>
               <span>{carType.nombreCorto}</span>
-              <img className={styles.editIcon} src="./icons/edit-solid.svg" alt="editar" onClick={() => showEditCarTypeModal(carType)} />
+              <img className={styles.editIcon} src="/icons/edit-solid.svg" alt="editar" onClick={() => showEditCarTypeModal(carType)} />
             </div>
             <span>{`${carType.nombreLargo}`}</span>
           </div>

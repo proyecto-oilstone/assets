@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import styles from "./Login.module.css";
+import styles from "./index.module.css";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ const Login = () => {
   };
   return (
     <div className={styles.background}>
-      <img className={styles.logo} src="./logo.png" alt="logo" />
+      <img className={styles.logo} src="/logo.png" alt="logo" />
       <div className={styles.container}>
         <Form onSubmit={(e) => handleSubmit(e)}>
           <Form.Group className="mb-3" controlId="formBasicEmail">

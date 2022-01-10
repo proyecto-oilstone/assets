@@ -22,7 +22,7 @@ const NavLink = (props) => {
           className={`${styles.icon} ${iconClassName} ${
             isActive ? styles.iconActive : ""
           }`}
-          src={`./icons/${icon}.svg`}
+          src={`/icons/${icon}.svg`}
           alt="icon"
         />
         <span>{children}</span>
