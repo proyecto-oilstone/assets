@@ -8,15 +8,23 @@ import CarTypeContext from "../../../contexts/carTypes/CarTypeContext";
 import CarContext from "../../../contexts/cars/CarContext";
 
 const CreateVehiculoLivianoModal = (props) => {
-  const { show, toggle } = props;
+  const { show, toggle, edit = false, vehicle = null } = props;
   const { providers, getProviders } = useContext(ProviderContext);
   const { carTypes, getCarTypes } = useContext(CarTypeContext); 
-  const { createCar } = useContext(CarContext);
+  const { createCar, editCar } = useContext(CarContext);
   const [patente, setPatente] = useState("");
   const [asignado, setAsignado] = useState("");
   const [isActivo, setIsActivo] = useState(true);
   const [selectedProvider, setSelectedProvider] = useState(null);
   const [selectedCarType, setSelectedCarType] = useState(null);
+
+  useEffect(() => {
+    if (vehicle) {
+      setPatente(vehicle.patente);
+      setAsignado(vehicle.asignado);
+      setIsActivo(vehicle.activo);
+    }
+  }, [vehicle]);
 
   const resetFields = () => {
     setPatente("");
@@ -28,23 +36,28 @@ const CreateVehiculoLivianoModal = (props) => {
 
   const handleOnClick = () => {
     toggle();
-    resetFields();
-    createCar({
+    const car = {
       patente,
       asignado,
       activo: isActivo,
       ProviderId: selectedProvider.id,
       CarTypeId: selectedCarType.id,
-    })
+    };
+    if (edit) {
+      editCar(car);
+    } else {
+      createCar(car);
+    }
+    resetFields();
   };
 
   useEffect(() => {
     getProviders();
-    getCarTypes()
+    getCarTypes();
   }, []);
 
   return (
-    <CustomModal show={show} toggle={toggle} title="Crear vehiculo liviano">
+    <CustomModal show={show} toggle={toggle} title={edit ? "Editar vehiculo liviano: " + (vehicle ? vehicle.patente : "") : "Crear vehiculo liviano"}>
       <Form>
         <Form.Group as={Row} className="mb-2">
           <Col sm="6">
@@ -104,7 +117,7 @@ const CreateVehiculoLivianoModal = (props) => {
                 Proveedor
               </Form.Label>
               <Col sm="12">
-                <Select value={selectedProvider} onChange={setSelectedProvider} options={setLabelAndValue(providers, "name", "id")} />
+                <Select value={selectedProvider} onChange={setSelectedProvider} options={setLabelAndValue(providers, "nombreCorto", "id")} />
               </Col>
             </Row>
           </Col>

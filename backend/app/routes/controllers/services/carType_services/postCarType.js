@@ -1,12 +1,13 @@
 const { CarType } = require("../../../../db/index");
 
 const postCarType = async (req, res) => {
-  const { marca, modelo } = req.body;
+  const { nombreLargo, nombreCorto, observaciones } = req.body;
 
   try {
     const carType = await CarType.create({
-      marca,
-      modelo,
+      nombreLargo,
+      nombreCorto,
+      observaciones
     });
 
     res.status(200).json({

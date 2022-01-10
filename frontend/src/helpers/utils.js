@@ -19,3 +19,16 @@ export function setLabelAndValue(array, labelSelector, valueKey) {
     value: item[valueKey],
   }));
 }
+
+/**
+ * Parse to array the response of api
+ * @param {Object} response of api with keys in numbers
+ * @returns {Array} of object of response
+ */
+export function responseToArray(response) {
+  let array = [];
+  Object.keys(response).forEach(key => {
+    array.push(response[key]);
+  });
+  return array;
+}

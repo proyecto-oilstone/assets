@@ -1,8 +1,9 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useReducer } from "react";
 import { ADD_CAR, DELETE_CAR, SET_CARS } from "../types";
 import CarReducer from "./CarReducer";
 import CarContext from "./CarContext";
 import axios from "../../helpers/axios";
+import { responseToArray } from "../../helpers/utils";
 
 const CarState = (props) => {
   const { children } = props;
@@ -11,14 +12,6 @@ const CarState = (props) => {
   };
 
   const [state, dispatch] = useReducer(CarReducer, initialState);
-
-  useEffect(() => {
-    console.log(state.cars);
-  }, [state])
-
-  useEffect(() => {
-    getCars()
-  }, [])
 
   const createCar = async (car) => {
     let response = await axios.post("/cars/nuevoAuto", car);
@@ -32,11 +25,12 @@ const CarState = (props) => {
 
   const getCars = async () => {
     const response = await axios.get("/cars/autos");
+    const cars = responseToArray(response.data);
     dispatch({
       type: SET_CARS,
-      payload: response.data,
+      payload: cars,
     });
-    return response.data;
+    return cars;
   };
 
   const editCar = async (car) => {
