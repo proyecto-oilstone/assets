@@ -117,7 +117,7 @@ const CreateVehiculoLivianoModal = (props) => {
                 Proveedor
               </Form.Label>
               <Col sm="12">
-                <Select value={selectedProvider} onChange={setSelectedProvider} options={setLabelAndValue(providers, "name", "id")} />
+                <Select value={selectedProvider} onChange={setSelectedProvider} options={setLabelAndValue(providers, "nombreCorto", "id")} />
               </Col>
             </Row>
           </Col>
