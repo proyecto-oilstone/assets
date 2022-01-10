@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import CustomModal from "../CustomModal/CustomModal";
 import CarTypeContext from "../../../contexts/carTypes/CarTypeContext";
 
 const CreateTypeVehicleModal = (props) => {
-  const { show, toggle } = props;
-  const { createCarType } = useContext(CarTypeContext);
+  const { show, toggle, edit = false, carType = null } = props;
+  const { createCarType, editCarType } = useContext(CarTypeContext);
   const [nombreCorto, setNombreCorto] = useState("");
   const [nombreLargo, setNombreLargo] = useState("");
   const [observaciones, setObservaciones] = useState("");
@@ -16,14 +16,28 @@ const CreateTypeVehicleModal = (props) => {
     setObservaciones("");
   };
 
+  useEffect(() => {
+    if (carType) {
+      setNombreCorto(carType.nombreCorto);
+      setNombreLargo(carType.nombreLargo);
+      setObservaciones(carType.observaciones);
+    }
+  }, [carType]);
+
   const handleOnClick = () => {
-    createCarType({nombreCorto, nombreLargo, observaciones});
+    const params = { nombreCorto, nombreLargo, observaciones };
+    if (edit) {
+      params.id = carType.id;
+      editCarType(params);
+    } else {
+      createCarType({nombreCorto, nombreLargo, observaciones});
+    }
     toggle();
     resetFields();
   };
 
   return (
-    <CustomModal show={show} toggle={toggle} title="Crear tipo de vehiculo">
+    <CustomModal show={show} toggle={toggle} title={edit ? `Editar tipo de vehiculo: ${carType?.nombreCorto}` : "Crear tipo de vehiculo"}>
       <Form>
         <Form.Group as={Row} className="mb-2">
           <Col sm="6">
@@ -65,7 +79,7 @@ const CreateTypeVehicleModal = (props) => {
         </Form.Group>
       </Form>
       <Col sm="6">
-        <Button onClick={handleOnClick}>Crear</Button>
+        <Button onClick={handleOnClick}>{edit ? "Editar" : "Crear"}</Button>
       </Col>
     </CustomModal>
   );

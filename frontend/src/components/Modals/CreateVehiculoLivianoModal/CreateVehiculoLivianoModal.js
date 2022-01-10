@@ -23,6 +23,8 @@ const CreateVehiculoLivianoModal = (props) => {
       setPatente(vehicle.patente);
       setAsignado(vehicle.asignado);
       setIsActivo(vehicle.activo);
+      setSelectedProvider(vehicle.provider);
+      setSelectedCarType(vehicle.carType);
     }
   }, [vehicle]);
 
@@ -36,7 +38,7 @@ const CreateVehiculoLivianoModal = (props) => {
 
   const handleOnClick = () => {
     toggle();
-    const car = {
+    const params = {
       patente,
       asignado,
       activo: isActivo,
@@ -44,9 +46,10 @@ const CreateVehiculoLivianoModal = (props) => {
       CarTypeId: selectedCarType.id,
     };
     if (edit) {
-      editCar(car);
+      params.id = vehicle.id;
+      editCar(params);
     } else {
-      createCar(car);
+      createCar(params);
     }
     resetFields();
   };
@@ -128,11 +131,11 @@ const CreateVehiculoLivianoModal = (props) => {
             Tipo de auto
           </Form.Label>
           <Col sm="12">
-            <Select value={selectedCarType} onChange={setSelectedCarType} options={setLabelAndValue(carTypes, type => `${type.marca} ${type.modelo}` , "id")} />
+            <Select value={selectedCarType} onChange={setSelectedCarType} options={setLabelAndValue(carTypes, type => `${type.nombreCorto}` , "id")} />
           </Col>
         </Form.Group>
         <Col sm="6">
-          <Button onClick={handleOnClick}>Crear</Button>
+          <Button onClick={handleOnClick}>{edit ? "Editar" : "Crear"}</Button>
         </Col>
       </Form>
     </CustomModal>

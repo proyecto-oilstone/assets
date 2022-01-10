@@ -3,6 +3,7 @@ import { ADD_CAR_TYPE, DELETE_CAR_TYPE, SET_CAR_TYPE } from "../types";
 import CarTypeReducer from "./CarTypeReducer";
 import CarTypeContext from "./CarTypeContext";
 import axios from "../../helpers/axios";
+import { responseToArray } from "../../helpers/utils";
 
 const CarTypeState = (props) => {
   const { children } = props;
@@ -13,7 +14,7 @@ const CarTypeState = (props) => {
   const [state, dispatch] = useReducer(CarTypeReducer, initialState);
 
   const createCarType = async (carType) => {
-    let response = await axios.post("/carTypes", carType);
+    let response = await axios.post("/carType/carType", carType);
     carType = response.data.carType;
     dispatch({
       type: ADD_CAR_TYPE,
@@ -23,17 +24,17 @@ const CarTypeState = (props) => {
   };
 
   const getCarTypes = async () => {
-    const response = await axios.get("/carType/carType");
-    const createdCarType = response.data.carType;
+    const response = await axios.get("/carType/carTypes");
+    const carTypes = responseToArray(response.data);
     dispatch({
       type: SET_CAR_TYPE,
-      payload: createdCarType,
+      payload: carTypes,
     });
-    return createdCarType;
+    return carTypes;
   };
 
   const editCarType = async (carType) => {
-    const response = await axios.put(`/carType/${carType.id}`, carType);
+    const response = await axios.put(`/carType/carType/${carType.id}`, carType);
     const editedCarType = response.data;
     let newCarTypes = JSON.parse(JSON.stringify(state.carTypes));
     newCarTypes = newCarTypes.map(carType => {
