@@ -1,10 +1,12 @@
 const { Provider } = require("../../../../db/index");
 
 const postProvider = async (req, res) => {
-  const { nombre } = req.body;
+  const { nombreLargo, nombreCorto, observaciones } = req.body;
   try {
     const provider = await Provider.create({
-      nombre,
+      nombreLargo,
+      nombreCorto,
+      observaciones
     });
 
     res.status(200).json({

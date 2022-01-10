@@ -2,7 +2,7 @@ const { Cars, Provider, CarType } = require("../../../../db/index");
 const { Op } = require("sequelize");
 
 const getCars = async (req, res) => {
-  const { modelo, marca, asignado, activo, proveedor, patente } = req.query;
+  const { nombreLargoTipo, asignado, activo, nombreLargoProveedor, patente } = req.query;
 
   let query = {
     where: {},
@@ -11,23 +11,20 @@ const getCars = async (req, res) => {
     include: [
       {
         model: Provider,
-        attributes: ["nombre"],
+        attributes: ["nombreLargo"],
         where: {},
         required: true,
       },
       {
         model: CarType,
-        attributes: ["modelo", "marca"],
+        attributes: ["nombreLargo",],
         where: {},
         required: true,
       },
     ],
   };
-  if (modelo) {
-    query.where[1].modelo = { ...query.include[1].where, modelo: { [Op.like]: `%${modelo}%` } };
-  }
-  if (marca) {
-    query.where[1].marca = { ...query.include[1].where, marca: { [Op.like]: `%${marca}%` } };
+  if (nombreLargoTipo) {
+    query.where[1].nombreLargo = { ...query.include[1].where, nombreLargo: { [Op.like]: `%${nombreLargoTipo}%` } };
   }
   if (asignado) {
     query.where = { ...query.where, asignado: { [Op.like]: `%${asignado}%` } };
@@ -38,8 +35,8 @@ const getCars = async (req, res) => {
   if (patente) {
     query.where = { ...query.where, patente: { [Op.like]: `%${patente}%` } };
   }
-  if (proveedor) {
-    query.where[0].nombre = { ...query.include[0].where, nombre: { [Op.like]: `%${proveedor}%` } };
+  if (nombreLargoProveedor) {
+    query.where[0].nombreLargo = { ...query.include[0].where, nombreLargo: { [Op.like]: `%${nombreLargoProveedor}%` } };
   }
 
   let cars = await Cars.findAll(query);
@@ -47,9 +44,9 @@ const getCars = async (req, res) => {
   cars = cars.map((car) => {
     car = {
       ...car.dataValues,
-      proveedor: car.dataValues.Provider.nombre,
-      modelo: car.dataValues.CarType.modelo,
-      marca: car.dataValues.CarType.marca,
+      proveedor: car.dataValues.Provider.nombreLargo,
+      modelo: car.dataValues.CarType.nombreLargo,
+      
     };
     const { Provider, CarType, ...rest } = car;
     return rest;
