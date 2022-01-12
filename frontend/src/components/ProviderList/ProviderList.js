@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Table } from "react-bootstrap";
 import styles from "./ProviderList.module.css";
 import ProviderContext from "../../contexts/providers/ProviderContext";
 import CreateProviderModal from "../Modals/CreateProviderModal/CreateProviderModal";
@@ -20,19 +20,24 @@ const ProviderList = () => {
   }, [])
 
   return (<>
-    <Row className='g-4'>
-      {providers.map(provider =>
-        <Col key={provider.id} sm="4">
-          <div className='bg-light rounded p-4 mx-2'>
-            <div className='d-flex justify-content-between'>
-              <span>{provider.nombreCorto}</span>
-              <img className={styles.editIcon} src="/icons/edit-solid.svg" alt="editar" onClick={() => showEditProviderModal(provider)} />
-            </div>
-            <span>{`${provider.nombreLargo}`}</span>
-          </div>
-        </Col>
-      )}
-    </Row>
+    <Table striped bordered hover className={styles.table}>
+      <thead>
+        <tr>
+          <th>Nombre corto</th>
+          <th>Nombre largo</th>
+          <th style={{width: "10%"}}>Editar</th>
+        </tr>
+      </thead>
+      <tbody>
+        {providers.map(provider => <>
+          <tr>
+            <td>{provider.nombreCorto}</td>
+            <td>{provider.nombreLargo}</td>
+            <td><img className={styles.editIcon} src="/icons/edit-solid.svg" alt="editar" onClick={() => showEditProviderModal(provider)} /></td>
+          </tr>
+        </>)}
+      </tbody>
+    </Table>
     <CreateProviderModal show={showEditModal} toggle={toggleEditModal} edit provider={selectedProvider} />
   </>);
 }

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Table } from "react-bootstrap";
 import styles from "./CarTypeList.module.css";
 import CarTypeContext from "../../contexts/carTypes/CarTypeContext";
 import CreateTypeVehicleModal from "../Modals/CreateTypeVehicleModal/CreateTypeVehicleModal";
@@ -20,19 +20,24 @@ const CarTypeList = () => {
   }, []);
 
   return (<>
-    <Row className='g-4'>
-      {carTypes.map(carType =>
-        <Col key={carType.id} sm="4">
-          <div className='bg-light rounded p-4 mx-2'>
-            <div className='d-flex justify-content-between'>
-              <span>{carType.nombreCorto}</span>
-              <img className={styles.editIcon} src="/icons/edit-solid.svg" alt="editar" onClick={() => showEditCarTypeModal(carType)} />
-            </div>
-            <span>{`${carType.nombreLargo}`}</span>
-          </div>
-        </Col>
-      )}
-    </Row>
+    <Table striped bordered hover className={styles.table}>
+      <thead>
+        <tr>
+          <th>Nombre corto</th>
+          <th>Nombre largo</th>
+          <th style={{width: "10%"}}>Editar</th>
+        </tr>
+      </thead>
+      <tbody>
+        {carTypes.map(carType => <>
+          <tr>
+            <td>{carType.nombreCorto}</td>
+            <td>{carType.nombreLargo}</td>
+            <td><img className={styles.editIcon} src="/icons/edit-solid.svg" alt="editar" onClick={() => showEditCarTypeModal(carType)} /></td>
+          </tr>
+        </>)}
+      </tbody>
+    </Table>
     <CreateTypeVehicleModal show={showEditModal} toggle={toggleEditModal} edit carType={selectedCarType} />
   </>);
 }

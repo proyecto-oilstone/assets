@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Col, Row } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import styles from "./CarList.module.css";
 import CarContext from "../../contexts/cars/CarContext";
 import CreateVehiculoLivianoModal from "../Modals/CreateVehiculoLivianoModal/CreateVehiculoLivianoModal";
@@ -32,19 +32,26 @@ const CarList = () => {
   }, []);
 
   return (<>
-    <Row className='g-4'>
-      {cars.map(car =>
-        <Col key={car.id} sm="4">
-          <div className='bg-light rounded p-4 mx-2'>
-            <div className='d-flex justify-content-between'>
-              <Link to={`/vehiculos/${car.id}`} className='no-link' onClick={() => selectCar(car)}>{car.patente}</Link>
-              <img className={styles.editIcon} src="/icons/edit-solid.svg" alt="editar" onClick={() => showEditCarModal(car)} />
-            </div>
-            <span>{`${car.proveedor} ${car.modelo}`}</span>
-          </div>
-        </Col>
-      )}
-    </Row>
+    <Table striped bordered hover className={styles.table}>
+      <thead>
+        <tr>
+          <th>Patente</th>
+          <th>Proveedor</th>
+          <th>Modelo</th>
+          <th style={{width: "10%"}}>Editar</th>
+        </tr>
+      </thead>
+      <tbody>
+        {cars.map(car => <>
+          <tr key={car.id}>
+            <td><Link to={`/vehiculos/${car.id}`} className='no-link' onClick={() => selectCar(car)}>{car.patente}</Link></td>
+            <td>{car.proveedor}</td>
+            <td>{car.modelo}</td>
+            <td><img className={styles.editIcon} src="/icons/edit-solid.svg" alt="editar" onClick={() => showEditCarModal(car)} /></td>
+          </tr>
+        </>)}
+      </tbody>
+    </Table>
     <CreateVehiculoLivianoModal show={showEditModal} toggle={toggleEditModal} edit vehicle={selectedVehicle} />
   </>);
 }

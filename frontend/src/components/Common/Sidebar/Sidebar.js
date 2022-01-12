@@ -1,21 +1,12 @@
 import React, { useContext, useState } from "react";
 import { Accordion, useAccordionButton } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 import SidebarContext from "../../../contexts/sidebar/SidebarContext";
-import CreateTypeVehicleModal from "../../Modals/CreateTypeVehicleModal/CreateTypeVehicleModal";
-import CreateVehiculoLivianoModal from "../../Modals/CreateVehiculoLivianoModal/CreateVehiculoLivianoModal";
-import CreateProviderModal from "../../Modals/CreateProviderModal/CreateProviderModal";
 
 const Sidebar = (props) => {
   const { width, transition } = props;
   const { isOpen } = useContext(SidebarContext);
-  const [showTypeVehicleModal, setShowTypeVehicleModal] = useState(false);
-  const [showVehiculoModal, setShowVehiculoModal] = useState(false);
-  const [showProviderModal, setShowProviderModal] = useState(false);
-  const toggleCreateTypeVehicleModal = () => setShowTypeVehicleModal(!showTypeVehicleModal);
-  const toggleCreateVehiculoModal = () => setShowVehiculoModal(!showVehiculoModal);
-  const toggleCreateProviderModal = () => setShowProviderModal(!showProviderModal);
 
   const invertWidth = (width) => {
     let hasPX = true;
@@ -29,22 +20,37 @@ const Sidebar = (props) => {
     return width * -1 + (hasPX ? "px" : "%");
   };
 
-  const NavItem = ({ title, to = "#", onClick = () => {},  rotateArrow = false}) => {
+  const NavItem = ({ title, to = "#", onClick = () => {},  rotateArrow = false, className = "", withArrow = true, icon = "" }) => {
+    const location = useLocation();
+    const isActiveNavItem = location.pathname === to;
 
     return (
-      <li>
-        <Link to={to} className={styles.navItem} onClick={onClick}>
-          <span>{title}</span>
-          <div className="d-flex justify-content-center align-items-center">
-            <img className={`${styles.navItemArrow} ${rotateArrow ? styles.navItemArrowRotated : ""}`} src="/icons/caret-right-solid.svg" alt="icon"/>
-          </div>
-        </Link>
+      <li className={isActiveNavItem ? styles.liActive : ""}>
+        <div className={`${isActiveNavItem ? styles.activeNavItem : ""} ${className}`}>
+          <Link to={to} className={styles.navItem} onClick={onClick}>
+            {icon !== "" &&
+              <div className="me-1">
+                <img
+                  className={`${styles.navItemIcon}`}
+                  src={`/icons/${icon}.svg`}
+                  alt="icon"
+                />
+              </div>
+            }
+            <span>{title}</span>
+            {withArrow &&
+              <div className={`d-flex justify-content-center align-items-center ${styles.arrowIcon}`}>
+                <img className={`${styles.navItemArrow} ${rotateArrow ? styles.navItemArrowRotated : ""}`} src="/icons/caret-right-solid.svg" alt="icon"/>
+              </div>
+            }
+          </Link>
+        </div>
       </li>
     );
   }
 
-  const MultipleNavItem = ({ children, title }) => {
-    const [isOpen, setIsOpen] = useState(false);
+  const MultipleNavItem = ({ children, title, defaultOpen = false }) => {
+    const [isOpen, setIsOpen] = useState(defaultOpen);
     const toggleIsOpen = () => setIsOpen(!isOpen);
 
     function CustomToggle({ eventKey, rotateArrow, onClick }) {
@@ -58,10 +64,10 @@ const Sidebar = (props) => {
     }
 
     return (<>
-      <Accordion>
+      <Accordion activeKey={isOpen ? "0" : ""}>
         <CustomToggle eventKey="0" rotateArrow={isOpen} onClick={toggleIsOpen}/>
-        <Accordion.Collapse eventKey="0">
-          <div className="ps-2 pt-1">
+        <Accordion.Collapse alwaysOpen eventKey="0">
+          <div className="pt-1">
             {children}
           </div>
         </Accordion.Collapse>
@@ -84,22 +90,15 @@ const Sidebar = (props) => {
           <NavItem title="Documental"/>
           <NavItem title="Taller"/>
           <NavItem title="Instalaciones"/>
-          <MultipleNavItem title="Crear">
-            <NavItem title="Vehiculo liviano" onClick={toggleCreateVehiculoModal}/>
-            <NavItem title="Tipo de vehiculo" onClick={toggleCreateTypeVehicleModal}/>
-            <NavItem title="Proveedor" onClick={toggleCreateProviderModal}/>
-          </MultipleNavItem>
 
-          <MultipleNavItem title="Listar">
-            <NavItem title="Vehiculos" to="/vehiculos"/>
-            <NavItem title="Tipo de vehiculos" to="/tipo-de-vehiculos"/>
-            <NavItem title="Proveedores" to="/proveedores"/>
+          <MultipleNavItem title="Listar" defaultOpen>
+            <NavItem className="ps-3" title="Vehiculos" to="/vehiculos" withArrow={false} icon="truck-solid"/>
+            <NavItem className="ps-3" title="Tipo de vehiculos" to="/tipo-de-vehiculos" withArrow={false} icon="car-types"/>
+            <NavItem className="ps-3" title="Proveedores" to="/proveedores" withArrow={false} icon="provider"/>
           </MultipleNavItem>
         </ul>
       </nav>
-      <CreateVehiculoLivianoModal show={showVehiculoModal} toggle={toggleCreateVehiculoModal}/>
-      <CreateTypeVehicleModal show={showTypeVehicleModal} toggle={toggleCreateTypeVehicleModal}/>
-      <CreateProviderModal show={showProviderModal} toggle={toggleCreateProviderModal}/>
+      
     </>
   );
 };

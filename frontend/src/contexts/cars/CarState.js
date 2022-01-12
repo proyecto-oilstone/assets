@@ -35,7 +35,7 @@ const CarState = (props) => {
   };
 
   const editCar = async (car) => {
-    const response = await axios.put(`/cars/autos/${car.id}`, car);
+    const response = await axios.put(`/cars/editAuto/${car.id}`, car);
     const editedCar = response.data;
     let newCars = JSON.parse(JSON.stringify(state.cars));
     newCars = newCars.map(car => {

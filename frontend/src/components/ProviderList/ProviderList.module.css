@@ -1,5 +1,10 @@
 .editIcon {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.table td,
+.table tr {
+  text-align: center;
 }

@@ -14,7 +14,34 @@
   color: inherit;
   text-decoration: inherit;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+}
+
+.arrowIcon {
+  margin-left: auto;
+}
+
+.activeNavItem .navItem {
+  color: #0a58ca;
+}
+
+.liActive::before {
+  content: "";
+  position: absolute;
+  margin-top: 4px;
+  height: 16px;
+  width: 4px;
+  background: #0052CC;
+  border-radius: 0px 2px 2px 0px;
+}
+
+.navItemIcon {
+  height: 16px;
+  width: 16px;
+}
+
+.activeNavItem .navItemIcon {
+  filter: invert(23%) sepia(90%) saturate(1780%) hue-rotate(205deg) brightness(94%) contrast(105%);
 }
 
 .navItemArrow {
@@ -26,4 +53,8 @@
 
 .navItemArrowRotated {
   transform: rotate(90deg);
+}
+
+.activeNavItem {
+  background-color: #e5effb;
 }

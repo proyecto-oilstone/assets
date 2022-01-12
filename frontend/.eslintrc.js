@@ -16,5 +16,6 @@ module.exports = {
   rules: {
     "react/prop-types": "off",
     indent: ["warn", 2],
+    "no-unused-vars": "warn",
   },
 };
