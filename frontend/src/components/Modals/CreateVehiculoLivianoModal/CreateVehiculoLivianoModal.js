@@ -60,7 +60,7 @@ const CreateVehiculoLivianoModal = (props) => {
   }, []);
 
   return (
-    <CustomModal show={show} toggle={toggle} title={edit ? "Editar vehiculo liviano: " + (vehicle ? vehicle.patente : "") : "Crear vehiculo liviano"}>
+    <CustomModal show={show} toggle={toggle} title={edit ? "Editar Vehículo Liviano: " + (vehicle ? vehicle.patente : "") : "Crear Vehículo Liviano"}>
       <Form>
         <Form.Group as={Row} className="mb-2">
           <Col sm="6">
@@ -73,30 +73,12 @@ const CreateVehiculoLivianoModal = (props) => {
                   value={patente}
                   onChange={(e) => setPatente(e.target.value)}
                   type="text"
-                  placeholder="Ingresa la patente"
+                  placeholder="Ingresar patente"
                 />
               </Col>
             </Row>
           </Col>
 
-          <Col sm="6">
-            <Row>
-              <Form.Label column sm="12">
-                Asignado
-              </Form.Label>
-              <Col sm="12">
-                <Form.Control
-                  value={asignado}
-                  onChange={(e) => setAsignado(e.target.value)}
-                  type="text"
-                  placeholder="Ingresar asignado"
-                />
-              </Col>
-            </Row>
-          </Col>
-        </Form.Group>
-
-        <Form.Group as={Row} className="mb-2">
           <Col sm="6">
             <Row>
               <Form.Label column sm="12">
@@ -109,6 +91,24 @@ const CreateVehiculoLivianoModal = (props) => {
                   type="switch"
                   id="custom-switch"
                   label={isActivo ? "Activado" : "Desactivado"}
+                />
+              </Col>
+            </Row>
+          </Col>
+        </Form.Group>
+
+        <Form.Group as={Row} className="mb-2">
+          <Col sm="6">
+            <Row>
+              <Form.Label column sm="12">
+                Conductor
+              </Form.Label>
+              <Col sm="12">
+                <Form.Control
+                  value={asignado}
+                  onChange={(e) => setAsignado(e.target.value)}
+                  type="text"
+                  placeholder="Ingresar conductor"
                 />
               </Col>
             </Row>
@@ -128,7 +128,7 @@ const CreateVehiculoLivianoModal = (props) => {
 
         <Form.Group as={Row} className="mb-2">
           <Form.Label column sm="12">
-            Tipo de auto
+            Tipo de Vehículo
           </Form.Label>
           <Col sm="12">
             <Select value={selectedCarType} onChange={setSelectedCarType} options={setLabelAndValue(carTypes, type => `${type.nombreCorto}` , "id")} />

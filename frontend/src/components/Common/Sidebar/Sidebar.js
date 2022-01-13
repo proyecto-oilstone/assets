@@ -87,14 +87,15 @@ const Sidebar = (props) => {
       >
         <ul className={styles.navItems}>
           <MultipleNavItem className="mb-2" title="Activos" defaultOpen>
+            <NavItem className="ps-3" title="Vehiculos Livianos" to="/vehiculos" withArrow={false} icon="truck-solid"/>
             <NavItem className="ps-3" title="Trailers" withArrow={false} icon="trailer-solid"/>
-            <NavItem className="ps-3" title="Vehiculos" to="/vehiculos" withArrow={false} icon="truck-solid"/>
-            <NavItem className="ps-3" title="Tipo de vehiculos" to="/tipo-de-vehiculos" withArrow={false} icon="car-types"/>
+            <NavItem className="ps-3" title="Tipos de Vehiculo" to="/tipo-de-vehiculos" withArrow={false} icon="car-types"/>
           </MultipleNavItem>
 
           <MultipleNavItem className="mb-2" title="Proveedores" defaultOpen>
-            <NavItem className="ps-3" title="Proveedores" to="/proveedores" withArrow={false} icon="provider"/>
-            <NavItem className="ps-3" title="Otros" withArrow={false}/>
+            <NavItem className="ps-3" title="Alquiler" to="/proveedores" withArrow={false} icon="provider"/>
+            <NavItem className="ps-3" title="Taller" withArrow={false} icon="provider"/>
+            <NavItem className="ps-3" title="Otros" withArrow={false} icon="provider"/>
           </MultipleNavItem>
 
           <MultipleNavItem className="mb-2" title="Administracion">

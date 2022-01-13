@@ -37,7 +37,7 @@ const CreateTypeVehicleModal = (props) => {
   };
 
   return (
-    <CustomModal show={show} toggle={toggle} title={edit ? `Editar tipo de vehiculo: ${carType?.nombreCorto}` : "Crear tipo de vehiculo"}>
+    <CustomModal show={show} toggle={toggle} title={edit ? `Editar Tipo de Vehículo: ${carType?.nombreCorto}` : "Crear Tipo de Vehículo"}>
       <Form>
         <Form.Group as={Row} className="mb-2">
           <Col sm="6">
@@ -55,8 +55,10 @@ const CreateTypeVehicleModal = (props) => {
               </Col>
             </Row>
           </Col>
+        </Form.Group>
 
-          <Col sm="6">
+        <Form.Group as={Row} className="mb-2">
+          <Col sm="12">
             <Row>
               <Form.Label column sm="12">
                 Nombre largo

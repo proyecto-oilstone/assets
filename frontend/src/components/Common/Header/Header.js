@@ -13,34 +13,6 @@ const Header = (props) => {
           <Navbar.Collapse>
             <Nav className="ms-auto">
               <NavDropdown
-                id={styles.dropdownMoreOptions}
-                title={
-                  <div className="d-inline text-white">
-                    <div className="d-inline h-100">
-                      <img
-                        className={`${styles.icon}`}
-                        src="/icons/building-solid.svg"
-                        alt="more-options"
-                      />
-                    </div>
-                    <span className="ms-1">Olistone Energia S.A</span>
-                  </div>
-                }
-              >
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">
-                  Another action
-                </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">
-                  Something
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">
-                  Separated link
-                </NavDropdown.Item>
-              </NavDropdown>
-
-              <NavDropdown
                 id={styles.dropdownUser}
                 title={
                   <div className="d-inline text-white">
@@ -55,16 +27,13 @@ const Header = (props) => {
                   </div>
                 }
               >
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.1">Mi Perfil</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">
-                  Another action
-                </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">
-                  Something
+                  Configuraciones
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="#action/3.4">
-                  Separated link
+                  Salir
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
