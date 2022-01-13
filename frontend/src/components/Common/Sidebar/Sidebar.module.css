@@ -1,4 +1,5 @@
 .navMenu {
+  background-color: #fcfcfc;
   height: 100vh;
   position: fixed;
   padding-left: 15px;
@@ -38,6 +39,10 @@
 .navItemIcon {
   height: 16px;
   width: 16px;
+}
+
+.navItem:hover .navItemIcon {
+  filter: invert(25%) sepia(95%) saturate(1530%) hue-rotate(197deg) brightness(98%) contrast(97%);
 }
 
 .activeNavItem .navItemIcon {

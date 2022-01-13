@@ -49,7 +49,7 @@ const Sidebar = (props) => {
     );
   }
 
-  const MultipleNavItem = ({ children, title, defaultOpen = false }) => {
+  const MultipleNavItem = ({ children, title, defaultOpen = false, className = "" }) => {
     const [isOpen, setIsOpen] = useState(defaultOpen);
     const toggleIsOpen = () => setIsOpen(!isOpen);
 
@@ -64,7 +64,7 @@ const Sidebar = (props) => {
     }
 
     return (<>
-      <Accordion activeKey={isOpen ? "0" : ""}>
+      <Accordion className={className} activeKey={isOpen ? "0" : ""}>
         <CustomToggle eventKey="0" rotateArrow={isOpen} onClick={toggleIsOpen}/>
         <Accordion.Collapse alwaysOpen eventKey="0">
           <div className="pt-1">
@@ -86,12 +86,19 @@ const Sidebar = (props) => {
         className={`${styles.navMenu}`}
       >
         <ul className={styles.navItems}>
-          <NavItem title="Agenda"/>
-          <NavItem title="Documental"/>
-          <NavItem title="Taller"/>
-          <NavItem title="Instalaciones"/>
+          <MultipleNavItem className="mb-2" title="Activos" defaultOpen>
+            <NavItem className="ps-3" title="Trailers" withArrow={false} icon="trailer-solid"/>
+          </MultipleNavItem>
 
-          <MultipleNavItem title="Listar" defaultOpen>
+          <MultipleNavItem className="mb-2" title="Proveedores" defaultOpen>
+            <NavItem className="ps-3" title="Alquiler" withArrow={false}/>
+            <NavItem className="ps-3" title="Otros" withArrow={false}/>
+          </MultipleNavItem>
+
+          <MultipleNavItem className="mb-2" title="Administracion">
+          </MultipleNavItem>
+
+          <MultipleNavItem className="mb-2" title="Listar" defaultOpen>
             <NavItem className="ps-3" title="Vehiculos" to="/vehiculos" withArrow={false} icon="truck-solid"/>
             <NavItem className="ps-3" title="Tipo de vehiculos" to="/tipo-de-vehiculos" withArrow={false} icon="car-types"/>
             <NavItem className="ps-3" title="Proveedores" to="/proveedores" withArrow={false} icon="provider"/>

@@ -10,8 +10,8 @@ const TipoVehiculos = () => {
 
   return (
     <Layout>
-      <Container className="mt-4">
-        <Button className="mb-4" onClick={toggleCreateTypeVehicleModal}>Crear tipo de vehiculo</Button>
+      <Container>
+        <Button className="my-4" onClick={toggleCreateTypeVehicleModal}>Crear tipo de vehiculo</Button>
         <CarTypeList/>
       </Container>
       <CreateTypeVehicleModal show={showTypeVehicleModal} toggle={toggleCreateTypeVehicleModal}/>
