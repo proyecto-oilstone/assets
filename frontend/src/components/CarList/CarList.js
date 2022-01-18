@@ -1,17 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Table } from "react-bootstrap";
-import styles from "./CarList.module.css";
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import CarContext from "../../contexts/cars/CarContext";
 import CreateVehiculoLivianoModal from "../Modals/CreateVehiculoLivianoModal/CreateVehiculoLivianoModal";
 import ProviderContext from "../../contexts/providers/ProviderContext";
 import CarTypeContext from "../../contexts/carTypes/CarTypeContext";
 import { setLabelAndValue } from '../../helpers/utils';
-import { Link } from 'react-router-dom';
+import CustomReactTable from '../Table/CustomReactTable';
+import ExportCSVButton from '../Buttons/ExportCSV';
+import styles from "./CarList.module.css";
 
 const CarList = () => {
   const { cars, getCars, selectCar } = useContext(CarContext);
   const { providers } = useContext(ProviderContext);
   const { carTypes } = useContext(CarTypeContext); 
+  const [downloadCSV, setDownloadCSV] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const toggleEditModal = () => setShowEditModal(!showEditModal);
@@ -31,27 +32,31 @@ const CarList = () => {
     getCars();
   }, []);
 
+  const [columns] = useState([{
+    label: 'Patente',
+    key: 'patente',
+  },
+  {
+    label: 'Proveedor',
+    key: 'proveedor',
+  },
+  {
+    label: 'Modelo',
+    key: 'modelo',
+  },
+  {
+    label: "Editar",
+    exportable: false,
+    Cell: ({ cell }) => (
+      <img className={styles.editIcon} src="/icons/edit-solid.svg" alt="editar" onClick={() => showEditCarModal(cell.row.original)} />
+    )
+  }]);
+
+  
+
   return (<>
-    <Table striped bordered hover className={styles.table}>
-      <thead>
-        <tr>
-          <th>Patente</th>
-          <th>Proveedor</th>
-          <th>Modelo</th>
-          <th style={{width: "10%"}}>Editar</th>
-        </tr>
-      </thead>
-      <tbody>
-        {cars.map(car => <>
-          <tr key={car.id}>
-            <td><Link to={`/vehiculos/${car.id}`} className='no-link' onClick={() => selectCar(car)}>{car.patente}</Link></td>
-            <td>{car.proveedor}</td>
-            <td>{car.modelo}</td>
-            <td><img className={styles.editIcon} src="/icons/edit-solid.svg" alt="editar" onClick={() => showEditCarModal(car)} /></td>
-          </tr>
-        </>)}
-      </tbody>
-    </Table>
+    <ExportCSVButton onClick={() => setDownloadCSV(true)} className="mb-4"/>
+    <CustomReactTable columns={columns} data={cars} downloadCSV={downloadCSV} CSVFilename="vehiculos.csv"/>
     <CreateVehiculoLivianoModal show={showEditModal} toggle={toggleEditModal} edit vehicle={selectedVehicle} />
   </>);
 }

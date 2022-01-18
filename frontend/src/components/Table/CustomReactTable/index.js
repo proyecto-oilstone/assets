@@ -1,0 +1,107 @@
+import React, { useMemo, useEffect, useState, useRef } from 'react';
+import { useTable, useSortBy } from "react-table";
+import styles from "./CustomReactTable.module.css";
+import { CSVLink } from "react-csv";
+
+/**
+ * Props
+ * Columns: columns of the table, with:
+ * - label: the label of the column that will be displayed in the table
+ * - key: the name of the key in the object to display the data 
+ * - exportable (optional, default true): if is true the column will be exported, if is false the column will be ignored in CSV
+ * 
+ * Data: Array of objects with data. If objects in data has "activo" then if is true the background will be green else red
+ * 
+ * DownloadCSV: state boolean, initially should be false, when you want export to CSV put the state in true
+ * 
+ * CSVFilename (optional): name of the file when export to CSV
+ */
+const CustomReactTable = (props) => {
+  const { columns, data, downloadCSV, CSVFilename = "file.csv" } = props;
+  const [tableColumns, setTableColumns] = useState([]);
+  const [CSVColumns, setCSVColumns] = useState([]);
+  const tableColumnsMemo = useMemo(() => tableColumns, [tableColumns]);
+  const csvLinkRef = useRef();
+
+  useEffect(() => {
+    const withHeaderAndAccessor = column => ({ ...column, Header: column.label, accessor: column.key });
+    const onlyExportableColumns = column => ("exportable" in column && column.exportable) || !("exportable" in column);
+
+    setTableColumns(columns.map(withHeaderAndAccessor));
+    setCSVColumns(columns.filter(onlyExportableColumns));
+  }, [columns]);
+
+  useEffect(() => {
+    if (downloadCSV) {
+      csvLinkRef.current.link.click();
+    }
+  }, [downloadCSV]);
+
+  const tableInstance = useTable({ columns: tableColumnsMemo, data }, useSortBy);
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = tableInstance;
+
+  return (<>
+    <table className={`table table-striped table-bordered table-hover ${styles.table}`} {...getTableProps()}>
+      <thead>
+        {// Loop over the header rows
+          headerGroups.map((headerGroup, index) => (
+            // Apply the header row props
+            <tr key={index} {...headerGroup.getHeaderGroupProps()}>
+              {// Loop over the headers in each row
+                headerGroup.headers.map((column, index) => (
+                // Apply the header cell props
+                  <th key={index} {...column.getHeaderProps(column.getSortByToggleProps())}>
+                    {column.render('Header')}
+                    <span>
+                      {column.isSorted &&
+                          <img src="./icons/caret-right-solid.svg" className={`icon-sm ${styles.iconSort} ${column.isSortedDesc ? styles.desc : styles.asc}`}/> 
+                      }
+                    </span>
+                  </th>
+                ))}
+            </tr>
+          ))}
+      </thead>
+      {/* Apply the table body props */}
+      <tbody {...getTableBodyProps()}>
+        {// Loop over the table rows
+          rows.map((row, index) => {
+          // Prepare the row for display
+            prepareRow(row)
+            return (
+            // Apply the row props
+              <tr key={index} {...row.getRowProps()}>
+                {// Loop over the rows cells
+                  row.cells.map((cell, index) => {
+                    const data = cell.row.original;
+                    // Apply the cell props
+                    return (
+                      <td key={index} className={"activo" in data ? (data.activo ? "bg-success-light" : "bg-danger-light") : ""} {...cell.getCellProps()}>
+                        {// Render the cell contents
+                          cell.render('Cell')}
+                      </td>
+                    )
+                  })}
+              </tr>
+            )
+          })}
+      </tbody>
+    </table>
+    <CSVLink
+      data={data}
+      headers={CSVColumns}
+      filename={CSVFilename}
+      className='hidden'
+      ref={csvLinkRef}
+      target={'_blank'}
+    />
+  </>);
+}
+
+export default CustomReactTable;
