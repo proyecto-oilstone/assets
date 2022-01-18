@@ -5,8 +5,7 @@ module.exports = (sequelize) => {
   Cars.init(
     {
       patente: { type: DataTypes.STRING, allowNull: false, unique: true },
-      asignado: { type: DataTypes.STRING, allowNull: true },
-      activo: { type: DataTypes.BOOLEAN, allowNull: false },
+      activo: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
     },
     { sequelize: sequelize, modelName: "Cars" }
   );
