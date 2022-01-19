@@ -13,6 +13,8 @@ import TipoVehiculos from "../pages/TipoVehiculos";
 import Proveedores from "../pages/Proveedores";
 import Vehiculos from "../pages/Vehiculos";
 import VehiculoDetails from "../pages/Vehiculos/[id]";
+import TipoVehiculoDetails from "../pages/TipoVehiculos/[id]";
+import ProveedorDetails from "../pages/Proveedores/[id]";
 
 function App() {
 
@@ -28,8 +30,8 @@ function App() {
   const Providers = combineProviders([
     SidebarState,
     CarTypeState,
-    CarState,
     ProviderState,
+    CarState,
     BrowserRouter,
   ]);
 
@@ -42,7 +44,9 @@ function App() {
         <Route path="/vehiculos" element={<Vehiculos />} />
         <Route path="/vehiculos/:id" element={<VehiculoDetails />} />
         <Route path="/tipo-de-vehiculos" element={<TipoVehiculos />} />
+        <Route path="/tipo-de-vehiculos/:id" element={<TipoVehiculoDetails />} />
         <Route path="/proveedores" element={<Proveedores />} />
+        <Route path="/proveedores/:id" element={<ProveedorDetails />} />
       </Routes>
     </Providers>
   );

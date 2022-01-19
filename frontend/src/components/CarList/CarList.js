@@ -6,16 +6,37 @@ import CarTypeContext from "../../contexts/carTypes/CarTypeContext";
 import { setLabelAndValue } from '../../helpers/utils';
 import CustomReactTable from '../Table/CustomReactTable';
 import ExportCSVButton from '../Buttons/ExportCSV';
-import styles from "./CarList.module.css";
 
 const CarList = () => {
-  const { cars, getCars, selectCar } = useContext(CarContext);
+  const { cars, getCars, selectCar, deleteCar, toggleActive } = useContext(CarContext);
   const { providers } = useContext(ProviderContext);
   const { carTypes } = useContext(CarTypeContext); 
   const [downloadCSV, setDownloadCSV] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const toggleEditModal = () => setShowEditModal(!showEditModal);
+
+  const initialColumns = [{
+    label: 'Patente',
+    key: 'patente',
+    href: '/vehiculos/:id'
+  },
+  {
+    label: 'Proveedor',
+    key: 'proveedor',
+  },
+  {
+    label: 'Modelo',
+    key: 'modelo',
+  },
+  {
+    label: "Activo",
+    exportable: false,
+    Cell: ({ cell }) => (
+      <input className="form-check-input" type="checkbox" checked={cell.row.original.activo} onChange={() => toggleActive(cell.row.original)}/>
+    )
+  }
+  ];
 
   const showEditCarModal = (car) => {
     const providersAux = setLabelAndValue(providers, "nombreCorto", "id");
@@ -32,31 +53,15 @@ const CarList = () => {
     getCars();
   }, []);
 
-  const [columns] = useState([{
-    label: 'Patente',
-    key: 'patente',
-  },
-  {
-    label: 'Proveedor',
-    key: 'proveedor',
-  },
-  {
-    label: 'Modelo',
-    key: 'modelo',
-  },
-  {
-    label: "Editar",
-    exportable: false,
-    Cell: ({ cell }) => (
-      <img className={styles.editIcon} src="/icons/edit-solid.svg" alt="editar" onClick={() => showEditCarModal(cell.row.original)} />
-    )
-  }]);
+  useEffect(() => {
+    setColumns(initialColumns);
+  }, [cars]);
 
-  
+  const [columns, setColumns] = useState(initialColumns);
 
   return (<>
     <ExportCSVButton onClick={() => setDownloadCSV(true)} className="mb-4"/>
-    <CustomReactTable columns={columns} data={cars} downloadCSV={downloadCSV} CSVFilename="vehiculos.csv"/>
+    <CustomReactTable onEdit={showEditCarModal} onDelete={(car) => deleteCar(car.id)} columns={columns} data={cars} downloadCSV={downloadCSV} CSVFilename="vehiculos.csv"/>
     <CreateVehiculoLivianoModal show={showEditModal} toggle={toggleEditModal} edit vehicle={selectedVehicle} />
   </>);
 }

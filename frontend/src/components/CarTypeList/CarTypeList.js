@@ -6,7 +6,7 @@ import ExportCSVButton from '../Buttons/ExportCSV';
 import CustomReactTable from '../Table/CustomReactTable';
 
 const CarTypeList = () => {
-  const { carTypes, getCarTypes } = useContext(CarTypeContext);
+  const { carTypes, getCarTypes, deleteCarType } = useContext(CarTypeContext);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedCarType, setSelectedCarType] = useState(null);
   const [downloadCSV, setDownloadCSV] = useState(false);
@@ -21,13 +21,10 @@ const CarTypeList = () => {
     getCarTypes();
   }, []);
 
-  useEffect(() => {
-    console.log(carTypes);
-  }, [carTypes])
-
   const [columns] = useState([{
     label: 'Nombre Corto',
     key: 'nombreCorto',
+    href: '/tipo-de-vehiculos/:id'
   },
   {
     label: 'Nombre Largo',
@@ -37,17 +34,11 @@ const CarTypeList = () => {
     label: 'Observaciones',
     key: 'observaciones',
   },
-  {
-    label: "Editar",
-    exportable: false,
-    Cell: ({ cell }) => (
-      <img className={styles.editIcon} src="/icons/edit-solid.svg" alt="editar" onClick={() => showEditCarTypeModal(cell.row.original)} />
-    )
-  }]);
+  ]);
 
   return (<>
     <ExportCSVButton onClick={() => setDownloadCSV(true)} className="mb-4"/>
-    <CustomReactTable columns={columns} data={carTypes} downloadCSV={downloadCSV} CSVFilename="tipo vehiculos.csv"/>
+    <CustomReactTable onEdit={showEditCarTypeModal} onDelete={(carType) => deleteCarType(carType.id)} columns={columns} data={carTypes} downloadCSV={downloadCSV} CSVFilename="tipo vehiculos.csv"/>
     <CreateTypeVehicleModal show={showEditModal} toggle={toggleEditModal} edit carType={selectedCarType} />
   </>);
 }

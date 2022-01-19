@@ -14,7 +14,6 @@ const CreateVehiculoLivianoModal = (props) => {
   const { createCar, editCar } = useContext(CarContext);
   const [patente, setPatente] = useState("");
   const [asignado, setAsignado] = useState("");
-  const [isActivo, setIsActivo] = useState(true);
   const [selectedProvider, setSelectedProvider] = useState(null);
   const [selectedCarType, setSelectedCarType] = useState(null);
 
@@ -22,7 +21,6 @@ const CreateVehiculoLivianoModal = (props) => {
     if (vehicle) {
       setPatente(vehicle.patente);
       setAsignado(vehicle.asignado);
-      setIsActivo(vehicle.activo);
       setSelectedProvider(vehicle.provider);
       setSelectedCarType(vehicle.carType);
     }
@@ -31,7 +29,6 @@ const CreateVehiculoLivianoModal = (props) => {
   const resetFields = () => {
     setPatente("");
     setAsignado("");
-    setIsActivo(true);
     setSelectedProvider(null);
     setSelectedCarType(null);
   }
@@ -41,7 +38,6 @@ const CreateVehiculoLivianoModal = (props) => {
     const params = {
       patente,
       asignado,
-      activo: isActivo,
       ProviderId: selectedProvider.id,
       CarTypeId: selectedCarType.id,
     };
@@ -79,22 +75,6 @@ const CreateVehiculoLivianoModal = (props) => {
             </Row>
           </Col>
 
-          <Col sm="6">
-            <Row>
-              <Form.Label column sm="12">
-                Activo
-              </Form.Label>
-              <Col sm="12">
-                <Form.Check
-                  checked={isActivo}
-                  onChange={() => setIsActivo(!isActivo)}
-                  type="switch"
-                  id="custom-switch"
-                  label={isActivo ? "Activado" : "Desactivado"}
-                />
-              </Col>
-            </Row>
-          </Col>
         </Form.Group>
 
         <Form.Group as={Row} className="mb-2">

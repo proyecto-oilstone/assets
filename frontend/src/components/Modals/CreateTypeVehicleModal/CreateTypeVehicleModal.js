@@ -8,11 +8,13 @@ const CreateTypeVehicleModal = (props) => {
   const { createCarType, editCarType } = useContext(CarTypeContext);
   const [nombreCorto, setNombreCorto] = useState("");
   const [nombreLargo, setNombreLargo] = useState("");
+  const [año, setAño] = useState("");
   const [observaciones, setObservaciones] = useState("");
 
   const resetFields = () => {
     setNombreCorto("");
     setNombreLargo("");
+    setAño("");
     setObservaciones("");
   };
 
@@ -20,17 +22,18 @@ const CreateTypeVehicleModal = (props) => {
     if (carType) {
       setNombreCorto(carType.nombreCorto);
       setNombreLargo(carType.nombreLargo);
+      setAño(carType.año);
       setObservaciones(carType.observaciones);
     }
   }, [carType]);
 
   const handleOnClick = () => {
-    const params = { nombreCorto, nombreLargo, observaciones };
+    const params = { nombreCorto, nombreLargo, observaciones, año };
     if (edit) {
       params.id = carType.id;
       editCarType(params);
     } else {
-      createCarType({nombreCorto, nombreLargo, observaciones});
+      createCarType(params);
     }
     toggle();
     resetFields();
@@ -69,6 +72,25 @@ const CreateTypeVehicleModal = (props) => {
                   onChange={(e) => setNombreLargo(e.target.value)}
                   type="text"
                   placeholder="Ingresar un nombre largo"
+                />
+              </Col>
+            </Row>
+          </Col>
+        </Form.Group>
+
+        <Form.Group as={Row} className="mb-2">
+          <Col sm="12">
+            <Row>
+              <Form.Label column sm="12">
+                Año
+              </Form.Label>
+              <Col sm="12">
+                <Form.Control
+                  value={año}
+                  onChange={(e) => setAño(e.target.value)}
+                  type="number"
+                  min="1900"
+                  placeholder="Ingresar un año"
                 />
               </Col>
             </Row>

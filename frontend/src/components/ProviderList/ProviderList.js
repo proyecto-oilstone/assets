@@ -6,7 +6,7 @@ import CustomReactTable from '../Table/CustomReactTable';
 import ExportCSVButton from '../Buttons/ExportCSV';
 
 const ProviderList = () => {
-  const { providers, getProviders } = useContext(ProviderContext);
+  const { providers, getProviders, deleteProvider } = useContext(ProviderContext);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedProvider, setSelectedProvider] = useState(null);
   const [downloadCSV, setDownloadCSV] = useState(false);
@@ -24,6 +24,7 @@ const ProviderList = () => {
   const [columns] = useState([{
     label: 'Nombre Corto',
     key: 'nombreCorto',
+    href: '/proveedores/:id'
   },
   {
     label: 'Nombre Largo',
@@ -33,17 +34,11 @@ const ProviderList = () => {
     label: 'Observaciones',
     key: 'observaciones',
   },
-  {
-    label: "Editar",
-    exportable: false,
-    Cell: ({ cell }) => (
-      <img className={styles.editIcon} src="/icons/edit-solid.svg" alt="editar" onClick={() => showEditProviderModal(cell.row.original)} />
-    )
-  }]);
+  ]);
 
   return (<>
     <ExportCSVButton onClick={() => setDownloadCSV(true)} className="mb-4"/>
-    <CustomReactTable columns={columns} data={providers} downloadCSV={downloadCSV} CSVFilename="proveedores.csv"/>
+    <CustomReactTable onEdit={showEditProviderModal} onDelete={(provider) => deleteProvider(provider.id)} columns={columns} data={providers} downloadCSV={downloadCSV} CSVFilename="proveedores.csv"/>
     <CreateProviderModal show={showEditModal} toggle={toggleEditModal} edit provider={selectedProvider} />
   </>);
 }

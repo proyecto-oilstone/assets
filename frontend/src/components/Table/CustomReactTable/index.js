@@ -2,6 +2,8 @@ import React, { useMemo, useEffect, useState, useRef } from 'react';
 import { useTable, useSortBy } from "react-table";
 import styles from "./CustomReactTable.module.css";
 import { CSVLink } from "react-csv";
+import { findAndReplaceWithKey } from '../../../helpers/utils';
+import { Link } from 'react-router-dom';
 
 /**
  * Props
@@ -9,25 +11,47 @@ import { CSVLink } from "react-csv";
  * - label: the label of the column that will be displayed in the table
  * - key: the name of the key in the object to display the data 
  * - exportable (optional, default true): if is true the column will be exported, if is false the column will be ignored in CSV
+ * - href (optional): if is present then the column will be a link
  * 
- * Data: Array of objects with data. If objects in data has "activo" then if is true the background will be green else red
+ * Data: Array of objects with data. If objects in data has "activo" then if is true the background will be green else red.
  * 
  * DownloadCSV: state boolean, initially should be false, when you want export to CSV put the state in true
  * 
  * CSVFilename (optional): name of the file when export to CSV
+ * 
+ * onDelete
+ * 
+ * onEdit
  */
 const CustomReactTable = (props) => {
-  const { columns, data, downloadCSV, CSVFilename = "file.csv" } = props;
+  const { columns, data, downloadCSV, CSVFilename = "file.csv", onDelete = () => {}, onEdit = () => {} } = props;
   const [tableColumns, setTableColumns] = useState([]);
   const [CSVColumns, setCSVColumns] = useState([]);
   const tableColumnsMemo = useMemo(() => tableColumns, [tableColumns]);
   const csvLinkRef = useRef();
 
+  const DeleteButton = ({ data }) => (<img role="button" className={`${"activo" in data && data.activo === true ? "d-none" : ""} icon-sm cursor-pointer`} src="/icons/trash-alt-solid.svg" alt="eliminar" onClick={() => onDelete(data)} />)
+  const EditButton = ({ data }) => (<img role="button" className="icon-sm cursor-pointer" src="/icons/edit-solid.svg" alt="editar" onClick={() => onEdit(data)} />)
+  const CustomLink = ({ to, children }) => (<Link className="unstyled-link cursor-pointer" to={to}>{children}</Link>)
+
   useEffect(() => {
     const withHeaderAndAccessor = column => ({ ...column, Header: column.label, accessor: column.key });
     const onlyExportableColumns = column => ("exportable" in column && column.exportable) || !("exportable" in column);
-
-    setTableColumns(columns.map(withHeaderAndAccessor));
+    const addLinks = column => {
+      if ("href" in column) {
+        column.Cell = ({ cell }) => (<CustomLink to={findAndReplaceWithKey(column.href, cell.row.original)}>{cell.row.original[column.key]}</CustomLink>);
+        column.Cell.displayName = "CustomLink";
+        return column;
+      } else {
+        return column;
+      }
+    }
+    let tableColumns = columns.map(withHeaderAndAccessor);
+    tableColumns = tableColumns.map(addLinks);
+    
+    const deleteColumn = { Header: "Eliminar", Cell: ({ cell }) => (<DeleteButton data={cell.row.original}/>) };
+    const editColumn = { Header: "Editar", Cell: ({ cell }) => (<EditButton data={cell.row.original}/>) };
+    setTableColumns([...tableColumns, editColumn, deleteColumn] );
     setCSVColumns(columns.filter(onlyExportableColumns));
   }, [columns]);
 

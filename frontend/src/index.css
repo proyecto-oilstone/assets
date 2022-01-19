@@ -33,6 +33,11 @@ code {
   color: inherit;
 }
 
+.unstyled-link, .unstyled-link:hover {
+  color: inherit;
+  text-decoration: inherit;
+}
+
 .icon-sm {
   width: 16px;
   height: 16px;
