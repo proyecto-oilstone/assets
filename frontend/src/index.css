@@ -16,6 +16,10 @@ code {
   background-color: #33ccff;
 }
 
+.background-gray {
+  background-color: #ebebeb;
+}
+
 .no-link {
   text-decoration: none;
   color: inherit;

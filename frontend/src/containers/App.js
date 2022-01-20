@@ -9,10 +9,12 @@ import ProviderState from "../contexts/providers/ProviderState";
 import CarState from "../contexts/cars/CarState";
 import CarTypeState from "../contexts/carTypes/CarTypeState";
 import SidebarState from "../contexts/sidebar/SidebarState";
+import AuthState from "../contexts/auth/AuthState";
 import TipoVehiculos from "../pages/TipoVehiculos";
 import Proveedores from "../pages/Proveedores";
 import Vehiculos from "../pages/Vehiculos";
 import VehiculoDetails from "../pages/Vehiculos/[id]";
+import CrearUsuario from "../pages/CrearUsuario";
 
 function App() {
 
@@ -26,6 +28,7 @@ function App() {
   );
 
   const Providers = combineProviders([
+    AuthState,
     SidebarState,
     CarTypeState,
     CarState,
@@ -38,6 +41,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/crear-pedido" element={<CreateOrder/>} />
+        <Route path="/crear-usuario" element={<CrearUsuario/>} />
         <Route path="/home" element={<Home />} />
         <Route path="/vehiculos" element={<Vehiculos />} />
         <Route path="/vehiculos/:id" element={<VehiculoDetails />} />

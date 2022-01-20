@@ -8,3 +8,4 @@ export const DELETE_CAR = "DELETE_CAR";
 export const ADD_CAR_TYPE = "ADD_CAR_TYPE";
 export const SET_CAR_TYPE = "SET_CAR_TYPE";
 export const DELETE_CAR_TYPE = "DELETE_CAR_TYPE";
+export const SET_SESSION = "SET_SESSION";
