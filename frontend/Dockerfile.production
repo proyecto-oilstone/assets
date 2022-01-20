@@ -2,6 +2,13 @@ FROM node:16 as build
 WORKDIR /app
 COPY . .
 
+#Copy all args variables to .env file, if you need add another variable in .env, add it here too
+ARG REACT_APP_BACKEND_HOST
+ENV REACT_APP_BACKEND_HOST $REACT_APP_BACKEND_HOST
+
+ARG REACT_APP_BACKEND_PORT
+ENV REACT_APP_BACKEND_PORT $REACT_APP_BACKEND_PORT
+
 RUN npm install --only=production
 RUN npm run build
 
