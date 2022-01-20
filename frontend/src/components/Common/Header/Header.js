@@ -27,7 +27,7 @@ const Header = (props) => {
                   </div>
                 }
               >
-                <NavDropdown.Item href="#action/3.1">Mi Perfil</NavDropdown.Item>
+                <NavDropdown.Item href="/perfil">Mi Perfil</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">
                   Configuraciones
                 </NavDropdown.Item>

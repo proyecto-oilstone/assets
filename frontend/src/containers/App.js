@@ -13,6 +13,7 @@ import TipoVehiculos from "../pages/TipoVehiculos";
 import Proveedores from "../pages/Proveedores";
 import Vehiculos from "../pages/Vehiculos";
 import VehiculoDetails from "../pages/Vehiculos/[id]";
+import Perfil from "../pages/Perfil";
 
 function App() {
 
@@ -43,6 +44,7 @@ function App() {
         <Route path="/vehiculos/:id" element={<VehiculoDetails />} />
         <Route path="/tipo-de-vehiculos" element={<TipoVehiculos />} />
         <Route path="/proveedores" element={<Proveedores />} />
+        <Route path="/perfil" element={<Perfil />} />
       </Routes>
     </Providers>
   );
