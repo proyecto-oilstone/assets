@@ -2,10 +2,10 @@ const { CarType } = require("../../../../db/index");
 
 const putCarType = async (req, res) => {
   const { id } = req.params;
-  const { nombreLargo, nombreCorto, observaciones, año } = req.body;
+  const { nombreLargo, nombreCorto, observaciones,} = req.body;
 
   try {
-    await CarType.update({ nombreLargo, nombreCorto, observaciones, año }, { where: { id } });
+    await CarType.update({ nombreLargo, nombreCorto, observaciones,}, { where: { id } });
     const carType = await CarType.findOne({ where: { id } });
     res.status(200).json(carType);
   } catch (err) {

@@ -6,7 +6,7 @@ const getCars = async (req, res) => {
 
   let query = {
     where: {},
-    attributes: ["id", "patente", "activo"],
+    attributes: ["id", "patente", "activo", "año"],
     order: [["patente", "ASC"]],
     include: [
       {
@@ -17,7 +17,7 @@ const getCars = async (req, res) => {
       },
       {
         model: CarType,
-        attributes: ["nombreLargo", "año"],
+        attributes: ["nombreLargo", "nombreCorto"],
         where: {},
         required: true,
       },
@@ -36,7 +36,7 @@ const getCars = async (req, res) => {
     query.where[0].nombreLargo = { ...query.include[0].where, nombreLargo: { [Op.like]: `%${nombreLargoProveedor}%` } };
   }
   if (año) {
-    query.include[1].where.año = { [Op.like]: `%${año}%` };
+    query.where = { ...query.where, año: { [Op.like]: `%${año}%` } };
   }
 
   let cars = await Cars.findAll(query);
@@ -45,8 +45,8 @@ const getCars = async (req, res) => {
     car = {
       ...car.dataValues,
       proveedor: car.dataValues.Provider.nombreLargo,
-      año: car.dataValues.CarType.año,
       modelo: car.dataValues.CarType.nombreLargo,
+      marca: car.dataValues.CarType.nombreCorto,
       
     };
     const { Provider, CarType, ...rest } = car;

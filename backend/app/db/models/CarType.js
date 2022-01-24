@@ -6,7 +6,6 @@ module.exports = (sequelize) => {
     {
       nombreLargo: { type: DataTypes.STRING, allowNull: false },
       nombreCorto: { type: DataTypes.STRING, allowNull: false },
-      año: { type: DataTypes.INTEGER, allowNull: false },
       observaciones: { type: DataTypes.STRING, allowNull: true },
     },
     { sequelize: sequelize, modelName: "CarType" }

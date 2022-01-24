@@ -1,11 +1,12 @@
 const { Cars } = require("../../../../db/index");
 
 const postCars = async (req, res) => {
-  const { patente, ProviderId, CarTypeId } = req.body;
+  const { patente, ProviderId, CarTypeId, año } = req.body;
 
   try {
     const car = await Cars.create({
       patente,
+      año,
       
     });
     try {

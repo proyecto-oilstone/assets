@@ -5,7 +5,7 @@ const getCarDetail = async (req, res) => {
 
   let query = {
     where: { id },
-    attributes: ["id", "patente", "activo"],
+    attributes: ["id", "patente", "activo", "año"],
     include: [
       {
         model: Provider,
@@ -15,7 +15,7 @@ const getCarDetail = async (req, res) => {
       },
       {
         model: CarType,
-        attributes: ["nombreLargo", "año"],
+        attributes: ["nombreLargo", "nombreCorto",],
         where: {},
         required: true,
       },
@@ -32,9 +32,10 @@ const getCarDetail = async (req, res) => {
     id: car.id,
     patente: car.patente,
     activo: car.activo,
+    año: car.año,
     proveedor: car.dataValues.Provider.nombreLargo,
     modelo: car.dataValues.CarType.nombreLargo,
-    año: car.dataValues.CarType.año,
+    marca: car.dataValues.CarType.nombreCorto,
   };
   res.status(200).json(car);
 };

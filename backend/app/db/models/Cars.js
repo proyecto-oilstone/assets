@@ -6,6 +6,7 @@ module.exports = (sequelize) => {
     {
       patente: { type: DataTypes.STRING, allowNull: false, unique: true },
       activo: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
+      año: { type: DataTypes.STRING, allowNull: false },
     },
     { sequelize: sequelize, modelName: "Cars" }
   );
