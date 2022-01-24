@@ -30,8 +30,13 @@ const CarList = () => {
     key: 'modelo',
   },
   {
+    label: 'Año',
+    key: 'año',
+  },
+  {
     label: "Activo",
-    exportable: false,
+    key: "activo",
+    onExport: (car) => car.activo ? "Si" : "No",
     Cell: ({ cell }) => (
       <input className="form-check-input" type="checkbox" checked={cell.row.original.activo} onChange={() => toggleActive(cell.row.original)}/>
     )

@@ -13,7 +13,11 @@ import { Link } from 'react-router-dom';
  * - exportable (optional, default true): if is true the column will be exported, if is false the column will be ignored in CSV
  * - href (optional): if is present then the column will be a link
  * 
- * Data: Array of objects with data. If objects in data has "activo" then if is true the background will be green else red.
+ * Data: Array of objects with data. Keys in each object of data:
+ * - "label"
+ * - "key"
+ * - "activo" optional: if is present, true the background will be green else red.
+ * - "onExport" optional: method to execute when the row is exported to CSV.
  * 
  * DownloadCSV: state boolean, initially should be false, when you want export to CSV put the state in true
  * 
@@ -28,6 +32,7 @@ const CustomReactTable = (props) => {
   const [tableColumns, setTableColumns] = useState([]);
   const [CSVColumns, setCSVColumns] = useState([]);
   const tableColumnsMemo = useMemo(() => tableColumns, [tableColumns]);
+  const [CSVData, setCSVData] = useState([]);
   const csvLinkRef = useRef();
 
   const DeleteButton = ({ data }) => (<img role="button" className={`${"activo" in data && data.activo === true ? "d-none" : ""} icon-sm cursor-pointer`} src="/icons/trash-alt-solid.svg" alt="eliminar" onClick={() => onDelete(data)} />)
@@ -52,8 +57,24 @@ const CustomReactTable = (props) => {
     const deleteColumn = { Header: "Eliminar", Cell: ({ cell }) => (<DeleteButton data={cell.row.original}/>) };
     const editColumn = { Header: "Editar", Cell: ({ cell }) => (<EditButton data={cell.row.original}/>) };
     setTableColumns([...tableColumns, editColumn, deleteColumn] );
+
+    const applyOnExport = () => {
+      let newCSVData = JSON.parse(JSON.stringify(data));
+      columns.forEach(column => {
+        if ("onExport" in column && typeof column.onExport === 'function') {
+          newCSVData = newCSVData.map(data => {
+            data[column.key] = column.onExport(data);
+            return data;
+          });
+        }
+      });
+
+      return newCSVData;
+    };
     setCSVColumns(columns.filter(onlyExportableColumns));
-  }, [columns]);
+    const newCSVData = applyOnExport();
+    setCSVData(newCSVData);
+  }, [columns, data]);
 
   useEffect(() => {
     if (downloadCSV) {
@@ -118,7 +139,7 @@ const CustomReactTable = (props) => {
       </tbody>
     </table>
     <CSVLink
-      data={data}
+      data={CSVData}
       headers={CSVColumns}
       filename={CSVFilename}
       className='hidden'
