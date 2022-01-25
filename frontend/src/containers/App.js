@@ -14,14 +14,11 @@ import TipoVehiculos from "../pages/TipoVehiculos";
 import Proveedores from "../pages/Proveedores";
 import Vehiculos from "../pages/Vehiculos";
 import VehiculoDetails from "../pages/Vehiculos/[id]";
-<<<<<<< HEAD
 import Perfil from "../pages/Perfil";
-=======
 import CrearUsuario from "../pages/CrearUsuario";
 import PrivateRoute from "../components/Common/PrivateRoute";
 import TipoVehiculoDetails from "../pages/TipoVehiculos/[id]";
 import ProveedorDetails from "../pages/Proveedores/[id]";
->>>>>>> main
 
 function App() {
 

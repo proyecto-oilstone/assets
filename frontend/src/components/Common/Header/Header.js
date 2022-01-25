@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import AuthContext from "../../../contexts/auth/AuthContext";
 import styles from "./Header.module.css";
 import NavLink from "./NavLink/NavLink";
 
 const Header = (props) => {
   const { activeSection } = props;
+  const { session } = useContext(AuthContext);
+
 
   return (
     <>
@@ -23,7 +26,7 @@ const Header = (props) => {
                         alt="user"
                       />
                     </div>
-                    <span className="ms-1">Fabricio Spiritosi</span>
+                    <span className="ms-1">{session?.nombre} {session?.apellido}</span>
                   </div>
                 }
               >
