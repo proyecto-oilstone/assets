@@ -1,0 +1,12 @@
+.table td,
+.table tr {
+  text-align: center;
+}
+
+.iconSort.desc {
+  transform: rotate(270deg);
+}
+
+.iconSort.asc {
+  transform: rotate(90deg);
+}

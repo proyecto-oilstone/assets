@@ -3,7 +3,7 @@ const { CarType } = require("../../../../db/index");
 const getCarTypes = async (req, res) => {
   let query = {
     where: {},
-    attributes: ["id", "nombreLargo", "nombreCorto", "observaciones"],
+    attributes: ["id", "nombreLargo", "nombreCorto", "observaciones",],
     order: [["nombreLargo", "ASC"]],
   };
 

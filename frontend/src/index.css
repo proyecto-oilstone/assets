@@ -16,6 +16,18 @@ code {
   background-color: #33ccff;
 }
 
+.background-gray {
+  background-color: #ebebeb;
+}
+
+.bg-success-light {
+  background-color: #00e676 !important;
+}
+
+.bg-danger-light {
+  background-color: #ff5252 !important;
+}
+
 .no-link {
   text-decoration: none;
   color: inherit;
@@ -23,4 +35,18 @@ code {
 
 .no-link:hover {
   color: inherit;
+}
+
+.unstyled-link, .unstyled-link:hover {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.icon-sm {
+  width: 16px;
+  height: 16px;
+}
+
+.icon-white {
+  filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(106deg) brightness(104%) contrast(105%);
 }

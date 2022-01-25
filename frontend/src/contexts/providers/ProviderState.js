@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import { ADD_PROVIDER, SET_PROVIDERS, DELETE_PROVIDER } from "../types";
+import { ADD_PROVIDER, SET_PROVIDERS, DELETE_PROVIDER, SELECT_PROVIDER } from "../types";
 import ProviderReducer from "./ProviderReducer";
 import ProviderContext from "./ProviderContext";
 import axios from "../../helpers/axios";
@@ -9,6 +9,7 @@ const ProviderState = (props) => {
   const { children } = props;
   const initialState = {
     providers: [],
+    selectedProvider: null,
   };
 
   const [state, dispatch] = useReducer(ProviderReducer, initialState);
@@ -52,22 +53,46 @@ const ProviderState = (props) => {
     return editedProvider;
   }
 
-  const deleteProvider = async (providerId) => {
-    axios.delete(`/providers/${providerId}`);
+  const selectProvider = (provider) => {
     dispatch({
-      type: DELETE_PROVIDER,
-      payload: providerId,
+      type: SELECT_PROVIDER,
+      payload: provider,
     });
+  }
+
+  const getProviderById = async (id) => {
+    let provider = state.providers.find(provider => provider.id === id);
+    if (!provider) {
+      const response = await axios.get(`/provider/providers/${id}`);
+      provider = response.data;
+    }
+
+    selectProvider(provider);
+    return provider;
+  }
+
+  const deleteProvider = async (providerId) => {
+    try {
+      await axios.delete(`/provider/providers/${providerId}`);
+      dispatch({
+        type: DELETE_PROVIDER,
+        payload: providerId,
+      });
+    } catch (e) {
+      alert("No se puede eliminar proveedor porque fue asignado a uno o mas vehiculos");
+    }
   }
 
   return (
     <ProviderContext.Provider
       value={{
         providers: state.providers,
+        selectedProvider: state.selectedProvider,
         createProvider,
         getProviders,
         editProvider,
         deleteProvider,
+        getProviderById,
       }}
     >
       {children}

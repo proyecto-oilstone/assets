@@ -30,7 +30,7 @@ const CreateTypeVehicleModal = (props) => {
       params.id = carType.id;
       editCarType(params);
     } else {
-      createCarType({nombreCorto, nombreLargo, observaciones});
+      createCarType(params);
     }
     toggle();
     resetFields();

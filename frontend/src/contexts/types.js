@@ -1,5 +1,6 @@
 export const ADD_PROVIDER = "ADD_PROVIDER";
 export const SET_PROVIDERS = "SET_PROVIDERS";
+export const SELECT_PROVIDER = "SELECT_PROVIDER";
 export const DELETE_PROVIDER = "DELETE_PROVIDER";
 export const ADD_CAR = "ADD_CAR";
 export const SET_CARS = "SET_CARS";
@@ -8,3 +9,5 @@ export const DELETE_CAR = "DELETE_CAR";
 export const ADD_CAR_TYPE = "ADD_CAR_TYPE";
 export const SET_CAR_TYPE = "SET_CAR_TYPE";
 export const DELETE_CAR_TYPE = "DELETE_CAR_TYPE";
+export const SET_SESSION = "SET_SESSION";
+export const SELECT_CAR_TYPE = "SELECT_CAR_TYPE";

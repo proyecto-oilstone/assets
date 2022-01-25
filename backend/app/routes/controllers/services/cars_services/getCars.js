@@ -2,11 +2,11 @@ const { Cars, Provider, CarType } = require("../../../../db/index");
 const { Op } = require("sequelize");
 
 const getCars = async (req, res) => {
-  const { nombreLargoTipo, asignado, activo, nombreLargoProveedor, patente } = req.query;
+  const { nombreLargoTipo, activo, nombreLargoProveedor, patente, año} = req.query;
 
   let query = {
     where: {},
-    attributes: ["id", "patente", "asignado", "activo"],
+    attributes: ["id", "patente", "activo", "año"],
     order: [["patente", "ASC"]],
     include: [
       {
@@ -17,7 +17,7 @@ const getCars = async (req, res) => {
       },
       {
         model: CarType,
-        attributes: ["nombreLargo",],
+        attributes: ["nombreLargo", "nombreCorto"],
         where: {},
         required: true,
       },
@@ -25,9 +25,6 @@ const getCars = async (req, res) => {
   };
   if (nombreLargoTipo) {
     query.where[1].nombreLargo = { ...query.include[1].where, nombreLargo: { [Op.like]: `%${nombreLargoTipo}%` } };
-  }
-  if (asignado) {
-    query.where = { ...query.where, asignado: { [Op.like]: `%${asignado}%` } };
   }
   if (activo) {
     query.where = { ...query.where, activo };
@@ -38,6 +35,9 @@ const getCars = async (req, res) => {
   if (nombreLargoProveedor) {
     query.where[0].nombreLargo = { ...query.include[0].where, nombreLargo: { [Op.like]: `%${nombreLargoProveedor}%` } };
   }
+  if (año) {
+    query.where = { ...query.where, año: { [Op.like]: `%${año}%` } };
+  }
 
   let cars = await Cars.findAll(query);
 
@@ -46,6 +46,7 @@ const getCars = async (req, res) => {
       ...car.dataValues,
       proveedor: car.dataValues.Provider.nombreLargo,
       modelo: car.dataValues.CarType.nombreLargo,
+      marca: car.dataValues.CarType.nombreCorto,
       
     };
     const { Provider, CarType, ...rest } = car;
