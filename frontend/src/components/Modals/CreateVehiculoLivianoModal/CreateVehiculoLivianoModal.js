@@ -13,14 +13,14 @@ const CreateVehiculoLivianoModal = (props) => {
   const { carTypes, getCarTypes } = useContext(CarTypeContext); 
   const { createCar, editCar } = useContext(CarContext);
   const [patente, setPatente] = useState("");
-  const [asignado, setAsignado] = useState("");
+  const [año, setAño] = useState("");
   const [selectedProvider, setSelectedProvider] = useState(null);
   const [selectedCarType, setSelectedCarType] = useState(null);
 
   useEffect(() => {
     if (vehicle) {
       setPatente(vehicle.patente);
-      setAsignado(vehicle.asignado);
+      setAño(vehicle.año);
       setSelectedProvider(vehicle.provider);
       setSelectedCarType(vehicle.carType);
     }
@@ -28,7 +28,7 @@ const CreateVehiculoLivianoModal = (props) => {
 
   const resetFields = () => {
     setPatente("");
-    setAsignado("");
+    setAño("");
     setSelectedProvider(null);
     setSelectedCarType(null);
   }
@@ -37,7 +37,7 @@ const CreateVehiculoLivianoModal = (props) => {
     toggle();
     const params = {
       patente,
-      asignado,
+      año,
       ProviderId: selectedProvider.id,
       CarTypeId: selectedCarType.id,
     };
@@ -81,14 +81,15 @@ const CreateVehiculoLivianoModal = (props) => {
           <Col sm="6">
             <Row>
               <Form.Label column sm="12">
-                Conductor
+                Año
               </Form.Label>
               <Col sm="12">
                 <Form.Control
-                  value={asignado}
-                  onChange={(e) => setAsignado(e.target.value)}
-                  type="text"
-                  placeholder="Ingresar conductor"
+                  value={año}
+                  onChange={(e) => setAño(e.target.value)}
+                  type="number"
+                  min="1900"
+                  placeholder="Ingresar el año"
                 />
               </Col>
             </Row>
