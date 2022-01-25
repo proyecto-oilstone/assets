@@ -15,6 +15,7 @@ import Proveedores from "../pages/Proveedores";
 import Vehiculos from "../pages/Vehiculos";
 import VehiculoDetails from "../pages/Vehiculos/[id]";
 import CrearUsuario from "../pages/CrearUsuario";
+import PrivateRoute from "../components/Common/PrivateRoute";
 
 function App() {
 
@@ -42,11 +43,26 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/crear-pedido" element={<CreateOrder/>} />
         <Route path="/crear-usuario" element={<CrearUsuario/>} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/vehiculos" element={<Vehiculos />} />
-        <Route path="/vehiculos/:id" element={<VehiculoDetails />} />
-        <Route path="/tipo-de-vehiculos" element={<TipoVehiculos />} />
-        <Route path="/proveedores" element={<Proveedores />} />
+
+        <Route path="/home" element={<PrivateRoute/>}>
+          <Route path="/home" element={<Home />}/>
+        </Route>
+
+        <Route path="/vehiculos" element={<PrivateRoute/>}>
+          <Route path="/vehiculos" element={<Vehiculos />}/>
+        </Route>
+
+        <Route path="/vehiculos/:id" element={<PrivateRoute/>}>
+          <Route path="/vehiculos/:id" element={<VehiculoDetails />}/>
+        </Route>
+
+        <Route path="/tipo-de-vehiculos" element={<PrivateRoute/>}>
+          <Route path="/tipo-de-vehiculos" element={<TipoVehiculos />}/>
+        </Route>
+
+        <Route path="/proveedores" element={<PrivateRoute/>}>
+          <Route path="/proveedores" element={<Proveedores />}/>
+        </Route>
       </Routes>
     </Providers>
   );
