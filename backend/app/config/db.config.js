@@ -1,8 +1,9 @@
 module.exports = {
-    HOST: process.env.POSTGRES_HOST,
-    USER: process.env.POSTGRES_USER,
-    PASSWORD: process.env.POSTGRES_PASSWORD,
-    DB: process.env.POSTGRES_DB,
+  config: {
+    username: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
+    database: process.env.POSTGRES_DB,
+    host: process.env.POSTGRES_HOST,
     dialect: "postgres",
     pool: {
       max: 5,
@@ -10,4 +11,5 @@ module.exports = {
       acquire: 30000,
       idle: 10000
     }
-  };
+  }
+}
