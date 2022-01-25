@@ -26,9 +26,13 @@ import { Link } from 'react-router-dom';
  * onDelete
  * 
  * onEdit
+ * 
+ * withEdit (optional default true): true to show edit column, false to hidde edit column
+ * 
+ * withDelete (optional default true): same as withEdit with delete column
  */
 const CustomReactTable = (props) => {
-  const { columns, data, downloadCSV, CSVFilename = "file.csv", onDelete = () => {}, onEdit = () => {} } = props;
+  const { columns, data, downloadCSV, CSVFilename = "file.csv", onDelete = () => {}, onEdit = () => {}, withEdit = true, withDelete = true } = props;
   const [tableColumns, setTableColumns] = useState([]);
   const [CSVColumns, setCSVColumns] = useState([]);
   const tableColumnsMemo = useMemo(() => tableColumns, [tableColumns]);
@@ -56,7 +60,14 @@ const CustomReactTable = (props) => {
     
     const deleteColumn = { Header: "Eliminar", Cell: ({ cell }) => (<DeleteButton data={cell.row.original}/>) };
     const editColumn = { Header: "Editar", Cell: ({ cell }) => (<EditButton data={cell.row.original}/>) };
-    setTableColumns([...tableColumns, editColumn, deleteColumn] );
+    if (withEdit) {
+      tableColumns.push(editColumn);
+    }
+
+    if (withDelete) {
+      tableColumns.push(deleteColumn);
+    }
+    setTableColumns(tableColumns);
 
     const applyOnExport = () => {
       let newCSVData = JSON.parse(JSON.stringify(data));
@@ -74,7 +85,7 @@ const CustomReactTable = (props) => {
     setCSVColumns(columns.filter(onlyExportableColumns));
     const newCSVData = applyOnExport();
     setCSVData(newCSVData);
-  }, [columns, data]);
+  }, [columns, data, withEdit, withDelete]);
 
   useEffect(() => {
     if (downloadCSV) {

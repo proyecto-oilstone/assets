@@ -6,6 +6,10 @@
   padding-right: 15px;
 }
 
+.userIcon {
+  filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(308deg) brightness(95%) contrast(102%);
+}
+
 .navItems {
   list-style-type: none;
   margin-top: 50px;

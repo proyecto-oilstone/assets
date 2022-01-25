@@ -1,16 +1,28 @@
 import React, { useEffect, useReducer } from "react";
-import { SET_SESSION } from "../types";
+import { SET_SESSION, SET_USERS } from "../types";
 import AuthReducer from "./AuthReducer";
 import AuthContext from "./AuthContext";
 import axios from "../../helpers/axios";
+import { responseToArray } from "../../helpers/utils";
 
 const AuthState = (props) => {
   const { children } = props;
   const initialState = {
     session: null,
+    users: [],
   };
 
   const [state, dispatch] = useReducer(AuthReducer, initialState);
+
+  const getUsers = async () => {
+    const response = await axios.get("/users/users");
+    const users = responseToArray(response.data);
+    dispatch({
+      type: SET_USERS,
+      payload: users,
+    });
+    return users;
+  };
 
   const login = async (email, password) => {
     const params = { mail: email, contraseña: password };
@@ -62,6 +74,8 @@ const AuthState = (props) => {
     <AuthContext.Provider
       value={{
         session: state.session,
+        users: state.users,
+        getUsers,
         login,
         register,
         isLogin,

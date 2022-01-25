@@ -19,6 +19,7 @@ import CrearUsuario from "../pages/CrearUsuario";
 import PrivateRoute from "../components/Common/PrivateRoute";
 import TipoVehiculoDetails from "../pages/TipoVehiculos/[id]";
 import ProveedorDetails from "../pages/Proveedores/[id]";
+import Usuarios from "../pages/Usuarios";
 
 function App() {
 
@@ -77,6 +78,10 @@ function App() {
 
         <Route path="/perfil" element={<PrivateRoute/>}>
           <Route path="/perfil" element={<Perfil />} />
+        </Route>
+
+        <Route path="/usuarios" element={<PrivateRoute/>}>
+          <Route path="/usuarios" element={<Usuarios />} />
         </Route>
       </Routes>
     </Providers>

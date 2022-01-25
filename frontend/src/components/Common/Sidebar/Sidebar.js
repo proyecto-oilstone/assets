@@ -20,7 +20,7 @@ const Sidebar = (props) => {
     return width * -1 + (hasPX ? "px" : "%");
   };
 
-  const NavItem = ({ title, to = "#", onClick = () => {},  rotateArrow = false, className = "", withArrow = true, icon = "" }) => {
+  const NavItem = ({ title, to = "#", onClick = () => {},  rotateArrow = false, className = "", withArrow = true, icon = "", iconClassName = "" }) => {
     const location = useLocation();
     const isActiveNavItem = location.pathname === to;
 
@@ -31,7 +31,7 @@ const Sidebar = (props) => {
             {icon !== "" &&
               <div className="me-1">
                 <img
-                  className={`icon-sm`}
+                  className={`icon-sm ${iconClassName}`}
                   src={`/icons/${icon}.svg`}
                   alt="icon"
                 />
@@ -98,7 +98,8 @@ const Sidebar = (props) => {
             <NavItem className="ps-3" title="Otros" withArrow={false} icon="provider"/>
           </MultipleNavItem>
 
-          <MultipleNavItem className="mb-2" title="Administracion">
+          <MultipleNavItem className="mb-2" title="Administracion" defaultOpen>
+            <NavItem className="ps-3" to="/usuarios" title="Usuarios" withArrow={false} icon="user-icon"/>
           </MultipleNavItem>
         </ul>
       </nav>
