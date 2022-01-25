@@ -31,7 +31,7 @@ const Sidebar = (props) => {
             {icon !== "" &&
               <div className="me-1">
                 <img
-                  className={`${styles.navItemIcon}`}
+                  className={`icon-sm`}
                   src={`/icons/${icon}.svg`}
                   alt="icon"
                 />
@@ -40,7 +40,7 @@ const Sidebar = (props) => {
             <span>{title}</span>
             {withArrow &&
               <div className={`d-flex justify-content-center align-items-center ${styles.arrowIcon}`}>
-                <img className={`${styles.navItemArrow} ${rotateArrow ? styles.navItemArrowRotated : ""}`} src="/icons/caret-right-solid.svg" alt="icon"/>
+                <img className={`icon-sm ${styles.navItemArrow} ${rotateArrow ? styles.navItemArrowRotated : ""}`} src="/icons/caret-right-solid.svg" alt="icon"/>
               </div>
             }
           </Link>
@@ -66,7 +66,7 @@ const Sidebar = (props) => {
     return (<>
       <Accordion className={className} activeKey={isOpen ? "0" : ""}>
         <CustomToggle eventKey="0" rotateArrow={isOpen} onClick={toggleIsOpen}/>
-        <Accordion.Collapse alwaysOpen eventKey="0">
+        <Accordion.Collapse eventKey="0">
           <div className="pt-1">
             {children}
           </div>

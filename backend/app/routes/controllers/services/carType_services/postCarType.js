@@ -1,7 +1,7 @@
 const { CarType } = require("../../../../db/index");
 
 const postCarType = async (req, res) => {
-  const { nombreLargo, nombreCorto, observaciones } = req.body;
+  const { nombreLargo, nombreCorto, observaciones} = req.body;
 
   try {
     const carType = await CarType.create({

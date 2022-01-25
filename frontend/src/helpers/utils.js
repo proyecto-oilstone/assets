@@ -32,3 +32,17 @@ export function responseToArray(response) {
   });
   return array;
 }
+
+/**
+ * Replace the :{key} in url for the value in key of object
+ * example string='/vehiculos/:id' object={id=1,...} output='/vehiculos/1'
+ * @param {String} string url
+ * @param {Object} object with key
+ * @returns {String} with url replaced with key
+ */
+export function findAndReplaceWithKey(string, object) {
+  const splited = string.split(":");
+  const secondSplit = splited[1].split("/");
+  const key = secondSplit[0];
+  return `${splited[0]}${object[key]}${secondSplit.length > 0 ? "/" + secondSplit.filter((_, index) => index !== 0).join("/") : ""}`;
+}

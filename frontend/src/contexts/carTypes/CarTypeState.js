@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import { ADD_CAR_TYPE, DELETE_CAR_TYPE, SET_CAR_TYPE } from "../types";
+import { ADD_CAR_TYPE, DELETE_CAR_TYPE, SET_CAR_TYPE, SELECT_CAR_TYPE } from "../types";
 import CarTypeReducer from "./CarTypeReducer";
 import CarTypeContext from "./CarTypeContext";
 import axios from "../../helpers/axios";
@@ -9,6 +9,7 @@ const CarTypeState = (props) => {
   const { children } = props;
   const initialState = {
     carTypes: [],
+    selectedCarType: null,
   };
 
   const [state, dispatch] = useReducer(CarTypeReducer, initialState);
@@ -52,21 +53,46 @@ const CarTypeState = (props) => {
   }
 
   const deleteCarType = async (carTypeId) => {
-    axios.delete(`/carTypes/${carTypeId}`);
+    try {
+      await axios.delete(`/carType/carTypes/${carTypeId}`);
+      dispatch({
+        type: DELETE_CAR_TYPE,
+        payload: carTypeId,
+      });
+    } catch (e) {
+      alert("No se puede eliminar este tipo de vehiculo porque fue asignado a uno o mas vehiculos");
+    }
+  }
+
+  const selectCarType = (carType) => {
     dispatch({
-      type: DELETE_CAR_TYPE,
-      payload: carTypeId,
+      type: SELECT_CAR_TYPE,
+      payload: carType,
     });
+  }
+
+  const getCarTypeById = async (id) => {
+    let carType = state.carTypes.find(carType => carType.id === id);
+    if (!carType) {
+      const response = await axios.get(`/carType/carTypes/${id}`);
+      carType = response.data;
+    }
+
+    selectCarType(carType);
+    return carType;
   }
 
   return (
     <CarTypeContext.Provider
       value={{
         carTypes: state.carTypes,
+        selectedCarType: state.selectedCarType,
         createCarType,
         getCarTypes,
         editCarType,
         deleteCarType,
+        getCarTypeById,
+        selectCarType,
       }}
     >
       {children}
