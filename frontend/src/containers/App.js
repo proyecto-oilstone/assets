@@ -14,13 +14,10 @@ import TipoVehiculos from "../pages/TipoVehiculos";
 import Proveedores from "../pages/Proveedores";
 import Vehiculos from "../pages/Vehiculos";
 import VehiculoDetails from "../pages/Vehiculos/[id]";
-<<<<<<< HEAD
 import CrearUsuario from "../pages/CrearUsuario";
 import PrivateRoute from "../components/Common/PrivateRoute";
-=======
 import TipoVehiculoDetails from "../pages/TipoVehiculos/[id]";
 import ProveedorDetails from "../pages/Proveedores/[id]";
->>>>>>> ASSETS-41-exportar-lista-de-vehiculos-livianos
 
 function App() {
 
@@ -65,8 +62,16 @@ function App() {
           <Route path="/tipo-de-vehiculos" element={<TipoVehiculos />}/>
         </Route>
 
+        <Route path="/tipo-de-vehiculos/:id" element={<PrivateRoute/>}>
+          <Route path="/tipo-de-vehiculos/:id" element={<TipoVehiculoDetails />} />
+        </Route>
+
         <Route path="/proveedores" element={<PrivateRoute/>}>
           <Route path="/proveedores" element={<Proveedores />}/>
+        </Route>
+
+        <Route path="/proveedores/:id" element={<PrivateRoute/>}>
+          <Route path="/proveedores/:id" element={<ProveedorDetails />} />
         </Route>
       </Routes>
     </Providers>
