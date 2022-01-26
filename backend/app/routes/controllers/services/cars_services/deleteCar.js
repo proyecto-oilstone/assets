@@ -1,4 +1,4 @@
-const { Cars } = require("../../../../db/index");
+const { Cars, Files } = require("../../../../db/index");
 
 const deleteCar = async (req, res) => {
   const { id } = req.params;
@@ -9,6 +9,7 @@ const deleteCar = async (req, res) => {
       return res.status(500).send("El vehiculo no existe");
     }
     if (!car.activo) {
+      await Files.destroy({ where: { CarId: id } });
       await Cars.destroy({ where: { id } });
       return res.status(200).json({ message: "Car deleted" });
     }

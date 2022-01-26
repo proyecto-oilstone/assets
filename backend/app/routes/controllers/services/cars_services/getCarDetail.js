@@ -1,4 +1,4 @@
-const { Cars, Provider, CarType } = require("../../../../db/index");
+const { Cars, Provider, CarType, Files } = require("../../../../db/index");
 
 const getCarDetail = async (req, res) => {
   const { id } = req.params;
@@ -19,6 +19,12 @@ const getCarDetail = async (req, res) => {
         where: {},
         required: true,
       },
+      {
+        model: Files,
+        attributes: ["id", "name", "type", "document"],
+        where: {},
+        required: false,
+      }
     ],
   };
 
@@ -27,6 +33,7 @@ const getCarDetail = async (req, res) => {
   if (!car) {
     return res.status(404).send("Car not found");
   }
+  console.log(car.dataValues.Files.map(file => file.dataValues));
 
   car = {
     id: car.id,
@@ -36,6 +43,16 @@ const getCarDetail = async (req, res) => {
     proveedor: car.dataValues.Provider.nombreLargo,
     modelo: car.dataValues.CarType.nombreLargo,
     marca: car.dataValues.CarType.nombreCorto,
+    documento: car.dataValues.Files.map(file => {
+      return {
+        id:file.dataValues.id,
+        name:file.dataValues.name,
+        type:file.dataValues.type,
+        document:file.dataValues.document
+        }})
+    
+    
+    
   };
   res.status(200).json(car);
 };
