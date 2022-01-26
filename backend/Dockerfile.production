@@ -2,7 +2,8 @@ FROM node:16
 WORKDIR /app
 COPY . .
 RUN npm install --only=production
+RUN npm install -g sequelize-cli
 RUN npm install -g sequelize
 ENV BACKEND_PORT 3000
 EXPOSE $BACKEND_PORT
-CMD sequelize db:migrate --env config ; node index.js
+CMD ./node_modules/.bin/sequelize db:migrate --env config ; node index.js
