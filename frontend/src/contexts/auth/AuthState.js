@@ -58,6 +58,11 @@ const AuthState = (props) => {
     });
   }
 
+  const logout = () => {
+    setSession(null);
+    localStorage.clear();
+  }
+
   const isLogin = () => {
     const user = localStorage.getItem('session');
     return user !== null;
@@ -79,6 +84,7 @@ const AuthState = (props) => {
         login,
         register,
         isLogin,
+        logout,
       }}
     >
       {children}

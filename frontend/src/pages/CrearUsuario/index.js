@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import ButtonPrimary from '../../components/Buttons/Primary/ButtonPrimary';
 import AuthContext from "../../contexts/auth/AuthContext";
 import styles from "./index.module.css";
 
@@ -95,9 +96,9 @@ const CrearUsuario = () => {
               </div>
 
               <div className="d-flex justify-content-center align-items-center">
-                <Button variant="primary" onClick={handleSubmit} className={styles.button} type="submit">
+                <ButtonPrimary onClick={handleSubmit} className={styles.button} type="submit">
                   Crear
-                </Button>
+                </ButtonPrimary>
               </div>
             </Form>
           </div>

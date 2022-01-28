@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Col, Form, Row } from "react-bootstrap";
 import CustomModal from "../CustomModal/CustomModal";
 import CarTypeContext from "../../../contexts/carTypes/CarTypeContext";
+import ButtonPrimary from "../../Buttons/Primary/ButtonPrimary";
 
 const CreateTypeVehicleModal = (props) => {
   const { show, toggle, edit = false, carType = null } = props;
@@ -81,7 +82,7 @@ const CreateTypeVehicleModal = (props) => {
         </Form.Group>
       </Form>
       <Col sm="6">
-        <Button onClick={handleOnClick}>{edit ? "Editar" : "Crear"}</Button>
+        <ButtonPrimary onClick={handleOnClick}>{edit ? "Editar" : "Crear"}</ButtonPrimary>
       </Col>
     </CustomModal>
   );

@@ -1,16 +1,13 @@
-import React, { useContext } from "react";
+import React, { forwardRef, useContext } from "react";
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import AuthContext from "../../../contexts/auth/AuthContext";
 import styles from "./Header.module.css";
-import NavLink from "./NavLink/NavLink";
 
-const Header = (props) => {
-  const { activeSection } = props;
-  const { session } = useContext(AuthContext);
-
+const Header = (_, ref) => {
+  const { session, logout } = useContext(AuthContext);
 
   return (
-    <>
+    <header ref={ref}>
       <Navbar className="background-primary">
         <Container fluid className={styles.container}>
           <Navbar.Collapse>
@@ -31,11 +28,8 @@ const Header = (props) => {
                 }
               >
                 <NavDropdown.Item href="/perfil">Mi Perfil</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">
-                  Configuraciones
-                </NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">
+                <NavDropdown.Item onClick={logout}>
                   Salir
                 </NavDropdown.Item>
               </NavDropdown>
@@ -43,50 +37,8 @@ const Header = (props) => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-
-      <Navbar className={`p-0 ${styles.navBar}`}>
-        <Container fluid>
-          <img src="/logo.png" alt="logo" />
-
-          <Nav className={`w-100 flex justify-content-end`}>
-            <NavLink
-              icon="home-solid"
-              href="/home"
-              isActive={activeSection === "home"}
-            >
-              Inicio
-            </NavLink>
-            <NavLink
-              icon="truck-solid"
-              iconClassName={styles.iconTruck}
-              isActive={activeSection === "stock"}
-            >
-              Movimientos y stock (41)
-            </NavLink>
-            <NavLink
-              icon="inbox-solid"
-              href="/crear-pedido"
-              isActive={activeSection === "pedidos"}
-            >
-              Pedidos
-            </NavLink>
-            <NavLink
-              icon="shopping-cart-solid"
-              isActive={activeSection === "compras"}
-            >
-              Compras
-            </NavLink>
-            <NavLink
-              icon="certificate-solid"
-              isActive={activeSection === "certificaciones"}
-            >
-              Certificaciones
-            </NavLink>
-          </Nav>
-        </Container>
-      </Navbar>
-    </>
+    </header>
   );
 };
 
-export default Header;
+export default forwardRef(Header);

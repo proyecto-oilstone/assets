@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Col, Form, Row } from "react-bootstrap";
 import CustomModal from "../CustomModal/CustomModal";
 import ProviderContext from "../../../contexts/providers/ProviderContext";
 import Select from "react-select";
 import { setLabelAndValue } from "../../../helpers/utils";
 import CarTypeContext from "../../../contexts/carTypes/CarTypeContext";
 import CarContext from "../../../contexts/cars/CarContext";
+import ButtonPrimary from "../../Buttons/Primary/ButtonPrimary";
 
 const CreateVehiculoLivianoModal = (props) => {
   const { show, toggle, edit = false, vehicle = null } = props;
@@ -116,7 +117,7 @@ const CreateVehiculoLivianoModal = (props) => {
           </Col>
         </Form.Group>
         <Col sm="6">
-          <Button onClick={handleOnClick}>{edit ? "Editar" : "Crear"}</Button>
+          <ButtonPrimary onClick={handleOnClick}>{edit ? "Editar" : "Crear"}</ButtonPrimary>
         </Col>
       </Form>
     </CustomModal>

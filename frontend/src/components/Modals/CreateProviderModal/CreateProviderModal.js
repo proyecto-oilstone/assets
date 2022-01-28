@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Col, Form, Row } from "react-bootstrap";
 import CustomModal from "../CustomModal/CustomModal";
 import ProviderContext from "../../../contexts/providers/ProviderContext";
+import ButtonPrimary from "../../Buttons/Primary/ButtonPrimary";
 
 const CreateProviderModal = (props) => {
   const { show, toggle, edit = false, provider = null } = props;
@@ -82,7 +83,7 @@ const CreateProviderModal = (props) => {
         </Form.Group>
       </Form>
       <Col sm="6">
-        <Button onClick={handleOnClick}>{edit ? "Editar" : "Crear"}</Button>
+        <ButtonPrimary onClick={handleOnClick}>{edit ? "Editar" : "Crear"}</ButtonPrimary>
       </Col>
     </CustomModal>
   );
