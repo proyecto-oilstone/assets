@@ -1,4 +1,4 @@
-const { Cars, Provider, CarType } = require("../../../../db/index");
+const { Cars, Provider, CarType, Files } = require("../../../../db/index");
 const { Op } = require("sequelize");
 
 const getCars = async (req, res) => {
@@ -21,6 +21,12 @@ const getCars = async (req, res) => {
         where: {},
         required: true,
       },
+      {
+        model: Files,
+        attributes: ["id", "name", "type", "document"],
+        where: {},
+        required: false,
+      }
     ],
   };
   if (nombreLargoTipo) {
@@ -47,6 +53,9 @@ const getCars = async (req, res) => {
       proveedor: car.dataValues.Provider.nombreLargo,
       modelo: car.dataValues.CarType.nombreLargo,
       marca: car.dataValues.CarType.nombreCorto,
+      Files: car.dataValues.Files[0]?.name
+      
+        
       
     };
     const { Provider, CarType, ...rest } = car;

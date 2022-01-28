@@ -32,7 +32,7 @@ import { Link } from 'react-router-dom';
  * withDelete (optional default true): same as withEdit with delete column
  */
 const CustomReactTable = (props) => {
-  const { columns, data, downloadCSV, CSVFilename = "file.csv", onDelete = () => {}, onEdit = () => {}, withEdit = true, withDelete = true } = props;
+  const { columns, data, downloadCSV, CSVFilename = "file.csv", onDelete = () => {}, onEdit = () => {}, onFile = () => {}, withEdit = true, withDelete = true, withFiles = true } = props;
   const [tableColumns, setTableColumns] = useState([]);
   const [CSVColumns, setCSVColumns] = useState([]);
   const tableColumnsMemo = useMemo(() => tableColumns, [tableColumns]);
@@ -42,6 +42,7 @@ const CustomReactTable = (props) => {
   const DeleteButton = ({ data }) => (<img role="button" className={`${"activo" in data && data.activo === true ? "d-none" : ""} icon-sm cursor-pointer`} src="/icons/trash-alt-solid.svg" alt="eliminar" onClick={() => onDelete(data)} />)
   const EditButton = ({ data }) => (<img role="button" className="icon-sm cursor-pointer" src="/icons/edit-solid.svg" alt="editar" onClick={() => onEdit(data)} />)
   const CustomLink = ({ to, children }) => (<Link className="unstyled-link cursor-pointer" to={to}>{children}</Link>)
+  const FilesButton = ({data}) => (<img role="button" className="icon-sm cursor-pointer" src="/icons/pdf-text-file-svgrepo-com.svg" alt="archivos" onClick={() => onFile(data)} />)
 
   useEffect(() => {
     const withHeaderAndAccessor = column => ({ ...column, Header: column.label, accessor: column.key });
@@ -60,12 +61,17 @@ const CustomReactTable = (props) => {
     
     const deleteColumn = { Header: "Eliminar", Cell: ({ cell }) => (<DeleteButton data={cell.row.original}/>) };
     const editColumn = { Header: "Editar", Cell: ({ cell }) => (<EditButton data={cell.row.original}/>) };
+    const filesColumn = { Header: "Archivos", Cell: ({ cell }) => (<FilesButton data={cell.row.original}/>) };
     if (withEdit) {
       tableColumns.push(editColumn);
     }
 
     if (withDelete) {
       tableColumns.push(deleteColumn);
+    }
+
+    if(withFiles) {
+      tableColumns.push(filesColumn);
     }
     setTableColumns(tableColumns);
 

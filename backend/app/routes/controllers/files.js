@@ -6,7 +6,7 @@ const getFiles = require("./services/files_services/getFiles");
 const postFile = require("./services/files_services/postFile");
 
 
-router.post('/files', upload.single("file"), postFile );
+router.post('/files', upload.array("file", 10), postFile );
 router.get('/files', getFiles );
 router.get('/files/:id', downloadFiles)
 module.exports = router

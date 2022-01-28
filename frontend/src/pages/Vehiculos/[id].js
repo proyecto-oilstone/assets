@@ -24,6 +24,21 @@ const VehiculoDetails = () => {
           <span>El vehiculo {selectedCar?.activo ? "esta activo" : "no esta activo"}</span>
           <span>Tipo de vehiculo: {selectedCar?.modelo}</span>
           <span>Proveedor: {selectedCar?.proveedor}</span>
+          <span>Papeles:{selectedCar?.Files ? selectedCar?.Files : (<div>
+            <a href={`${process.env.REACT_APP_BACKEND_HOST}:${process.env.REACT_APP_BACKEND_PORT}/api/files/files/${selectedCar?.documento[0].id}`}>
+              {selectedCar?.documento[0].name} 
+          </a>
+          <br/>
+          <a href={`${process.env.REACT_APP_BACKEND_HOST}:${process.env.REACT_APP_BACKEND_PORT}/api/files/files/${selectedCar?.documento[1].id}`}>
+             {selectedCar?.documento[1].name}
+
+          </a>
+          </div>) }
+          </span>
+          <p>
+
+          
+          </p>
         </div>
       </Container>
     </Layout>
