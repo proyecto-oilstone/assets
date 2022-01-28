@@ -6,11 +6,13 @@ import axios from "../../helpers/axios";
 import { responseToArray } from "../../helpers/utils";
 import ProviderContext from "../providers/ProviderContext";
 import CarTypeContext from "../carTypes/CarTypeContext";
+import EventContext from "../events/EventContext";
 
 const CarState = (props) => {
   const { children } = props;
   const { getProviderById } = useContext(ProviderContext);
   const { getCarTypeById } = useContext(CarTypeContext);
+  const { getDriversByCarId } = useContext(EventContext);
   const initialState = {
     cars: [],
     selectedCar: null,
@@ -83,11 +85,37 @@ const CarState = (props) => {
     });
   }
 
+  /**
+   * From all events of drivers of one car, return the last event of driver
+   * @param {Array} of {DriverEvent} driverEvents 
+   */
+  const getLastDriverEvent = (driverEvents) => {
+    const reducer = (lastDate, event) => {
+      if (lastDate) {
+        const date = new Date(event.createdAt);
+        const date2 = new Date(lastDate.createdAt);
+        return date > date2 ? event : lastDate;
+      } else {
+        return event;
+      }
+    }
+    return driverEvents.reduce(reducer, null);
+  };
+
   const getCarById = async (carId) => {
     let car = state.cars.find(car => car.id === carId);
     if (!car) {
       const response = await axios.get(`/cars/autos/${carId}`);
       car = response.data;
+    }
+    if (!("driver" in car) || car.driver === null) {
+      const driverEvents = await getDriversByCarId(car.id);
+      if (!("events" in car)) {
+        car.events = {};
+      }
+      car.events.drivers = driverEvents;
+      const lastDriverEvent = getLastDriverEvent(driverEvents);
+      car.driver = lastDriverEvent ? lastDriverEvent.driver : null;
     }
     selectCar(car);
     return car;
