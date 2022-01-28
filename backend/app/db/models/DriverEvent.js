@@ -8,4 +8,5 @@ module.exports = (sequelize) => {
     },
     { sequelize: sequelize, modelName: "DriverEvent", timestamps: false }
   );
+  DriverEvent.type = "DRIVER";
 };

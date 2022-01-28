@@ -6,4 +6,5 @@ module.exports = (sequelize) => {
     {},
     { sequelize: sequelize, modelName: "RepairRequestEvent", timestamps: false }
   );
+  RepairRequestEvent.type = "REPAIR_REQUEST";
 };

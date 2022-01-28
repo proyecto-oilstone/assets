@@ -6,4 +6,5 @@ module.exports = (sequelize) => {
     {},
     { sequelize: sequelize, modelName: "WorkshopEvent", timestamps: false }
   );
+  WorkshopEvent.type = "WORKSHOP";
 };

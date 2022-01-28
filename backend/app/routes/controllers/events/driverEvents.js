@@ -1,9 +1,29 @@
-const express = require("express");
-const postEvent = require("../services/event_services/driver_event_services/postDriverEvent");
-const getEventDriverByCarId = require("../services/event_services/driver_event_services/getDriverEventsByCarId");
-const router = express.Router();
+const driverEventService = require("../services/event_services/driverEvent");
 
-router.post("/", postEvent);
-router.get("/car/:id", getEventDriverByCarId);
+module.exports = {
+    /**
+     * Post one @DriverEvent
+     * /events/driver [POST]
+     * @param {DriverEvent}
+     * @returns 201 and the @DriverEvent created
+     * @returns TODO: 403 validation errors
+     */
+    postDriverEvent: async (req, res) => {
+        const event = await driverEventService.postDriverEvent(req.body);
+        if (event) {
+            res.status(201).json(event);
+        } else {
+            res.sendStatus(403);
+        }
+    },
 
-module.exports = router;
+    /**
+     * Get all @DriverEvent of one @Cars by car id
+     * /events/car/{id} [GET]
+     * @param {Number} id of car
+     * @returns 200 and all @DriverEvent of car
+     */
+    getDriverEventsByCarId: async (req, res) => {
+        res.status(200).json(await driverEventService.getDriverEventsByCarId(req.params.id));
+    }
+}

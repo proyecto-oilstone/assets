@@ -4,11 +4,11 @@ const carTypeRouter = require("./controllers/carType");
 const providerRouter = require("./controllers/provider");
 const usersRouter = require("./controllers/users");
 const loginRouter = require("./controllers/login");
-const eventsRouter = require("./controllers/events/events");
-const driverEventsRouter = require("./controllers/events/driverEvents");
-const reportProblemEventsRouter = require("./controllers/events/reportProblemEvents");
-const repairRequestEventsRouter = require("./controllers/events/repairRequestEvents");
-const workshopEventsRouter = require("./controllers/events/workshopEvents");
+const eventsRouter = require("./events");
+const driverEventsRouter = require("./driverEvents");
+const reportProblemEventsRouter = require("./reportProblemEvents");
+const repairRequestEventsRouter = require("./repairRequestEvents");
+const workshopEventsRouter = require("./workshopEvents");
 
 const router = Router();
 
@@ -21,7 +21,6 @@ router.use("/events/driver", driverEventsRouter);
 router.use("/events/report-problems", reportProblemEventsRouter);
 router.use("/events/repair-requests", repairRequestEventsRouter);
 router.use("/events/workshop", workshopEventsRouter);
-//TODO:
 router.use("/events", eventsRouter);
 
 module.exports = router;

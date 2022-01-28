@@ -9,4 +9,5 @@ module.exports = (sequelize) => {
     },
     { sequelize: sequelize, modelName: "ReportProblemEvent", timestamps: false }
   );
+  ReportProblemEvent.type = "REPORT_PROBLEM";
 };
