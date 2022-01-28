@@ -20,6 +20,7 @@ import PrivateRoute from "../components/Common/PrivateRoute";
 import TipoVehiculoDetails from "../pages/TipoVehiculos/[id]";
 import ProveedorDetails from "../pages/Proveedores/[id]";
 import Usuarios from "../pages/Usuarios";
+import EventState from "../contexts/events/EventState";
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
   const Providers = combineProviders([
     AuthState,
     SidebarState,
+    EventState,
     CarTypeState,
     ProviderState,
     CarState,

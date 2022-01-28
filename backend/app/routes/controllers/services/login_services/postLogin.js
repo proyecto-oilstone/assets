@@ -1,4 +1,5 @@
 const { Users } = require("../../../../db/index");
+const bcrypt = require("bcrypt");
 
 const postLogin = async (req, res) => {
   const { mail, contraseña } = req.body;
@@ -9,15 +10,25 @@ const postLogin = async (req, res) => {
     return res.status(404).send("User not found");
   }
 
-  if (user.contraseña !== contraseña) {
-    return res.status(401).send("Wrong password");
+  if (user.contraseña ) {
+    bcrypt.compare(contraseña, user.contraseña, (err, result) => {
+      if (result) {
+        return res.status(200).send(user={
+          id: user.id,
+          mail: user.mail,
+          nombre: user.nombre,
+          apellido: user.apellido,
+          telefono: user.telefono,
+          rol: user.rol,
+          estado: user.estado,
+        });
+      } else {
+        return res.status(500).send("Wrong password");
+      }
+    });
   }
 
-  user = {
-    ...user.dataValues,
-  };
-  const { ...rest } = user;
-  return res.status(200).json(rest);
+  
 };
 
 module.exports = postLogin

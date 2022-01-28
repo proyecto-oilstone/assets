@@ -34,7 +34,13 @@ modelDefiners.forEach((model) => model(sequelize));
 
 //Relaciones
 
-const { Cars, CarType, Provider, Users, Event, DriverEvent, ReportProblemEvent, RepairRequestEvent, WorkshopEvent } = sequelize.models;
+const { Cars, CarType, Provider, Files, Users, Sector, Event, DriverEvent, ReportProblemEvent, RepairRequestEvent, WorkshopEvent } = sequelize.models;
+
+Cars.belongsTo(Sector)
+Sector.hasMany(Cars)
+
+Cars.hasMany(Files)
+Files.belongsTo(Cars)
 
 Cars.belongsTo(Provider);
 Provider.hasMany(Cars);
