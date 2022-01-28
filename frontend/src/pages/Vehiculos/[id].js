@@ -33,6 +33,12 @@ const VehiculoDetails = () => {
     }
   };
 
+  useEffect(() => {
+    if (selectedCar)
+      console.log(selectedCar.documento);
+  }, [selectedCar]);
+  
+
   return (
     <Layout>
       <Container className="mt-4">
@@ -42,7 +48,18 @@ const VehiculoDetails = () => {
           <span>Tipo de vehiculo: {selectedCar?.modelo}</span>
           <span>Proveedor: {selectedCar?.proveedor}</span>
           <span>Conductor: {selectedCar?.driver ? selectedCar.driver : "No hay ningun conductor asignado"}</span>
+          <span>Papeles: {selectedCar?.documento.length > 0 ? selectedCar.documento.map(document => (
+            <div className="mt-2" key={document.id}>
+              <a href={`${process.env.REACT_APP_BACKEND_HOST}:${process.env.REACT_APP_BACKEND_PORT}/api/files/files/${document.id}`}>
+                {document.name} 
+              </a>
+            </div>
+          ))
+            : "Sin papeles"
+          }
+          </span>
         </div>
+
         <Button className={assigningDriver ? "d-none" : "mt-2"} onClick={toggleAssigningDriver}>Asignar conductor</Button>
         {assigningDriver && <>
           <Row className="mt-4">

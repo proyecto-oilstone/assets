@@ -103,11 +103,8 @@ const CarState = (props) => {
   };
 
   const getCarById = async (carId) => {
-    let car = state.cars.find(car => car.id === carId);
-    if (!car) {
-      const response = await axios.get(`/cars/autos/${carId}`);
-      car = response.data;
-    }
+    const response = await axios.get(`/cars/autos/${carId}`);
+    const car = response.data;
     if (!("driver" in car) || car.driver === null) {
       const driverEvents = await getDriversByCarId(car.id);
       if (!("events" in car)) {
