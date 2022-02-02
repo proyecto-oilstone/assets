@@ -8,23 +8,27 @@ const Layout = (props) => {
   const { children, activeSection } = props;
   const { isOpen } = useContext(SidebarContext);
   const sidebarTransition = "850ms";
-  const sidebarWidth = "250px";
+  const sidebarWidth = 250;
   const headerRef = useRef();
   const { height } = useSize(headerRef);
-  
+
   return (
     <>
       <Header activeSection={activeSection} ref={headerRef} />
       <div>
         <Sidebar
-          width={sidebarWidth}
+          width={sidebarWidth + "px"}
           transition={sidebarTransition}
+          paddingTop={height}
         />
         <div
           style={{
             transition: `margin-left ${sidebarTransition}`,
-            marginLeft: isOpen ? sidebarWidth : 0,
+            marginLeft: isOpen ? sidebarWidth + "px" : 0,
             marginTop: height,
+            position: "absolute",
+            width: window.innerWidth - sidebarWidth + "px",
+            height: window.innerHeight - height + "px",
           }}
         >
           {children}

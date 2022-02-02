@@ -9,4 +9,10 @@ module.exports = {
   getDriverEventsByCarId: async (carId) => {
     return getEventsByCarIdAndEventType(carId, DriverEvent);
   },
+
+  unAssignDriverByCarId: async (event, carId) => {
+    event.carId = carId;
+    event.driver = null;
+    return postEvent(event, DriverEvent);
+  }
 }

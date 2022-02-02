@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
   res.send("<h2>Proyecto Oilstone</h2>");
 });
 
-app.use("/api", routes)
+app.use("/api/v1", routes)
 
 const { db } = require("./app/db/index");
 

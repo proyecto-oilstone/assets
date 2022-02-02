@@ -5,7 +5,7 @@ import styles from "./Sidebar.module.css";
 import SidebarContext from "../../../contexts/sidebar/SidebarContext";
 
 const Sidebar = (props) => {
-  const { width, transition } = props;
+  const { width, transition, paddingTop } = props;
   const { isOpen } = useContext(SidebarContext);
 
   const invertWidth = (width) => {
@@ -82,6 +82,7 @@ const Sidebar = (props) => {
           transition: `margin-left ${transition}`,
           width: width,
           marginLeft: isOpen ? 0 : invertWidth(width),
+          paddingTop: paddingTop,
         }}
         className={`${styles.navMenu}`}
       >

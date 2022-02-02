@@ -25,5 +25,20 @@ module.exports = {
      */
     getDriverEventsByCarId: async (req, res) => {
         res.status(200).json(await driverEventService.getDriverEventsByCarId(req.params.id));
+    },
+
+    /**
+     * Unassign one driver of one car, or unassing one reserved driver of one car
+     * /events/unassign/car/{id} [PUT]
+     * @param {Number} id of the car to remove the driver 
+     * @param {Boolean} isReserved true to remove a reserved driver, false to remove current driver
+     */
+    unAssignDriverByCarId: async (req, res) => {
+        const event = await driverEventService.unAssignDriverByCarId(req.body, req.params.id);
+        if (event) {
+            res.status(201).json(event);
+        } else {
+            res.sendStatus(403);
+        }
     }
 }

@@ -113,6 +113,7 @@ const CarState = (props) => {
       car.events.drivers = driverEvents;
       const lastDriverEvent = getLastDriverEvent(driverEvents);
       car.driver = lastDriverEvent ? lastDriverEvent.driver : null;
+      car.isReserved = lastDriverEvent ? lastDriverEvent.isReserved : false;
     }
     selectCar(car);
     return car;
