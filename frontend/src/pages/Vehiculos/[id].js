@@ -6,17 +6,23 @@ import { useParams } from 'react-router-dom'
 import EventContext from "../../contexts/events/EventContext";
 import { baseURL } from "../../helpers/constants";
 import styles from "./Vehiculos.module.css";
+import SelectProviders from "../../components/Selects/Providers";
+import ButtonPrimary from "../../components/Buttons/Primary/ButtonPrimary";
+import ButtonSecondary from "../../components/Buttons/Secondary";
 
 const VehiculoDetails = () => {
   const { selectedCar, getCarById } = useContext(CarContext);
-  const { createDriverEvent, unAssignDriver, unAssignReservedDriver } = useContext(EventContext);
+  const { createDriverEvent, storeInWorkshop, unAssignDriver, unAssignReservedDriver } = useContext(EventContext);
   const { id } = useParams();
   const [assigningDriver, setAssigningDriver] = useState(false);
+  const [storeWorkshop, setStoreWorkshop] = useState(false);
+  const toggleStoreWorkshop = () => setStoreWorkshop(!storeWorkshop);
   const toggleAssigningDriver = () => setAssigningDriver(!assigningDriver);
   const [driver, setDriver] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [successfulMessage, setSuccessfulMessage] = useState("");
   const [isReserved, setIsReserved] = useState(false);
+  const [selectedWorkshop, setSelectedWorkshop] = useState(null);
 
   useEffect(() => {
     const carId = parseInt(id);
@@ -45,7 +51,13 @@ const VehiculoDetails = () => {
     }
     toggleAssigningDriver();
     setDriver("");
-  };  
+  };
+
+  const handleStoreWorkshop = async () => {
+    storeInWorkshop(selectedCar.id, selectedWorkshop);
+    setSelectedWorkshop(null);
+    toggleStoreWorkshop();
+  };
   
   return (
     <Layout>
@@ -80,7 +92,22 @@ const VehiculoDetails = () => {
             </div>
           </div>
 
-          <Button className={(assigningDriver || selectedCar?.driver !== null) ? "d-none" : "mt-2"} onClick={toggleAssigningDriver}>Asignar o reservar conductor</Button>
+          <ButtonPrimary className={storeWorkshop ? "d-none" : "mt-2"} onClick={toggleStoreWorkshop}>Almacenar vehiculo</ButtonPrimary>
+          {storeWorkshop && <>
+            <Row className="mt-4">
+              <Form.Label column sm="12">Ingresa el taller a donde va a ser almacenado</Form.Label>
+              <Col sm="3">
+                <SelectProviders value={selectedWorkshop} onChange={setSelectedWorkshop}/>
+              </Col>
+            </Row>
+
+            <div className='mt-2'>
+              <ButtonSecondary className="me-3" onClick={toggleStoreWorkshop}>Cancelar</ButtonSecondary>
+              <ButtonPrimary onClick={handleStoreWorkshop} disabled={selectedWorkshop === null}>Almacenar</ButtonPrimary>
+            </div>
+          </>}
+
+          <ButtonPrimary className={(assigningDriver || selectedCar?.driver !== null) ? "d-none" : "mt-2"} onClick={toggleAssigningDriver}>Asignar o reservar conductor</ButtonPrimary>
           {assigningDriver && <>
             <Row className="mt-4">
               <Form.Label column sm="12">Ingresa el nombre del conductor</Form.Label>
@@ -101,13 +128,9 @@ const VehiculoDetails = () => {
               </Col>
             </Row>
 
-            <div className="invalid-feedback d-block">
-              {errorMessage}
-            </div>
-            
             <div className='mt-2'>
-              <Button className="me-3" onClick={toggleAssigningDriver}>Cancelar</Button>
-              <Button onClick={handleAssignDriver}>Asignar</Button>
+              <ButtonSecondary className="me-3" onClick={toggleAssigningDriver}>Cancelar</ButtonSecondary>
+              <ButtonPrimary onClick={handleAssignDriver}>Asignar</ButtonPrimary>
             </div>
           </>}
 
