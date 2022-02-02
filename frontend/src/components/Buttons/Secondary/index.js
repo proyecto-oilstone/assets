@@ -1,14 +1,14 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
 import styles from "./ButtonSecondary.module.css";
 
 const ButtonSecondary = (props) => {
-  const { children, className = "", onClick = () => {} } = props;
+  const { children, className = "", onClick = () => {}, disabled = false } = props;
 
   return (
     <button
       className={`text-white ${styles.button} ${className}`}
       onClick={onClick}
+      disabled={disabled}
     >
       {children}
     </button>

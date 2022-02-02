@@ -7,10 +7,10 @@ import { setLabelAndValue } from "../../../helpers/utils";
 import CarTypeContext from "../../../contexts/carTypes/CarTypeContext";
 import CarContext from "../../../contexts/cars/CarContext";
 import ButtonPrimary from "../../Buttons/Primary/ButtonPrimary";
+import SelectProviders from "../../Selects/Providers";
 
 const CreateVehiculoLivianoModal = (props) => {
   const { show, toggle, edit = false, vehicle = null } = props;
-  const { providers, getProviders } = useContext(ProviderContext);
   const { carTypes, getCarTypes } = useContext(CarTypeContext); 
   const { createCar, editCar } = useContext(CarContext);
   const [patente, setPatente] = useState("");
@@ -52,7 +52,6 @@ const CreateVehiculoLivianoModal = (props) => {
   };
 
   useEffect(() => {
-    getProviders();
     getCarTypes();
   }, []);
 
@@ -102,7 +101,7 @@ const CreateVehiculoLivianoModal = (props) => {
                 Proveedor
               </Form.Label>
               <Col sm="12">
-                <Select value={selectedProvider} onChange={setSelectedProvider} options={setLabelAndValue(providers, "nombreCorto", "id")} />
+                <SelectProviders value={selectedProvider} onChange={setSelectedProvider} />
               </Col>
             </Row>
           </Col>

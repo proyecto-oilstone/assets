@@ -31,11 +31,29 @@ const EventState = (props) => {
     return data;
   };
 
+  /**
+   * Store one car in one workshop
+   * @param {Number} carId car to store in workshop
+   * @param {Provider} workshop provider of type workshop
+   * @returns {Event}
+   */
+  const storeInWorkshop = async (carId, workshop) => {
+    const workshopEvent = {
+      carId,
+      providerId: workshop.id,
+      createdAt: Date.now(),
+    };
+    const response = await axios.post(`/events/workshop`, workshopEvent);
+    const data = response.data;
+    return data;
+  }
+
   return (
     <EventContext.Provider
       value={{
         createDriverEvent,
         getDriversByCarId,
+        storeInWorkshop,
       }}
     >
       {children}

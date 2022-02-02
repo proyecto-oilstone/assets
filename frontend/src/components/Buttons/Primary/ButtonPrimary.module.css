@@ -7,3 +7,10 @@
 .button, .button:hover {
   background-color: #2F4ADA;
 }
+
+.button:disabled,
+.button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
