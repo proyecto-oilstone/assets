@@ -31,11 +31,32 @@ const EventState = (props) => {
     return data;
   };
 
+  /**
+   * Report one problem of one car
+   * @param {String} problem 
+   * @param {String} description 
+   * @param {Number} carId 
+   * @returns {Event}
+   */
+  const reportProblem = async (problem, description, carId) => {
+    const reportProblemEvent = {
+      carId,
+      problem,
+      description,
+      createdAt: Date.now(),
+    };
+
+    const response = await axios.post(`/events/report-problems`, reportProblemEvent);
+    const data = response.data;
+    return data;
+  };
+
   return (
     <EventContext.Provider
       value={{
         createDriverEvent,
         getDriversByCarId,
+        reportProblem,
       }}
     >
       {children}
