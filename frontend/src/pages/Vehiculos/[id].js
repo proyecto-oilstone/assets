@@ -12,17 +12,21 @@ import ButtonSecondary from "../../components/Buttons/Secondary";
 
 const VehiculoDetails = () => {
   const { selectedCar, getCarById } = useContext(CarContext);
-  const { createDriverEvent, storeInWorkshop, unAssignDriver, unAssignReservedDriver } = useContext(EventContext);
+  const { createDriverEvent, storeInWorkshop, unAssignDriver, unAssignReservedDriver, reportProblem } = useContext(EventContext);
   const { id } = useParams();
   const [assigningDriver, setAssigningDriver] = useState(false);
   const [storeWorkshop, setStoreWorkshop] = useState(false);
+  const [isReportingProblem, setIsReportingProblem] = useState(false);
   const toggleStoreWorkshop = () => setStoreWorkshop(!storeWorkshop);
+  const toggleIsReportingProblem = () => setIsReportingProblem(!isReportingProblem);
   const toggleAssigningDriver = () => setAssigningDriver(!assigningDriver);
   const [driver, setDriver] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [successfulMessage, setSuccessfulMessage] = useState("");
   const [isReserved, setIsReserved] = useState(false);
   const [selectedWorkshop, setSelectedWorkshop] = useState(null);
+  const [problemTitle, setProblemTitle] = useState("");
+  const [problemDescription, setProblemDescription] = useState("");
 
   useEffect(() => {
     const carId = parseInt(id);
@@ -57,6 +61,13 @@ const VehiculoDetails = () => {
     storeInWorkshop(selectedCar.id, selectedWorkshop);
     setSelectedWorkshop(null);
     toggleStoreWorkshop();
+  };
+
+  const handleReportProblem = async () => {
+    reportProblem(problemTitle, problemDescription, selectedCar.id);
+    setProblemTitle("");
+    setProblemDescription("");
+    toggleIsReportingProblem();
   };
   
   return (
@@ -130,7 +141,27 @@ const VehiculoDetails = () => {
 
             <div className='mt-2'>
               <ButtonSecondary className="me-3" onClick={toggleAssigningDriver}>Cancelar</ButtonSecondary>
-              <ButtonPrimary onClick={handleAssignDriver}>Asignar</ButtonPrimary>
+              <ButtonPrimary onClick={handleAssignDriver} disabled={driver === ""}>Asignar</ButtonPrimary>
+            </div>
+          </>}
+          
+          <ButtonPrimary className={isReportingProblem ? "d-none" : "mt-2"} onClick={toggleIsReportingProblem}>Informar un problema</ButtonPrimary>
+          {isReportingProblem && <>
+            <Row className="mt-4">
+              <Form.Label column sm="12">Ingresa el problema</Form.Label>
+              <Col sm="3">
+                <Form.Control value={problemTitle} onChange={(e) => setProblemTitle(e.target.value)} type="text" placeholder="Titulo" />
+              </Col>
+
+              <Form.Label column sm="12">Ingresa la descripcion del problema</Form.Label>
+              <Col sm="3">
+                <Form.Control as="textarea" value={problemDescription} onChange={(e) => setProblemDescription(e.target.value)} type="text" placeholder="Descripcion" />
+              </Col>
+            </Row>
+
+            <div className='mt-2'>
+              <ButtonSecondary className="me-3" onClick={toggleIsReportingProblem}>Cancelar</ButtonSecondary>
+              <ButtonPrimary onClick={handleReportProblem} disabled={problemTitle === "" || problemDescription === ""}>Reportar</ButtonPrimary>
             </div>
           </>}
 
