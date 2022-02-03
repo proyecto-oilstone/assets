@@ -1,11 +1,10 @@
 const { Cars, Provider, CarType, Files, Sector } = require("../../../../db/index");
+const { statusCarToString } = require("../../../../utils/functions");
 
-const getCarDetail = async (req, res) => {
-  const { id } = req.params;
-
+const getCarDetail = async (id) => {
   let query = {
     where: { id },
-    attributes: ["id", "patente", "activo", "año"],
+    attributes: ["id", "patente", "activo", "año", "status"],
     include: [
       {
         model: Provider,
@@ -37,7 +36,7 @@ const getCarDetail = async (req, res) => {
   let car = await Cars.findOne(query);
 
   if (!car) {
-    return res.status(404).send("Car not found");
+    return null;
   }
   
 
@@ -49,6 +48,7 @@ const getCarDetail = async (req, res) => {
     proveedor: car.dataValues.Provider.nombreLargo,
     modelo: car.dataValues.CarType.nombreLargo,
     marca: car.dataValues.CarType.nombreCorto,
+    status: statusCarToString(car.status),
     documento: car.dataValues.Files?.map(file => {
       return {
         id:file.dataValues.id,
@@ -62,7 +62,7 @@ const getCarDetail = async (req, res) => {
     
     
   };
-  res.status(200).json(car);
+  return car;
 };
 
 module.exports = getCarDetail;

@@ -9,6 +9,7 @@ import styles from "./Vehiculos.module.css";
 import SelectProviders from "../../components/Selects/Providers";
 import ButtonPrimary from "../../components/Buttons/Primary/ButtonPrimary";
 import ButtonSecondary from "../../components/Buttons/Secondary";
+import { getCarStatus } from "../../helpers/utils";
 
 const VehiculoDetails = () => {
   const { selectedCar, getCarById } = useContext(CarContext);
@@ -64,12 +65,13 @@ const VehiculoDetails = () => {
   };
 
   const handleReportProblem = async () => {
-    reportProblem(problemTitle, problemDescription, selectedCar.id);
     setProblemTitle("");
     setProblemDescription("");
     toggleIsReportingProblem();
+    await reportProblem(problemTitle, problemDescription, selectedCar.id);
+    getCarById(selectedCar.id);
   };
-  
+
   return (
     <Layout>
       <Container className="mt-4">
@@ -83,6 +85,7 @@ const VehiculoDetails = () => {
               <div><span className="fw-bold">Asignacion actual: </span><span>{selectedCar?.driver ? <>El vehiculo esta {selectedCar.isReserved ? "reservado" : "asignado"} a {selectedCar.driver} <button onClick={onUnAssignDriver} className="btn btn-link">{selectedCar.isReserved ? "Quitar reserva" : "Desasignar conductor"}</button></> : "No hay ningun conductor asignado"}</span></div>
               <div><span className="fw-bold">El vehiculo </span><span>{selectedCar?.activo ? "esta activo" : "no esta activo"}</span></div>
               <div><span className="fw-bold">Tipo de vehiculo: </span><span>{selectedCar?.modelo}</span></div>
+              <div><span className="fw-bold">Estado del vehiculo: </span><span>{getCarStatus(selectedCar?.status)}</span></div>
               <div>
                 <span className="fw-bold">Papeles: </span><span>{selectedCar?.documento.length > 0 ? selectedCar.documento.map(document => (
                   <div className="mt-2" key={document.id}>
@@ -145,7 +148,7 @@ const VehiculoDetails = () => {
             </div>
           </>}
           
-          <ButtonPrimary className={isReportingProblem ? "d-none" : "mt-2"} onClick={toggleIsReportingProblem}>Informar un problema</ButtonPrimary>
+          <ButtonPrimary className={isReportingProblem ? "d-none" : (selectedCar?.status === "IN_USE" || selectedCar?.status === "AVAILABLE") ? "mt-2" : "d-none"} onClick={toggleIsReportingProblem}>Informar un problema</ButtonPrimary>
           {isReportingProblem && <>
             <Row className="mt-4">
               <Form.Label column sm="12">Ingresa el problema</Form.Label>

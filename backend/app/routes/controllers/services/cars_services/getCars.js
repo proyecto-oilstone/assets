@@ -1,12 +1,13 @@
 const { Cars, Provider, CarType, Files } = require("../../../../db/index");
 const { Op } = require("sequelize");
+const { statusCarToString } = require("../../../../utils/functions");
 
 const getCars = async (req, res) => {
   const { nombreLargoTipo, activo, nombreLargoProveedor, patente, año} = req.query;
 
   let query = {
     where: {},
-    attributes: ["id", "patente", "activo", "año"],
+    attributes: ["id", "patente", "activo", "año", "status"],
     order: [["patente", "ASC"]],
     include: [
       {
@@ -53,7 +54,8 @@ const getCars = async (req, res) => {
       proveedor: car.dataValues.Provider.nombreLargo,
       modelo: car.dataValues.CarType.nombreLargo,
       marca: car.dataValues.CarType.nombreCorto,
-      Files: car.dataValues.Files[0]?.name
+      Files: car.dataValues.Files[0]?.name,
+      status: statusCarToString(car.status),
       
         
       

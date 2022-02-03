@@ -6,14 +6,14 @@ module.exports = {
      * /events/driver [POST]
      * @param {DriverEvent}
      * @returns 201 and the @DriverEvent created
-     * @returns TODO: 403 validation errors
+     * @returns TODO: 400 validation errors
      */
     postDriverEvent: async (req, res) => {
         const event = await driverEventService.postDriverEvent(req.body);
         if (event) {
             res.status(201).json(event);
         } else {
-            res.sendStatus(403);
+            res.sendStatus(400);
         }
     },
 

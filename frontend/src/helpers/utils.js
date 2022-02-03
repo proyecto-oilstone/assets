@@ -46,3 +46,22 @@ export function findAndReplaceWithKey(string, object) {
   const key = secondSplit[0];
   return `${splited[0]}${object[key]}${secondSplit.length > 0 ? "/" + secondSplit.filter((_, index) => index !== 0).join("/") : ""}`;
 }
+
+/**
+ * Get the status of one car by the number of type
+ * @param {Number} carType
+ * @returns {String} status
+ */
+export function getCarStatus(carType) {
+  switch (carType) {
+  case "OUT_OF_SERVICE": return "fuera de servicio";
+  case "IN_USE": return "en uso";
+  case "RESERVED": return "reservado";
+  case "INFORMED": return "informado";
+  case "REPAIR": return "en reparacion";
+  case "AVAILABLE": return  "disponible";
+  case "EXPIRED_DOCUMENTATION": return "con documentacion vencida";
+  case "DISCHARGED": return "dado de baja";
+  default: return "desconocido";
+  }
+}
