@@ -90,6 +90,24 @@ const EventState = (props) => {
     return data;
   };
 
+  const getReportProblems = async (carId) => {
+    const response = await axios.get(`/events/report-problems/car/${carId}`);
+    const data = response.data;
+    return data;
+  };
+
+  const createRepairRequest = async (carId, providerId, problemId) => {
+    const repairRequestEvent = {
+      carId,
+      providerId,
+      problemId,
+      createdAt: Date.now(),
+    };
+    const response = await axios.post("/events/repair-requests/", repairRequestEvent);
+    const data = response.data;
+    return data;
+  };
+
   return (
     <EventContext.Provider
       value={{
@@ -99,6 +117,8 @@ const EventState = (props) => {
         unAssignReservedDriver,
         storeInWorkshop,
         reportProblem,
+        getReportProblems,
+        createRepairRequest,
       }}
     >
       {children}

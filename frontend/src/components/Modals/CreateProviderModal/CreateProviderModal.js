@@ -3,6 +3,7 @@ import { Col, Form, Row } from "react-bootstrap";
 import CustomModal from "../CustomModal/CustomModal";
 import ProviderContext from "../../../contexts/providers/ProviderContext";
 import ButtonPrimary from "../../Buttons/Primary/ButtonPrimary";
+import Select from "react-select";
 
 const CreateProviderModal = (props) => {
   const { show, toggle, edit = false, provider = null } = props;
@@ -10,15 +11,32 @@ const CreateProviderModal = (props) => {
   const [nombreCorto, setNombreCorto] = useState("");
   const [nombreLargo, setNombreLargo] = useState("");
   const [observaciones, setObservaciones] = useState("");
+  const [selectedType, setSelectedType] = useState(null);
+
+  const providerTypes = [
+    {
+      label: "Taller",
+      value: "WORKSHOP"
+    },
+    {
+      label: "Alquiler",
+      value: "RENTAL"
+    },
+    {
+      label: "Lavadero",
+      value: "CAR_WASH"
+    },
+  ];
 
   const resetFields = () => {
     setNombreCorto("");
     setNombreLargo("");
     setObservaciones("");
+    setSelectedType(null);
   }
 
   const handleOnClick = () => {
-    const params = { nombreCorto, nombreLargo, observaciones };
+    const params = { nombreCorto, nombreLargo, observaciones, type: selectedType };
     if (edit) {
       params.id = provider.id;
       editProvider(params);
@@ -35,6 +53,8 @@ const CreateProviderModal = (props) => {
       setNombreCorto(provider.nombreCorto);
       setNombreLargo(provider.nombreLargo);
       setObservaciones(provider.observaciones);
+      const findSelectedType = (type) => type.value === provider.type;
+      setSelectedType(providerTypes.find(findSelectedType));
     }
   }, [provider]);
 
@@ -72,6 +92,19 @@ const CreateProviderModal = (props) => {
                   type="text"
                   placeholder="Ingresar un nombre largo"
                 />
+              </Col>
+            </Row>
+          </Col>
+        </Form.Group>
+
+        <Form.Group as={Row} className="mb-2">
+          <Col sm="12">
+            <Row>
+              <Form.Label column sm="12">
+                Tipo de proveedor
+              </Form.Label>
+              <Col sm="12">
+                <Select value={selectedType} onChange={setSelectedType} options={providerTypes}/>
               </Col>
             </Row>
           </Col>

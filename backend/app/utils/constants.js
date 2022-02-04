@@ -15,4 +15,9 @@ module.exports = {
     "EXPIRED_DOCUMENTATION": 7,
     "DISCHARGED": 8,
   },
+  providerTypes: {
+    "WORKSHOP": 1,
+    "RENTAL": 2,
+    "CAR_WASH": 3,
+  }
 }

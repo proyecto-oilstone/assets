@@ -9,3 +9,8 @@ export const carStatus = {
   "EXPIRED_DOCUMENTATION": 7,
   "DISCHARGED": 8,
 };
+export const providerTypes = {
+  "WORKSHOP": 1,
+  "RENTAL": 2,
+  "CAR_WASH": 3,
+};

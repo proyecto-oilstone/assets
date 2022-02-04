@@ -4,6 +4,7 @@ import ProviderReducer from "./ProviderReducer";
 import ProviderContext from "./ProviderContext";
 import axios from "../../helpers/axios";
 import { responseToArray } from "../../helpers/utils";
+import { providerTypes } from "../../helpers/constants";
 
 const ProviderState = (props) => {
   const { children } = props;
@@ -15,6 +16,7 @@ const ProviderState = (props) => {
   const [state, dispatch] = useReducer(ProviderReducer, initialState);
 
   const createProvider = async (provider) => {
+    provider.type = providerTypes[provider.type.value];
     let response = await axios.post("/provider/provider", provider);
     provider = response.data.provider;
     dispatch({
@@ -35,6 +37,7 @@ const ProviderState = (props) => {
   };
 
   const editProvider = async (provider) => {
+    provider.type = providerTypes[provider.type.value];
     const response = await axios.put(`/provider/provider/${provider.id}`, provider);
     const editedProvider = response.data;
     let newProviders = JSON.parse(JSON.stringify(state.providers));

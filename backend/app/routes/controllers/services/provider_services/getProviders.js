@@ -1,9 +1,10 @@
 const { Provider } = require("../../../../db/index");
+const { typeProviderToString } = require("../../../../utils/functions");
 
 const getProvider = async (req, res) => {
   let query = {
     where: {},
-    attributes: ["id", "nombreLargo", "nombreCorto", "observaciones"],
+    attributes: ["id", "nombreLargo", "nombreCorto", "observaciones", "type"],
     order: [["nombreLargo", "ASC"]],
   };
 
@@ -13,6 +14,7 @@ const getProvider = async (req, res) => {
     provider = {
       ...provider.dataValues,
     };
+    provider.type = typeProviderToString(provider.type);
     const { ...rest } = provider;
     return rest;
   });
