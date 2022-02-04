@@ -37,7 +37,7 @@ const ProviderList = () => {
   ]);
 
   return (<>
-    <ExportCSVButton onClick={() => setDownloadCSV(true)} className="mb-4"/>
+    <ExportCSVButton onClick={() => setDownloadCSV(true)} className="my-4 d-inline"/>
     <CustomReactTable onEdit={showEditProviderModal} onDelete={(provider) => deleteProvider(provider.id)} columns={columns} data={providers} downloadCSV={downloadCSV} CSVFilename="proveedores.csv"/>
     <CreateProviderModal show={showEditModal} toggle={toggleEditModal} edit provider={selectedProvider} />
   </>);

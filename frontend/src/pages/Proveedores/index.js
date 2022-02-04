@@ -12,7 +12,7 @@ const Proveedores = () => {
   return (
     <Layout>
       <Container>
-        <ButtonPrimary className="my-4" onClick={toggleCreateProviderModal}>Crear proveedor</ButtonPrimary>
+        <ButtonPrimary className="my-4 me-2 d-inline" onClick={toggleCreateProviderModal}>Crear proveedor</ButtonPrimary>
         <ProviderList/>
       </Container>
       <CreateProviderModal show={showProviderModal} toggle={toggleCreateProviderModal}/>

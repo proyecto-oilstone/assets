@@ -4,25 +4,17 @@ const { Files } = require("../../../../db/index");
 
 const postFile = async (req, res) => {
     const {mimetype, originalname, buffer} = req.files;
-    const{document, CarId} = req.body;
+    const{document, CarId, expirationDate} = req.body;
     
-    //console.log(req.files);
-    console.log(req.FileList)
-
     try {
-        
-        console.log(req.file)
-        console.log(req.body.files)
-        console.log(req.body.file)
-        console.log(req.files)
-
-        const filesasd = req.files.map(file => {
+        const filesasd = req.files.map((file, index) => {
             Files.create({
                 name: file.originalname,
                 type: file.mimetype,
                 data: file.buffer,
                 document,
-                CarId
+                CarId,
+                expirationDate: expirationDate[index],
 
                 })
         })

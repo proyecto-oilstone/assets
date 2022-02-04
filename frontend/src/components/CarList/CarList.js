@@ -58,7 +58,7 @@ const CarList = () => {
     toggleEditModal();
   };
 
-  const showFileCarModal = (car, files) => {
+  const showFileCarModal = (car) => {
     setSelectedVehicle(car)
     toggleFileModal()
   }
@@ -75,7 +75,7 @@ const CarList = () => {
   
 
   return (<>
-    <ExportCSVButton onClick={() => setDownloadCSV(true)} className="mb-4"/>
+    <ExportCSVButton onClick={() => setDownloadCSV(true)} className="my-4 d-inline"/>
     <CustomReactTable onEdit={showEditCarModal} onFile={showFileCarModal} onDelete={(car) => deleteCar(car.id)} columns={columns} data={cars} downloadCSV={downloadCSV} CSVFilename="vehiculos.csv" withFiles/>
     <CreateVehiculoLivianoModal show={showEditModal} toggle={toggleEditModal} edit vehicle={selectedVehicle} />
     <PostFileModal show = {showFileModal} toggle = {toggleFileModal} car = {selectedVehicle} postFile = {postFile}/>

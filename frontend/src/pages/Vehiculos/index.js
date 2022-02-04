@@ -12,7 +12,7 @@ const Vehiculos = () => {
   return (
     <Layout>
       <Container>
-        <ButtonPrimary className="my-4" onClick={toggleCreateVehiculoModal}>Crear vehiculo</ButtonPrimary>
+        <ButtonPrimary className="my-4 me-2 d-inline" onClick={toggleCreateVehiculoModal}>Crear vehiculo</ButtonPrimary>
         <CarList/>
       </Container>
       <CreateVehiculoLivianoModal show={showVehiculoModal} toggle={toggleCreateVehiculoModal}/>

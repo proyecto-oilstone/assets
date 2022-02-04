@@ -37,7 +37,7 @@ const CarTypeList = () => {
   ]);
 
   return (<>
-    <ExportCSVButton onClick={() => setDownloadCSV(true)} className="mb-4"/>
+    <ExportCSVButton onClick={() => setDownloadCSV(true)} className="my-4 d-inline"/>
     <CustomReactTable onEdit={showEditCarTypeModal} onDelete={(carType) => deleteCarType(carType.id)} columns={columns} data={carTypes} downloadCSV={downloadCSV} CSVFilename="tipo vehiculos.csv"/>
     <CreateTypeVehicleModal show={showEditModal} toggle={toggleEditModal} edit carType={selectedCarType} />
   </>);

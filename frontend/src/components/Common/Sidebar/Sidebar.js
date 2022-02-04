@@ -3,10 +3,12 @@ import { Accordion, useAccordionButton } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 import SidebarContext from "../../../contexts/sidebar/SidebarContext";
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = (props) => {
   const { width, transition, paddingTop } = props;
   const { isOpen } = useContext(SidebarContext);
+  const navigate = useNavigate();
 
   const invertWidth = (width) => {
     let hasPX = true;
@@ -87,7 +89,7 @@ const Sidebar = (props) => {
         className={`${styles.navMenu}`}
       >
         <div className="d-flex justify-content-center">
-          <img src="/logo.png" alt="logo"/>
+          <img src="/logo.png" alt="logo" className="cursor-pointer" role="button" onClick={() => navigate("/vehiculos")}/>
         </div>
         <ul className={styles.navItems}>
           <MultipleNavItem className="mb-2" title="Activos" defaultOpen>
