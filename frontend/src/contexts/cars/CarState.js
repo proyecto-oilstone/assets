@@ -125,6 +125,19 @@ const CarState = (props) => {
     return await editCar(car);
   }
 
+  const deleteDocumentById = async (documentId) => {
+    try {
+      await axios.delete(`/files/files/${documentId}`);
+      const currentDocuments = state.selectedCar.documento;
+      const newSelectedCar = JSON.parse(JSON.stringify(state.selectedCar));
+      newSelectedCar.documento = currentDocuments.filter(document => document.id !== documentId);
+      selectCar(newSelectedCar);
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
+
   return (
     <CarContext.Provider
       value={{
@@ -137,6 +150,7 @@ const CarState = (props) => {
         selectCar,
         getCarById,
         toggleActive,
+        deleteDocumentById,
       }}
     >
       {children}

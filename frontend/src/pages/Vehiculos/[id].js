@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Layout from "../../components/Common/Layout/Layout";
 import { Container } from "react-bootstrap";
 import CarContext from "../../contexts/cars/CarContext";
@@ -11,11 +11,17 @@ import RepairEvent from "../../components/Events/RepairEvent";
 import ReportProblem from "../../components/Events/ReportProblem";
 import AssignDriver from "../../components/Events/AssignDriver";
 import StoreWorkshop from "../../components/Events/StoreWorkshop";
+import CustomModal from "../../components/Modals/CustomModal/CustomModal";
+import ButtonPrimary from "../../components/Buttons/Primary/ButtonPrimary";
+import ButtonSecondary from "../../components/Buttons/Secondary";
 
 const VehiculoDetails = () => {
-  const { selectedCar, getCarById } = useContext(CarContext);
+  const { selectedCar, getCarById, deleteDocumentById } = useContext(CarContext);
   const { unAssignDriver, unAssignReservedDriver } = useContext(EventContext);
   const { id } = useParams();
+  const [showWariningDeleteDocument, setShowWariningDeleteDocument] = useState(false);
+  const [selectedDocument, setSelectedDocument] = useState(null);
+  const toggleShowWarningDeleteDocument = () => setShowWariningDeleteDocument(!showWariningDeleteDocument);
 
   useEffect(() => {
     const carId = parseInt(id);
@@ -34,6 +40,23 @@ const VehiculoDetails = () => {
     getCarById(selectedCar.id);
   };
 
+  const onDeleteDocument = async (document) => {
+    setSelectedDocument(document);
+    setShowWariningDeleteDocument(true);
+  };
+
+  const onConfirmDeleteDocument = async () => {
+    await deleteDocumentById(selectedDocument.id);
+    setShowWariningDeleteDocument(false);
+  };
+
+  const warningDeleteComponentFooter = (
+    <div className="d-flex flex-row-reverse p-4">
+      <ButtonPrimary onClick={onConfirmDeleteDocument} variant="danger" className="mx-2">Borrar</ButtonPrimary>
+      <ButtonSecondary onClick={() => setShowWariningDeleteDocument(false)}>Cancelar</ButtonSecondary>
+    </div>
+  );
+
   return (
     <Layout>
       <Container className="mt-4">
@@ -50,10 +73,11 @@ const VehiculoDetails = () => {
               <div><span className="fw-bold">Estado del vehiculo: </span><span>{getCarStatus(selectedCar?.status)}</span></div>
               <div>
                 <span className="fw-bold">Papeles: </span><span>{selectedCar?.documento.length > 0 ? selectedCar.documento.map(document => (
-                  <div className="mt-2" key={document.id}>
+                  <div className="mt-2 d-flex" key={document.id}>
                     <a href={`${baseURL}/files/files/${document.id}`}>
                       {document.name} 
                     </a>
+                    <div className="ms-2"><img role="button" className={`icon-sm cursor-pointer`} src="/icons/trash-alt-solid.svg" alt="eliminar" onClick={() => onDeleteDocument(document)} /></div>
                   </div>
                 ))
                   : "Sin papeles"
@@ -72,6 +96,9 @@ const VehiculoDetails = () => {
           <AssignDriver  buttonClassName="mx-2"/>
           <ReportProblem buttonClassName="mx-2"/>
           <RepairEvent   buttonClassName="mx-2"/>
+          <CustomModal show={showWariningDeleteDocument} toggle={toggleShowWarningDeleteDocument} title={"Eliminar documento"} footerComponent={warningDeleteComponentFooter}>
+            <div>¿Estas seguro que queres eliminar el documento <span className="fw-bold">{selectedDocument?.name}</span>?</div>
+          </CustomModal>
         </div>
       </Container>
     </Layout>

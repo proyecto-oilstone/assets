@@ -14,3 +14,7 @@
   background-color: #cccccc;
   color: #666666;
 }
+
+.buttonDanger, .buttonDanger:hover  {
+  background-color: #dc3545;
+}
