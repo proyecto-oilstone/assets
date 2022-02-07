@@ -1,22 +1,7 @@
-const express = require("express");
+
 require("dotenv").config();
-const app = express();
-const routes = require("./app/routes/index.js");
-const cors = require("cors");
 
-app.use(
-  cors({
-    origin: "*",
-  })
-);
-
-app.use(express.json());
-
-app.get("/", (req, res) => {
-  res.send("<h2>Proyecto Oilstone</h2>");
-});
-
-app.use("/api", routes)
+const app = require("./server")
 
 const { db } = require("./app/db/index");
 

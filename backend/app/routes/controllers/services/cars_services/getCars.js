@@ -29,21 +29,21 @@ const getCars = async (req, res) => {
       }
     ],
   };
-  if (nombreLargoTipo) {
-    query.where[1].nombreLargo = { ...query.include[1].where, nombreLargo: { [Op.like]: `%${nombreLargoTipo}%` } };
-  }
-  if (activo) {
-    query.where = { ...query.where, activo };
-  }
-  if (patente) {
-    query.where = { ...query.where, patente: { [Op.like]: `%${patente}%` } };
-  }
-  if (nombreLargoProveedor) {
-    query.where[0].nombreLargo = { ...query.include[0].where, nombreLargo: { [Op.like]: `%${nombreLargoProveedor}%` } };
-  }
-  if (año) {
-    query.where = { ...query.where, año: { [Op.like]: `%${año}%` } };
-  }
+   if (nombreLargoTipo) {
+     query.where[1].nombreLargo = { ...query.include[1].where, nombreLargo: { [Op.like]: `%${nombreLargoTipo}%` } };
+   }
+   if (activo) {
+     query.where = { ...query.where, activo };
+   }
+   if (patente) {
+     query.where = { ...query.where, patente: { [Op.like]: `%${patente}%` } };
+   }
+   if (nombreLargoProveedor) {
+     query.where[0].nombreLargo = { ...query.include[0].where, nombreLargo: { [Op.like]: `%${nombreLargoProveedor}%` } };
+   }
+   if (año) {
+     query.where = { ...query.where, año: { [Op.like]: `%${año}%` } };
+   }
 
   let cars = await Cars.findAll(query);
 
