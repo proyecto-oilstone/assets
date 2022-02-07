@@ -12,3 +12,7 @@ export const DELETE_CAR_TYPE = "DELETE_CAR_TYPE";
 export const SET_SESSION = "SET_SESSION";
 export const SET_USERS = "SET_USERS";
 export const SELECT_CAR_TYPE = "SELECT_CAR_TYPE";
+export const ADD_SECTOR = "ADD_SECTOR";
+export const SET_SECTORS = "SET_SECTORS";
+export const SELECT_SECTOR = "SELECT_SECTOR";
+export const DELETE_SECTOR = "DELETE_SECTOR";

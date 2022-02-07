@@ -21,6 +21,9 @@ import TipoVehiculoDetails from "../pages/TipoVehiculos/[id]";
 import ProveedorDetails from "../pages/Proveedores/[id]";
 import Usuarios from "../pages/Usuarios";
 import EventState from "../contexts/events/EventState";
+import Sectores from "../pages/Sectores";
+import SectorDetails from "../pages/Sectores/[id]";
+import SectorState from "../contexts/sectors/SectorState";
 
 function App() {
 
@@ -40,6 +43,7 @@ function App() {
     CarTypeState,
     ProviderState,
     CarState,
+    SectorState,
     BrowserRouter,
   ]);
 
@@ -76,6 +80,14 @@ function App() {
 
         <Route path="/proveedores/:id" element={<PrivateRoute/>}>
           <Route path="/proveedores/:id" element={<ProveedorDetails />} />
+        </Route>
+
+        <Route path ="/sectores" element={<PrivateRoute/>}>
+          <Route path="/sectores" element={<Sectores />} />
+        </Route>
+        
+        <Route path="/sectores/:id" element={<PrivateRoute/>}>
+          <Route path="/sectores/:id" element={<SectorDetails />} />
         </Route>
 
         <Route path="/perfil" element={<PrivateRoute/>}>

@@ -5,17 +5,19 @@ const deleteSector = async (req, res) => {
 
   try {
     let sector = await Sector.findOne({ where: { id } });
-    let cars = await Cars.findAll({ where: { SectorId: id } });
+    let cars = await Cars.findOne({ where: { SectorId: id } });
+
+    
 
     if (!sector) {
       return res.status(404).send("Sector not found");
     }
-    if (cars) {
-      return res.status(409).send("Sector has cars");
+    if (!cars) {
+      await Sector.destroy({ where: { id } });
+      return res.status(200).send("Sector deleted");
     }
-
-    await Sector.destroy({ where: { id } });
-    return res.status(200).send("Sector deleted");
+    
+    return res.status(409).send("Sector has cars");
   } catch (err) {
     return res.status(500).send(err.message);
   }
