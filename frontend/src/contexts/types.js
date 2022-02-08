@@ -12,3 +12,5 @@ export const DELETE_CAR_TYPE = "DELETE_CAR_TYPE";
 export const SET_SESSION = "SET_SESSION";
 export const SET_USERS = "SET_USERS";
 export const SELECT_CAR_TYPE = "SELECT_CAR_TYPE";
+export const SET_EVENTS_BY_CAR = "SET_EVENTS_BY_CAR";
+export const SET_EVENTS = "SET_EVENTS";

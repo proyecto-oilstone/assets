@@ -25,13 +25,14 @@ const PostFileModal = (props) => {
     setFiles([]);
   }
 
-  const handleOnClick = async () => {
+  const handleOnClick = async (e) => {
+    e.preventDefault();
     setIsLoading(true);
     const formData = new FormData();
     formData.append('CarId', car.id);
     for (let i = 0; i < files.length; i++) {
       formData.append("file", files[i].file);
-      formData.append("expirationDate", new Date(files[i].expirationDate));
+      formData.append("expirationDate", files[i].expirationDate);
     }
     
     await axios.post('/files/files', formData);

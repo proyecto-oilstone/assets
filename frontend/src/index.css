@@ -50,3 +50,7 @@ code {
 .icon-white {
   filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(106deg) brightness(104%) contrast(105%);
 }
+
+.rbc-event, .rbc-selected .rbc-event-allday {
+  padding: 0 !important;
+}

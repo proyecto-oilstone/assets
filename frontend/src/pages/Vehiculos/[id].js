@@ -14,10 +14,11 @@ import StoreWorkshop from "../../components/Events/StoreWorkshop";
 import CustomModal from "../../components/Modals/CustomModal/CustomModal";
 import ButtonPrimary from "../../components/Buttons/Primary/ButtonPrimary";
 import ButtonSecondary from "../../components/Buttons/Secondary";
+import ReactBigCalendar from "../../components/ReactBigCalendar";
 
 const VehiculoDetails = () => {
   const { selectedCar, getCarById, deleteDocumentById } = useContext(CarContext);
-  const { unAssignDriver, unAssignReservedDriver } = useContext(EventContext);
+  const { unAssignDriver, unAssignReservedDriver, getEventsByCarId, eventsByCar } = useContext(EventContext);
   const { id } = useParams();
   const [showWariningDeleteDocument, setShowWariningDeleteDocument] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState(null);
@@ -28,6 +29,7 @@ const VehiculoDetails = () => {
 
     if (!isNaN(carId) && carId > 0) {
       getCarById(carId);
+      getEventsByCarId(carId);
     }  
   }, [id]);
 
@@ -96,6 +98,10 @@ const VehiculoDetails = () => {
           <AssignDriver  buttonClassName="mx-2"/>
           <ReportProblem buttonClassName="mx-2"/>
           <RepairEvent   buttonClassName="mx-2"/>
+
+          <div className="mt-5">
+            <ReactBigCalendar events={eventsByCar} expandEvents/>
+          </div>
           <CustomModal show={showWariningDeleteDocument} toggle={toggleShowWarningDeleteDocument} title={"Eliminar documento"} footerComponent={warningDeleteComponentFooter}>
             <div>¿Estas seguro que queres eliminar el documento <span className="fw-bold">{selectedDocument?.name}</span>?</div>
           </CustomModal>

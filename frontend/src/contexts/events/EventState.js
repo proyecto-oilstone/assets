@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useReducer } from "react";
 import EventContext from "./EventContext";
 import axios from "../../helpers/axios";
+import EventReducer from "./EventReducer";
+import { SET_EVENTS, SET_EVENTS_BY_CAR } from "../types";
 
 const EventState = (props) => {
   const { children } = props;
+
+  const initialState = {
+    eventsByCar: [],
+    events: [],
+  };
+
+  const [state, dispatch] = useReducer(EventReducer, initialState);
 
   const createDriverEvent = async (driver, carId, isReserved) => {
     const driverEvent = {
@@ -108,6 +117,26 @@ const EventState = (props) => {
     return data;
   };
 
+  const getEventsByCarId = async (carId) => {
+    const response = await axios.get(`/events/car/${carId}`);
+    const events = response.data;
+    dispatch({
+      type: SET_EVENTS_BY_CAR,
+      payload: events,
+    });
+    return events;
+  };
+
+  const getAllEvents = async () => {
+    const response = await axios.get("/events");
+    const events = response.data;
+    dispatch({
+      type: SET_EVENTS,
+      payload: events,
+    });
+    return events;
+  };
+
   return (
     <EventContext.Provider
       value={{
@@ -119,6 +148,10 @@ const EventState = (props) => {
         reportProblem,
         getReportProblems,
         createRepairRequest,
+        getEventsByCarId,
+        getAllEvents,
+        eventsByCar: state.eventsByCar,
+        events: state.events,
       }}
     >
       {children}

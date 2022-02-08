@@ -89,7 +89,7 @@ const Sidebar = (props) => {
         className={`${styles.navMenu}`}
       >
         <div className="d-flex justify-content-center">
-          <img src="/logo.png" alt="logo" className="cursor-pointer" role="button" onClick={() => navigate("/vehiculos")}/>
+          <img src="/logo.png" alt="logo" className="cursor-pointer" role="button" onClick={() => navigate("/home")}/>
         </div>
         <ul className={styles.navItems}>
           <MultipleNavItem className="mb-2" title="Activos" defaultOpen>

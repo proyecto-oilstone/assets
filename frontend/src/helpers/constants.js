@@ -14,3 +14,9 @@ export const providerTypes = {
   "RENTAL": 2,
   "CAR_WASH": 3,
 };
+export const eventTypes = {
+  "DRIVER": 1,
+  "REPORT_PROBLEM": 2,
+  "REPAIR_REQUEST": 3,
+  "WORKSHOP": 4,
+};

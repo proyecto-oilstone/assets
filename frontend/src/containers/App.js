@@ -1,7 +1,6 @@
 import React from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import CreateOrder from "../pages/CreateOrder";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "../pages/Login";
 import Home from "../pages/Home";
@@ -47,7 +46,6 @@ function App() {
     <Providers>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/crear-pedido" element={<CreateOrder/>} />
         <Route path="/crear-usuario" element={<CrearUsuario/>} />
 
         <Route path="/home" element={<PrivateRoute/>}>

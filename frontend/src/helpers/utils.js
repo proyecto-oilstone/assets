@@ -65,3 +65,29 @@ export function getCarStatus(carType) {
   default: return "desconocido";
   }
 }
+
+/**
+ * Format one date to dd/mm/yyyy hh:mm
+ * @param {Date} date 
+ * @return {String}
+ */
+export function dateToDDMMYYYYHHMM(date) {
+  if (date instanceof Date) {
+    return `${date.getDate()}/${date.getMonth() +1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+  } else {
+    return "Fecha invalida";
+  }
+}
+
+/**
+ * Same as dateToDDMMYYYYHHMM without hours and minutes
+ * @param {Date} date 
+ * @returns {String}
+ */
+export function dateToDDMMYYYY(date) {
+  if (date instanceof Date) {
+    return `${date.getDate()}/${date.getMonth() +1}/${date.getFullYear()}`;
+  } else {
+    return "Fecha invalida";
+  }
+}
