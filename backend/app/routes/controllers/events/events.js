@@ -25,5 +25,13 @@ module.exports = {
      */
     getEventsByCarId: async (req, res) => {
         res.status(200).json(await eventService.getEventsByCarId(req.params.id));
-    }
+    },
+
+    /**
+     * Return all events
+     * @returns 200 and all @Event
+     */
+    getAllEvents: async (req, res) => {
+        res.status(200).json(await eventService.getAllEvents());
+    },
 }

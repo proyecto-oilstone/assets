@@ -1,5 +1,6 @@
 const { Event } = require("../../../../db/index");
 const { eventTypes } = require("../../../../utils/constants");
+const getFiles = require("../files_services/getFiles");
 
 /**
  * Format the event with the type of the event.
@@ -158,5 +159,20 @@ module.exports = {
     })
     
     return events;
-  }
+  },
+
+  getAllEvents: async () => {
+    let query = {
+      attributes: ["id", "type", "createdAt", "updatedAt", "carId"],
+      include: Event.childrenModels
+    };
+
+    let events = await Event.findAll(query);
+    const removeInvalidEvents = event => event;
+    events = events.map(formatEventWithTypeEvent);
+    events = events.filter(removeInvalidEvents);
+    let files = await getFiles();
+    files = files.map(file => ({...file, type: "EXPIRATION_FILE"}));
+    return [...events, ...files];
+  },
 };

@@ -1,13 +1,31 @@
-const { Files } = require("../../../../db/index");
+const { Files, Cars } = require("../../../../db/index");
 
 const getFiles = async (req, res) => {
 
     try {
-        const files = await Files.findAll({attributes: ['id', 'name',]});
+        let query = {
+            attributes: ['id', 'name', 'expirationDate'],
+            include: {
+                model: Cars,
+                attributes: ["id", "patente"],
+                where: {},
+                required: true,
+            }
+        };
+        let files = await Files.findAll(query);
         if (!files) {
-        return res.status(500).send("No hay archivos");
+            return [];
         }
-        res.status(200).json({ files });
+
+        files = files.map(file => {
+            const { Car, ...rest } = file.dataValues;
+            file = rest;
+            
+            // file.carId = Car?.dataValues?.id;
+            file.car = Car.dataValues;
+            return file;
+        });
+        return files;
     } catch (err) {
         res.status(500).send(err.message);
     }
