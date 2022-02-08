@@ -1,25 +1,41 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Col, Dropdown, DropdownButton, Form, FormControl, InputGroup, Row } from 'react-bootstrap';
 import CarContext from '../../../contexts/cars/CarContext';
 import EventContext from '../../../contexts/events/EventContext';
 import ButtonPrimary from '../../Buttons/Primary/ButtonPrimary';
 import ButtonSecondary from '../../Buttons/Secondary';
+import  SectorContext  from '../../../contexts/sectors/SectorContext';
+import Select from "react-select";
+import { setLabelAndValue } from '../../../helpers/utils';
 
 const AssignDriver = (props) => {
   const { buttonClassName = "" } = props;
-  const { selectedCar, getCarById } = useContext(CarContext);
+  const { selectedCar, getCarById, editCar } = useContext(CarContext);
   const { createDriverEvent } = useContext(EventContext);
   const [assigningDriver, setAssigningDriver] = useState(false);
   const [driver, setDriver] = useState("");
   const [isReserved, setIsReserved] = useState(false);
   const toggleAssigningDriver = () => setAssigningDriver(!assigningDriver);
+  const { sectors, getSectors,} = useContext(SectorContext);
+  const [selectedSector, setSelectedSector] = useState(null);
 
   const handleAssignDriver = async () => {
     await createDriverEvent(driver, selectedCar.id, isReserved);
     getCarById(selectedCar.id);
     toggleAssigningDriver();
+    const params = {
+      SectorId : selectedSector.id,
+    }
+    params.id = selectedCar.id;
+    
+    editCar(params);
     setDriver("");
   };
+
+  
+  useEffect(() => {
+    getSectors();
+  }, []);
 
   return (<>
     <ButtonPrimary className={(assigningDriver || selectedCar?.driver !== null) ? "d-none" : `mt-2 ${buttonClassName}`} onClick={toggleAssigningDriver}>Asignar o reservar conductor</ButtonPrimary>
@@ -42,6 +58,14 @@ const AssignDriver = (props) => {
           </InputGroup>
         </Col>
       </Row>
+      <Form.Group as={Row} className="mb-2">
+          <Form.Label column sm="12">
+            Sector
+          </Form.Label>
+          <Col sm="5">
+            <Select value={selectedSector} onChange={setSelectedSector} options={setLabelAndValue(sectors, type => `${type.nombreCorto}` , "id")} />
+          </Col>
+        </Form.Group>
 
       <div className='mt-2'>
         <ButtonSecondary className="me-3" onClick={toggleAssigningDriver}>Cancelar</ButtonSecondary>
