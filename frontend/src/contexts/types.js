@@ -14,3 +14,7 @@ export const SET_USERS = "SET_USERS";
 export const SELECT_CAR_TYPE = "SELECT_CAR_TYPE";
 export const SET_EVENTS_BY_CAR = "SET_EVENTS_BY_CAR";
 export const SET_EVENTS = "SET_EVENTS";
+export const ADD_SECTOR = "ADD_SECTOR";
+export const SET_SECTORS = "SET_SECTORS";
+export const SELECT_SECTOR = "SELECT_SECTOR";
+export const DELETE_SECTOR = "DELETE_SECTOR";
