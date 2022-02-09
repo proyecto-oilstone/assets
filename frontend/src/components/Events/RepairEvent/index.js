@@ -10,13 +10,14 @@ import CarContext from '../../../contexts/cars/CarContext';
 
 const RepairEvent = (props) => {
   const { buttonClassName = "" } = props;
-  const { getReportProblems, createRepairRequest, selectedCar } = useContext(EventContext);
-  const { getCarById } = useContext(CarContext);
+  const { getReportProblems, createRepairRequest, finishRepairEvent } = useContext(EventContext);
+  const { selectedCar, getCarById } = useContext(CarContext);
   const [isRepairing, setIsRepairing] = useState(false);
   const toggleIsRepairing = () => setIsRepairing(!isRepairing);
   const [reportProblems, setReportProblems] = useState([]);
   const [reportProblemSelected, setReportProblemSelected] = useState(null);
   const [selectedProvider, setSelectedProvider] = useState(null);
+  const canRepair = ["INFORMED", "REPAIR"].some(status => status === selectedCar?.status);
 
   useEffect(() => {
     if (selectedCar?.status === "INFORMED") {
@@ -35,10 +36,19 @@ const RepairEvent = (props) => {
     setReportProblemSelected(null);
     toggleIsRepairing();
   };
-  
 
-  return (<>
-    <ButtonPrimary className={isRepairing ? "d-none" : selectedCar?.status === "INFORMED" ? `mt-2 ${buttonClassName}` : "d-none"} onClick={toggleIsRepairing}>Pedido de reparacion</ButtonPrimary>
+  const handleFinishRepairEvent = async () => {
+    await finishRepairEvent(selectedCar.id);
+    getCarById(selectedCar.id);
+  };
+
+  return (canRepair && <>
+    <ButtonPrimary
+      className={isRepairing ? "d-none" : `mt-2 ${buttonClassName}`}
+      onClick={selectedCar?.status === "REPAIR" ? handleFinishRepairEvent : toggleIsRepairing}
+    >
+      {selectedCar?.status === "REPAIR" ? "Finalizar reparacion" : "Pedido de reparacion"}
+    </ButtonPrimary>
     {isRepairing && <>
       <Row className="mt-4">
         <Form.Label column sm="12">Ingresa el problema</Form.Label>

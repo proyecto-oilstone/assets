@@ -1,9 +1,10 @@
 const { CarType } = require("../../../../db/index");
+const { typeVehicleToString } = require("../../../../utils/functions");
 
 const getCarTypes = async (req, res) => {
   let query = {
     where: {},
-    attributes: ["id", "nombreLargo", "nombreCorto", "observaciones",],
+    attributes: ["id", "nombreLargo", "nombreCorto", "observaciones", "type"],
     order: [["nombreLargo", "ASC"]],
   };
 
@@ -13,6 +14,7 @@ const getCarTypes = async (req, res) => {
     carType = {
       ...carType.dataValues,
     };
+    carType.type = typeVehicleToString(carType.type);
     const { ...rest } = carType;
     return rest;
   });

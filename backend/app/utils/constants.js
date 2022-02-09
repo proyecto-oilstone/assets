@@ -19,5 +19,9 @@ module.exports = {
     "WORKSHOP": 1,
     "RENTAL": 2,
     "CAR_WASH": 3,
-  }
+  },
+  typeVehicles: {
+    "LIGHT_VEHICLE": 1,
+    "HEAVY_VEHICLE": 2,
+  },
 }

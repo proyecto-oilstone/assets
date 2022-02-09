@@ -137,6 +137,23 @@ const EventState = (props) => {
     return events;
   };
 
+  /**
+   * Finish the current {RepairRequestEvent} of the car
+   * @param {Number} carId 
+   * @returns {Event}
+   */
+  const finishRepairEvent = async (carId) => {
+    const repairRequestEvent = {
+      carId,
+      providerId: null,
+      problemId: null,
+      createdAt: Date.now(),
+    };
+    const response = await axios.post("/events/repair-requests/", repairRequestEvent);
+    const data = response.data;
+    return data;
+  };
+
   return (
     <EventContext.Provider
       value={{
@@ -150,6 +167,7 @@ const EventState = (props) => {
         createRepairRequest,
         getEventsByCarId,
         getAllEvents,
+        finishRepairEvent,
         eventsByCar: state.eventsByCar,
         events: state.events,
       }}

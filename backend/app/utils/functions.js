@@ -1,4 +1,4 @@
-const { carStates, providerTypes } = require("./constants");
+const { carStates, providerTypes, typeVehicles } = require("./constants");
 
 module.exports = {
   statusCarToString: (type) => {
@@ -6,5 +6,8 @@ module.exports = {
   },
   typeProviderToString: (type) => {
     return Object.keys(providerTypes).find(t => providerTypes[t] === type);
+  },
+  typeVehicleToString: (type) => {
+    return Object.keys(typeVehicles).find(t => typeVehicles[t] === type);
   },
 }

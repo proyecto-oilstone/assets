@@ -125,9 +125,9 @@ const CarState = (props) => {
     return await editCar(car);
   }
 
-  const deleteDocumentById = async (documentId) => {
+  const deleteDocumentById = async (documentId, carId) => {
     try {
-      await axios.delete(`/files/files/${documentId}`);
+      await axios.delete(`/files/files/${documentId}/car/${carId}`);
       const currentDocuments = state.selectedCar.documento;
       const newSelectedCar = JSON.parse(JSON.stringify(state.selectedCar));
       newSelectedCar.documento = currentDocuments.filter(document => document.id !== documentId);

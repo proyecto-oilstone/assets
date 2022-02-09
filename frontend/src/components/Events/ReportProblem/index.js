@@ -13,6 +13,7 @@ const ReportProblem = (props) => {
   const toggleIsReportingProblem = () => setIsReportingProblem(!isReportingProblem);
   const [problemTitle, setProblemTitle] = useState("");
   const [problemDescription, setProblemDescription] = useState("");
+  const canReportProblem = ["IN_USE", "AVAILABLE"].some(status => status === selectedCar?.status);
 
   const handleReportProblem = async () => {
     setProblemTitle("");
@@ -22,8 +23,8 @@ const ReportProblem = (props) => {
     getCarById(selectedCar.id);
   };
 
-  return (<>
-    <ButtonPrimary className={isReportingProblem ? "d-none" : (selectedCar?.status === "IN_USE" || selectedCar?.status === "AVAILABLE") ? `mt-2 ${buttonClassName}` : "d-none"} onClick={toggleIsReportingProblem}>Informar un problema</ButtonPrimary>
+  return (canReportProblem && <>
+    <ButtonPrimary className={isReportingProblem ? "d-none" : `mt-2 ${buttonClassName}`} onClick={toggleIsReportingProblem}>Informar un problema</ButtonPrimary>
     {isReportingProblem && <>
       <Row className="mt-4">
         <Form.Label column sm="12">Ingresa el problema</Form.Label>

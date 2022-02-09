@@ -1,15 +1,19 @@
 const { CarType } = require("../../../../db/index");
+const { typeVehicles } = require("../../../../utils/constants");
 
 const postCarType = async (req, res) => {
-  const { nombreLargo, nombreCorto, observaciones} = req.body;
+  const { nombreLargo, nombreCorto, observaciones, type } = req.body;
+  const typeNumber = typeVehicles[type];
 
   try {
     const carType = await CarType.create({
       nombreLargo,
       nombreCorto,
-      observaciones
+      observaciones,
+      type: typeNumber,
     });
 
+    carType.dataValues.type = type;
     res.status(200).json({
       message: "CarType created",
       carType,

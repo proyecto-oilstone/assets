@@ -172,6 +172,7 @@ module.exports = {
     events = events.map(formatEventWithTypeEvent);
     events = events.filter(removeInvalidEvents);
     let files = await getFiles();
+    files = files.filter(file => file.expirationDate !== null);
     files = files.map(file => ({...file, type: "EXPIRATION_FILE"}));
     return [...events, ...files];
   },

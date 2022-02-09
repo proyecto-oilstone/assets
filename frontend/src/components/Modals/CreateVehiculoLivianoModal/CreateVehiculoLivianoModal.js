@@ -56,7 +56,7 @@ const CreateVehiculoLivianoModal = (props) => {
   }, []);
 
   return (
-    <CustomModal show={show} toggle={toggle} title={edit ? "Editar Vehículo Liviano: " + (vehicle ? vehicle.patente : "") : "Crear Vehículo Liviano"}>
+    <CustomModal show={show} toggle={toggle} title={edit ? "Editar Vehículo Liviano: " + (vehicle ? vehicle.patente : "") : "Crear Vehículo"}>
       <Form>
         <Form.Group as={Row} className="mb-2">
           <Col sm="6">

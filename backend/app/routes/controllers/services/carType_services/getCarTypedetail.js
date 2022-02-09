@@ -1,10 +1,11 @@
 const { CarType, Cars } = require("../../../../db/index");
+const { typeVehicleToString } = require("../../../../utils/functions");
 
 const getCarTypeDetail = async (req, res) => {
   const { id } = req.params;
   let query = {
     where: { id },
-    attributes: ["id", "nombreLargo", "nombreCorto", "observaciones"],
+    attributes: ["id", "nombreLargo", "nombreCorto", "observaciones", "type"],
     include: [
       {
         model: Cars,
@@ -24,6 +25,7 @@ const getCarTypeDetail = async (req, res) => {
     nombreLargo: carType.nombreLargo,
     nombreCorto: carType.nombreCorto,
     observaciones: carType.observaciones,
+    type: typeVehicleToString(carType.type),
     vehiculos: carType.Cars.map(car => {
       car = {
         id: car.id,

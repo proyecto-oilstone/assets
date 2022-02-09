@@ -45,7 +45,11 @@ const PostFileModal = (props) => {
     let newFiles = Array.from(files);
     newFiles = newFiles.map((file, index) => {
       if (index === indexFile) {
-        file.expirationDate = e.target.value;
+        if (typeof e === "string") {
+          file.expirationDate = e;
+        } else {
+          file.expirationDate = e.target.value;
+        }
         return file;
       } else {
         return file;
@@ -53,7 +57,6 @@ const PostFileModal = (props) => {
     });
     setFiles(newFiles);
   };
-  
 
   return (
     <CustomModal show={show} toggle={toggle} title="Subir Archivos">
@@ -65,8 +68,9 @@ const PostFileModal = (props) => {
           {files.map((file, index) => 
             <Row className="my-2 d-flex align-items-center" key={index}>
               <Col sm="6">{file.file.name}</Col>
-              <Col sm="6">
-                <Form.Control type="date" value={file.expirationDate} onChange={(e) => handleChangeExpirationDate(index, e)}/>
+              <Col sm="6" className="d-flex align-items-center">
+                <span onClick={() => handleChangeExpirationDate(index, "")} className={file.expirationDate === "" ? "invisible" : ""}><img role="button" src="/icons/times-solid.svg" className="icon-sm cursor-pointer" /></span>
+                <Form.Control className="ms-3" type="date" value={file.expirationDate} onChange={(e) => handleChangeExpirationDate(index, e)}/>
               </Col>
             </Row>
           )}

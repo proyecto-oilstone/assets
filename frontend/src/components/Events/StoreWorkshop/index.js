@@ -13,6 +13,7 @@ const StoreWorkshop = (props) => {
   const [storeWorkshop, setStoreWorkshop] = useState(false);
   const toggleStoreWorkshop = () => setStoreWorkshop(!storeWorkshop);
   const [selectedWorkshop, setSelectedWorkshop] = useState(null);
+  const canStoreInWorkshop = ["AVAILABLE", "RESERVED"].some(status => status === selectedCar?.status);
 
   const handleStoreWorkshop = async () => {
     await storeInWorkshop(selectedCar.id, selectedWorkshop);
@@ -21,7 +22,7 @@ const StoreWorkshop = (props) => {
     toggleStoreWorkshop();
   };
 
-  return (<>
+  return (canStoreInWorkshop && <>
     <ButtonPrimary className={storeWorkshop ? "d-none" : `mt-2 ${buttonClassName}`} onClick={toggleStoreWorkshop}>Almacenar vehiculo</ButtonPrimary>
     {storeWorkshop && <>
       <Row className="mt-4">

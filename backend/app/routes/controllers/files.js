@@ -11,5 +11,5 @@ const postFile = require("./services/files_services/postFile");
 router.post('/files', upload.array("file", 10), postFile );
 router.get('/files', controller.getFiles );
 router.get('/files/:id', downloadFiles)
-router.delete('/files/:id', deleteFileById);
+router.delete('/files/:fileId/car/:carId', deleteFileById);
 module.exports = router

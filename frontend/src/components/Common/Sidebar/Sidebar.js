@@ -93,7 +93,7 @@ const Sidebar = (props) => {
         </div>
         <ul className={styles.navItems}>
           <MultipleNavItem className="mb-2" title="Activos" defaultOpen>
-            <NavItem className="ps-3" title="Vehiculos Livianos" to="/vehiculos" withArrow={false} icon="truck-solid.svg"/>
+            <NavItem className="ps-3" title="Vehiculos" to="/vehiculos" withArrow={false} icon="truck-solid.svg"/>
             <NavItem className="ps-3" title="Trailers" withArrow={false} icon="trailer-solid.svg"/>
             <NavItem className="ps-3" title="Tipos de Vehiculo" to="/tipo-de-vehiculos" withArrow={false} icon="car-types.svg"/>
           </MultipleNavItem>
@@ -106,7 +106,7 @@ const Sidebar = (props) => {
 
           <MultipleNavItem className="mb-2" title="Sectores" defaultOpen>
             <NavItem className="ps-3" title="Sectores" to="/sectores" withArrow={false} icon="sector.svg"/>
-            </MultipleNavItem>
+          </MultipleNavItem>
 
           <MultipleNavItem className="mb-2" title="Administracion" defaultOpen>
             <NavItem className="ps-3" to="/usuarios" title="Usuarios" withArrow={false} icon="user-icon.svg"/>

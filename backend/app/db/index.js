@@ -61,8 +61,8 @@ ReportProblemEvent.belongsTo(Event, { foreignKey: {name: "id", allowNull: false}
 RepairRequestEvent.belongsTo(Event, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
 WorkshopEvent.belongsTo(Event, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
 
-RepairRequestEvent.belongsTo(ReportProblemEvent, { foreignKey: {name: "problemId", allowNull: false}, targetKey: "id" });
-RepairRequestEvent.belongsTo(Provider, { foreignKey: {name: "providerId", allowNull: false}, targetKey: "id" });
+RepairRequestEvent.belongsTo(ReportProblemEvent, { foreignKey: "problemId", targetKey: "id" });
+RepairRequestEvent.belongsTo(Provider, { foreignKey: "providerId", targetKey: "id" });
 
 WorkshopEvent.belongsTo(Provider, { foreignKey: {name: "providerId", allowNull: false}, targetKey: "id" });
 

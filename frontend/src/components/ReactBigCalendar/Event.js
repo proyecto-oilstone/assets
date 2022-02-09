@@ -31,7 +31,11 @@ const Event = (props) => {
   };
 
   const setRepairRequestTitle = () => {
-    setTitle("Se solicito un pedido de reparacion");
+    if (event.problemId === null && event.providerId === null) {
+      setTitle("Reparacion finalizada")
+    } else {
+      setTitle("Se solicito un pedido de reparacion");
+    }
   };
 
   const setExpirationTitle = () => {

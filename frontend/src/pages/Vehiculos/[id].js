@@ -48,7 +48,7 @@ const VehiculoDetails = () => {
   };
 
   const onConfirmDeleteDocument = async () => {
-    await deleteDocumentById(selectedDocument.id);
+    await deleteDocumentById(selectedDocument.id, selectedCar.id);
     setShowWariningDeleteDocument(false);
   };
 
@@ -67,7 +67,7 @@ const VehiculoDetails = () => {
             <div className="d-flex flex-column">
               <div><span className="fw-bold">Patente: </span><span>{selectedCar?.patente}</span></div>
               <div><span className="fw-bold">Marca: </span><span>{selectedCar?.marca}</span></div>
-              <div><span className="fw-bold">Año: </span><span>{selectedCar?.patente}</span></div>
+              <div><span className="fw-bold">Año: </span><span>{selectedCar?.año}</span></div>
               <div><span className="fw-bold">Proveedor: </span><span>{selectedCar?.proveedor}</span></div>
               <div><span className="fw-bold">Asignacion actual: </span><span>{selectedCar?.driver ? <>El vehiculo esta {selectedCar.isReserved ? "reservado" : "asignado"} a {selectedCar.driver} <button onClick={onUnAssignDriver} className="btn btn-link">{selectedCar.isReserved ? "Quitar reserva" : "Desasignar conductor"}</button></> : "No hay ningun conductor asignado"}</span></div>
               <div><span className="fw-bold">El vehiculo </span><span>{selectedCar?.activo ? "esta activo" : "no esta activo"}</span></div>

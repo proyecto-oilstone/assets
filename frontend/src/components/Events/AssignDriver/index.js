@@ -13,6 +13,7 @@ const AssignDriver = (props) => {
   const [driver, setDriver] = useState("");
   const [isReserved, setIsReserved] = useState(false);
   const toggleAssigningDriver = () => setAssigningDriver(!assigningDriver);
+  const canAssignDriver = ["AVAILABLE"].some(status => status === selectedCar?.status);
 
   const handleAssignDriver = async () => {
     await createDriverEvent(driver, selectedCar.id, isReserved);
@@ -21,7 +22,7 @@ const AssignDriver = (props) => {
     setDriver("");
   };
 
-  return (<>
+  return (canAssignDriver && <>
     <ButtonPrimary className={(assigningDriver || selectedCar?.driver !== null) ? "d-none" : `mt-2 ${buttonClassName}`} onClick={toggleAssigningDriver}>Asignar o reservar conductor</ButtonPrimary>
     {assigningDriver && <>
       <Row className="mt-4">
