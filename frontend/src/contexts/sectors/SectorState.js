@@ -51,11 +51,8 @@ const SectorState = (props) => {
     };
 
     const getSectorById = async (id) => {
-        let sector = state.sectors.find((sector) => sector.id === id);
-        if(!sector){
-            const response = await axios.get(`/sector/sector/${id}`);
-            sector = response.data;
-        }
+        const response = await axios.get(`/sector/sector/${id}`);
+        const sector = response.data;
         selectSector(sector);
         return sector;
     };

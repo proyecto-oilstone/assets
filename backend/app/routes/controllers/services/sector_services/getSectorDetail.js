@@ -12,6 +12,7 @@ const getSectorDetail = async (req, res) => {
         model: Cars,
         attributes: ["id", "patente", "activo", "año"],
         where: {},
+        required: false,
       },
     ],
   };
@@ -27,7 +28,7 @@ const getSectorDetail = async (req, res) => {
     nombreLargo: sector.nombreLargo,
     nombreCorto: sector.nombreCorto,
     observaciones: sector.observaciones,
-    vehiculos: sector.Cars.map((car) => {
+    vehiculos: sector.dataValues.Cars?.map((car) => {
       car = {
         id: car.id,
         patente: car.patente,
