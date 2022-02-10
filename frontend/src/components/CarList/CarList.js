@@ -7,6 +7,7 @@ import { setLabelAndValue } from '../../helpers/utils';
 import CustomReactTable from '../Table/CustomReactTable';
 import ExportCSVButton from '../Buttons/ExportCSV';
 import PostFileModal from '../Modals/PostFileModal/PostFileModal';
+import styles from './CarList.module.css';
 
 const CarList = () => {
   const { cars, getCars, deleteCar, toggleActive, postFile } = useContext(CarContext);
@@ -22,7 +23,16 @@ const CarList = () => {
   const initialColumns = [{
     label: 'Patente',
     key: 'patente',
-    href: '/vehiculos/:id'
+    href: '/vehiculos/:id',
+  },
+  {
+    label: 'Estado',
+    key: 'status',
+    Cell: ({ cell }) => (
+      <span className={cell.row.original.status === "IN_USE" ? 'badge rounded-pill bg-success': cell.row.original.status === "RESERVED" ? 'badge rounded-pill bg-info text-dark' : cell.row.original.status === "INFORMED"? 'badge rounded-pill bg-warning text-dark': cell.row.original.status === "REPAIR" ? "badge rounded-pill bg-secondary": cell.row.original.status === "AVAILABLE"? `${styles.LightGreen}`: cell.row.original.status === "EXPIRED_DOCUMENTATION"? `${styles.Orange}`: cell.row.original.status === "DISCHARGED"? "badge rounded-pill bg-dark" : 'badge rounded-pill bg-danger'}>
+        {cell.row.original.status === "IN_USE" ? "En uso" : cell.row.original.status === "RESERVED"? 'Reservado': cell.row.original.status === 'INFORMED'? 'Informado': cell.row.original.status === 'REPAIR'? 'En reparacion': cell.row.original.status === 'AVAILABLE'? 'Disponible': cell.row.original.status === 'EXPIRED_DOCUMENTATION'? "Documentacion vencida": cell.row.original.status === 'DISCHARGED'? 'Baja': 'Inactivo'}
+        </span>
+    )
   },
   {
     label: 'Proveedor',

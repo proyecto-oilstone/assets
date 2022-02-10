@@ -15,6 +15,7 @@ import CustomModal from "../../components/Modals/CustomModal/CustomModal";
 import ButtonPrimary from "../../components/Buttons/Primary/ButtonPrimary";
 import ButtonSecondary from "../../components/Buttons/Secondary";
 import ReactBigCalendar from "../../components/ReactBigCalendar";
+import PostImageModal from "../../components/Modals/PostImageModal/PostImageModal";
 
 const VehiculoDetails = () => {
   const { selectedCar, getCarById, deleteDocumentById } = useContext(CarContext);
@@ -23,6 +24,9 @@ const VehiculoDetails = () => {
   const [showWariningDeleteDocument, setShowWariningDeleteDocument] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState(null);
   const toggleShowWarningDeleteDocument = () => setShowWariningDeleteDocument(!showWariningDeleteDocument);
+  const [file, setFile] = useState(null);
+  const [showFileModal, setShowFileModal] = useState(false);
+  const toggleFileModal = () => setShowFileModal(!showFileModal);
 
   useEffect(() => {
     const carId = parseInt(id);
@@ -59,12 +63,15 @@ const VehiculoDetails = () => {
     </div>
   );
 
+  const handleOnClick= (e) => {
+    setShowFileModal(true);
+  }
   return (
     <Layout>
       <Container className="mt-4">
         <div className={`${styles.containerCarDetails}`}>
-          <div className="d-flex justify-content-between">
-            <div className="d-flex flex-column">
+          <div className="d-flex">
+            <div className="d-flex p-2 flex-grow-1 flex-column">
               <div><span className="fw-bold">Patente: </span><span>{selectedCar?.patente}</span></div>
               <div><span className="fw-bold">Marca: </span><span>{selectedCar?.marca}</span></div>
               <div><span className="fw-bold">Año: </span><span>{selectedCar?.año}</span></div>
@@ -92,6 +99,15 @@ const VehiculoDetails = () => {
               <div className="car-image">
               </div>
             </div>
+          <div className="d-flex p-2 "> 
+          {selectedCar?.image ? <div>
+            <img src={`${baseURL}/files/files/${selectedCar.image.id}`} className={`${styles.img}`} alt="car" />
+          </div> :
+             <button className={`${styles.button}`} title='Subi una foto' onClick={handleOnClick}>
+             <img src="/icons/upload.svg" className={`${styles.svg}`} />
+             </button>
+             }
+        </div>
           </div>
 
           <StoreWorkshop buttonClassName="mx-2"/>
@@ -105,6 +121,7 @@ const VehiculoDetails = () => {
           <CustomModal show={showWariningDeleteDocument} toggle={toggleShowWarningDeleteDocument} title={"Eliminar documento"} footerComponent={warningDeleteComponentFooter}>
             <div>¿Estas seguro que queres eliminar el documento <span className="fw-bold">{selectedDocument?.name}</span>?</div>
           </CustomModal>
+          <PostImageModal show = {showFileModal} toggle = {toggleFileModal} car = {selectedCar} />
         </div>
       </Container>
     </Layout>

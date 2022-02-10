@@ -56,7 +56,8 @@ const getCarDetail = async (id) => {
         type:file.dataValues.type,
         document:file.dataValues.document
         }}),
-    Sector: car.dataValues.Sector?.nombreLargo
+    Sector: car.dataValues.Sector?.nombreLargo,
+    image: car.dataValues.Files?.find(file => file.document === "Image")
 
     
     

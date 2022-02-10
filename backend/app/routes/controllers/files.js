@@ -6,10 +6,12 @@ const downloadFiles = require("./services/files_services/downloadFile");
 const controller = require("./files/files")
 const getFiles = require("./services/files_services/getFiles");
 const postFile = require("./services/files_services/postFile");
+const postImage = require("./services/files_services/postImage");
 
 
 router.post('/files', upload.array("file", 10), postFile );
 router.get('/files', controller.getFiles );
 router.get('/files/:id', downloadFiles)
 router.delete('/files/:fileId/car/:carId', deleteFileById);
+router.post('/files/img', upload.single("file"), postImage);
 module.exports = router
