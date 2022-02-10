@@ -11,6 +11,8 @@ const repairRequestEventsRouter = require("./repairRequestEvents");
 const workshopEventsRouter = require("./workshopEvents");
 const filesRouter = require("./controllers/files");
 const sectorRouter = require("./controllers/sector");
+const vtvRouter = require("./vtvEvents");
+const segurosRouter = require("./segurosEvents");
 
 const router = Router();
 
@@ -23,6 +25,8 @@ router.use("/events/driver", driverEventsRouter);
 router.use("/events/report-problems", reportProblemEventsRouter);
 router.use("/events/repair-requests", repairRequestEventsRouter);
 router.use("/events/workshop", workshopEventsRouter);
+router.use("/events/vtv", vtvRouter);
+router.use("/events/seguros", segurosRouter);
 router.use("/events", eventsRouter);
 
 router.use("/files", filesRouter)

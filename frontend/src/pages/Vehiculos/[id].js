@@ -16,17 +16,23 @@ import ButtonPrimary from "../../components/Buttons/Primary/ButtonPrimary";
 import ButtonSecondary from "../../components/Buttons/Secondary";
 import ReactBigCalendar from "../../components/ReactBigCalendar";
 import PostImageModal from "../../components/Modals/PostImageModal/PostImageModal";
+import UploadVTVModal from "../../components/Modals/UploadVTVModal";
+import UploadSeguroModal from "../../components/Modals/UploadSeguroModal";
 
 const VehiculoDetails = () => {
   const { selectedCar, getCarById, deleteDocumentById } = useContext(CarContext);
   const { unAssignDriver, unAssignReservedDriver, getEventsByCarId, eventsByCar } = useContext(EventContext);
   const { id } = useParams();
   const [showWariningDeleteDocument, setShowWariningDeleteDocument] = useState(false);
+  const [showModalUploadVTV, setShowModalUploadVTV] = useState(false);
+  const [showModalUploadSeguro, setShowModalUploadSeguro] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState(null);
   const toggleShowWarningDeleteDocument = () => setShowWariningDeleteDocument(!showWariningDeleteDocument);
   const [file, setFile] = useState(null);
   const [showFileModal, setShowFileModal] = useState(false);
   const toggleFileModal = () => setShowFileModal(!showFileModal);
+  const toggleShowModalUploadVTV = () => setShowModalUploadVTV(!showModalUploadVTV);
+  const toggleShowModalUploadSeguro = () => setShowModalUploadSeguro(!showModalUploadSeguro);
 
   useEffect(() => {
     const carId = parseInt(id);
@@ -76,10 +82,15 @@ const VehiculoDetails = () => {
               <div><span className="fw-bold">Marca: </span><span>{selectedCar?.marca}</span></div>
               <div><span className="fw-bold">Año: </span><span>{selectedCar?.año}</span></div>
               <div><span className="fw-bold">Proveedor: </span><span>{selectedCar?.proveedor}</span></div>
-              <div><span className="fw-bold">Asignacion actual: </span><span>{selectedCar?.driver ? <>El vehiculo esta {selectedCar.isReserved ? "reservado" : "asignado"} a {selectedCar.driver} <button onClick={onUnAssignDriver} className="btn btn-link">{selectedCar.isReserved ? "Quitar reserva" : "Desasignar conductor"}</button></> : "No hay ningun conductor asignado"}</span></div>
+              <div><span className="fw-bold">Asignacion actual: </span><span>{selectedCar?.driver ? <>El vehiculo esta {selectedCar.isReserved ? "reservado" : "asignado"} a {selectedCar.driver} <span onClick={onUnAssignDriver} role="button" className="btn-link cursor-pointer">{selectedCar.isReserved ? "Quitar reserva" : "Desasignar conductor"}</span></> : "No hay ningun conductor asignado"}</span></div>
               <div><span className="fw-bold">El vehiculo </span><span>{selectedCar?.activo ? "esta activo" : "no esta activo"}</span></div>
               <div><span className="fw-bold">Tipo de vehiculo: </span><span>{selectedCar?.modelo}</span></div>
               <div><span className="fw-bold">Estado del vehiculo: </span><span>{getCarStatus(selectedCar?.status)}</span></div>
+              <div><span className="fw-bold">Documentacion obligatoria: </span></div>
+              <ul>
+                <li>VTV: {selectedCar?.VTV !== null ? <a href={`${baseURL}/cars/${selectedCar?.id}/vtv`}>Descargar VTV</a> : <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadVTV}>Añadir VTV</span>}</li>
+                <li>Seguro: {selectedCar?.seguro !== null ? <a href={`${baseURL}/cars/${selectedCar?.id}/seguro`}>Descargar seguro</a> : <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadSeguro}>Añadir seguro</span>}</li>
+              </ul>
               <div>
                 <span className="fw-bold">Papeles: </span><span>{selectedCar?.documento.length > 0 ? selectedCar.documento.map(document => (
                   <div className="mt-2 d-flex" key={document.id}>
@@ -122,6 +133,9 @@ const VehiculoDetails = () => {
             <div>¿Estas seguro que queres eliminar el documento <span className="fw-bold">{selectedDocument?.name}</span>?</div>
           </CustomModal>
           <PostImageModal show = {showFileModal} toggle = {toggleFileModal} car = {selectedCar} />
+
+          <UploadVTVModal show={showModalUploadVTV} toggle={toggleShowModalUploadVTV}/>
+          <UploadSeguroModal show={showModalUploadSeguro} toggle={toggleShowModalUploadSeguro}/>
         </div>
       </Container>
     </Layout>

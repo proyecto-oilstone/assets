@@ -4,6 +4,8 @@ module.exports = {
     "REPORT_PROBLEM": 2,
     "REPAIR_REQUEST": 3,
     "WORKSHOP": 4,
+    "VTV": 5,
+    "SEGURO": 6,
   },
   carStates: {
     "OUT_OF_SERVICE": 1,

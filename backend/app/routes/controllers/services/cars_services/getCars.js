@@ -7,7 +7,7 @@ const getCars = async (req, res) => {
 
   let query = {
     where: {},
-    attributes: ["id", "patente", "activo", "año", "status"],
+    attributes: ["id", "patente", "activo", "año", "status", "VTV", "seguro"],
     order: [["patente", "ASC"]],
     include: [
       {
