@@ -154,6 +154,26 @@ const EventState = (props) => {
     return data;
   };
 
+  const uploadVTV = async (carId, file, expirationDate) => {
+    const formData = new FormData();
+    formData.append('vtv', file);
+    formData.append('carId', carId);
+    formData.append('createdAt', new Date());
+    formData.append('expirationDate', expirationDate);
+    const response = await axios.post('/events/vtv', formData);
+    return response.data;
+  };
+
+  const uploadSeguro = async (carId, file, expirationDate) => {
+    const formData = new FormData();
+    formData.append('seguro', file);
+    formData.append('carId', carId);
+    formData.append('createdAt', new Date());
+    formData.append('expirationDate', expirationDate);
+    const response = await axios.post('/events/seguros', formData);
+    return response.data;
+  };
+
   return (
     <EventContext.Provider
       value={{
@@ -168,6 +188,8 @@ const EventState = (props) => {
         getEventsByCarId,
         getAllEvents,
         finishRepairEvent,
+        uploadVTV,
+        uploadSeguro,
         eventsByCar: state.eventsByCar,
         events: state.events,
       }}

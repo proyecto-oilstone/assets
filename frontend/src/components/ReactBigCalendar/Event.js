@@ -43,6 +43,16 @@ const Event = (props) => {
     setDescription(`Vencimiento del vehiculo con patente ${event?.car?.patente}`)
   };
 
+  const setExpirationVTV = () => {
+    setTitle("Vencimiento VTV");
+    setDescription(`Vencimiento VTV del vehiculo con patente ${event?.car?.patente}`)
+  };
+
+  const setExpirationSeguro = () => {
+    setTitle("Vencimiento seguro");
+    setDescription(`Vencimiento de el seguro del vehiculo con patente ${event?.car?.patente}`)
+  };
+
   useEffect(() => {
     switch (event.type) {
     case "DRIVER": setDriverTitle(); break;
@@ -50,12 +60,16 @@ const Event = (props) => {
     case "WORKSHOP": setWorkshopTitle(); break;
     case "REPAIR_REQUEST": setRepairRequestTitle(); break;
     case "EXPIRATION_FILE": setExpirationTitle(); break;
+    case "VTV" : setExpirationVTV(); break;
+    case "SEGURO" : setExpirationSeguro(); break;
     default: setTitle("Desconocido");
     }
   }, [event]);
 
   const formatDate = (date) => {
-    return event.type === "EXPIRATION_FILE" ? dateToDDMMYYYY(date) : dateToDDMMYYYYHHMM(date);
+    const DDMMYYYYFormats = ["EXPIRATION_FILE", "VTV", "SEGURO"];
+    const isDDMMYYYYFormat = DDMMYYYYFormats.some(type => event.type === type);
+    return isDDMMYYYYFormat ? dateToDDMMYYYY(date) : dateToDDMMYYYYHHMM(date);
   };
 
   return (<>

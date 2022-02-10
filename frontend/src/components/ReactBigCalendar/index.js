@@ -22,6 +22,11 @@ const ReactBigCalendar = (props) => {
   twoDays.setDate(twoDays.getDate() +1);
   const [modifiedEvents, setModifiedEvents] = useState([]);
 
+  const isExpirationEvent = (event) => {
+    const expirationEvents = ["VTV", "SEGURO", "EXPIRATION_FILE"];
+    return expirationEvents.some(type => event.type === type);
+  }
+
   useEffect(() => {
     const sortByDate = (a, b) => {
       const dateA = new Date(a.createdAt);
@@ -43,7 +48,7 @@ const ReactBigCalendar = (props) => {
       const currentEvent = modifiedEvents[i];
       const nextEvent = modifiedEvents[i+1];
       currentEvent.title = currentEvent.id;
-      if (currentEvent.type === "EXPIRATION_FILE") {
+      if (isExpirationEvent(currentEvent.type)) {
         currentEvent.start = new Date(currentEvent.expirationDate);
       } else {
         currentEvent.start = new Date(currentEvent.createdAt);
@@ -51,7 +56,7 @@ const ReactBigCalendar = (props) => {
 
       if (expandEvents) {
         if (nextEvent) {
-          if (nextEvent.type === "EXPIRATION_FILE") {
+          if (isExpirationEvent(nextEvent)) {
             currentEvent.end = new Date(nextEvent.expirationDate);
           } else {
             currentEvent.end = new Date(nextEvent.createdAt);
