@@ -1,0 +1,22 @@
+.img {
+    width: 17rem;
+    height: 13rem;
+    border-radius: 0.5rem;
+    border: 1px solid black;
+    object-fit: cover;
+}
+
+
+.button:hover {
+    cursor: pointer;
+    scale: 105%;
+    box-shadow: 8px 8px 3px #888888;
+}
+
+
+.button{
+    width: 17rem;
+    height: 13rem;
+    border-radius: 0.5rem;
+    border: 1px solid black;
+}

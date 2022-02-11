@@ -146,8 +146,9 @@ const CustomReactTable = (props) => {
                     const data = cell.row.original;
                     // Apply the cell props
                     return (
-                      <td key={index} className={"activo" in data ? (data.activo ? "bg-success-light" : "bg-danger-light") : ""} {...cell.getCellProps()}>
-                        {// Render the cell contents
+                      <td key={index} {...cell.getCellProps()}>
+                        
+                        {// Render the cell content s
                           cell.render('Cell')}
                       </td>
                     )

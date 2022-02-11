@@ -4,7 +4,7 @@ const getFiles = async (req, res) => {
 
     try {
         let query = {
-            attributes: ['id', 'name', 'expirationDate'],
+            attributes: ['id', 'name','expirationDate','document'],
             include: {
                 model: Cars,
                 attributes: ["id", "patente"],

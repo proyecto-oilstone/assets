@@ -6,7 +6,7 @@ const cors = require("cors");
 const cron = require('node-cron');
 const checkExpirationDates = require("./app/routes/controllers/services/cars_services/checkExpirationDates");
 
-cron.schedule('0 0 0 * * *', checkExpirationDates); // every day at 00:00
+cron.schedule('0 0 0 * * *', checkExpirationDates); // every days at 00:00
 
 app.use(
   cors({

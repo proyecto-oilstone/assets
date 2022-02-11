@@ -1,4 +1,5 @@
-const { Cars } = require("../../../../db/index");
+const { Cars, Files } = require("../../../../db/index");
+const { statusCarToString } = require("../../../../utils/functions");
 
 const putCar = async (id, car) => {
   try {
