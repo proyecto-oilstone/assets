@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import CustomModal from '../Modals/CustomModal/CustomModal';
 import styles from "./Event.module.css";
 import { dateToDDMMYYYYHHMM, dateToDDMMYYYY } from "../../helpers/utils";
+import CarContext from '../../contexts/cars/CarContext';
 
 const Event = (props) => {
   const { event } = props;
+  const { selectedCar } = useContext(CarContext);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [showEvent, setShowEvent] = useState(false);
@@ -40,17 +42,17 @@ const Event = (props) => {
 
   const setExpirationTitle = () => {
     setTitle("Vencimiento");
-    setDescription(`Vencimiento del vehiculo con patente ${event?.car?.patente}`)
+    setDescription(`Vencimiento del vehiculo con patente ${selectedCar?.patente}`)
   };
 
   const setExpirationVTV = () => {
     setTitle("Vencimiento VTV");
-    setDescription(`Vencimiento VTV del vehiculo con patente ${event?.car?.patente}`)
+    setDescription(`Vencimiento VTV del vehiculo con patente ${selectedCar?.patente}`)
   };
 
   const setExpirationSeguro = () => {
     setTitle("Vencimiento seguro");
-    setDescription(`Vencimiento de el seguro del vehiculo con patente ${event?.car?.patente}`)
+    setDescription(`Vencimiento de el seguro del vehiculo con patente ${selectedCar?.patente}`)
   };
 
   useEffect(() => {
@@ -64,7 +66,7 @@ const Event = (props) => {
     case "SEGURO" : setExpirationSeguro(); break;
     default: setTitle("Desconocido");
     }
-  }, [event]);
+  }, [event, selectedCar]);
 
   const formatDate = (date) => {
     const DDMMYYYYFormats = ["EXPIRATION_FILE", "VTV", "SEGURO"];

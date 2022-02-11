@@ -1,0 +1,23 @@
+.LightGreen {
+  background-color: #8bc34b;
+  color: black;
+  font-weight: bold;
+  font-size: .75em;
+  padding-top: .35em;
+  padding-bottom: .35em;
+  padding-left: .65em;
+  padding-right: .65em;
+  border-radius: 35em;
+}
+  
+.Orange{
+  background-color: #ff9800;
+  color: black;
+  font-weight: bold;
+  font-size: .75em;
+  padding-top: .35em;
+  padding-bottom: .35em;
+  padding-left: .65em;
+  padding-right: .65em;
+  border-radius: 35em;
+}

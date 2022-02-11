@@ -9,16 +9,16 @@ const postDriverEvent = async (event) => {
   let newCarStatus;
   if (event.driver !== null) {// wants to assign driver
     if (event.isReserved) {// wants to reserve one driver
-      availableStatuses = ["OUT_OF_SERVICE"];
+      availableStatuses = ["AVAILABLE", "IN_USE"];
       newCarStatus = "RESERVED";
     } else { // wants to assign one driver
-      availableStatuses = ["OUT_OF_SERVICE", "RESERVED", "AVAILABLE", "REPAIR"];
+      availableStatuses = ["RESERVED", "AVAILABLE", "REPAIR", "IN_USE"];
       newCarStatus = "IN_USE";
     }
   } else {// wants to unassign one driver
-    availableStatuses = ["INFORMED", "REPAIR", "IN_USE", "RESERVED", "DISCHARGED", "EXPIRED_DOCUMENTATION"];
+    availableStatuses = ["INFORMED", "REPAIR", "RESERVED", "AVAILABLE", "DISCHARGED", "EXPIRED_DOCUMENTATION"];
     newCarStatus = car.status;
-    if (car.status === "IN_USE" || car.status === "RESERVED") {
+    if (car.status === "IN_USE" || car.status === "RESERVED" || "AVAILABLE") {
       newCarStatus = "AVAILABLE";
     }
   }

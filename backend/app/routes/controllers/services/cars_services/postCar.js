@@ -21,7 +21,7 @@ const postCars = async (req, res) => {
     } catch (error) {
       throw new Error("problemas seteando el cartypeid");
     }
-    car.type = statusCarToString(car.type);
+    car.status = statusCarToString(car.status);
     res.status(200).json({
       message: "Car created",
       car,

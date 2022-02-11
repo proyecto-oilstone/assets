@@ -27,6 +27,18 @@ const ReactBigCalendar = (props) => {
     return expirationEvents.some(type => event.type === type);
   }
 
+  const getNextEventDifferent = (typeEvents, arrayEvents, index) => {
+    while (index < arrayEvents.length) {
+      const event = arrayEvents[index];
+      if (typeEvents.some(type => type === event.type)) {
+        index++;
+      } else {
+        return event;
+      }
+    }
+    return null;
+  };
+
   useEffect(() => {
     const sortByDate = (a, b) => {
       const dateA = new Date(a.createdAt);
@@ -45,28 +57,35 @@ const ReactBigCalendar = (props) => {
     modifiedEvents = modifiedEvents.sort(sortByDate);
 
     for (let i = 0; i < modifiedEvents.length; i++) {
+      const skipEvents = ["VTV", "SEGURO", "EXPIRATION_FILE"];
       const currentEvent = modifiedEvents[i];
-      const nextEvent = modifiedEvents[i+1];
-      currentEvent.title = currentEvent.id;
-      if (isExpirationEvent(currentEvent.type)) {
+      if (skipEvents.some(type => type === currentEvent.type)) {
         currentEvent.start = new Date(currentEvent.expirationDate);
-      } else {
-        currentEvent.start = new Date(currentEvent.createdAt);
-      }
-
-      if (expandEvents) {
-        if (nextEvent) {
-          if (isExpirationEvent(nextEvent)) {
-            currentEvent.end = new Date(nextEvent.expirationDate);
-          } else {
-            currentEvent.end = new Date(nextEvent.createdAt);
-          }
-        } else {
-          currentEvent.end = new Date();
-        }
-      } else {
         currentEvent.end = currentEvent.start;
         currentEvent.end.setSeconds(currentEvent.end.getSeconds() + duration);
+      } else {
+        const nextEvent = getNextEventDifferent(skipEvents, modifiedEvents, i+1);
+        currentEvent.title = currentEvent.id;
+        if (isExpirationEvent(currentEvent.type)) {
+          currentEvent.start = new Date(currentEvent.expirationDate);
+        } else {
+          currentEvent.start = new Date(currentEvent.createdAt);
+        }
+
+        if (expandEvents) {
+          if (nextEvent) {
+            if (isExpirationEvent(nextEvent)) {
+              currentEvent.end = new Date(nextEvent.expirationDate);
+            } else {
+              currentEvent.end = new Date(nextEvent.createdAt);
+            }
+          } else {
+            currentEvent.end = new Date();
+          }
+        } else {
+          currentEvent.end = currentEvent.start;
+          currentEvent.end.setSeconds(currentEvent.end.getSeconds() + duration);
+        }
       }
     }
 
