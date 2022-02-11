@@ -1,14 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
 import CarContext from "../../contexts/cars/CarContext";
-import CreateVehiculoLivianoModal from "../Modals/CreateVehiculoLivianoModal/CreateVehiculoLivianoModal";
+import CreateVehiculoModal from "../Modals/CreateVehiculoModal/CreateVehiculoModal";
 import ProviderContext from "../../contexts/providers/ProviderContext";
 import CarTypeContext from "../../contexts/carTypes/CarTypeContext";
 import { setLabelAndValue } from '../../helpers/utils';
 import CustomReactTable from '../Table/CustomReactTable';
 import ExportCSVButton from '../Buttons/ExportCSV';
 import PostFileModal from '../Modals/PostFileModal/PostFileModal';
+import ButtonPrimary from '../Buttons/Primary/ButtonPrimary';
 
-const CarList = () => {
+const CarList = ({ onCreate }) => {
   const { cars, getCars, deleteCar, toggleActive, postFile } = useContext(CarContext);
   const { providers } = useContext(ProviderContext);
   const { carTypes } = useContext(CarTypeContext); 
@@ -35,16 +36,7 @@ const CarList = () => {
   {
     label: 'Año',
     key: 'año',
-  },
-  {
-    label: "Activo",
-    key: "activo",
-    onExport: (car) => car.activo ? "Si" : "No",
-    Cell: ({ cell }) => (
-      <input className="form-check-input" type="checkbox" checked={cell.row.original.activo} onChange={() => toggleActive(cell.row.original)}/>
-    )
-  },
-  
+  },  
   ];
 
   const showEditCarModal = (car) => {
@@ -72,12 +64,14 @@ const CarList = () => {
   }, [cars]);
 
   const [columns, setColumns] = useState(initialColumns);
-  
 
   return (<>
-    <ExportCSVButton onClick={() => setDownloadCSV(true)} className="my-4 d-inline"/>
+    <div className="d-flex flex-row-reverse mb-3">
+      <ExportCSVButton onClick={() => setDownloadCSV(true)}/>
+      <ButtonPrimary className="me-2" onClick={onCreate}>Crear vehiculo</ButtonPrimary>
+    </div>
     <CustomReactTable onEdit={showEditCarModal} onFile={showFileCarModal} onDelete={(car) => deleteCar(car.id)} columns={columns} data={cars} downloadCSV={downloadCSV} CSVFilename="vehiculos.csv" withFiles/>
-    <CreateVehiculoLivianoModal show={showEditModal} toggle={toggleEditModal} edit vehicle={selectedVehicle} />
+    <CreateVehiculoModal show={showEditModal} toggle={toggleEditModal} edit vehicle={selectedVehicle} />
     <PostFileModal show = {showFileModal} toggle = {toggleFileModal} car = {selectedVehicle} postFile = {postFile}/>
   </>);
 }

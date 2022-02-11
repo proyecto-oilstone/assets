@@ -30,8 +30,8 @@ const UserList = () => {
   ]);
 
   return (<>
-    <div className='pt-4'>
-      <ExportCSVButton onClick={() => setDownloadCSV(true)} className="mb-4"/>
+    <div className="d-flex flex-row-reverse mb-3">
+      <ExportCSVButton onClick={() => setDownloadCSV(true)}/>
     </div>
     <CustomReactTable withEdit={false} withDelete={false} columns={columns} data={users} downloadCSV={downloadCSV} CSVFilename="usuarios.csv"/>
   </>);

@@ -5,7 +5,6 @@ import CarContext from "../../contexts/cars/CarContext";
 import { useParams } from 'react-router-dom'
 import EventContext from "../../contexts/events/EventContext";
 import { baseURL } from "../../helpers/constants";
-import styles from "./Vehiculos.module.css";
 import { getCarStatus } from "../../helpers/utils";
 import RepairEvent from "../../components/Events/RepairEvent";
 import ReportProblem from "../../components/Events/ReportProblem";
@@ -68,7 +67,7 @@ const VehiculoDetails = () => {
   return (
     <Layout>
       <Container className="mt-4">
-        <div className={`${styles.containerCarDetails}`}>
+        <div className={`container-details-id`}>
           <div className="d-flex justify-content-between">
             <div className="d-flex flex-column">
               <div><span className="fw-bold">Patente: </span><span>{selectedCar?.patente}</span></div>
@@ -76,6 +75,7 @@ const VehiculoDetails = () => {
               <div><span className="fw-bold">Año: </span><span>{selectedCar?.año}</span></div>
               <div><span className="fw-bold">Proveedor: </span><span>{selectedCar?.proveedor}</span></div>
               <div><span className="fw-bold">Asignacion actual: </span><span>{selectedCar?.driver ? <>El vehiculo esta {selectedCar.isReserved ? "reservado" : "asignado"} a {selectedCar.driver} <span onClick={onUnAssignDriver} role="button" className="btn-link cursor-pointer">{selectedCar.isReserved ? "Quitar reserva" : "Desasignar conductor"}</span></> : "No hay ningun conductor asignado"}</span></div>
+              <div><span className="fw-bold">Sector: </span><span>{selectedCar?.Sector ? selectedCar?.Sector : "El vehiculo no esta asignado a un sector" }</span></div>
               <div><span className="fw-bold">El vehiculo </span><span>{selectedCar?.activo ? "esta activo" : "no esta activo"}</span></div>
               <div><span className="fw-bold">Tipo de vehiculo: </span><span>{selectedCar?.modelo}</span></div>
               <div><span className="fw-bold">Estado del vehiculo: </span><span>{getCarStatus(selectedCar?.status)}</span></div>

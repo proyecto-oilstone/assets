@@ -49,7 +49,7 @@ const CreateTypeVehicleModal = (props) => {
     <CustomModal show={show} toggle={toggle} title={edit ? `Editar Tipo de Vehículo: ${carType?.nombreCorto}` : "Crear Tipo de Vehículo"}>
       <Form>
         <Form.Group as={Row} className="mb-2">
-          <Col sm="6">
+          <Col sm="12">
             <Row>
               <Form.Label column sm="12">
                 Nombre corto

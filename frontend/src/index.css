@@ -54,3 +54,10 @@ code {
 .rbc-event, .rbc-selected .rbc-event-allday {
   padding: 0 !important;
 }
+
+.container-details-id {
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 2%;
+  margin-top: 20px;
+}

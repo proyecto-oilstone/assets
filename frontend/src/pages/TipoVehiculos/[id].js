@@ -16,14 +16,24 @@ const TipoVehiculoDetails = () => {
     }  
   }, [id]);
 
+  const getType = (type) => {
+    switch (type) {
+    case "LIGHT_VEHICLE": return "vehiculo liviano";
+    case "HEAVY_VEHICLE": return "vehiculo pesado";
+    default:return "desconocido";
+    }
+  }
+
   return (
     <Layout>
       <Container className="mt-4">
-        <div className="d-flex flex-column">
-          <span>Nombre corto: {selectedCarType?.nombreCorto}</span>
-          <span>Nombre largo: {selectedCarType?.nombreLargo}</span>
-          <span>Observaciones: {selectedCarType?.observaciones}</span>
-          <span>Año: {selectedCarType?.año}</span>
+        <div className={`container-details-id`}>
+          <div className="d-flex flex-column">
+            <div><span className="fw-bold">Nombre corto: </span><span>{selectedCarType?.nombreCorto}</span></div>
+            <div><span className="fw-bold">Nombre largo: </span><span>{selectedCarType?.nombreLargo}</span></div>
+            <div><span className="fw-bold">Observaciones: </span><span>{selectedCarType?.observaciones}</span></div>
+            <div><span className="fw-bold">Tipo: </span><span>{getType(selectedCarType?.type)}</span></div>
+          </div>
         </div>
       </Container>
     </Layout>

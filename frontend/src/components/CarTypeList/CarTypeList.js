@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
-import styles from "./CarTypeList.module.css";
 import CarTypeContext from "../../contexts/carTypes/CarTypeContext";
 import CreateTypeVehicleModal from "../Modals/CreateTypeVehicleModal/CreateTypeVehicleModal";
 import ExportCSVButton from '../Buttons/ExportCSV';
 import CustomReactTable from '../Table/CustomReactTable';
+import ButtonPrimary from '../Buttons/Primary/ButtonPrimary';
 
-const CarTypeList = () => {
+const CarTypeList = ({ onCreate }) => {
   const { carTypes, getCarTypes, deleteCarType } = useContext(CarTypeContext);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedCarType, setSelectedCarType] = useState(null);
@@ -37,7 +37,10 @@ const CarTypeList = () => {
   ]);
 
   return (<>
-    <ExportCSVButton onClick={() => setDownloadCSV(true)} className="my-4 d-inline"/>
+    <div className="d-flex flex-row-reverse mb-3">
+      <ExportCSVButton onClick={() => setDownloadCSV(true)}/>
+      <ButtonPrimary className="me-2" onClick={onCreate}>Crear tipo de vehiculo</ButtonPrimary>
+    </div>
     <CustomReactTable onEdit={showEditCarTypeModal} onDelete={(carType) => deleteCarType(carType.id)} columns={columns} data={carTypes} downloadCSV={downloadCSV} CSVFilename="tipo vehiculos.csv"/>
     <CreateTypeVehicleModal show={showEditModal} toggle={toggleEditModal} edit carType={selectedCarType} />
   </>);

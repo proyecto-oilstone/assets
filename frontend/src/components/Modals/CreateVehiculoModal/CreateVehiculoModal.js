@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import CustomModal from "../CustomModal/CustomModal";
-import ProviderContext from "../../../contexts/providers/ProviderContext";
 import Select from "react-select";
 import { setLabelAndValue } from "../../../helpers/utils";
 import CarTypeContext from "../../../contexts/carTypes/CarTypeContext";
@@ -9,7 +8,7 @@ import CarContext from "../../../contexts/cars/CarContext";
 import ButtonPrimary from "../../Buttons/Primary/ButtonPrimary";
 import SelectProviders from "../../Selects/Providers";
 
-const CreateVehiculoLivianoModal = (props) => {
+const CreateVehiculoModal = (props) => {
   const { show, toggle, edit = false, vehicle = null } = props;
   const { carTypes, getCarTypes } = useContext(CarTypeContext); 
   const { createCar, editCar } = useContext(CarContext);
@@ -56,7 +55,7 @@ const CreateVehiculoLivianoModal = (props) => {
   }, []);
 
   return (
-    <CustomModal show={show} toggle={toggle} title={edit ? "Editar Vehículo Liviano: " + (vehicle ? vehicle.patente : "") : "Crear Vehículo"}>
+    <CustomModal size="lg" show={show} toggle={toggle} title={edit ? "Editar Vehículo Liviano: " + (vehicle ? vehicle.patente : "") : "Crear Vehículo"}>
       <Form>
         <Form.Group as={Row} className="mb-2">
           <Col sm="6">
@@ -75,9 +74,6 @@ const CreateVehiculoLivianoModal = (props) => {
             </Row>
           </Col>
 
-        </Form.Group>
-
-        <Form.Group as={Row} className="mb-2">
           <Col sm="6">
             <Row>
               <Form.Label column sm="12">
@@ -95,6 +91,9 @@ const CreateVehiculoLivianoModal = (props) => {
             </Row>
           </Col>
 
+        </Form.Group>
+
+        <Form.Group as={Row} className="mb-2">
           <Col sm="6">
             <Row>
               <Form.Label column sm="12">
@@ -105,22 +104,23 @@ const CreateVehiculoLivianoModal = (props) => {
               </Col>
             </Row>
           </Col>
-        </Form.Group>
 
-        <Form.Group as={Row} className="mb-2">
-          <Form.Label column sm="12">
-            Tipo de Vehículo
-          </Form.Label>
-          <Col sm="12">
-            <Select value={selectedCarType} onChange={setSelectedCarType} options={setLabelAndValue(carTypes, type => `${type.nombreCorto}` , "id")} />
+          <Col sm="6">
+            <Row>
+              <Form.Label column sm="12">
+                Tipo de Vehículo
+              </Form.Label>
+              <Col sm="12">
+                <Select value={selectedCarType} onChange={setSelectedCarType} options={setLabelAndValue(carTypes, type => `${type.nombreCorto}` , "id")} />
+              </Col>
+            </Row>
           </Col>
         </Form.Group>
-        <Col sm="6">
-          <ButtonPrimary onClick={handleOnClick}>{edit ? "Editar" : "Crear"}</ButtonPrimary>
-        </Col>
+
+        <ButtonPrimary className="mt-2" onClick={handleOnClick}>{edit ? "Editar" : "Crear"}</ButtonPrimary>
       </Form>
     </CustomModal>
   );
 };
 
-export default CreateVehiculoLivianoModal;
+export default CreateVehiculoModal;

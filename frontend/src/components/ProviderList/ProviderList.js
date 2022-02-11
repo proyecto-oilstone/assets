@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
-import styles from "./ProviderList.module.css";
 import ProviderContext from "../../contexts/providers/ProviderContext";
 import CreateProviderModal from "../Modals/CreateProviderModal/CreateProviderModal";
 import CustomReactTable from '../Table/CustomReactTable';
 import ExportCSVButton from '../Buttons/ExportCSV';
+import ButtonPrimary from '../Buttons/Primary/ButtonPrimary';
 
-const ProviderList = () => {
+const ProviderList = ({ onCreate }) => {
   const { providers, getProviders, deleteProvider } = useContext(ProviderContext);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedProvider, setSelectedProvider] = useState(null);
@@ -37,7 +37,10 @@ const ProviderList = () => {
   ]);
 
   return (<>
-    <ExportCSVButton onClick={() => setDownloadCSV(true)} className="my-4 d-inline"/>
+    <div className="d-flex flex-row-reverse mb-3">
+      <ExportCSVButton onClick={() => setDownloadCSV(true)}/>
+      <ButtonPrimary className="me-2" onClick={onCreate}>Crear proveedor</ButtonPrimary>
+    </div>
     <CustomReactTable onEdit={showEditProviderModal} onDelete={(provider) => deleteProvider(provider.id)} columns={columns} data={providers} downloadCSV={downloadCSV} CSVFilename="proveedores.csv"/>
     <CreateProviderModal show={showEditModal} toggle={toggleEditModal} edit provider={selectedProvider} />
   </>);

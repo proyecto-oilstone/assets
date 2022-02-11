@@ -62,7 +62,7 @@ const CreateProviderModal = (props) => {
     <CustomModal show={show} toggle={toggle} title={edit ? `Editar Proveedor: ${provider?.nombreCorto}` : `Crear Proveedor`}>
       <Form>
         <Form.Group as={Row} className="mb-2">
-          <Col sm="6">
+          <Col sm="12">
             <Row>
               <Form.Label column sm="12">
                 Nombre corto

@@ -16,13 +16,25 @@ const ProveedorDetails = () => {
     }  
   }, [id]);
 
+  const getType = (type) => {
+    switch (type) {
+    case "WORKSHOP": return "taller";
+    case "RENTAL": return "alquiler";
+    case "CAR_WASH": return "lavadero";
+    default: return "desconocido";
+    }
+  };
+
   return (
     <Layout>
       <Container className="mt-4">
-        <div className="d-flex flex-column">
-          <span>Nombre corto: {selectedProvider?.nombreCorto}</span>
-          <span>Nombre largo: {selectedProvider?.nombreLargo}</span>
-          <span>Observaciones: {selectedProvider?.observaciones}</span>
+        <div className={`container-details-id`}>
+          <div className="d-flex flex-column">
+            <div><span className="fw-bold">Nombre corto: </span><span>{selectedProvider?.nombreCorto}</span></div>
+            <div><span className="fw-bold">Nombre largo: </span><span>{selectedProvider?.nombreLargo}</span></div>
+            <div><span className="fw-bold">Tipo de proveedor: </span><span>{getType(selectedProvider?.type)}</span></div>
+            <div><span className="fw-bold">Observaciones: </span><span>{selectedProvider?.observaciones}</span></div>
+          </div>
         </div>
       </Container>
     </Layout>

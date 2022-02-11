@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import Layout from "../../components/Common/Layout/Layout";
 import CarList from "../../components/CarList/CarList";
 import { Container } from "react-bootstrap";
-import CreateVehiculoLivianoModal from "../../components/Modals/CreateVehiculoLivianoModal/CreateVehiculoLivianoModal";
-import ButtonPrimary from "../../components/Buttons/Primary/ButtonPrimary";
+import CreateVehiculoModal from "../../components/Modals/CreateVehiculoModal/CreateVehiculoModal";
 
 const Vehiculos = () => {
   const [showVehiculoModal, setShowVehiculoModal] = useState(false);
@@ -12,10 +11,11 @@ const Vehiculos = () => {
   return (
     <Layout>
       <Container>
-        <ButtonPrimary className="my-4 me-2 d-inline" onClick={toggleCreateVehiculoModal}>Crear vehiculo</ButtonPrimary>
-        <CarList/>
+        <div className="mt-4">
+          <CarList onCreate={toggleCreateVehiculoModal}/>
+        </div>
       </Container>
-      <CreateVehiculoLivianoModal show={showVehiculoModal} toggle={toggleCreateVehiculoModal}/>
+      <CreateVehiculoModal show={showVehiculoModal} toggle={toggleCreateVehiculoModal}/>
     </Layout>
   );
 };

@@ -7,7 +7,9 @@ const Usuarios = () => {
   return (
     <Layout>
       <Container>
-        <UserList/>
+        <div className="mt-4">
+          <UserList/>
+        </div>
       </Container>
     </Layout>
   );

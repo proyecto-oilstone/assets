@@ -6,44 +6,44 @@ import ButtonPrimary from "../../Buttons/Primary/ButtonPrimary";
 
 
 const CreateSectorModal = (props) => {
-    const { show, toggle, edit = false, sector = null } = props;
-    const {createSector, editSector} = useContext(SectorContext);
-    const [nombreCorto, setNombreCorto] = useState("");
-    const [nombreLargo, setNombreLargo] = useState("");
-    const [observaciones, setObservaciones] = useState("");
+  const { show, toggle, edit = false, sector = null } = props;
+  const {createSector, editSector} = useContext(SectorContext);
+  const [nombreCorto, setNombreCorto] = useState("");
+  const [nombreLargo, setNombreLargo] = useState("");
+  const [observaciones, setObservaciones] = useState("");
     
-    const resetFields = () => {
-        setNombreCorto("");
-        setNombreLargo("");
-        setObservaciones("");
+  const resetFields = () => {
+    setNombreCorto("");
+    setNombreLargo("");
+    setObservaciones("");
+  }
+
+  const handleOnClick = () => {
+    const params = {nombreCorto, nombreLargo, observaciones};
+    if(edit){
+      params.id = sector.id;
+      editSector(params)
+    } else{
+      createSector(params)
     }
+    resetFields();
+    toggle();
+  }
 
-    const handleOnClick = () => {
-        const params = {nombreCorto, nombreLargo, observaciones};
-        if(edit){
-            params.id = sector.id;
-            editSector(params)
-        } else{
-            createSector(params)
-        }
-        resetFields();
-        toggle();
+  useEffect(() => {
+    if(sector){
+      setNombreCorto(sector.nombreCorto);
+      setNombreLargo(sector.nombreLargo);
+      setObservaciones(sector.observaciones);
     }
-
-    useEffect(() => {
-        if(sector){
-            setNombreCorto(sector.nombreCorto);
-            setNombreLargo(sector.nombreLargo);
-            setObservaciones(sector.observaciones);
-        }
-    }, [sector])
+  }, [sector])
 
 
-    return (
+  return (
     <CustomModal show={show} toggle={toggle} title={edit ? `Editar Sector: ${sector?.nombreCorto}` : `Crear Sector`}>
       <Form>
         <Form.Group as={Row} className="mb-2">
-          <Col sm="6">
+          <Col sm="12">
             <Row>
               <Form.Label column sm="12">
                 Nombre corto

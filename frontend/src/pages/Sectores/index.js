@@ -3,20 +3,20 @@ import Layout from "../../components/Common/Layout/Layout";
 import SectorList from "../../components/SectorList/SectorList";
 import { Container } from "react-bootstrap";
 import CreateSectorModal from "../../components/Modals/CreateSectorModal/CreateSectorModal";
-import ButtonPrimary from "../../components/Buttons/Primary/ButtonPrimary";
 
 const Sectores = () => {
-    const [showSectorModal, setShowSectorModal] = useState(false);
-    const toggleCreateSectorModal = () => setShowSectorModal(!showSectorModal);
-    return(
-        <Layout>
-            <Container>
-                <ButtonPrimary onClick={toggleCreateSectorModal}>Crear Sector</ButtonPrimary>
-                <SectorList />
-                </Container>
-            <CreateSectorModal show={showSectorModal} toggle={toggleCreateSectorModal} />
-        </Layout>
-    )
+  const [showSectorModal, setShowSectorModal] = useState(false);
+  const toggleCreateSectorModal = () => setShowSectorModal(!showSectorModal);
+  return(
+    <Layout>
+      <Container>
+        <div className="mt-4">
+          <SectorList onCreate={toggleCreateSectorModal}/>
+        </div>
+      </Container>
+      <CreateSectorModal show={showSectorModal} toggle={toggleCreateSectorModal} />
+    </Layout>
+  )
 
 }
 
