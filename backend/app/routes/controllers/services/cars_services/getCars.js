@@ -54,7 +54,7 @@ const getCars = async (req, res) => {
       proveedor: car.dataValues.Provider.nombreLargo,
       modelo: car.dataValues.CarType.nombreLargo,
       marca: car.dataValues.CarType.nombreCorto,
-      Files: car.dataValues.Files[0]?.name,
+      Files: car.dataValues.Files?.find(file => file.document === null),
       status: statusCarToString(car.status),
       
         
