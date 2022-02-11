@@ -94,14 +94,14 @@ const VehiculoDetails = () => {
                 <li>Seguro: {selectedCar?.seguro !== null ? <a href={`${baseURL}/cars/${selectedCar?.id}/seguro`}>Descargar seguro</a> : <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadSeguro}>Añadir seguro</span>}</li>
               </ul>
               <div>
-                <span className="fw-bold">Papeles: </span><span>{selectedCar?.documento.length > 0 ? selectedCar.documento.map(document => (
+                <span className="fw-bold">Papeles: </span><span>{selectedCar?.documento.length > 0 ? selectedCar.documento.map(document => document.document === null?  (
                   <div className="mt-2 d-flex" key={document.id}>
                     <a href={`${baseURL}/files/files/${document.id}`}>
                       {document.name} 
                     </a>
                     <div className="ms-2"><img role="button" className={`icon-sm cursor-pointer`} src="/icons/trash-alt-solid.svg" alt="eliminar" onClick={() => onDeleteDocument(document)} /></div>
                   </div>
-                ))
+                ): null)
                   : "Sin papeles"
                 }
                 </span>
