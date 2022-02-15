@@ -12,5 +12,6 @@ router.get("/autos/:id", controller.getCarById);
 router.delete("/autos/:id", deleteCar)
 router.get("/:id/vtv", controller.downloadVTVByCarId);
 router.get("/:id/seguro", controller.downloadSeguroByCarId);
+router.get("/dashboard", controller.dashboardInfo);
 
 module.exports = router;

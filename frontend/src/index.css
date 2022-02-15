@@ -61,3 +61,15 @@ code {
   padding: 2%;
   margin-top: 20px;
 }
+
+.hover-shadow:hover {
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+
+.hover-shadow {
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.text-sm {
+  font-size: 12px;
+}

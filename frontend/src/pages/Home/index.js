@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Layout from "../../components/Common/Layout/Layout";
+import DashboardCards from "../../components/DashboardCards";
 import ReactBigCalendar from "../../components/ReactBigCalendar";
 import EventContext from "../../contexts/events/EventContext";
-import CarContext from "../../contexts/cars/CarContext";
 
 const Home = () => {
   const { getAllEvents, events } = useContext(EventContext);
@@ -14,10 +14,16 @@ const Home = () => {
     getAllEvents();
   },[]);
 
+  
+
   return (
     <Layout activeSection="home">
       <Container className="mt-5">
-        <ReactBigCalendar events={events}/>
+        <h2 className="mb-3">Dashboard</h2>
+        <DashboardCards/>
+        <div className="mt-5 bg-white p-4 rounded shadow-sm hover-shadow">
+          <ReactBigCalendar events={events}/>
+        </div>
       </Container>
     </Layout>
   );

@@ -3,6 +3,7 @@ const downloadSeguroByCarId = require("../services/cars_services/downloadSeguroB
 const getCarDetail = require("../services/cars_services/getCarDetail");
 const putCar = require("../services/cars_services/putCar");
 const stream = require("stream");
+const dashboardInfo = require("../services/cars_services/dashboardInfo");
 
 module.exports = {
   getCarById: async (req, res) => {
@@ -54,5 +55,9 @@ module.exports = {
     } catch (err) {
       res.status(500).send({ error: err.message });
     }
-  }
+  },
+  
+  dashboardInfo: async (req, res) => {
+    res.status(200).send(await dashboardInfo(req.query.endDate));
+  },
 }

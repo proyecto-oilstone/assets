@@ -29,6 +29,7 @@ const Layout = (props) => {
             position: "absolute",
             width: window.innerWidth - sidebarWidth + "px",
             height: window.innerHeight - height + "px",
+            backgroundColor: "#F3F6F9",
           }}
         >
           {children}
