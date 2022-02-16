@@ -37,11 +37,25 @@ const CarTypeList = ({ onCreate }) => {
   ]);
 
   return (<>
-    <div className="d-flex flex-row-reverse mb-3">
-      <ExportCSVButton onClick={() => setDownloadCSV(true)}/>
-      <ButtonPrimary className="me-2" onClick={onCreate}>Crear tipo de vehiculo</ButtonPrimary>
+    <div className="d-flex justify-content-between mb-3">
+      <div>
+        <h2>Tipo de vehiculos</h2>
+      </div>
+      <div className="d-flex flex-row-reverse">
+        <ExportCSVButton onClick={() => setDownloadCSV(true)}/>
+        <ButtonPrimary className="me-2" onClick={onCreate}>Crear tipo de vehiculo</ButtonPrimary>
+      </div>
     </div>
-    <CustomReactTable onEdit={showEditCarTypeModal} onDelete={(carType) => deleteCarType(carType.id)} columns={columns} data={carTypes} downloadCSV={downloadCSV} CSVFilename="tipo vehiculos.csv"/>
+    <CustomReactTable
+      defaultSort="nombreCorto"
+      onEdit={showEditCarTypeModal}
+      onDelete={(carType) => deleteCarType(carType.id)}
+      columns={columns}
+      data={carTypes}
+      downloadCSV={downloadCSV}
+      CSVFilename="tipo vehiculos.csv"
+      containerClassName="bg-white p-4 rounded shadow-sm hover-shadow mb-3"
+    />
     <CreateTypeVehicleModal show={showEditModal} toggle={toggleEditModal} edit carType={selectedCarType} />
   </>);
 }

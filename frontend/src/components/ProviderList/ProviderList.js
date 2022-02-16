@@ -37,11 +37,25 @@ const ProviderList = ({ onCreate }) => {
   ]);
 
   return (<>
-    <div className="d-flex flex-row-reverse mb-3">
-      <ExportCSVButton onClick={() => setDownloadCSV(true)}/>
-      <ButtonPrimary className="me-2" onClick={onCreate}>Crear proveedor</ButtonPrimary>
+    <div className="d-flex justify-content-between mb-3">
+      <div>
+        <h2>Proveedores</h2>
+      </div>
+      <div className="d-flex flex-row-reverse">
+        <ExportCSVButton onClick={() => setDownloadCSV(true)}/>
+        <ButtonPrimary className="me-2" onClick={onCreate}>Crear proveedor</ButtonPrimary>
+      </div>
     </div>
-    <CustomReactTable onEdit={showEditProviderModal} onDelete={(provider) => deleteProvider(provider.id)} columns={columns} data={providers} downloadCSV={downloadCSV} CSVFilename="proveedores.csv"/>
+    <CustomReactTable
+      defaultSort="nombreCorto"
+      onEdit={showEditProviderModal}
+      onDelete={(provider) => deleteProvider(provider.id)}
+      columns={columns}
+      data={providers}
+      downloadCSV={downloadCSV}
+      CSVFilename="proveedores.csv"
+      containerClassName="bg-white p-4 rounded shadow-sm hover-shadow mb-3"
+    />
     <CreateProviderModal show={showEditModal} toggle={toggleEditModal} edit provider={selectedProvider} />
   </>);
 }

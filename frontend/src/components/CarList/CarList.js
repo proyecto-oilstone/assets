@@ -73,11 +73,27 @@ const CarList = ({ onCreate }) => {
   const [columns, setColumns] = useState(initialColumns);
 
   return (<>
-    <div className="d-flex flex-row-reverse mb-3">
-      <ExportCSVButton onClick={() => setDownloadCSV(true)}/>
-      <ButtonPrimary className="me-2" onClick={onCreate}>Crear vehiculo</ButtonPrimary>
+    <div className="d-flex justify-content-between mb-3">
+      <div>
+        <h2>Vehiculos</h2>
+      </div>
+      <div className="d-flex flex-row-reverse">
+        <ExportCSVButton onClick={() => setDownloadCSV(true)}/>
+        <ButtonPrimary className="me-2" onClick={onCreate}>Crear vehiculo</ButtonPrimary>
+      </div>
     </div>
-    <CustomReactTable onEdit={showEditCarModal} onFile={showFileCarModal} onDelete={(car) => deleteCar(car.id)} columns={columns} data={cars} downloadCSV={downloadCSV} CSVFilename="vehiculos.csv" withFiles/>
+    <CustomReactTable 
+      defaultSort="patente"
+      onEdit={showEditCarModal}
+      onFile={showFileCarModal}
+      onDelete={(car) => deleteCar(car.id)}
+      columns={columns}
+      data={cars}
+      downloadCSV={downloadCSV}
+      CSVFilename="vehiculos.csv"
+      withFiles
+      containerClassName="bg-white p-4 rounded shadow-sm hover-shadow mb-3"
+    />
     <CreateVehiculoModal show={showEditModal} toggle={toggleEditModal} edit vehicle={selectedVehicle} />
     <PostFileModal show = {showFileModal} toggle = {toggleFileModal} car = {selectedVehicle} postFile = {postFile}/>
   </>);

@@ -10,7 +10,7 @@ const Sectores = () => {
   return(
     <Layout>
       <Container>
-        <div className="mt-4">
+        <div className="mt-5">
           <SectorList onCreate={toggleCreateSectorModal}/>
         </div>
       </Container>

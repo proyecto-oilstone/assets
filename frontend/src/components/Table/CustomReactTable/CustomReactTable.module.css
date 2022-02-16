@@ -10,3 +10,25 @@
 .iconSort.asc {
   transform: rotate(90deg);
 }
+
+.actionsCell {
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  width: 130px;
+}
+
+.paginationContainer {
+  width: 200px;
+}
+
+.arrowIconPagination {
+  filter: invert(62%) sepia(74%) saturate(1028%) hue-rotate(166deg) brightness(102%) contrast(107%);
+}
+
+.previousArrow {
+  border-right: 1px solid #dcdcdc;
+}
+
+.nextArrow {
+  border-left: 1px solid #dcdcdc;
+}

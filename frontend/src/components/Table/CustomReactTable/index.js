@@ -1,9 +1,10 @@
 import React, { useMemo, useEffect, useState, useRef } from 'react';
-import { useTable, useSortBy } from "react-table";
+import { useTable, useSortBy, usePagination } from "react-table";
 import styles from "./CustomReactTable.module.css";
 import { CSVLink } from "react-csv";
 import { findAndReplaceWithKey } from '../../../helpers/utils';
 import { Link } from 'react-router-dom';
+import { Accordion, useAccordionButton } from 'react-bootstrap';
 
 /**
  * Props
@@ -32,20 +33,27 @@ import { Link } from 'react-router-dom';
  * withDelete (optional default true): same as withEdit with delete column
  * 
  * withFiles (optional default false): Upload files column
+ * 
+ * defaultSort (optional String): to dafault sort one column
+ * 
+ * containerClassName (optional): className to container of table
  */
 const CustomReactTable = (props) => {
-  const { columns, data, downloadCSV, CSVFilename = "file.csv", onDelete = () => {}, onEdit = () => {}, onFile = () => {}, withEdit = true, withDelete = true, withFiles = false } = props;
+  const { columns, data, downloadCSV, CSVFilename = "file.csv", onDelete = () => { }, onEdit = () => { }, onFile = () => { }, withEdit = true, withDelete = true, withFiles = false, defaultSort = "", containerClassName } = props;
   const [tableColumns, setTableColumns] = useState([]);
   const [CSVColumns, setCSVColumns] = useState([]);
   const tableColumnsMemo = useMemo(() => tableColumns, [tableColumns]);
   const [CSVData, setCSVData] = useState([]);
   const csvLinkRef = useRef();
+  const [isFiltrosOpen, setIsFiltrosOpen] = useState(false);
+  const toggleFiltrosOpen = () => setIsFiltrosOpen(!isFiltrosOpen);
+  const pageSizeOptions = [5,10,15,25];
 
-  const DeleteButton = ({ data }) => (<img role="button" className={`${"activo" in data && data.activo === true ? "d-none" : ""} icon-sm cursor-pointer`} src="/icons/trash-alt-solid.svg" alt="eliminar" onClick={() => onDelete(data)} />)
+  const DeleteButton = ({ data }) => (<img role="button" className={`${"activo" in data && data.activo === true ? "invisible" : ""} icon-sm cursor-pointer`} src="/icons/trash-alt-solid.svg" alt="eliminar" onClick={() => onDelete(data)} />)
   const EditButton = ({ data }) => (<img role="button" className="icon-sm cursor-pointer" src="/icons/edit-solid.svg" alt="editar" onClick={() => onEdit(data)} />)
-  const CustomLink = ({ to, children }) => (<Link className="unstyled-link cursor-pointer" to={to}>{children}</Link>)
-  const FilesButton = ({data}) => (<img role="button" className={`${"Files" in data && data.Files !== null ? "d-none" : ""} icon-sm cursor-pointer`} src="/icons/pdf-text-file-svgrepo-com.svg" alt="archivos" onClick={() => onFile(data)} />)
-  
+  const CustomLink = ({ to, children }) => (<Link to={to}>{children}</Link>)
+  const FilesButton = ({ data }) => (<img role="button" className={`${"Files" in data && data.Files !== null ? "invisible" : ""} icon-sm cursor-pointer`} src="/icons/pdf-text-file-svgrepo-com.svg" alt="archivos" onClick={() => onFile(data)} />)
+
   useEffect(() => {
     const withHeaderAndAccessor = column => ({ ...column, Header: column.label, accessor: column.key });
     const onlyExportableColumns = column => ("exportable" in column && column.exportable) || !("exportable" in column);
@@ -60,20 +68,21 @@ const CustomReactTable = (props) => {
     }
     let tableColumns = columns.map(withHeaderAndAccessor);
     tableColumns = tableColumns.map(addLinks);
-    
-    const deleteColumn = { Header: "Eliminar", Cell: ({ cell }) => (<DeleteButton data={cell.row.original}/>) };
-    const editColumn = { Header: "Editar", Cell: ({ cell }) => (<EditButton data={cell.row.original}/>) };
-    const filesColumn = { Header: "Archivos", Cell: ({ cell }) => (<FilesButton data={cell.row.original}/>) };
-    if (withEdit) {
-      tableColumns.push(editColumn);
+    if (tableColumns.length > 0) {
+      tableColumns[0].isSorted = true; // sort the first column
     }
 
-    if (withDelete) {
-      tableColumns.push(deleteColumn);
-    }
-
-    if(withFiles) {
-      tableColumns.push(filesColumn);
+    const actionColumn = {
+      Header: "Acciones", className: styles.actionsCell, Cell: ({ cell }) => (
+        <div className="d-flex justify-content-between">
+          {withDelete && <DeleteButton data={cell.row.original} />}
+          {withEdit && <EditButton data={cell.row.original} />}
+          {withFiles && <FilesButton data={cell.row.original} />}
+        </div>
+      )
+    };
+    if (withEdit || withDelete || withFiles) {
+      tableColumns.push(actionColumn);
     }
     setTableColumns(tableColumns);
 
@@ -101,63 +110,162 @@ const CustomReactTable = (props) => {
     }
   }, [downloadCSV]);
 
-  const tableInstance = useTable({ columns: tableColumnsMemo, data }, useSortBy);
+  const tableInstance = useTable({
+    columns: tableColumnsMemo,
+    data,
+    initialState: {
+      sortBy: [
+        {
+          id: defaultSort,
+          desc: false
+        }
+      ]
+    }
+  },
+  useSortBy,
+  usePagination,
+  );
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
     prepareRow,
+    pageOptions,
+    page,
+    state: { pageIndex, pageSize },
+    gotoPage,
+    previousPage,
+    nextPage,
+    setPageSize,
+    canPreviousPage,
+    canNextPage,
   } = tableInstance;
 
-  return (<>
-    <table className={`table table-striped table-bordered table-hover ${styles.table}`} {...getTableProps()}>
-      <thead>
-        {// Loop over the header rows
-          headerGroups.map((headerGroup, index) => (
-            // Apply the header row props
-            <tr key={index} {...headerGroup.getHeaderGroupProps()}>
-              {// Loop over the headers in each row
-                headerGroup.headers.map((column, index) => (
-                // Apply the header cell props
-                  <th key={index} {...column.getHeaderProps(column.getSortByToggleProps())}>
-                    {column.render('Header')}
-                    <span>
-                      {column.isSorted &&
-                          <img src="./icons/caret-right-solid.svg" className={`icon-sm ${styles.iconSort} ${column.isSortedDesc ? styles.desc : styles.asc}`}/> 
-                      }
-                    </span>
-                  </th>
-                ))}
-            </tr>
+  function CustomToggle({ eventKey, onClick, title }) {
+    const decoratedOnClick = useAccordionButton(eventKey);
+    const handleOnClick = () => {
+      decoratedOnClick();
+      onClick();
+    };
+  
+    return (<div onClick={handleOnClick}>{title}</div>);
+  }
+
+  const filtrosBtn = (
+    <div className="d-flex mb-2">
+      <div role="button" className={`d-flex align-items-center cursor-poiter fit-content`} onClick={toggleFiltrosOpen}>
+        Filtros <img className={`icon-sm rotate-animated ${isFiltrosOpen && "rotate-90"}`} src="/icons/caret-right-solid.svg" alt="icon"/>
+      </div>
+
+      <div className="ms-3">
+        <select
+          className="form-select form-select-sm"
+          value={pageSize}
+          onChange={e => {
+            setPageSize(Number(e.target.value))
+          }}
+        >
+          {pageSizeOptions.map(pageSize => (
+            <option key={pageSize} value={pageSize}>
+              Mostrar {pageSize}
+            </option>
           ))}
-      </thead>
-      {/* Apply the table body props */}
-      <tbody {...getTableBodyProps()}>
-        {// Loop over the table rows
-          rows.map((row, index) => {
-          // Prepare the row for display
-            prepareRow(row)
-            return (
-            // Apply the row props
-              <tr key={index} {...row.getRowProps()}>
-                {// Loop over the rows cells
-                  row.cells.map((cell, index) => {
-                    const data = cell.row.original;
-                    // Apply the cell props
-                    return (
-                      <td key={index} {...cell.getCellProps()}>
-                        
-                        {// Render the cell content s
-                          cell.render('Cell')}
-                      </td>
-                    )
-                  })}
+        </select>
+      </div>
+    </div>
+  );
+
+  return (<>
+    <div className={containerClassName}>
+      <div>
+        <Accordion activeKey={isFiltrosOpen ? "0" : ""}>
+          <CustomToggle title={filtrosBtn} eventKey="0"/>
+          <Accordion.Collapse eventKey="0">
+            <div className="py-3">
+              asoghjapsogj
+            </div>
+          </Accordion.Collapse>
+        </Accordion>
+
+        {/* <select
+          value={pageSize}
+          onChange={e => {
+            setPageSize(Number(e.target.value))
+          }}
+        >
+          {pageSizeOptions.map(pageSize => (
+            <option key={pageSize} value={pageSize}>
+              Show {pageSize}
+            </option>
+          ))}
+        </select> */}
+      </div>
+      <table className={`table table-striped table-bordered table-hover ${styles.table}`} {...getTableProps()}>
+        <thead>
+          {// Loop over the header rows
+            headerGroups.map((headerGroup, index) => (
+              // Apply the header row props
+              <tr key={index} {...headerGroup.getHeaderGroupProps()}>
+                {// Loop over the headers in each row
+                  headerGroup.headers.map((column, index) => (
+                    // Apply the header cell props
+                    <th key={index} {...column.getHeaderProps(column.getSortByToggleProps())}>
+                      {column.render('Header')}
+                      <span>
+                        {column.isSorted &&
+                          <img src="./icons/caret-right-solid.svg" className={`icon-sm ${styles.iconSort} ${column.isSortedDesc ? styles.desc : styles.asc}`} />
+                        }
+                      </span>
+                    </th>
+                  ))}
               </tr>
-            )
-          })}
-      </tbody>
-    </table>
+            ))}
+        </thead>
+        {/* Apply the table body props */}
+        <tbody {...getTableBodyProps()}>
+          {// Loop over the table rows
+            page.map((row, index) => {
+              // Prepare the row for display
+              prepareRow(row)
+              return (
+                // Apply the row props
+                <tr key={index} {...row.getRowProps()}>
+                  {// Loop over the rows cells
+                    row.cells.map((cell, index) => {
+                      const data = cell.row.original;
+                      // Apply the cell props
+                      return (
+                        <td key={index} className={cell.column.className} {...cell.getCellProps()}>
+
+                          {// Render the cell content s
+                            cell.render('Cell')}
+                        </td>
+                      )
+                    })}
+                </tr>
+              )
+            })}
+        </tbody>
+      </table>
+    </div>
+
+    <div className="d-flex justify-content-center">
+      <div className={`d-flex bg-white px-3 rounded shadow-sm hover-shadow justify-content-between ${styles.paginationContainer}`}>
+        <div className={`${styles.previousArrow} pe-3 my-1`}>
+          <div role="button" className={`cursor-pointer py-2`} onClick={previousPage} disabled={!canPreviousPage}>
+            <img className={`icon-md rotate-180 ${styles.arrowIconPagination}`} src="/icons/arrow.png"/>
+          </div>
+        </div>
+        <div className="my-1 py-2">
+          {pageIndex + 1} de {pageOptions.length}
+        </div>
+        <div className={`${styles.nextArrow} ps-3 my-1`}>
+          <div role="button" className={`cursor-pointer py-2`} onClick={nextPage} disabled={!canNextPage}>
+            <img className={`icon-md ${styles.arrowIconPagination}`} src="/icons/arrow.png"/>
+          </div>
+        </div>
+      </div>
+    </div>
     <CSVLink
       data={CSVData}
       headers={CSVColumns}

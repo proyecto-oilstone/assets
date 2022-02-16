@@ -16,6 +16,10 @@ code {
   background-color: #33ccff;
 }
 
+.text-primary-color {
+  color: #33ccff;
+}
+
 .background-gray {
   background-color: #ebebeb;
 }
@@ -47,6 +51,19 @@ code {
   height: 16px;
 }
 
+.icon-md {
+  width: 16px;
+  height: 16px;
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+.rotate-90 {
+  transform: rotate(90deg);
+}
+
 .icon-white {
   filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(106deg) brightness(104%) contrast(105%);
 }
@@ -72,4 +89,12 @@ code {
 
 .text-sm {
   font-size: 12px;
+}
+
+.all-unset {
+  all: unset !important;
+}
+
+.fit-content {
+  width: fit-content !important;
 }

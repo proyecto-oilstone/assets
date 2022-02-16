@@ -30,10 +30,24 @@ const UserList = () => {
   ]);
 
   return (<>
-    <div className="d-flex flex-row-reverse mb-3">
-      <ExportCSVButton onClick={() => setDownloadCSV(true)}/>
+    <div className="d-flex justify-content-between mb-3">
+      <div>
+        <h2>Usuarios</h2>
+      </div>
+      <div className="d-flex flex-row-reverse">
+        <ExportCSVButton onClick={() => setDownloadCSV(true)}/>
+      </div>
     </div>
-    <CustomReactTable withEdit={false} withDelete={false} columns={columns} data={users} downloadCSV={downloadCSV} CSVFilename="usuarios.csv"/>
+    <CustomReactTable
+      defaultSort="nombre"
+      withEdit={false}
+      withDelete={false}
+      columns={columns}
+      data={users}
+      downloadCSV={downloadCSV}
+      CSVFilename="usuarios.csv"
+      containerClassName="bg-white p-4 rounded shadow-sm hover-shadow mb-3"
+    />
   </>);
 }
 

@@ -39,11 +39,25 @@ const SectorList = ({ onCreate }) => {
 
   return (
     <>
-      <div className="d-flex flex-row-reverse mb-3">
-        <ExportCSVButton onClick={() => setDownloadCSV(true)} />
-        <ButtonPrimary className="me-2" onClick={onCreate}>Crear Sector</ButtonPrimary>
+      <div className="d-flex justify-content-between mb-3">
+        <div>
+          <h2>Sectores</h2>
+        </div>
+        <div className="d-flex flex-row-reverse">
+          <ExportCSVButton onClick={() => setDownloadCSV(true)} />
+          <ButtonPrimary className="me-2" onClick={onCreate}>Crear Sector</ButtonPrimary>
+        </div>
       </div>
-      <CustomReactTable onEdit={showEditSectorModal} onDelete={(sector) => deleteSector(sector.id)} columns={columns} data={sectors} downloadCSV={downloadCSV} CSVFilename="sectores.csv" />
+      <CustomReactTable
+        defaultSort="nombreCorto"
+        onEdit={showEditSectorModal}
+        onDelete={(sector) => deleteSector(sector.id)}
+        columns={columns}
+        data={sectors}
+        downloadCSV={downloadCSV}
+        CSVFilename="sectores.csv"
+        containerClassName="bg-white p-4 rounded shadow-sm hover-shadow mb-3"
+      />
       <CreateSectorModal show={showEditModal} toggle={toggleEditModal} edit sector={selectedSector} />
     </>
   );

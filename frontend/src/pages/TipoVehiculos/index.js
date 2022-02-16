@@ -11,7 +11,7 @@ const TipoVehiculos = () => {
   return (
     <Layout>
       <Container>
-        <div className="mt-4">
+        <div className="mt-5">
           <CarTypeList onCreate={toggleCreateTypeVehicleModal}/>
         </div>
       </Container>

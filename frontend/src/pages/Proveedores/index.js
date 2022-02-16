@@ -11,7 +11,7 @@ const Proveedores = () => {
   return (
     <Layout>
       <Container>
-        <div className="mt-4">
+        <div className="mt-5">
           <ProviderList onCreate={toggleCreateProviderModal}/>
         </div>
       </Container>
