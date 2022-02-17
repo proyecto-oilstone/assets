@@ -3,6 +3,11 @@ const { QueryTypes } = require('sequelize');
 const { statusCarToString } = require("../../../../utils/functions");
 const { carStates } = require("../../../../utils/constants");
 
+/**
+ * 
+ * @returns {Object} with the total of cars by status
+ */
+
 const getTotalByStatus = async () => {
   const query = `SELECT status, COUNT(*) FROM "Cars" GROUP BY status;`;
   const rawQuery = await db.sequelize.query(query, { type: QueryTypes.SELECT });

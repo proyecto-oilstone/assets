@@ -1,6 +1,13 @@
 const { Cars, Provider, CarType, Files, Sector } = require("../../../../db/index");
 const { statusCarToString } = require("../../../../utils/functions");
 
+/**
+ * Finds a car by id
+ * 
+ * @param {Number} id 
+ * @returns {car} with all the information
+ */
+
 const getCarDetail = async (id) => {
   let query = {
     where: { id },

@@ -1,5 +1,11 @@
 const { CarType, Cars } = require("../../../../db/index");
 
+/**
+ * Finds a carType by id, checks if the vehicle type is assigned to a car, if its not assigned deletes it
+ * @param {Number} req.params.id
+ * @returns message with the result of the operation
+ */
+
 const deleteCarType = async (req, res) => {
   const { id } = req.params;
 

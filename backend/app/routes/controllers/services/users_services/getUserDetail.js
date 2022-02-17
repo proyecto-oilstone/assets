@@ -1,5 +1,11 @@
 const { Users } = require("../../../../db/index");
 
+/**
+ * Finds user by id
+ * @param {Number} req.params.id  
+ * @returns {user} with information
+ */
+
 const getUserDetail = async (req, res) => {
   const { id } = req.params;
   let query = {

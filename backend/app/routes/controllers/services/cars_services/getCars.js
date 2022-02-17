@@ -2,6 +2,13 @@ const { Cars, Provider, CarType, Files } = require("../../../../db/index");
 const { Op } = require("sequelize");
 const { statusCarToString } = require("../../../../utils/functions");
 
+/**
+ * Gets all the cars, includes all other Database models linked to Cars ,checks req.query for filters
+ * 
+ * @param {Number or String} req.query
+ * @returns {cars} all the cars with information
+ */
+
 const getCars = async (req, res) => {
   const { nombreLargoTipo, activo, nombreLargoProveedor, patente, año} = req.query;
 

@@ -1,6 +1,12 @@
 const { Provider } = require("../../../../db/index");
 const { typeProviderToString } = require("../../../../utils/functions");
 
+/**
+ * Finds a provider by id
+ * @param {Number} req.params.id  
+ * @returns {provider} with information
+ */
+
 const getProviderDetail = async (req, res) => {
   const { id } = req.params;
 

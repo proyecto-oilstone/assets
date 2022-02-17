@@ -1,5 +1,12 @@
 const { Cars, Files } = require("../../../../db/index");
 
+/**
+ * Check if the car exists, if it exists then checks if the car is active, if it is not active then deletes the car
+ * 
+ * @param {Number} req.params.id
+ * @returns message with the result of the operation
+ */
+
 const deleteCar = async (req, res) => {
   const { id } = req.params;
 

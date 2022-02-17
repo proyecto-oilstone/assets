@@ -1,6 +1,12 @@
 const { Provider } = require("../../../../db/index");
 const { typeProviderToString } = require("../../../../utils/functions");
 
+/**
+ * Creates a new provider
+ * @param {Object} req.body 
+ * @returns {provider} response with the provider created
+ */
+
 const postProvider = async (req, res) => {
   const { nombreLargo, nombreCorto, observaciones, type } = req.body;
   try {

@@ -1,5 +1,11 @@
 const { Sector, Cars } = require("../../../../db/index");
 
+/**
+ * Finds a sector by id, includes cars DB model
+ * @param {Number} req.params.id 
+ * @returns {Sector} with information
+ */
+
 const getSectorDetail = async (req, res) => {
   const { id } = req.params;
 

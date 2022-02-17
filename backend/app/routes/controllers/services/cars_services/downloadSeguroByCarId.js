@@ -1,6 +1,13 @@
 const { getSeguroEventById } = require("../event_services/seguroEvent");
 const getCarDetail = require("./getCarDetail");
 
+/**
+ * Finds a car by id, checks if it has a seguro, if it does, it returns the seguro event
+ * 
+ * @param {Number} id 
+ * @returns {seguroEvent}
+ */
+
 const downloadSeguroByCarId = async (id) => {
   try {
     const car = await getCarDetail(id);

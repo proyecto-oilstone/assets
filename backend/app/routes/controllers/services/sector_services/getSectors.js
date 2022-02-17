@@ -1,5 +1,10 @@
 const { Sector } = require("../../../../db/index");
 
+/**
+ * Finds all the sectors
+ * @returns {sector} all the sectors
+ */
+
 const getSectors = async (req, res) => {
   let query = {
     where: {},

@@ -1,6 +1,11 @@
 const { Provider } = require("../../../../db/index");
 const { typeProviderToString } = require("../../../../utils/functions");
 
+/**
+ * Finds all the providers
+ * @returns {provider} all the providers
+ */
+
 const getProvider = async (req, res) => {
   let query = {
     where: {},

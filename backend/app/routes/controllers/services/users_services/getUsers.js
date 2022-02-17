@@ -1,5 +1,11 @@
 const { Users } = require("../../../../db/index");
 
+/**
+ * Gets all the users, checks req.query for filters
+ * @param {Number or String} req.query 
+ * @returns {users} all the users
+ */
+
 const getUsers = async (req, res) => {
   const { rol, estado, nombre, apellido } = req.query;
 

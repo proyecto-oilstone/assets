@@ -3,6 +3,13 @@
 const { Files } = require("../../../../db/index");
 const checkCarFiles = require("./checkCarFiles");
 
+/**
+ * Creates a new file, and adds it to the car
+ * @param {Object} req.body 
+ * @param {Object} req.files 
+ * @returns response of the operation
+ */
+
 const postFile = async (req, res) => {
     const {mimetype, originalname, buffer} = req.files;
     const{document, CarId, expirationDate} = req.body;

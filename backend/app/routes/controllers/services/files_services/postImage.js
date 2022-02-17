@@ -1,5 +1,12 @@
 const { Files } = require("../../../../db/index");
 
+/**
+ * Creates a new File, with document as "Image" and sets it to a car
+ * @param {Object} req.body
+ * @param {Object} req.file
+ * @returns message of the operation
+ */
+
 const postImage = async (req, res) => {
   const { mimetype, originalname, buffer } = req.file;
 
