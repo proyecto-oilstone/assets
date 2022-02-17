@@ -32,3 +32,33 @@
 .nextArrow {
   border-left: 1px solid #dcdcdc;
 }
+
+.dropdownMenu, .dropdownMenuSelectedFilter {
+  background-color: white;
+  z-index: 99;
+}
+
+.dropdownMenu {
+  width: 250px;
+}
+
+.filterCard, .filterItem {
+  transition: background-color 0.1s linear;
+}
+
+.filterCardActive, .filterCard:hover {
+  background-color: #f4f4f4;
+}
+
+.filterCardActive {
+  border: 1px solid #b0b2b5;
+}
+
+.filterItem:hover, .filterItemSelected {
+  background-color: #e5effb;
+}
+
+.dropdownMenuSelectedFilter {
+  left: 250px;
+  width: 350px;
+}

@@ -4,7 +4,7 @@ import styles from "./CustomReactTable.module.css";
 import { CSVLink } from "react-csv";
 import { findAndReplaceWithKey } from '../../../helpers/utils';
 import { Link } from 'react-router-dom';
-import { Accordion, useAccordionButton } from 'react-bootstrap';
+import Filters from './Filters';
 
 /**
  * Props
@@ -46,14 +46,26 @@ const CustomReactTable = (props) => {
   const tableColumnsMemo = useMemo(() => tableColumns, [tableColumns]);
   const [CSVData, setCSVData] = useState([]);
   const csvLinkRef = useRef();
-  const [isFiltrosOpen, setIsFiltrosOpen] = useState(false);
-  const toggleFiltrosOpen = () => setIsFiltrosOpen(!isFiltrosOpen);
+  const [filters, setFilters] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const pageSizeOptions = [5,10,15,25];
 
   const DeleteButton = ({ data }) => (<img role="button" className={`${"activo" in data && data.activo === true ? "invisible" : ""} icon-sm cursor-pointer`} src="/icons/trash-alt-solid.svg" alt="eliminar" onClick={() => onDelete(data)} />)
   const EditButton = ({ data }) => (<img role="button" className="icon-sm cursor-pointer" src="/icons/edit-solid.svg" alt="editar" onClick={() => onEdit(data)} />)
   const CustomLink = ({ to, children }) => (<Link to={to}>{children}</Link>)
   const FilesButton = ({ data }) => (<img role="button" className={`${"Files" in data && data.Files !== null ? "invisible" : ""} icon-sm cursor-pointer`} src="/icons/pdf-text-file-svgrepo-com.svg" alt="archivos" onClick={() => onFile(data)} />)
+
+  const applyFilters = (row) => {
+    return filters.every(filter => {
+      const rowValue = row[filter.key].toLowerCase();
+      const filterValue = filter.value.toLowerCase();
+      return rowValue.search(filterValue) >= 0;
+    });
+  }
+
+  useEffect(() => {
+    setFilteredData(data.filter(applyFilters))
+  }, [data, filters]);
 
   useEffect(() => {
     const withHeaderAndAccessor = column => ({ ...column, Header: column.label, accessor: column.key });
@@ -87,7 +99,7 @@ const CustomReactTable = (props) => {
     setTableColumns(tableColumns);
 
     const applyOnExport = () => {
-      let newCSVData = JSON.parse(JSON.stringify(data));
+      let newCSVData = JSON.parse(JSON.stringify(filteredData));
       columns.forEach(column => {
         if ("onExport" in column && typeof column.onExport === 'function') {
           newCSVData = newCSVData.map(data => {
@@ -102,7 +114,7 @@ const CustomReactTable = (props) => {
     setCSVColumns(columns.filter(onlyExportableColumns));
     const newCSVData = applyOnExport();
     setCSVData(newCSVData);
-  }, [columns, data, withEdit, withDelete]);
+  }, [columns, filteredData, withEdit, withDelete]);
 
   useEffect(() => {
     if (downloadCSV) {
@@ -112,7 +124,7 @@ const CustomReactTable = (props) => {
 
   const tableInstance = useTable({
     columns: tableColumnsMemo,
-    data,
+    data: filteredData,
     initialState: {
       sortBy: [
         {
@@ -141,64 +153,28 @@ const CustomReactTable = (props) => {
     canNextPage,
   } = tableInstance;
 
-  function CustomToggle({ eventKey, onClick, title }) {
-    const decoratedOnClick = useAccordionButton(eventKey);
-    const handleOnClick = () => {
-      decoratedOnClick();
-      onClick();
-    };
-  
-    return (<div onClick={handleOnClick}>{title}</div>);
-  }
-
-  const filtrosBtn = (
-    <div className="d-flex mb-2">
-      <div role="button" className={`d-flex align-items-center cursor-poiter fit-content`} onClick={toggleFiltrosOpen}>
-        Filtros <img className={`icon-sm rotate-animated ${isFiltrosOpen && "rotate-90"}`} src="/icons/caret-right-solid.svg" alt="icon"/>
-      </div>
-
-      <div className="ms-3">
-        <select
-          className="form-select form-select-sm"
-          value={pageSize}
-          onChange={e => {
-            setPageSize(Number(e.target.value))
-          }}
-        >
-          {pageSizeOptions.map(pageSize => (
-            <option key={pageSize} value={pageSize}>
-              Mostrar {pageSize}
-            </option>
-          ))}
-        </select>
-      </div>
+  const SelectAmountRows = () => (
+    <div className="ms-3">
+      <select
+        className="form-select form-select-sm"
+        value={pageSize}
+        onChange={e => {
+          setPageSize(Number(e.target.value))
+        }}
+      >
+        {pageSizeOptions.map(pageSize => (
+          <option key={pageSize} value={pageSize}>
+            Mostrar {pageSize}
+          </option>
+        ))}
+      </select>
     </div>
   );
 
   return (<>
     <div className={containerClassName}>
       <div>
-        <Accordion activeKey={isFiltrosOpen ? "0" : ""}>
-          <CustomToggle title={filtrosBtn} eventKey="0"/>
-          <Accordion.Collapse eventKey="0">
-            <div className="py-3">
-              
-            </div>
-          </Accordion.Collapse>
-        </Accordion>
-
-        {/* <select
-          value={pageSize}
-          onChange={e => {
-            setPageSize(Number(e.target.value))
-          }}
-        >
-          {pageSizeOptions.map(pageSize => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select> */}
+        <Filters filters={filters} setFilters={setFilters} columns={columns}><SelectAmountRows/></Filters>
       </div>
       <table className={`table table-striped table-bordered table-hover ${styles.table}`} {...getTableProps()}>
         <thead>
