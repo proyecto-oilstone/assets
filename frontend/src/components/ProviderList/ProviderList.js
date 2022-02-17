@@ -4,6 +4,7 @@ import CreateProviderModal from "../Modals/CreateProviderModal/CreateProviderMod
 import CustomReactTable from '../Table/CustomReactTable';
 import ExportCSVButton from '../Buttons/ExportCSV';
 import ButtonPrimary from '../Buttons/Primary/ButtonPrimary';
+import { getProviderType } from '../../helpers/utils';
 
 const ProviderList = ({ onCreate }) => {
   const { providers, getProviders, deleteProvider } = useContext(ProviderContext);
@@ -21,18 +22,31 @@ const ProviderList = ({ onCreate }) => {
     getProviders();
   }, []);
 
-  const [columns] = useState([{
+  const [columns, setColumns] = useState([{
     label: 'Nombre Corto',
     key: 'nombreCorto',
-    href: '/proveedores/:id'
+    href: '/proveedores/:id',
+    export: true,
+    showInTable: true,
   },
   {
     label: 'Nombre Largo',
     key: 'nombreLargo',
+    export: true,
+    showInTable: true,
   },
   {
     label: 'Observaciones',
     key: 'observaciones',
+    export: true,
+    showInTable: true,
+  },
+  {
+    label: 'Tipo',
+    key: 'type',
+    onExport: (provider) => getProviderType(provider.type),
+    export: false,
+    showInTable: false,
   },
   ]);
 
@@ -42,7 +56,7 @@ const ProviderList = ({ onCreate }) => {
         <h2>Proveedores</h2>
       </div>
       <div className="d-flex flex-row-reverse">
-        <ExportCSVButton onClick={() => setDownloadCSV(true)}/>
+        <ExportCSVButton onClick={() => setDownloadCSV(true)} exportableColumns={columns} setExportableColumns={setColumns}/>
         <ButtonPrimary className="me-2" onClick={onCreate}>Crear proveedor</ButtonPrimary>
       </div>
     </div>

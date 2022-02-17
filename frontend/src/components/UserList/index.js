@@ -11,21 +11,29 @@ const UserList = () => {
     getUsers();
   }, []);
 
-  const [columns] = useState([{
+  const [columns, setColumns] = useState([{
     label: 'Nombre',
     key: 'nombre',
+    export: true,
+    showInTable: true,
   },
   {
     label: 'Apellido',
     key: 'apellido',
+    export: true,
+    showInTable: true,
   },
   {
     label: 'Mail',
     key: 'mail',
+    export: true,
+    showInTable: true,
   },
   {
     label: 'Telefono',
     key: 'telefono',
+    export: true,
+    showInTable: true,
   },
   ]);
 
@@ -35,7 +43,7 @@ const UserList = () => {
         <h2>Usuarios</h2>
       </div>
       <div className="d-flex flex-row-reverse">
-        <ExportCSVButton onClick={() => setDownloadCSV(true)}/>
+        <ExportCSVButton onClick={() => setDownloadCSV(true)} exportableColumns={columns} setExportableColumns={setColumns}/>
       </div>
     </div>
     <CustomReactTable

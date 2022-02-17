@@ -6,7 +6,7 @@ const ButtonSecondary = (props) => {
 
   return (
     <button
-      className={`text-white ${styles.button} ${className}`}
+      className={`text-white bg-secondary-button ${styles.button} ${className}`}
       onClick={onClick}
       disabled={disabled}
     >

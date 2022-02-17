@@ -3,12 +3,11 @@ import CarContext from "../../contexts/cars/CarContext";
 import CreateVehiculoModal from "../Modals/CreateVehiculoModal/CreateVehiculoModal";
 import ProviderContext from "../../contexts/providers/ProviderContext";
 import CarTypeContext from "../../contexts/carTypes/CarTypeContext";
-import { setLabelAndValue } from '../../helpers/utils';
+import { getCarStatus, setLabelAndValue } from '../../helpers/utils';
 import CustomReactTable from '../Table/CustomReactTable';
 import ExportCSVButton from '../Buttons/ExportCSV';
 import PostFileModal from '../Modals/PostFileModal/PostFileModal';
 import ButtonPrimary from '../Buttons/Primary/ButtonPrimary';
-import styles from './CarList.module.css';
 import BadgeCarStatus from '../Badges/CarStatus';
 
 const CarList = ({ onCreate }) => {
@@ -21,30 +20,54 @@ const CarList = ({ onCreate }) => {
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const toggleEditModal = () => setShowEditModal(!showEditModal);
   const toggleFileModal = () => setShowFileModal(!showFileModal);
-
-  const initialColumns = [{
+  const [columns, setColumns] = useState([{
     label: 'Patente',
     key: 'patente',
     href: '/vehiculos/:id',
+    export: true,
+    showInTable: true,
   },
   {
     label: 'Estado',
     key: 'status',
-    Cell: ({ cell }) => <BadgeCarStatus status={cell.row.original.status}/>
+    Cell: ({ cell }) => (<BadgeCarStatus status={cell.row.original.status}/>),
+    onExport: (car) => getCarStatus(car.status),
+    export: true,
+    showInTable: true,
   },
   {
     label: 'Proveedor',
     key: 'proveedor',
+    export: true,
+    showInTable: true,
   },
   {
     label: 'Modelo',
     key: 'modelo',
+    export: true,
+    showInTable: true,
   },
   {
     label: 'Año',
     key: 'año',
-  },  
-  ];
+    export: true,
+    showInTable: true,
+  },
+  {
+    label: 'Tiene VTV',
+    key: 'VTV',
+    onExport: (car) => car.VTV !== null ? "Si" : "No",
+    export: false,
+    showInTable: false,
+  },
+  {
+    label: 'Tiene Seguro',
+    key: 'seguro',
+    onExport: (car) => car.seguro !== null ? "Si" : "No",
+    export: false,
+    showInTable: false,
+  },
+  ]);
 
   const showEditCarModal = (car) => {
     const providersAux = setLabelAndValue(providers, "nombreCorto", "id");
@@ -66,11 +89,6 @@ const CarList = ({ onCreate }) => {
     getCars();
   }, []);
 
-  useEffect(() => {
-    setColumns(initialColumns);
-  }, [cars]);
-
-  const [columns, setColumns] = useState(initialColumns);
 
   return (<>
     <div className="d-flex justify-content-between mb-3">
@@ -78,7 +96,7 @@ const CarList = ({ onCreate }) => {
         <h2>Vehiculos</h2>
       </div>
       <div className="d-flex flex-row-reverse">
-        <ExportCSVButton onClick={() => setDownloadCSV(true)}/>
+        <ExportCSVButton onClick={() => setDownloadCSV(true)} exportableColumns={columns} setExportableColumns={setColumns}/>
         <ButtonPrimary className="me-2" onClick={onCreate}>Crear vehiculo</ButtonPrimary>
       </div>
     </div>

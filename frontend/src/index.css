@@ -98,3 +98,7 @@ code {
 .fit-content {
   width: fit-content !important;
 }
+
+.bg-secondary-button, .bg-secondary-button:hover {
+  background-color: #00ABE4;
+}

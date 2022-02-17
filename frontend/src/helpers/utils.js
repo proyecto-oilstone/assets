@@ -49,7 +49,7 @@ export function findAndReplaceWithKey(string, object) {
 
 /**
  * Get the status of one car by the number of type
- * @param {Number} carType
+ * @param {String} carType
  * @returns {String} status
  */
 export function getCarStatus(carType) {
@@ -62,6 +62,33 @@ export function getCarStatus(carType) {
   case "AVAILABLE": return  "disponible";
   case "EXPIRED_DOCUMENTATION": return "con documentacion vencida";
   case "DISCHARGED": return "dado de baja";
+  default: return "desconocido";
+  }
+}
+
+/**
+ * Get the type text of one car type
+ * @param {String} type 
+ * @returns {String} car type in text
+ */
+export function getCarTypeType(type) {
+  switch (type) {
+  case "LIGHT_VEHICLE": return "vehiculo liviano";
+  case "HEAVY_VEHICLE": return "vehiculo pesado";
+  default:return "desconocido";
+  }
+}
+
+/**
+ * Get the type text of provider
+ * @param {String} type 
+ * @returns {String} provider type in text
+ */
+export function getProviderType(type) {
+  switch (type) {
+  case "WORKSHOP": return "taller";
+  case "RENTAL": return "alquiler";
+  case "CAR_WASH": return "lavadero";
   default: return "desconocido";
   }
 }

@@ -11,14 +11,15 @@ import { Accordion, useAccordionButton } from 'react-bootstrap';
  * Columns: columns of the table, with:
  * - label: the label of the column that will be displayed in the table
  * - key: the name of the key in the object to display the data 
- * - exportable (optional, default true): if is true the column will be exported, if is false the column will be ignored in CSV
+ * - export (boolean): if is true the column will be exported, if is false the column will be ignored in CSV
  * - href (optional): if is present then the column will be a link
+ * - showInTable (boolean): true to show column in the table, false to ignore in the table (ignored columns can be exported)
+ * - onExport (optional function): function with object data as parameter should return the value in row on csv (string)
  * 
  * Data: Array of objects with data. Keys in each object of data:
  * - "label"
  * - "key"
  * - "activo" optional: if is present, true the background will be green else red.
- * - "onExport" optional: method to execute when the row is exported to CSV.
  * 
  * DownloadCSV: state boolean, initially should be false, when you want export to CSV put the state in true
  * 
@@ -56,7 +57,8 @@ const CustomReactTable = (props) => {
 
   useEffect(() => {
     const withHeaderAndAccessor = column => ({ ...column, Header: column.label, accessor: column.key });
-    const onlyExportableColumns = column => ("exportable" in column && column.exportable) || !("exportable" in column);
+    const onlyExportableColumns = column => column.export;
+    const onlyVisibleColumns = column => column.showInTable;
     const addLinks = column => {
       if ("href" in column) {
         column.Cell = ({ cell }) => (<CustomLink to={findAndReplaceWithKey(column.href, cell.row.original)}>{cell.row.original[column.key]}</CustomLink>);
@@ -68,9 +70,7 @@ const CustomReactTable = (props) => {
     }
     let tableColumns = columns.map(withHeaderAndAccessor);
     tableColumns = tableColumns.map(addLinks);
-    if (tableColumns.length > 0) {
-      tableColumns[0].isSorted = true; // sort the first column
-    }
+    tableColumns = tableColumns.filter(onlyVisibleColumns)
 
     const actionColumn = {
       Header: "Acciones", className: styles.actionsCell, Cell: ({ cell }) => (
@@ -182,7 +182,7 @@ const CustomReactTable = (props) => {
           <CustomToggle title={filtrosBtn} eventKey="0"/>
           <Accordion.Collapse eventKey="0">
             <div className="py-3">
-              asoghjapsogj
+              
             </div>
           </Accordion.Collapse>
         </Accordion>

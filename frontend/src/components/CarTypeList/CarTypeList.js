@@ -4,6 +4,7 @@ import CreateTypeVehicleModal from "../Modals/CreateTypeVehicleModal/CreateTypeV
 import ExportCSVButton from '../Buttons/ExportCSV';
 import CustomReactTable from '../Table/CustomReactTable';
 import ButtonPrimary from '../Buttons/Primary/ButtonPrimary';
+import { getCarTypeType } from '../../helpers/utils';
 
 const CarTypeList = ({ onCreate }) => {
   const { carTypes, getCarTypes, deleteCarType } = useContext(CarTypeContext);
@@ -21,18 +22,31 @@ const CarTypeList = ({ onCreate }) => {
     getCarTypes();
   }, []);
 
-  const [columns] = useState([{
+  const [columns, setColumns] = useState([{
     label: 'Nombre Corto',
     key: 'nombreCorto',
-    href: '/tipo-de-vehiculos/:id'
+    href: '/tipo-de-vehiculos/:id',
+    export: true,
+    showInTable: true,
   },
   {
     label: 'Nombre Largo',
     key: 'nombreLargo',
+    export: true,
+    showInTable: true,
   },
   {
     label: 'Observaciones',
     key: 'observaciones',
+    export: true,
+    showInTable: true,
+  },
+  {
+    label: 'Tipo de vehiculo',
+    key: 'type',
+    export: false,
+    onExport: (carType) => getCarTypeType(carType.type),
+    showInTable: false
   },
   ]);
 
@@ -42,7 +56,7 @@ const CarTypeList = ({ onCreate }) => {
         <h2>Tipo de vehiculos</h2>
       </div>
       <div className="d-flex flex-row-reverse">
-        <ExportCSVButton onClick={() => setDownloadCSV(true)}/>
+        <ExportCSVButton onClick={() => setDownloadCSV(true)} exportableColumns={columns} setExportableColumns={setColumns}/>
         <ButtonPrimary className="me-2" onClick={onCreate}>Crear tipo de vehiculo</ButtonPrimary>
       </div>
     </div>

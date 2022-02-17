@@ -19,21 +19,26 @@ const SectorList = ({ onCreate }) => {
 
   useEffect(() => {
     getSectors();
-  },[])
-  
+  },[]);
 
-  const [columns] = useState([{
+  const [columns, setColumns] = useState([{
     label: 'Nombre Corto',
     key: 'nombreCorto',
     href: '/sectores/:id',
+    export: true,
+    showInTable: true,
   },
   {
     label: 'Nombre Largo',
     key: 'nombreLargo',
+    export: true,
+    showInTable: true,
   },
   {
     label: 'Observaciones',
     key: 'observaciones',
+    export: true,
+    showInTable: true,
   },
   ]);
 
@@ -44,7 +49,7 @@ const SectorList = ({ onCreate }) => {
           <h2>Sectores</h2>
         </div>
         <div className="d-flex flex-row-reverse">
-          <ExportCSVButton onClick={() => setDownloadCSV(true)} />
+          <ExportCSVButton onClick={() => setDownloadCSV(true)} exportableColumns={columns} setExportableColumns={setColumns}/>
           <ButtonPrimary className="me-2" onClick={onCreate}>Crear Sector</ButtonPrimary>
         </div>
       </div>
