@@ -1,5 +1,11 @@
 const { Provider, Cars } = require("../../../../db/index");
 
+/**
+ * Finds a Provider by id, checks if it exists, checks if its assigned to a vehicle, if its not assigned it deletes the provider
+ * @param {Number} req.params.id  
+ * @returns message with the result of the operation
+ */
+
 const deleteProvider = async (req, res) => {
   const { id } = req.params;
   try {

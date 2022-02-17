@@ -1,6 +1,10 @@
 const { db } = require("../../../../db/index");
 const { carStates } = require("../../../../utils/constants");
 
+/**
+ * Checks expiration dates of Seguro and VTV and updates its status
+ */
+
 const checkExpirationDates = async () => {
   try {
     const outOfServiceNumber = carStates["EXPIRED_DOCUMENTATION"];

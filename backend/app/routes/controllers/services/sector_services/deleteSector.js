@@ -1,5 +1,11 @@
 const { Sector, Cars } = require("../../../../db/index");
 
+/**
+ * Finds a sector by id, checks if it exists, checks if it has cars, if it doesnt have cars deletes it
+ * @param {Number} req.params.id 
+ * @returns message with the result of the operation
+ */
+
 const deleteSector = async (req, res) => {
   const { id } = req.params;
 

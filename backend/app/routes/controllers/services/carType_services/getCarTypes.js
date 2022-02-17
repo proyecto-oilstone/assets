@@ -1,6 +1,11 @@
 const { CarType } = require("../../../../db/index");
 const { typeVehicleToString } = require("../../../../utils/functions");
 
+/**
+ * Finds all the carTypes
+ * @returns {carTypes} all the carTypes
+ */
+
 const getCarTypes = async (req, res) => {
   let query = {
     where: {},

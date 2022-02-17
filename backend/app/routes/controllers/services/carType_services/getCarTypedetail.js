@@ -1,6 +1,13 @@
 const { CarType, Cars } = require("../../../../db/index");
 const { typeVehicleToString } = require("../../../../utils/functions");
 
+/**
+ * Finds CarType by id
+ * @param {Number} req.params.id
+ * 
+ * @returns {carType} with all the information
+ */
+
 const getCarTypeDetail = async (req, res) => {
   const { id } = req.params;
   let query = {

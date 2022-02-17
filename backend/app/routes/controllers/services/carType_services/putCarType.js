@@ -1,6 +1,15 @@
 const { CarType } = require("../../../../db/index");
 const { typeVehicles } = require("../../../../utils/constants");
 
+
+/**
+ * finds a carType by id, and updates it
+ * 
+ * @param {Number} req.params.id 
+ * @param {Object} req.body
+ * @returns {carType} response with the CarType updated
+ */
+
 const putCarType = async (req, res) => {
   const { id } = req.params;
   const { nombreLargo, nombreCorto, observaciones, type } = req.body;

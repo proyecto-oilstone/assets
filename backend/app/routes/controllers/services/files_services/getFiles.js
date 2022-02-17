@@ -1,5 +1,10 @@
 const { Files, Cars } = require("../../../../db/index");
 
+/**
+ * Finds all the files
+ * @returns {files} all the files
+ */
+
 const getFiles = async (req, res) => {
 
     try {

@@ -1,6 +1,13 @@
 const { Users } = require("../../../../db/index");
 const bcrypt = require("bcrypt");
 
+/**
+ * Creates a new user, encrypts the password and saves it
+ * 
+ * @param {Object} req.body  
+ * @returns {newUser} response with the new user created
+ */
+
 const postUsers = async (req, res) => {
   const { mail, contraseña, nombre, apellido, telefono, rol, estado } = req.body;
   const encryptedPassword = await bcrypt.hash(contraseña, 10);

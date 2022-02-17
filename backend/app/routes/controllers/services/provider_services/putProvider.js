@@ -1,6 +1,15 @@
 const { Provider } = require("../../../../db/index");
 const { typeProviderToString } = require("../../../../utils/functions");
 
+
+/**
+ * Finds a provider by id, and updates it
+ * 
+ * @param {Number} req.params.id 
+ * @param {Object} res.body
+ * @returns {provider} with the updated information
+ */
+
 const putProvider = async (req, res) => {
   const { id } = req.params;
   const { nombreLargo, nombreCorto, observaciones, type } = req.body;

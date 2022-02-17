@@ -2,6 +2,13 @@ const { Cars } = require("../../../../db/index");
 const { carStates } = require("../../../../utils/constants");
 const { statusCarToString } = require("../../../../utils/functions");
 
+/**
+ * Creates a new car
+ * 
+ * @param {Object} req.body
+ * @returns {car} response with the car created
+ */
+
 const postCars = async (req, res) => {
   const { patente, ProviderId, CarTypeId, año } = req.body;
 

@@ -1,6 +1,12 @@
 const { CarType } = require("../../../../db/index");
 const { typeVehicles } = require("../../../../utils/constants");
 
+/**
+ * Creates a new CarType
+ * @param {Object} req.body 
+ * @returns {carType} response with the CarType created
+ */
+
 const postCarType = async (req, res) => {
   const { nombreLargo, nombreCorto, observaciones, type } = req.body;
   const typeNumber = typeVehicles[type];

@@ -1,6 +1,12 @@
 const { Users } = require("../../../../db/index");
 const bcrypt = require("bcrypt");
 
+/**
+ * Check if a user exists with the email, checks if the email and password match and then sends the user info
+ * @param {Object} req.body
+ * @returns {user} 
+ */
+
 const postLogin = async (req, res) => {
   const { mail, contraseña } = req.body;
 

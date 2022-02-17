@@ -1,5 +1,13 @@
 const { Sector } = require("../../../../db/index");
 
+/**
+ * Finds a sector by id, and updates it
+ * 
+ * @param {Number} req.params.id 
+ * @param {Object} req.body
+ * @returns {sector} with the updated information
+ */
+
 const putSector = async (req, res) => {
   const { id } = req.params;
   const { nombreLargo, nombreCorto, observaciones } = req.body;
