@@ -5,6 +5,7 @@ import { CSVLink } from "react-csv";
 import { findAndReplaceWithKey } from '../../../helpers/utils';
 import { Link } from 'react-router-dom';
 import Filters from './Filters';
+import Search from '../../Search';
 
 /**
  * Props
@@ -49,6 +50,7 @@ const CustomReactTable = (props) => {
   const [filters, setFilters] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const pageSizeOptions = [5,10,15,25];
+  const [searchValue, setSearchValue] = useState("");
 
   const DeleteButton = ({ data }) => (<img role="button" className={`${"activo" in data && data.activo === true ? "invisible" : ""} icon-sm cursor-pointer`} src="/icons/trash-alt-solid.svg" alt="eliminar" onClick={() => onDelete(data)} />)
   const EditButton = ({ data }) => (<img role="button" className="icon-sm cursor-pointer" src="/icons/edit-solid.svg" alt="editar" onClick={() => onEdit(data)} />)
@@ -57,15 +59,69 @@ const CustomReactTable = (props) => {
 
   const applyFilters = (row) => {
     return filters.every(filter => {
-      const rowValue = row[filter.key].toLowerCase();
-      const filterValue = filter.value.toLowerCase();
-      return rowValue.search(filterValue) >= 0;
+      if ("onFilter" in filter && typeof filter.onFilter === "function") {
+        return filter.onFilter(row);
+      } else {
+        const rowValue = row[filter.key].toLowerCase();
+        const filterValue = filter.value.toLowerCase();
+        return rowValue.search(filterValue) >= 0;
+      }
     });
   }
 
   useEffect(() => {
-    setFilteredData(data.filter(applyFilters))
+    setFilteredData(data.filter(applyFilters));
   }, [data, filters]);
+
+  const removeSearchFilter = () => {
+    setFilters(filters.filter(filter => filter.key !== "search"));
+  }
+
+  const addOrReplaceSearchFilter = () => {
+    let copyFilters = Array.from(filters);
+    const hasSearchInFilters = copyFilters.some(filter => filter.key === "search");
+    const filterSearch = {
+      key: "search",
+      label: "Buscador",
+      value: searchValue,
+      onFilter: (row) => {
+        const rowValues = Object.values(row);
+        return rowValues.some(value => {
+          if (typeof value === "string") {
+            const v1 = value.toLowerCase();
+            const v2 = searchValue.toLowerCase();
+            return v1.search(v2) >= 0;
+          } else {
+            return false;
+          }
+        });
+      },
+    }
+    if (hasSearchInFilters) {
+      copyFilters = copyFilters.map(filter => {
+        if (filter.key === "search") {
+          return filterSearch;
+        } else {
+          return filter;
+        }
+      });
+    } else {
+      copyFilters.push(filterSearch);
+    }
+    setFilters(copyFilters);
+  }
+
+  useEffect(() => {
+    if (searchValue === "") {
+      removeSearchFilter();
+    } else {
+      addOrReplaceSearchFilter();
+    }
+  }, [searchValue]);
+
+  useEffect(() => {
+    console.log(filters);
+  }, [filters]);
 
   useEffect(() => {
     const withHeaderAndAccessor = column => ({ ...column, Header: column.label, accessor: column.key });
@@ -173,6 +229,9 @@ const CustomReactTable = (props) => {
 
   return (<>
     <div className={containerClassName}>
+      <div className="mb-2">
+        <Search value={searchValue} onChange={setSearchValue}/>
+      </div>
       <div>
         <Filters filters={filters} setFilters={setFilters} columns={columns}><SelectAmountRows/></Filters>
       </div>
