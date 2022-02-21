@@ -54,9 +54,18 @@ const CreateVehiculoModal = (props) => {
     getCarTypes();
   }, []);
 
+  const header = () => (<>
+    <div></div>
+    <div className="d-flex align-items-center flex-column">
+      <div><img className="icon-xl" src="/icons/truck-solid.svg"/></div>
+      <div className="h4">{edit ? "Editar Vehículo Liviano: " + (vehicle ? vehicle.patente : "") : "Crear Vehículo"}</div>
+    </div>
+  </>);
+
   return (
-    <CustomModal size="lg" show={show} toggle={toggle} title={edit ? "Editar Vehículo Liviano: " + (vehicle ? vehicle.patente : "") : "Crear Vehículo"}>
+    <CustomModal centered size="lg" show={show} toggle={toggle} HeaderComponent={header} headerClassName="d-flex justify-content-between px-3 py-4">
       <Form>
+        <h6>Datos basicos del vehículo</h6>
         <Form.Group as={Row} className="mb-2">
           <Col sm="6">
             <Row>
@@ -93,31 +102,33 @@ const CreateVehiculoModal = (props) => {
 
         </Form.Group>
 
-        <Form.Group as={Row} className="mb-2">
+        <h6 className="mt-4">Proveedor</h6>
+        <Form.Group as={Row}>
           <Col sm="6">
             <Row>
-              <Form.Label column sm="12">
-                Proveedor
-              </Form.Label>
               <Col sm="12">
                 <SelectProviders value={selectedProvider} onChange={setSelectedProvider} />
-              </Col>
-            </Row>
-          </Col>
-
-          <Col sm="6">
-            <Row>
-              <Form.Label column sm="12">
-                Tipo de Vehículo
-              </Form.Label>
-              <Col sm="12">
-                <Select value={selectedCarType} onChange={setSelectedCarType} options={setLabelAndValue(carTypes, type => `${type.nombreCorto}` , "id")} />
+                <Form.Text className="text-muted ms-1">{selectedProvider?.nombreLargo}</Form.Text>
               </Col>
             </Row>
           </Col>
         </Form.Group>
 
-        <ButtonPrimary className="mt-2" onClick={handleOnClick}>{edit ? "Editar" : "Crear"}</ButtonPrimary>
+        <h6 className="mt-2">Tipo de vehículo</h6>
+        <Form.Group as={Row} className="mb-2">
+          <Col sm="6">
+            <Row>
+              <Col sm="12">
+                <Select value={selectedCarType} onChange={setSelectedCarType} options={setLabelAndValue(carTypes, type => `${type.nombreCorto}` , "id")} />
+                <Form.Text className="text-muted ms-1">{selectedCarType?.nombreLargo}</Form.Text>
+              </Col>
+            </Row>
+          </Col>
+        </Form.Group>
+
+        <div className="d-flex flex-row-reverse">
+          <ButtonPrimary className={`mt-2 button-modal-end`} onClick={handleOnClick}>{edit ? "Guardar" : "Crear"}</ButtonPrimary>
+        </div>
       </Form>
     </CustomModal>
   );

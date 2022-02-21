@@ -57,9 +57,17 @@ const CreateProviderModal = (props) => {
       setSelectedType(providerTypes.find(findSelectedType));
     }
   }, [provider]);
+  
+  const header = () => (<>
+    <div></div>
+    <div className="d-flex align-items-center flex-column">
+      <div><img className="icon-xl" src="/icons/alquiler.svg"/></div>
+      <div className="h4">{edit ? `Editar Proveedor: ${provider?.nombreCorto}` : `Crear Proveedor`}</div>
+    </div>
+  </>);
 
   return (
-    <CustomModal show={show} toggle={toggle} title={edit ? `Editar Proveedor: ${provider?.nombreCorto}` : `Crear Proveedor`}>
+    <CustomModal show={show} centered toggle={toggle} HeaderComponent={header} headerClassName="d-flex justify-content-between px-3 py-4">
       <Form>
         <Form.Group as={Row} className="mb-2">
           <Col sm="12">
@@ -115,9 +123,9 @@ const CreateProviderModal = (props) => {
           <Form.Control value={observaciones} onChange={(e) => setObservaciones(e.target.value)} as="textarea" rows={3} />
         </Form.Group>
       </Form>
-      <Col sm="6">
-        <ButtonPrimary onClick={handleOnClick}>{edit ? "Editar" : "Crear"}</ButtonPrimary>
-      </Col>
+      <div className="d-flex flex-row-reverse">
+        <ButtonPrimary className={`mt-2 button-modal-end`} onClick={handleOnClick}>{edit ? "Guardar" : "Crear"}</ButtonPrimary>
+      </div>
     </CustomModal>
   );
 };
