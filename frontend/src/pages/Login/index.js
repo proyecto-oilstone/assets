@@ -16,7 +16,7 @@ const Login = () => {
     e.preventDefault();
     const successfulLogin = await login(email, password);
     if (successfulLogin) {
-      navigate("/vehiculos");
+      navigate("/home");
     } else {
       setErrorMessage("Email o contraseña incorrecto");
     }

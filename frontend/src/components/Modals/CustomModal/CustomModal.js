@@ -13,7 +13,7 @@ import { Modal } from "react-bootstrap";
  * - fullscreen (optional dafault false): true to fullscreen modal
  */
 const CustomModal = (props) => {
-  const { children, show, toggle, title, footerComponent = <></>, onHide = () => {}, centered = false, size = "md", fullscreen = false } = props;
+  const { headerClassName = "", children, show, toggle, title, footerComponent = <></>, onHide = () => {}, centered = false, size = "md", fullscreen = false } = props;
   const handleOnHide = () => {
     toggle();
     onHide();
@@ -27,7 +27,7 @@ const CustomModal = (props) => {
       size={size}
       fullscreen={fullscreen}
     >
-      <Modal.Header closeButton>
+      <Modal.Header bsPrefix={headerClassName} closeButton>
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
 

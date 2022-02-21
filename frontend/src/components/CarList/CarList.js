@@ -12,7 +12,7 @@ import BadgeCarStatus from '../Badges/CarStatus';
 
 const CarList = ({ onCreate }) => {
   const { cars, getCars, deleteCar, postFile } = useContext(CarContext);
-  const { providers } = useContext(ProviderContext);
+  const { providers, getProviders } = useContext(ProviderContext);
   const { carTypes } = useContext(CarTypeContext); 
   const [downloadCSV, setDownloadCSV] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -87,6 +87,7 @@ const CarList = ({ onCreate }) => {
 
   useEffect(() => {
     getCars();
+    getProviders();
   }, []);
 
 
@@ -111,8 +112,10 @@ const CarList = ({ onCreate }) => {
       CSVFilename="vehiculos.csv"
       withFiles
       containerClassName="bg-white p-4 rounded shadow-sm hover-shadow mb-3"
+      deleteModalTitle="Eliminar vehiculo"
+      deleteModalDescription="el vehiculo con patente {{patente}}"
     />
-    <CreateVehiculoModal show={showEditModal} toggle={toggleEditModal} edit vehicle={selectedVehicle} />
+    <CreateVehiculoModal center show={showEditModal} toggle={toggleEditModal} edit vehicle={selectedVehicle} />
     <PostFileModal show = {showFileModal} toggle = {toggleFileModal} car = {selectedVehicle} postFile = {postFile}/>
   </>);
 }

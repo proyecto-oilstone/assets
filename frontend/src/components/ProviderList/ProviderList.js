@@ -69,6 +69,8 @@ const ProviderList = ({ onCreate }) => {
       downloadCSV={downloadCSV}
       CSVFilename="proveedores.csv"
       containerClassName="bg-white p-4 rounded shadow-sm hover-shadow mb-3"
+      deleteModalTitle="Eliminar proveedor"
+      deleteModalDescription="el proveedor {{nombreCorto}}"
     />
     <CreateProviderModal show={showEditModal} toggle={toggleEditModal} edit provider={selectedProvider} />
   </>);

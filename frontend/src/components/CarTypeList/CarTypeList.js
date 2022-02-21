@@ -69,6 +69,8 @@ const CarTypeList = ({ onCreate }) => {
       downloadCSV={downloadCSV}
       CSVFilename="tipo vehiculos.csv"
       containerClassName="bg-white p-4 rounded shadow-sm hover-shadow mb-3"
+      deleteModalTitle="Eliminar tipo de vehiculo"
+      deleteModalDescription="el tipo de vehiculo {{nombreCorto}}"
     />
     <CreateTypeVehicleModal show={showEditModal} toggle={toggleEditModal} edit carType={selectedCarType} />
   </>);

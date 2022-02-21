@@ -61,6 +61,17 @@ code {
   height: 16px;
 }
 
+.icon-lg {
+  width: 32px;
+  height: 32px;
+}
+
+
+.icon-xl {
+  width: 40px;
+  height: 40px;
+}
+
 .rotate-180 {
   transform: rotate(180deg);
 }
@@ -78,10 +89,16 @@ code {
 }
 
 .container-details-id {
-  border: 1px solid black;
-  border-radius: 8px;
+  background-color: white;
+  transition: box-shadow 0.3s ease-in-out;
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+  border-radius: 0.25rem;
   padding: 2%;
   margin-top: 20px;
+}
+
+.container-details-id:hover {
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
 }
 
 .hover-shadow:hover {

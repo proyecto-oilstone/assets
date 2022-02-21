@@ -38,7 +38,7 @@ const CrearUsuario = () => {
         const params = { mail: email, contraseña: password, nombre, apellido, telefono };
         const successfulRegister = await register(params);
         if (successfulRegister) {
-          navigate("/vehiculos");
+          navigate("/home");
         } else {
           setErrorMessage("El email ya esta en uso");
         }

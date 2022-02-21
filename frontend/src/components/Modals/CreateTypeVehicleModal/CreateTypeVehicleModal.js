@@ -29,7 +29,8 @@ const CreateTypeVehicleModal = (props) => {
       setNombreCorto(carType.nombreCorto);
       setNombreLargo(carType.nombreLargo);
       setObservaciones(carType.observaciones);
-      setTypeVehicle(carType.type);
+      const typeVehicleSelected = typeVehicles.find(tv => tv.value === carType.type);
+      setTypeVehicle(typeVehicleSelected);
     }
   }, [carType]);
 

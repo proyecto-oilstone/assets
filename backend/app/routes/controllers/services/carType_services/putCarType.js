@@ -18,7 +18,7 @@ const putCarType = async (req, res) => {
   try {
     await CarType.update({ nombreLargo, nombreCorto, observaciones, type: typeNumber}, { where: { id } });
     const carType = await CarType.findOne({ where: { id } });
-    carType.dataValues.type;
+    carType.dataValues.type = type;
     res.status(200).json(carType);
   } catch (err) {
     res.status(500).send(err.message);

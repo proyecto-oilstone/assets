@@ -6,6 +6,7 @@ import { findAndReplaceWithKey } from '../../../helpers/utils';
 import { Link } from 'react-router-dom';
 import Filters from './Filters';
 import Search from '../../Search';
+import ModalWarningDelete from '../../Modals/WarningDelete';
 
 /**
  * Props
@@ -39,9 +40,13 @@ import Search from '../../Search';
  * defaultSort (optional String): to dafault sort one column
  * 
  * containerClassName (optional): className to container of table
+ * 
+ * deleteModalTitle
+ * 
+ * deleteModalDescription
  */
 const CustomReactTable = (props) => {
-  const { columns, data, downloadCSV, CSVFilename = "file.csv", onDelete = () => { }, onEdit = () => { }, onFile = () => { }, withEdit = true, withDelete = true, withFiles = false, defaultSort = "", containerClassName } = props;
+  const { columns, data, downloadCSV, CSVFilename = "file.csv", onDelete = () => { }, onEdit = () => { }, onFile = () => { }, withEdit = true, withDelete = true, withFiles = false, defaultSort = "", containerClassName, deleteModalTitle = "", deleteModalDescription = "" } = props;
   const [tableColumns, setTableColumns] = useState([]);
   const [CSVColumns, setCSVColumns] = useState([]);
   const tableColumnsMemo = useMemo(() => tableColumns, [tableColumns]);
@@ -51,8 +56,18 @@ const CustomReactTable = (props) => {
   const [filteredData, setFilteredData] = useState([]);
   const pageSizeOptions = [5,10,15,25];
   const [searchValue, setSearchValue] = useState("");
+  const [warningDelete, setWarningDelete] = useState(null);
 
-  const DeleteButton = ({ data }) => (<img role="button" className={`${"activo" in data && data.activo === true ? "invisible" : ""} icon-sm cursor-pointer`} src="/icons/trash-alt-solid.svg" alt="eliminar" onClick={() => onDelete(data)} />)
+  const handleOnDelete = (data) => {
+    setWarningDelete(data);
+  }
+
+  useEffect(() => {
+    console.log(warningDelete);
+  }, [warningDelete])
+  
+
+  const DeleteButton = ({ data }) => (<img role="button" className={`${"activo" in data && data.activo === true ? "invisible" : ""} icon-sm cursor-pointer`} src="/icons/trash-alt-solid.svg" alt="eliminar" onClick={() => handleOnDelete(data)} />)
   const EditButton = ({ data }) => (<img role="button" className="icon-sm cursor-pointer" src="/icons/edit-solid.svg" alt="editar" onClick={() => onEdit(data)} />)
   const CustomLink = ({ to, children }) => (<Link to={to}>{children}</Link>)
   const FilesButton = ({ data }) => (<img role="button" className={`${"Files" in data && data.Files !== null ? "invisible" : ""} icon-sm cursor-pointer`} src="/icons/pdf-text-file-svgrepo-com.svg" alt="archivos" onClick={() => onFile(data)} />)
@@ -60,7 +75,7 @@ const CustomReactTable = (props) => {
   const applyFilters = (row) => {
     return filters.every(filter => {
       if ("onFilter" in filter && typeof filter.onFilter === "function") {
-        return filter.onFilter(row);
+        return filter.onFilter(row, filter.value);
       } else {
         const rowValue = row[filter.key].toLowerCase();
         const filterValue = filter.value.toLowerCase();
@@ -118,10 +133,6 @@ const CustomReactTable = (props) => {
       addOrReplaceSearchFilter();
     }
   }, [searchValue]);
-
-  useEffect(() => {
-    console.log(filters);
-  }, [filters]);
 
   useEffect(() => {
     const withHeaderAndAccessor = column => ({ ...column, Header: column.label, accessor: column.key });
@@ -308,6 +319,14 @@ const CustomReactTable = (props) => {
       className='hidden'
       ref={csvLinkRef}
       target={'_blank'}
+    />
+    <ModalWarningDelete
+      show={warningDelete !== null}
+      toggle={() => setWarningDelete(null)}
+      title={deleteModalTitle}
+      description={deleteModalDescription}
+      data={warningDelete}
+      onDelete={() => onDelete(warningDelete)}
     />
   </>);
 }

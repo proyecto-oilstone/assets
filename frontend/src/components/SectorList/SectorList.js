@@ -62,6 +62,8 @@ const SectorList = ({ onCreate }) => {
         downloadCSV={downloadCSV}
         CSVFilename="sectores.csv"
         containerClassName="bg-white p-4 rounded shadow-sm hover-shadow mb-3"
+        deleteModalTitle="Eliminar sector"
+        deleteModalDescription="el sector {{nombreCorto}}"
       />
       <CreateSectorModal show={showEditModal} toggle={toggleEditModal} edit sector={selectedSector} />
     </>
