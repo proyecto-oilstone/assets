@@ -46,6 +46,13 @@ const VehiculoDetails = () => {
   }, [id]);
 
   useEffect(() => {
+    if (selectedCar) {
+      getEventsByCarId(selectedCar.id);
+    }
+  }, [selectedCar]);
+  
+
+  useEffect(() => {
     const action = {
       "OUT_OF_SERVICE": () => {
         setStatusComponent(<>
@@ -162,7 +169,6 @@ const VehiculoDetails = () => {
                 </div>
               </Tab>
               <Tab eventKey="status" title="Estado">
-                <div><span className="fw-bold">El vehiculo </span><span>{selectedCar?.activo ? "esta activo" : "no esta activo"}</span></div>
                 <div><span className="fw-bold">Estado del vehiculo: </span><span>{getCarStatus(selectedCar?.status)}</span></div>
                 <div><span className="fw-bold">Documentacion obligatoria: </span></div>
                 <ul>

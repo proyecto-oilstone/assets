@@ -1,5 +1,6 @@
 const { Event } = require("../../../../db/index");
 const { eventTypes } = require("../../../../utils/constants");
+const { getChildrenEventModelsWithoutBinaryData } = require("../../../../utils/functions");
 const getFiles = require("../files_services/getFiles");
 
 /**
@@ -64,7 +65,7 @@ module.exports = {
         carId,
       },
       attributes: ["id", "type", "createdAt", "updatedAt", "carId"],
-      include: Event.childrenModels
+      include: getChildrenEventModelsWithoutBinaryData(Event)
     };
 
     let events = await Event.findAll(query);
@@ -136,7 +137,7 @@ module.exports = {
       include: [
         {
           model: eventModel,
-          attributes: additionalAttributes,
+          attributes: {exclude: ['data']},
           where: {},
           required: true,
         },
@@ -153,7 +154,9 @@ module.exports = {
         updatedAt: e.updatedAt,
       };
       additionalAttributes.forEach(field => {
-        event[field] = e[eventModel.name][field];
+        if (field !== 'data') {
+          event[field] = e[eventModel.name][field];
+        }
       });
       return event;
     })
@@ -164,7 +167,7 @@ module.exports = {
   getAllEvents: async () => {
     let query = {
       attributes: ["id", "type", "createdAt", "updatedAt", "carId"],
-      include: Event.childrenModels
+      include: getChildrenEventModelsWithoutBinaryData(Event)
     };
 
     let events = await Event.findAll(query);

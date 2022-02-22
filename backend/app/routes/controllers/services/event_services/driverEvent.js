@@ -16,7 +16,7 @@ const postDriverEvent = async (event) => {
       newCarStatus = "IN_USE";
     }
   } else {// wants to unassign one driver
-    availableStatuses = ["INFORMED", "REPAIR", "RESERVED", "AVAILABLE", "DISCHARGED", "EXPIRED_DOCUMENTATION"];
+    availableStatuses = ["INFORMED", "REPAIR", "RESERVED", "AVAILABLE", "DISCHARGED", "EXPIRED_DOCUMENTATION", "IN_USE"];
     newCarStatus = car.status;
     if (car.status === "IN_USE" || car.status === "RESERVED" || "AVAILABLE") {
       newCarStatus = "AVAILABLE";

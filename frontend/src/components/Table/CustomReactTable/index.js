@@ -21,7 +21,6 @@ import ModalWarningDelete from '../../Modals/WarningDelete';
  * Data: Array of objects with data. Keys in each object of data:
  * - "label"
  * - "key"
- * - "activo" optional: if is present, true the background will be green else red.
  * 
  * DownloadCSV: state boolean, initially should be false, when you want export to CSV put the state in true
  * 
@@ -62,12 +61,7 @@ const CustomReactTable = (props) => {
     setWarningDelete(data);
   }
 
-  useEffect(() => {
-    console.log(warningDelete);
-  }, [warningDelete])
-  
-
-  const DeleteButton = ({ data }) => (<img role="button" className={`${"activo" in data && data.activo === true ? "invisible" : ""} icon-sm cursor-pointer`} src="/icons/trash-alt-solid.svg" alt="eliminar" onClick={() => handleOnDelete(data)} />)
+  const DeleteButton = ({ data }) => (<img role="button" className={`icon-sm cursor-pointer`} src="/icons/trash-alt-solid.svg" alt="eliminar" onClick={() => handleOnDelete(data)} />)
   const EditButton = ({ data }) => (<img role="button" className="icon-sm cursor-pointer" src="/icons/edit-solid.svg" alt="editar" onClick={() => onEdit(data)} />)
   const CustomLink = ({ to, children }) => (<Link to={to}>{children}</Link>)
   const FilesButton = ({ data }) => (<img role="button" className={`${"Files" in data && data.Files !== null ? "invisible" : ""} icon-sm cursor-pointer`} src="/icons/pdf-text-file-svgrepo-com.svg" alt="archivos" onClick={() => onFile(data)} />)

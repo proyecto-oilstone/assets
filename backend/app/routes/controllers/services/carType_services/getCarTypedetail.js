@@ -16,7 +16,7 @@ const getCarTypeDetail = async (req, res) => {
     include: [
       {
         model: Cars,
-        attributes: ["id", "patente", "activo", "año"],
+        attributes: ["id", "patente", "año"],
         where: {},
         required: true,
       },
@@ -37,7 +37,6 @@ const getCarTypeDetail = async (req, res) => {
       car = {
         id: car.id,
         patente: car.patente,
-        activo: car.activo,
         año: car.año
       }
       return car;

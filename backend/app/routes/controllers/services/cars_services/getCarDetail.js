@@ -11,7 +11,7 @@ const { statusCarToString } = require("../../../../utils/functions");
 const getCarDetail = async (id) => {
   let query = {
     where: { id },
-    attributes: ["id", "patente", "activo", "año", "status", "VTV", "seguro"],
+    attributes: ["id", "patente", "año", "status", "VTV", "seguro"],
     include: [
       {
         model: Provider,
@@ -50,7 +50,6 @@ const getCarDetail = async (id) => {
   car = {
     id: car.id,
     patente: car.patente,
-    activo: car.activo,
     año: car.año,
     VTV: car.VTV,
     seguro: car.seguro,

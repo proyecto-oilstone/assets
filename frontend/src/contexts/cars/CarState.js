@@ -119,12 +119,6 @@ const CarState = (props) => {
     return car;
   }
 
-  const toggleActive = async (car) => {
-    car = JSON.parse(JSON.stringify(car));
-    car.activo = !car.activo;
-    return await editCar(car);
-  }
-
   const deleteDocumentById = async (documentId, carId) => {
     try {
       await axios.delete(`/files/files/${documentId}/car/${carId}`);
@@ -149,7 +143,6 @@ const CarState = (props) => {
         deleteCar,
         selectCar,
         getCarById,
-        toggleActive,
         deleteDocumentById,
       }}
     >

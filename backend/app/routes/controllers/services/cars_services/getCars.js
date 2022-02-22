@@ -10,11 +10,11 @@ const { statusCarToString } = require("../../../../utils/functions");
  */
 
 const getCars = async (req, res) => {
-  const { nombreLargoTipo, activo, nombreLargoProveedor, patente, año} = req.query;
+  const { nombreLargoTipo, nombreLargoProveedor, patente, año} = req.query;
 
   let query = {
     where: {},
-    attributes: ["id", "patente", "activo", "año", "status", "VTV", "seguro"],
+    attributes: ["id", "patente", "año", "status", "VTV", "seguro"],
     order: [["patente", "ASC"]],
     include: [
       {
@@ -39,9 +39,6 @@ const getCars = async (req, res) => {
   };
   if (nombreLargoTipo) {
     query.where[1].nombreLargo = { ...query.include[1].where, nombreLargo: { [Op.like]: `%${nombreLargoTipo}%` } };
-  }
-  if (activo) {
-    query.where = { ...query.where, activo };
   }
   if (patente) {
     query.where = { ...query.where, patente: { [Op.like]: `%${patente}%` } };
