@@ -8,7 +8,7 @@ const Filters = ({ children, columns, filters, setFilters }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSelectorFiltersOpen, setIsSelectorFiltersOpen] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState(null);
-  const [filterValue, setFilterValue] = useState("");
+  const [filterValue, setFilterValue] = useState({ label: "", value: "" });
   const toggleFiltrosOpen = () => setIsOpen(!isOpen);
   const toggleSelectorFiltersOpen = () => setIsSelectorFiltersOpen(!isSelectorFiltersOpen);
   const [filtersToSelect, setFiltersToSelect] = useState([]);
@@ -40,15 +40,16 @@ const Filters = ({ children, columns, filters, setFilters }) => {
 
   const onApplyFilter = () => {
     const filter = {
-      label: selectedFilter.label,
+      type: selectedFilter.label,
+      label: filterValue.label,
       key: selectedFilter.key,
-      value: filterValue,
+      value: filterValue.value,
     };
     const copyFilters = Array.from(filters);
     copyFilters.push(filter);
     setFilters(copyFilters);
     setSelectedFilter(null);
-    setFilterValue("");
+    setFilterValue({ label: "", value: "" });
     setIsSelectorFiltersOpen(false);
   }
 
@@ -92,8 +93,8 @@ const Filters = ({ children, columns, filters, setFilters }) => {
               <div className="me-2" key={filter.key}>
                 <FilterCard>
                   <div className="d-flex align-items-center">
-                    {filter.label}
-                    <span className="fw-bold mx-1">{filter.value}</span>
+                    {filter.type}
+                    <span className="fw-bold mx-1">{filter.label}</span>
                     <img role="button" onClick={() => removeFilter(filter)} className={`icon-xsm ms-1 cursor-pointer`} src="/icons/times-solid.svg"/>
                   </div>
                 </FilterCard>
@@ -125,7 +126,12 @@ const Filters = ({ children, columns, filters, setFilters }) => {
                     {selectedFilter !== null &&
                       <div className={`position-absolute p-3 ms-3 rounded shadow ${styles.dropdownMenuSelectedFilter}`}>
                         <Form.Label>{selectedFilter.label}</Form.Label>
-                        <Form.Control type="text" value={filterValue} onKeyDown={handleKeyDown} placeholder={selectedFilter.label} onChange={(e) => setFilterValue(e.target.value)}/>
+                        {"filterComponent" in selectedFilter 
+                          ?
+                          <selectedFilter.filterComponent value={filterValue} setValue={setFilterValue}/>
+                          :
+                          <Form.Control type="text" value={filterValue.value} onKeyDown={handleKeyDown} placeholder={selectedFilter.label} onChange={(e) => setFilterValue({ label: e.target.value, value: e.target.value })}/>
+                        }
 
                         <Row className="mt-4">
                           <Col sm="4" className="pe-0">

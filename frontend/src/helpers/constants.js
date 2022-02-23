@@ -9,6 +9,26 @@ export const carStatus = {
   "EXPIRED_DOCUMENTATION": 7,
   "DISCHARGED": 8,
 };
+export const carStatusBackgroundColors = {
+  "OUT_OF_SERVICE": "rgb(108, 117, 125)",
+  "IN_USE": "#77dd77",
+  "RESERVED": "#77dd77",
+  "INFORMED": "#fdfd96",
+  "REPAIR": "#fdfd96",
+  "AVAILABLE": "#77dd77",
+  "EXPIRED_DOCUMENTATION": "#ff6961",
+  "DISCHARGED": "#ff6961",
+}
+export const carStatusTextColors = {
+  "OUT_OF_SERVICE": "#ffffff",
+  "IN_USE": "rgb(108, 117, 125)",
+  "RESERVED": "rgb(108, 117, 125)",
+  "INFORMED": "rgb(108, 117, 125)",
+  "REPAIR": "rgb(108, 117, 125)",
+  "AVAILABLE": "rgb(108, 117, 125)",
+  "EXPIRED_DOCUMENTATION": "#ffffff",
+  "DISCHARGED": "#ffffff",
+}
 export const providerTypes = {
   "WORKSHOP": 1,
   "RENTAL": 2,
@@ -23,20 +43,20 @@ export const eventTypes = {
   "SEGURO": 6,
 };
 export const eventsColors = {
-  "DRIVER": "#C4C4C4",
-  "REPORT_PROBLEM": "#5E7948",
-  "REPAIR_REQUEST": "#457750",
-  "WORKSHOP": "#FF68B2",
-  "VTV": "#2675AA",
-  "SEGURO": "#2675AA",
-  "EXPIRATION_FILE": "#2675AA"
+  "DRIVER": "#77dd77",
+  "REPORT_PROBLEM": "#fdfd96",
+  "REPAIR_REQUEST": "#fdfd96",
+  "WORKSHOP": "#fdfd96",
+  "VTV": "#ff6961",
+  "SEGURO": "#ff6961",
+  "EXPIRATION_FILE": "#ff6961"
 }
 export const eventsTextColors = {
-  "DRIVER": "#000000",
-  "REPORT_PROBLEM": "#FFFFFF",
-  "REPAIR_REQUEST": "#FFFFFF",
-  "WORKSHOP": "#FFFFFF",
-  "VTV": "#FFFFFF",
-  "SEGURO": "#FFFFFF",
-  "EXPIRATION_FILE": "#FFFFFF"
+  "DRIVER": "rgb(108, 117, 125)",
+  "REPORT_PROBLEM": "rgb(108, 117, 125)",
+  "REPAIR_REQUEST": "rgb(108, 117, 125)",
+  "WORKSHOP": "rgb(108, 117, 125)",
+  "VTV": "#ffffff",
+  "SEGURO": "#ffffff",
+  "EXPIRATION_FILE": "#ffffff"
 }

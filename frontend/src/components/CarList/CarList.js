@@ -9,6 +9,8 @@ import ExportCSVButton from '../Buttons/ExportCSV';
 import PostFileModal from '../Modals/PostFileModal/PostFileModal';
 import ButtonPrimary from '../Buttons/Primary/ButtonPrimary';
 import BadgeCarStatus from '../Badges/CarStatus';
+import FilterSelect from '../Table/CustomReactTable/FilterSelect';
+import useQuery from '../../hooks/useQuery';
 
 const CarList = ({ onCreate }) => {
   const { cars, getCars, deleteCar, postFile } = useContext(CarContext);
@@ -17,9 +19,61 @@ const CarList = ({ onCreate }) => {
   const [downloadCSV, setDownloadCSV] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showFileModal, setShowFileModal] = useState(false);
+  const [defaultFilters, setDefaultFilters] = useState([]);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const toggleEditModal = () => setShowEditModal(!showEditModal);
   const toggleFileModal = () => setShowFileModal(!showFileModal);
+  const statusValues = [{
+    label: "En uso",
+    value: "IN_USE"
+  },
+  {
+    label: "Inactivo",
+    value: "OUT_OF_SERVICE"
+  },
+  {
+    label: "Reservado",
+    value: "RESERVED"
+  },
+  {
+    label: "Informado",
+    value: "INFORMED"
+  },
+  {
+    label: "En reparacion",
+    value: "REPAIR"
+  },
+  {
+    label: "Disponible",
+    value: "AVAILABLE"
+  },
+  {
+    label: "Documentacion vencida",
+    value: "EXPIRED_DOCUMENTATION"
+  },
+  {
+    label: "Baja",
+    value: "DISCHARGED"
+  }];
+
+  const filterComponentStatus = ({ value, setValue }) => (
+    <FilterSelect value={value} setValue={setValue} values={statusValues}/>
+  );
+
+  const query = useQuery();
+
+  useEffect(() => {
+    const status = query.get('status');
+    if (status) {
+      const statusFilter = statusValues.find(s => s.value === status);
+      if (statusFilter) {
+        statusFilter.type = "Estado";
+        statusFilter.key = "status";
+        setDefaultFilters([statusFilter]);
+      }
+    }
+  }, [query]);
+
   const [columns, setColumns] = useState([{
     label: 'Patente',
     key: 'patente',
@@ -34,6 +88,7 @@ const CarList = ({ onCreate }) => {
     onExport: (car) => getCarStatus(car.status),
     export: true,
     showInTable: true,
+    filterComponent: filterComponentStatus,
   },
   {
     label: 'Proveedor',
@@ -114,6 +169,7 @@ const CarList = ({ onCreate }) => {
       containerClassName="bg-white p-4 rounded shadow-sm hover-shadow mb-3"
       deleteModalTitle="Eliminar vehiculo"
       deleteModalDescription="el vehiculo con patente {{patente}}"
+      defaultFilters={defaultFilters}
     />
     <CreateVehiculoModal center show={showEditModal} toggle={toggleEditModal} edit vehicle={selectedVehicle} />
     <PostFileModal show = {showFileModal} toggle = {toggleFileModal} car = {selectedVehicle} postFile = {postFile}/>

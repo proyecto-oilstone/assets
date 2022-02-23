@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import axios from "../../helpers/axios";
+import { carStatusBackgroundColors, carStatusTextColors } from "../../helpers/constants";
+import { useNavigate } from "react-router-dom";
 
 const DashboardCards = () => {
+  const navigate = useNavigate();
   const amountDays = 15;
   const [dashboardData, setDashboardData] = useState(null);
   const [amountEvents, setAmountEvents] = useState(0);
 
-  const Card = ({ children }) => (
+  const Card = ({ children, status }) => (
     <Col sm="3">
-      <div className="bg-white shadow-sm hover-shadow p-4 rounded h-100">
+      <div role="button" onClick={() => handleOnClickCard(status)} className={`shadow-sm cursor-pointer hover-shadow p-4 rounded h-100 ${!status && "bg-white"}`}  style={{ backgroundColor: carStatusBackgroundColors[status], color: carStatusTextColors[status] }}>
         {children}
       </div>
     </Col>
@@ -34,28 +37,31 @@ const DashboardCards = () => {
     fetchDashboard();
   }, []);
 
+  const handleOnClickCard = (status) => {
+    navigate(`/vehiculos?status=${status}`);
+  }
+
   return (
     <Row>
-      <Card>
-        <div className="h6">Vehiculos</div>
-        <div className="fw-bold h3">{dashboardData ? dashboardData.total.TOTAL : 0}</div>
-        <span className="text-sm">Total de vehiculos</span>
+      <Card status="EXPIRED_DOCUMENTATION">
+        <div className="h6">Vencimientos</div>
+        <div className="fw-bold h3">{amountEvents}</div>
+        <span className="text-sm">Vencimientos en los proximos {amountDays} dias</span>
       </Card>
 
-      <Card>
-        <div className="h6">Vehiculos en uso</div>
-        <div className="fw-bold h3">{dashboardData ? dashboardData.total.IN_USE : 0}</div>
+      <Card status="REPAIR">
+        <div className="h6">Vehiculos en reparacion</div>
+        <div className="fw-bold h3">{dashboardData ? dashboardData.total.REPAIR : 0}</div>
       </Card>
 
-      <Card>
+      <Card status="AVAILABLE">
         <div className="h6">Vehiculos disponibles</div>
         <div className="fw-bold h3">{dashboardData ? dashboardData.total.AVAILABLE : 0}</div>
       </Card>
 
-      <Card>
-        <div className="h6">Vencimientos</div>
-        <div className="fw-bold h3">{amountEvents}</div>
-        <span className="text-sm">Vencimientos en los proximos {amountDays} dias</span>
+      <Card status="IN_USE">
+        <div className="h6">Vehiculos en uso</div>
+        <div className="fw-bold h3">{dashboardData ? dashboardData.total.IN_USE : 0}</div>
       </Card>
     </Row>
   )
