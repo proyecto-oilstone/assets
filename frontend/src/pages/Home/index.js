@@ -22,7 +22,7 @@ const Home = () => {
         <h2 className="mb-3">Dashboard</h2>
         <DashboardCards/>
         <div className="mt-5 bg-white p-4 rounded shadow-sm hover-shadow">
-          <ReactBigCalendar events={events}/>
+          <ReactBigCalendar events={events} withFilters linkeableEvents/>
         </div>
       </Container>
     </Layout>

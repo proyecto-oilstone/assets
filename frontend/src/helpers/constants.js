@@ -19,4 +19,24 @@ export const eventTypes = {
   "REPORT_PROBLEM": 2,
   "REPAIR_REQUEST": 3,
   "WORKSHOP": 4,
+  "VTV": 5,
+  "SEGURO": 6,
 };
+export const eventsColors = {
+  "DRIVER": "#C4C4C4",
+  "REPORT_PROBLEM": "#5E7948",
+  "REPAIR_REQUEST": "#457750",
+  "WORKSHOP": "#FF68B2",
+  "VTV": "#2675AA",
+  "SEGURO": "#2675AA",
+  "EXPIRATION_FILE": "#2675AA"
+}
+export const eventsTextColors = {
+  "DRIVER": "#000000",
+  "REPORT_PROBLEM": "#FFFFFF",
+  "REPAIR_REQUEST": "#FFFFFF",
+  "WORKSHOP": "#FFFFFF",
+  "VTV": "#FFFFFF",
+  "SEGURO": "#FFFFFF",
+  "EXPIRATION_FILE": "#FFFFFF"
+}

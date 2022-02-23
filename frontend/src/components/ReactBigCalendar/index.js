@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "moment/locale/es";
 import Event from "./Event.js";
+import Filters from './Filters.js';
+import CarContext from '../../contexts/cars/CarContext.js';
 
 const localizer = momentLocalizer(moment);
 
@@ -14,14 +16,50 @@ const localizer = momentLocalizer(moment);
  * - duration (optional default 0) only if expandEvents is false, you can set the duration of each event. Put it in seconds
  */
 const ReactBigCalendar = (props) => {
-  const { events, expandEvents = false, duration = 0 } = props;
+  const { events, expandEvents = false, duration = 0, withFilters = false, linkeableEvents = false } = props;
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
+  const { selectedCar } = useContext(CarContext);
   const twoDays = new Date(tomorrow);
   twoDays.setDate(twoDays.getDate() +1);
   const [modifiedEvents, setModifiedEvents] = useState([]);
-
+  const [activeFilters, setActiveFilters] = useState([{
+    label: "Vencimiento seguro",
+    value: "SEGURO",
+    checked: true,
+  },
+  {
+    label: "Vencimiento VTV",
+    value: "VTV",
+    checked: true,
+  },
+  {
+    label: "Vencimiento papeles",
+    value: "EXPIRATION_FILE",
+    checked: true,
+  },
+  {
+    label: "Almacenado en taller",
+    value: "WORKSHOP",
+    checked: false,
+  },
+  {
+    label: "Problema reportado",
+    value: "REPORT_PROBLEM",
+    checked: false,
+  },
+  {
+    label: "Pedido de reparacion",
+    value: "REPAIR_REQUEST",
+    checked: false,
+  },
+  {
+    label: "Conductor",
+    value: "DRIVER",
+    checked: false,
+  },]);
+  
   const isExpirationEvent = (event) => {
     const expirationEvents = ["VTV", "SEGURO", "EXPIRATION_FILE"];
     return expirationEvents.some(type => event.type === type);
@@ -38,6 +76,15 @@ const ReactBigCalendar = (props) => {
     }
     return null;
   };
+
+  const applyFilters = (event) => {
+    const filter = activeFilters.find(f => f.value === event.type);
+    if (filter) {
+      return filter.checked;
+    } else {
+      return false;
+    }
+  }
 
   useEffect(() => {
     const sortByDate = (a, b) => {
@@ -89,8 +136,11 @@ const ReactBigCalendar = (props) => {
       }
     }
 
+    if (withFilters) {
+      modifiedEvents = modifiedEvents.filter(applyFilters);
+    }
     setModifiedEvents(modifiedEvents);
-  }, [events]);
+  }, [events, activeFilters]);
 
   const translatedMessages = {
     date: "Fecha",
@@ -110,17 +160,27 @@ const ReactBigCalendar = (props) => {
     showMore: (amount) => `Mostrar ${amount} mas`,
     noEventsInRange: "No hay eventos en este rango",
   }
-  return <Calendar
-    localizer={localizer}
-    components={{event:Event}}
-    events={modifiedEvents}
-    startAccessor="start"
-    endAccessor="end"
-    style={{ height: 500 }}
-    rtl={false}
-    culture={"es"}
-    messages={translatedMessages}
-  />;
+  const EventWithProps = (props) => {
+    const car = linkeableEvents ? props.event.car : selectedCar;
+    return <Event {...props} car={car} linkeableEvent={linkeableEvents}/>;
+  }
+
+  return (<>
+    {withFilters && <Filters filters={activeFilters} setFilters={setActiveFilters}/>}
+    <Calendar
+      popup
+      localizer={localizer}
+      rowL
+      components={{event: EventWithProps}}
+      events={modifiedEvents}
+      startAccessor="start"
+      endAccessor="end"
+      style={{ height: 500 }}
+      timeslots={10}
+      culture={"es"}
+      messages={translatedMessages}
+    />
+  </>);
 };
 
 

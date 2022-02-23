@@ -1,4 +1,4 @@
-const { Event } = require("../../../../db/index");
+const { Event, Cars } = require("../../../../db/index");
 const { eventTypes } = require("../../../../utils/constants");
 const { getChildrenEventModelsWithoutBinaryData } = require("../../../../utils/functions");
 const getFiles = require("../files_services/getFiles");
@@ -19,6 +19,7 @@ const formatEventWithTypeEvent = event => {
       eventWithType.carId = event.carId;
       eventWithType.createdAt = event.createdAt;
       eventWithType.updatedAt = event.updatedAt;
+      eventWithType.car = event.Car;
     }
   });
 
@@ -65,7 +66,10 @@ module.exports = {
         carId,
       },
       attributes: ["id", "type", "createdAt", "updatedAt", "carId"],
-      include: getChildrenEventModelsWithoutBinaryData(Event)
+      include: [
+        ...getChildrenEventModelsWithoutBinaryData(Event),
+        Cars,
+      ]
     };
 
     let events = await Event.findAll(query);
@@ -167,10 +171,14 @@ module.exports = {
   getAllEvents: async () => {
     let query = {
       attributes: ["id", "type", "createdAt", "updatedAt", "carId"],
-      include: getChildrenEventModelsWithoutBinaryData(Event)
+      include: [
+        ...getChildrenEventModelsWithoutBinaryData(Event),
+        Cars,
+      ]
     };
 
     let events = await Event.findAll(query);
+    console.log(events);
     const removeInvalidEvents = event => event;
     events = events.map(formatEventWithTypeEvent);
     events = events.filter(removeInvalidEvents);

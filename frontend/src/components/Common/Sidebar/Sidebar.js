@@ -92,6 +92,7 @@ const Sidebar = (props) => {
           <img src="/logo.png" alt="logo" className="cursor-pointer" role="button" onClick={() => navigate("/home")}/>
         </div>
         <ul className={styles.navItems}>
+          <NavItem className="ps-3 mb-2" title="Dashboard" to="/home" withArrow={false} icon="house-solid.svg"/>
           <MultipleNavItem className="mb-2" title="Activos" defaultOpen>
             <NavItem className="ps-3" title="Vehiculos" to="/vehiculos" withArrow={false} icon="truck-solid.svg"/>
             <NavItem className="ps-3" title="Trailers" withArrow={false} icon="trailer-solid.svg"/>

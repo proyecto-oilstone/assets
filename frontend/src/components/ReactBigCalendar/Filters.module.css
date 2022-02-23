@@ -1,0 +1,8 @@
+.checkbox:checked {
+  background-color: currentColor;
+  border-color: currentColor;
+}
+
+.checkbox {
+  background-color: transparent;
+}

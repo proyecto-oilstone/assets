@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Form } from "react-bootstrap";
 import ButtonSecondary from "../Secondary";
 import styles from "./ExportButton.module.css";
@@ -22,6 +22,27 @@ const ExportCSVButton = (props) => {
     setExportableColumns(copyColumns);
   }
 
+  useEffect(() => {
+    const detectClickDropdown = (event) => {
+      if (!isOpen) return;
+      let elementClicked = event.target;
+      let foundDropdown = false;
+      while (elementClicked !== null && !foundDropdown) {
+        foundDropdown = elementClicked.className.search('dropdown-export') >= 0;
+        elementClicked = elementClicked.parentElement;
+      }
+
+      if (!foundDropdown) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("click", detectClickDropdown);
+    return () => {
+      document.removeEventListener("click", detectClickDropdown);
+    }
+  }, [isOpen]);
+  
+
   return (<>
     <div
       ref={drop}
@@ -31,7 +52,7 @@ const ExportCSVButton = (props) => {
     </div>
     <div className="position-relative">
       {isOpen && 
-        <div className={`position-absolute p-3 rounded shadow ${styles.dropdownMenu}`}>
+        <div className={`position-absolute p-3 rounded shadow ${styles.dropdownMenu} dropdown-export`}>
           {exportableColumns.map((col, index) =>
             <div key={index}>
               <Form.Check
