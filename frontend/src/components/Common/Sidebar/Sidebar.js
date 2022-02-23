@@ -92,7 +92,7 @@ const Sidebar = (props) => {
           <img src="/logo.png" alt="logo" className="cursor-pointer" role="button" onClick={() => navigate("/home")}/>
         </div>
         <ul className={styles.navItems}>
-          <NavItem className="ps-3 mb-2" title="Home" to="/home" icon="home.svg" withArrow={false} />
+          <NavItem className="ps-3 mb-2" title="Pagina Principal" to="/home" icon="home.svg" withArrow={false} />
 
           <MultipleNavItem className="mb-2" title="Activos" defaultOpen>
             <NavItem className="ps-3" title="Vehiculos" to="/vehiculos" withArrow={false} icon="truck-solid.svg"/>
