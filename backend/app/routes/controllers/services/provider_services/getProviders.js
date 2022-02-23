@@ -4,7 +4,7 @@ const getProvider = async (req, res) => {
   let query = {
     where: {},
     attributes: ["id", "nombreLargo", "nombreCorto", "observaciones"],
-    order: [["nombreLargo", "ASC"]],
+    order: [["id", "ASC"]],
   };
 
   let providers = await Provider.findAll(query);

@@ -10,7 +10,7 @@ const getCarTypeDetail = async (req, res) => {
         model: Cars,
         attributes: ["id", "patente", "activo", "año"],
         where: {},
-        required: true,
+        required: false,
       },
     ]
   };
@@ -24,7 +24,7 @@ const getCarTypeDetail = async (req, res) => {
     nombreLargo: carType.nombreLargo,
     nombreCorto: carType.nombreCorto,
     observaciones: carType.observaciones,
-    vehiculos: carType.Cars.map(car => {
+    vehiculos: carType.Cars?.map(car => {
       car = {
         id: car.id,
         patente: car.patente,
