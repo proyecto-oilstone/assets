@@ -21,7 +21,7 @@ import styles from "./Vehiculos.module.css";
 import BadgeCarStatus from "../../components/Badges/CarStatus";
 
 const VehiculoDetails = () => {
-  const { selectedCar, getCarById, deleteDocumentById } = useContext(CarContext);
+  const { selectedCar, getCarById, deleteDocumentById, getLastEventByTypeEvent } = useContext(CarContext);
   const { unAssignDriver, unAssignReservedDriver, getEventsByCarId, eventsByCar } = useContext(EventContext);
   const { id } = useParams();
   const [showWariningDeleteDocument, setShowWariningDeleteDocument] = useState(false);
@@ -35,6 +35,10 @@ const VehiculoDetails = () => {
   const toggleShowModalUploadSeguro = () => setShowModalUploadSeguro(!showModalUploadSeguro);
   const [activeTab, setActiveTab] = useState('basic-data');
   const [statusComponent, setStatusComponent] = useState("");
+  const lastVTVEvent = getLastEventByTypeEvent(eventsByCar, "VTV");
+  const lastSeguroEvent = getLastEventByTypeEvent(eventsByCar, "SEGURO");
+  const vtvExpiration = lastVTVEvent ? lastVTVEvent.expirationDate : "No hay vtv cargada";
+  const seguroExpiration = lastSeguroEvent ? lastSeguroEvent.expirationDate : "No hay seguro cargado";
 
   useEffect(() => {
     const carId = parseInt(id);
@@ -172,8 +176,8 @@ const VehiculoDetails = () => {
                 <div><span className="fw-bold">Estado del vehiculo: </span><span>{getCarStatus(selectedCar?.status)}</span></div>
                 <div><span className="fw-bold">Documentacion obligatoria: </span></div>
                 <ul>
-                  <li>VTV: {selectedCar?.VTV !== null ? <a href={`${baseURL}/cars/${selectedCar?.id}/vtv`}>Descargar VTV</a> : <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadVTV}>Añadir VTV</span>}</li>
-                  <li>Seguro: {selectedCar?.seguro !== null ? <a href={`${baseURL}/cars/${selectedCar?.id}/seguro`}>Descargar seguro</a> : <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadSeguro}>Añadir seguro</span>}</li>
+                  <li>VTV: {selectedCar?.VTV !== null ? <><a href={`${baseURL}/cars/${selectedCar?.id}/vtv`}>Descargar VTV</a><span> Vencimiento {vtvExpiration.replace(/-/g, '/')}</span></> : <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadVTV}>Añadir VTV</span>}</li>
+                  <li>Seguro: {selectedCar?.seguro !== null ? <><a href={`${baseURL}/cars/${selectedCar?.id}/seguro`}>Descargar seguro</a><span> Vencimiento {seguroExpiration.replace(/-/g, '/')}</span></> : <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadSeguro}>Añadir seguro</span>}</li>
                 </ul>
                 <div>
                   <span className="fw-bold">Papeles: </span><span>{selectedCar?.documento.length > 0 ? selectedCar.documento.map(document => document.document === null?  (

@@ -102,6 +102,28 @@ const CarState = (props) => {
     return driverEvents.reduce(reducer, null);
   };
 
+  /**
+   * Get the last event of one car by one type of event
+   * @param {Array} events all events of the car 
+   * @param {String} typeEvent target event type
+   */
+  const getLastEventByTypeEvent = (events, typeEvent) => {
+    const reducer = (lastEvent, event) => {
+      if (lastEvent) {
+        if (event.type === typeEvent) {
+          const date = new Date(event.createdAt);
+          const date2 = new Date(lastEvent.createdAt);
+          return date > date2 ? event : lastEvent;
+        } else {
+          return lastEvent;
+        }
+      } else if (event.type === typeEvent) {
+        return event;
+      }
+    }
+    return events.reduce(reducer, null);
+  }
+
   const getCarById = async (carId) => {
     const response = await axios.get(`/cars/autos/${carId}`);
     const car = response.data;
@@ -144,6 +166,7 @@ const CarState = (props) => {
         selectCar,
         getCarById,
         deleteDocumentById,
+        getLastEventByTypeEvent,
       }}
     >
       {children}
