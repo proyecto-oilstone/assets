@@ -44,6 +44,7 @@ const Filters = ({ children, columns, filters, setFilters }) => {
       label: filterValue.label,
       key: selectedFilter.key,
       value: filterValue.value,
+      onFilter: selectedFilter.onFilter,
     };
     const copyFilters = Array.from(filters);
     copyFilters.push(filter);
@@ -60,6 +61,7 @@ const Filters = ({ children, columns, filters, setFilters }) => {
   const getFiltersToSelect = () => {
     const filtersToSelect = [];
     columns.forEach(col => {
+      if ("isFiltrable" in col && !col.isFiltrable) return;
       const isAppliedFilter = filters.some(filter => filter.key === col.key);
       if (!isAppliedFilter) {
         filtersToSelect.push(col);

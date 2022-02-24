@@ -5,6 +5,7 @@ import ExportCSVButton from '../Buttons/ExportCSV';
 import CustomReactTable from '../Table/CustomReactTable';
 import ButtonPrimary from '../Buttons/Primary/ButtonPrimary';
 import { getCarTypeType } from '../../helpers/utils';
+import FilterSelect from '../Table/CustomReactTable/FilterSelect';
 
 const CarTypeList = ({ onCreate }) => {
   const { carTypes, getCarTypes, deleteCarType } = useContext(CarTypeContext);
@@ -12,6 +13,21 @@ const CarTypeList = ({ onCreate }) => {
   const [selectedCarType, setSelectedCarType] = useState(null);
   const [downloadCSV, setDownloadCSV] = useState(false);
   const toggleEditModal = () => setShowEditModal(!showEditModal);
+
+  const statusValues = [{
+    label: "Liviano",
+    value: "LIGHT_VEHICLE"
+  },
+  {
+    label: "Pesado",
+    value: "HEAVY_VEHICLE"
+  },
+  ];
+
+  const filterComponentCarType = ({ value, setValue }) => (
+    <FilterSelect value={value} setValue={setValue} values={statusValues}/>
+  );
+
 
   const showEditCarTypeModal = (carType) => {
     setSelectedCarType(carType);
@@ -46,6 +62,7 @@ const CarTypeList = ({ onCreate }) => {
     key: 'type',
     export: false,
     onExport: (carType) => getCarTypeType(carType.type),
+    filterComponent: filterComponentCarType,
     showInTable: false
   },
   ]);

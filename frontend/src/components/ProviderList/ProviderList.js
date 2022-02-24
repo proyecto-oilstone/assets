@@ -47,6 +47,7 @@ const ProviderList = ({ onCreate }) => {
     onExport: (provider) => getProviderType(provider.type),
     export: false,
     showInTable: false,
+    isFiltrable: false,
   },
   ]);
 

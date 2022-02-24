@@ -16,42 +16,46 @@ const Event = (props) => {
   const setDriverTitle = () => {
     if (event.driver === null) {
       setTitle("Se desasigno un conductor");
+      setDescription(`Se desasigno al conductor al vehiculo con patente `);
     } else {
       setTitle(`Se asigno un conductor`);
-      setDescription(`Se asigno al conductor ${event.driver}`)
+      setDescription(`Se asigno al conductor ${event.driver} al vehiculo con patente `);
     }
   };
 
   const setReportProblemTitle = () => {
     setTitle("Se reporto un problema");
-    setDescription(`Se reporto el problema ${event.problem}`)
+    setDescription(`Se reporto el problema ${event.problem} al vehiculo con patente `);
   };
 
   const setWorkshopTitle = () => {
-    setTitle(`Se almaceno en el taller`);
+    setTitle(`Almacenado en el taller`);
+    setDescription("Se almaceno el el taller el vehiculo con patente ")
   };
 
   const setRepairRequestTitle = () => {
     if (event.problemId === null && event.providerId === null) {
-      setTitle("Reparacion finalizada")
+      setTitle("Reparacion finalizada");
+      setDescription("Se finalizo la reparacion del vehiculo con patente ");
     } else {
-      setTitle("Se solicito un pedido de reparacion");
+      setTitle("Pedido de reparacion");
+      setDescription("Se realizo un pedido de reparacion del vehiculo con patente ");
     }
   };
 
   const setExpirationTitle = () => {
     setTitle("Vencimiento");
-    setDescription(`Vencimiento del vehiculo con patente ${car?.patente}`)
+    setDescription(`Vencimiento del vehiculo con patente `)
   };
 
   const setExpirationVTV = () => {
     setTitle("Vencimiento VTV");
-    setDescription(`Vencimiento VTV del vehiculo con patente ${car?.patente}`)
+    setDescription(`Vencimiento VTV del vehiculo con patente `)
   };
 
   const setExpirationSeguro = () => {
     setTitle("Vencimiento seguro");
-    setDescription(`Vencimiento de el seguro del vehiculo con patente ${car?.patente}`)
+    setDescription(`Vencimiento de el seguro del vehiculo con patente `)
   };
 
   useEffect(() => {
@@ -75,10 +79,9 @@ const Event = (props) => {
 
   return (<>
     <div className={`p-1`} style={{ backgroundColor: eventsColors[event.type], color: eventsTextColors[event.type] }} onClick={toggleShowEvent}>{title}</div>
-    <CustomModal show={showEvent} toggle={toggleShowEvent} title={"Detalle de evento"}>
+    <CustomModal centered show={showEvent} toggle={toggleShowEvent} title={title}>
       <div className="text-dark p-3">
-        <div className="fw-bold d-block">{title}</div>
-        <div>{description}</div>
+        <div>{description}<span className={"fw-bold"}>{car?.patente}</span></div>
         <div>Inicio: {formatDate(event.start)}</div>
         <div>Hasta: {formatDate(event.end)}</div>
         {linkeableEvent && (<div><Link to={`/vehiculos/${car.id}`}>Ver vehiculo</Link></div>)}

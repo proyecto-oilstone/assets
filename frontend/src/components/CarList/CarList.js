@@ -11,6 +11,7 @@ import ButtonPrimary from '../Buttons/Primary/ButtonPrimary';
 import BadgeCarStatus from '../Badges/CarStatus';
 import FilterSelect from '../Table/CustomReactTable/FilterSelect';
 import useQuery from '../../hooks/useQuery';
+import FilterBoolean from '../Table/CustomReactTable/FilterBoolean';
 
 const CarList = ({ onCreate }) => {
   const { cars, getCars, deleteCar, postFile } = useContext(CarContext);
@@ -58,6 +59,14 @@ const CarList = ({ onCreate }) => {
 
   const filterComponentStatus = ({ value, setValue }) => (
     <FilterSelect value={value} setValue={setValue} values={statusValues}/>
+  );
+
+  const filterComponentVtv = ({ value, setValue }) => (
+    <FilterBoolean value={value} setValue={setValue}/>
+  );
+
+  const filterComponentSeguro = ({ value, setValue }) => (
+    <FilterBoolean value={value} setValue={setValue}/>
   );
 
   const query = useQuery();
@@ -112,15 +121,19 @@ const CarList = ({ onCreate }) => {
     label: 'Tiene VTV',
     key: 'VTV',
     onExport: (car) => car.VTV !== null ? "Si" : "No",
+    onFilter: (car, value) => value === 'Si' ? (car.VTV !== null) : (value === 'No' ? car.VTV === null : false),
     export: false,
     showInTable: false,
+    filterComponent: filterComponentVtv,
   },
   {
     label: 'Tiene Seguro',
     key: 'seguro',
     onExport: (car) => car.seguro !== null ? "Si" : "No",
+    onFilter: (car, value) => value === 'Si' ? (car.seguro !== null) : (value === 'No' ? car.seguro === null : false),
     export: false,
     showInTable: false,
+    filterComponent: filterComponentSeguro,
   },
   ]);
 
