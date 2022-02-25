@@ -1,6 +1,5 @@
 const { Event, Cars } = require("../../../../db/index");
 const { eventTypes } = require("../../../../utils/constants");
-const { getChildrenEventModelsWithoutBinaryData } = require("../../../../utils/functions");
 const getFiles = require("../files_services/getFiles");
 
 /**
@@ -35,6 +34,26 @@ const getAttributes = (modelEvent) => {
   return Object.keys(modelEvent.rawAttributes);
 }
 
+/**
+ * Get all attributes of the model (same as getAttributes but without BLOB fields)
+ * @param {Model} modelEvent @Model of @Event
+ * @returns {Array} with all attributes of the model (without the fields of type BLOB)
+ */
+const getAttributesWithoutBlobFields = (modelEvent) => {
+  const modelAttributes = Object.keys(modelEvent.rawAttributes);
+  const withoutBlobField = (attribute) => modelEvent.rawAttributes[attribute].type.key !== "BLOB";
+  return modelAttributes.filter(withoutBlobField);
+}
+
+/**
+ * Get the model events without the field of type BLOB that has binary data of events with files
+ * @param {EventModel} eventModel
+ * @return {EventModel} 
+ */
+const getChildrenEventModelsWithoutBlobFields = (eventModel) => {
+  return eventModel.childrenModels.map(model => ({ model, attributes: getAttributesWithoutBlobFields(model) }));
+}
+
 module.exports = {
   /**
    * Get any @Event by id
@@ -67,7 +86,7 @@ module.exports = {
       },
       attributes: ["id", "type", "createdAt", "updatedAt", "carId"],
       include: [
-        ...getChildrenEventModelsWithoutBinaryData(Event),
+        ...getChildrenEventModelsWithoutBlobFields(Event),
         Cars,
       ]
     };
@@ -130,7 +149,7 @@ module.exports = {
    */
   getEventsByCarIdAndEventType: async (carId, eventModel) => {
     const type = eventModel.type;
-    const additionalAttributes = getAttributes(eventModel);
+    const additionalAttributes = getAttributesWithoutBlobFields(eventModel);
   
     let query = {
       where: {
@@ -141,7 +160,7 @@ module.exports = {
       include: [
         {
           model: eventModel,
-          attributes: {exclude: ['data']},
+          attributes: additionalAttributes,
           where: {},
           required: true,
         },
@@ -172,13 +191,12 @@ module.exports = {
     let query = {
       attributes: ["id", "type", "createdAt", "updatedAt", "carId"],
       include: [
-        ...getChildrenEventModelsWithoutBinaryData(Event),
+        ...getChildrenEventModelsWithoutBlobFields(Event),
         Cars,
       ]
     };
 
     let events = await Event.findAll(query);
-    console.log(events);
     const removeInvalidEvents = event => event;
     events = events.map(formatEventWithTypeEvent);
     events = events.filter(removeInvalidEvents);

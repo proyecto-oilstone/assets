@@ -55,7 +55,7 @@ const DashboardCards = () => {
       </Card>
 
       <Card status="AVAILABLE">
-        <div className="h6">Vehiculos disponibles</div>
+        <div className="h6">Vehiculos en backup</div>
         <div className="fw-bold h3">{dashboardData ? dashboardData.total.AVAILABLE : 0}</div>
       </Card>
 

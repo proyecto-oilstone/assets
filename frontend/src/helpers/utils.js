@@ -59,7 +59,7 @@ export function getCarStatus(carType) {
   case "RESERVED": return "reservado";
   case "INFORMED": return "informado";
   case "REPAIR": return "en reparacion";
-  case "AVAILABLE": return  "disponible";
+  case "AVAILABLE": return  "backup";
   case "EXPIRED_DOCUMENTATION": return "con documentacion vencida";
   case "DISCHARGED": return "dado de baja";
   default: return "desconocido";

@@ -45,7 +45,7 @@ const CarList = ({ onCreate }) => {
     value: "REPAIR"
   },
   {
-    label: "Disponible",
+    label: "Backup",
     value: "AVAILABLE"
   },
   {

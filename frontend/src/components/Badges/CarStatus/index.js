@@ -11,7 +11,7 @@ const BadgeCarStatus = ({ status }) => {
     case "RESERVED": setTitle("Reservado"); break;
     case "INFORMED": setTitle("Informado"); break;
     case "REPAIR": setTitle("En reparacion"); break;
-    case "AVAILABLE": setTitle("Disponible"); break;
+    case "AVAILABLE": setTitle("Backup"); break;
     case "EXPIRED_DOCUMENTATION": setTitle("Documentacion vencida"); break;
     case "DISCHARGED": setTitle("Baja"); break;
     default: setTitle("Desconocido");

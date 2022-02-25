@@ -19,6 +19,7 @@ import UploadVTVModal from "../../components/Modals/UploadVTVModal";
 import UploadSeguroModal from "../../components/Modals/UploadSeguroModal";
 import styles from "./Vehiculos.module.css";
 import BadgeCarStatus from "../../components/Badges/CarStatus";
+import ProblemsSection from "../../components/ProblemsSection";
 
 const VehiculoDetails = () => {
   const { selectedCar, getCarById, deleteDocumentById, getLastEventByTypeEvent } = useContext(CarContext);
@@ -34,10 +35,11 @@ const VehiculoDetails = () => {
   const toggleShowModalUploadVTV = () => setShowModalUploadVTV(!showModalUploadVTV);
   const toggleShowModalUploadSeguro = () => setShowModalUploadSeguro(!showModalUploadSeguro);
   const [activeTab, setActiveTab] = useState('basic-data');
+  const [activeCalendarTab, setActiveCalendarTab] = useState('problems');
   const [statusComponent, setStatusComponent] = useState("");
   const lastVTVEvent = getLastEventByTypeEvent(eventsByCar, "VTV");
   const lastSeguroEvent = getLastEventByTypeEvent(eventsByCar, "SEGURO");
-  const vtvExpiration = lastVTVEvent ? lastVTVEvent.expirationDate : "No hay vtv cargada";
+  const vtvExpiration = lastVTVEvent !== null ? lastVTVEvent.expirationDate : "No hay vtv cargada";
   const seguroExpiration = lastSeguroEvent ? lastSeguroEvent.expirationDate : "No hay seguro cargado";
 
   useEffect(() => {
@@ -90,7 +92,7 @@ const VehiculoDetails = () => {
       },
       "AVAILABLE": () => {
         setStatusComponent(<div>
-          <div>El vehiculo se encuentra disponible.</div>
+          <div>El vehiculo se encuentra en backup.</div>
           <div>Se puede asignar o reservar un conductor</div>
         </div>);
       },
@@ -176,13 +178,13 @@ const VehiculoDetails = () => {
                 <div><span className="fw-bold">Estado del vehiculo: </span><span>{getCarStatus(selectedCar?.status)}</span></div>
                 <div><span className="fw-bold">Documentacion obligatoria: </span></div>
                 <ul>
-                  <li>VTV: {selectedCar?.VTV !== null ? <><a href={`${baseURL}/cars/${selectedCar?.id}/vtv`}>Descargar VTV</a><span> Vencimiento {vtvExpiration.replace(/-/g, '/')}</span></> : <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadVTV}>Añadir VTV</span>}</li>
-                  <li>Seguro: {selectedCar?.seguro !== null ? <><a href={`${baseURL}/cars/${selectedCar?.id}/seguro`}>Descargar seguro</a><span> Vencimiento {seguroExpiration.replace(/-/g, '/')}</span></> : <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadSeguro}>Añadir seguro</span>}</li>
+                  <li>VTV: {selectedCar?.VTV !== null ? <><a href={`${baseURL}/cars/${selectedCar?.id}/vtv`} className="text-decoration-none link-primary">Descargar VTV</a><span className={vtvExpiration === null && "d-none"}> Vencimiento {vtvExpiration?.replace(/-/g, '/')}</span></> : <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadVTV}>Añadir VTV</span>}</li>
+                  <li>Seguro: {selectedCar?.seguro !== null ? <><a href={`${baseURL}/cars/${selectedCar?.id}/seguro`} className="text-decoration-none link-primary">Descargar seguro</a><span className={seguroExpiration === null && "d-none"}> Vencimiento {seguroExpiration?.replace(/-/g, '/')}</span></> : <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadSeguro}>Añadir seguro</span>}</li>
                 </ul>
                 <div>
                   <span className="fw-bold">Papeles: </span><span>{selectedCar?.documento.length > 0 ? selectedCar.documento.map(document => document.document === null?  (
                     <div className="mt-2 d-flex" key={document.id}>
-                      <a href={`${baseURL}/files/files/${document.id}`}>
+                      <a href={`${baseURL}/files/files/${document.id}`} className="text-decoration-none link-primary">
                         {document.name} 
                       </a>
                       <div className="ms-2"><img role="button" className={`icon-sm cursor-pointer`} src="/icons/trash-alt-solid.svg" alt="eliminar" onClick={() => onDeleteDocument(document)} /></div>
@@ -225,7 +227,19 @@ const VehiculoDetails = () => {
         </Row>
 
         <div className="container-details-id mt-5">
-          <ReactBigCalendar events={eventsByCar} expandEvents/>
+          <Tabs
+            id="controlled-tab-example"
+            activeKey={activeCalendarTab}
+            onSelect={(k) => setActiveCalendarTab(k)}
+            className="mb-3"
+          >
+            <Tab eventKey="calendar" title="Calendario">
+              <ReactBigCalendar events={eventsByCar} expandEvents/>
+            </Tab>
+            <Tab eventKey="problems" title="Problemas">
+              <ProblemsSection/>
+            </Tab>
+          </Tabs>
         </div>
 
         <CustomModal show={showWariningDeleteDocument} toggle={toggleShowWarningDeleteDocument} title={"Eliminar documento"} footerComponent={warningDeleteComponentFooter}>

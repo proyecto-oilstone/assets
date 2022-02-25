@@ -10,12 +10,4 @@ module.exports = {
   typeVehicleToString: (type) => {
     return Object.keys(typeVehicles).find(t => typeVehicles[t] === type);
   },
-  /**
-   * Get the model events without the field 'data' that has binary data of events with files
-   * @param {EventModel} eventModel
-   * @return {EventModel} 
-   */
-  getChildrenEventModelsWithoutBinaryData: (eventModel) => {
-    return eventModel.childrenModels.map(model => ({ model, attributes: {exclude: ['data']} }));
-  },
 }

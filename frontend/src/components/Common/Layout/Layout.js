@@ -30,6 +30,7 @@ const Layout = (props) => {
             width: window.innerWidth - sidebarWidth + "px",
             height: window.innerHeight - height + "px",
             backgroundColor: "#F3F6F9",
+            overflowX: "hidden",
           }}
         >
           {children}

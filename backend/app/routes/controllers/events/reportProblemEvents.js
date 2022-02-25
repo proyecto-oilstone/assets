@@ -9,7 +9,11 @@ module.exports = {
    * @returns TODO: 403 validation errors
    */
   postReportProblemEvent: async (req, res) => {
-    const event = await reportProblemEventService.postReportProblemEvent(req.body);
+    let { prm, data } = req.files;
+    const { problem, description, carId } = req.body;
+    prm = prm === undefined ? null : prm[0];
+    data = data === undefined ? null : data[0];
+    const event = await reportProblemEventService.postReportProblemEvent({ prm, data, problem, description, carId });
     if (event) {
       res.status(201).json(event);
     } else {

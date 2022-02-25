@@ -6,6 +6,13 @@ module.exports = (sequelize) => {
     {
       problem: { type: DataTypes.STRING, allowNull: false },
       description: { type: DataTypes.TEXT, allowNull: true },
+      resolved: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
+      data: { type: DataTypes.BLOB("long"), allowNull: true },
+      data_name: { type: DataTypes.STRING, allowNull: true },
+      data_type: { type: DataTypes.STRING, allowNull: true },
+      prm: { type: DataTypes.BLOB("long"), allowNull: true },
+      prm_name: { type: DataTypes.STRING, allowNull: true },
+      prm_type: { type: DataTypes.STRING, allowNull: true },
     },
     { sequelize: sequelize, modelName: "ReportProblemEvent", timestamps: false }
   );
