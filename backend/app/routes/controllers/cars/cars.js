@@ -4,6 +4,7 @@ const getCarDetail = require("../services/cars_services/getCarDetail");
 const putCar = require("../services/cars_services/putCar");
 const stream = require("stream");
 const dashboardInfo = require("../services/cars_services/dashboardInfo");
+const { finishCarRepair } = require("../services/event_services/repairRequestEvent");
 
 module.exports = {
   getCarById: async (req, res) => {
@@ -59,5 +60,14 @@ module.exports = {
   
   dashboardInfo: async (req, res) => {
     res.status(200).send(await dashboardInfo(req.query.endDate));
+  },
+
+  finishRepair: async (req, res) => {
+    try {
+      await finishCarRepair(req.params.id);
+      res.status(200).send({ message: "repair successful" });
+    } catch (err) {
+      res.status(200).send({ message: err.message });
+    }
   },
 }

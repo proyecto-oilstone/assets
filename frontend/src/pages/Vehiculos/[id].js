@@ -22,7 +22,7 @@ import BadgeCarStatus from "../../components/Badges/CarStatus";
 import ProblemsSection from "../../components/ProblemsSection";
 
 const VehiculoDetails = () => {
-  const { selectedCar, getCarById, deleteDocumentById, getLastEventByTypeEvent } = useContext(CarContext);
+  const { selectedCar, getCarById, deleteDocumentById, getLastEventByTypeEvent, finishCarRepair } = useContext(CarContext);
   const { unAssignDriver, unAssignReservedDriver, getEventsByCarId, eventsByCar } = useContext(EventContext);
   const { id } = useParams();
   const [showWariningDeleteDocument, setShowWariningDeleteDocument] = useState(false);
@@ -56,7 +56,11 @@ const VehiculoDetails = () => {
       getEventsByCarId(selectedCar.id);
     }
   }, [selectedCar]);
-  
+
+  const handleFinishRepair = async () => {
+    await finishCarRepair(selectedCar.id);
+    getCarById(selectedCar.id);
+  }
 
   useEffect(() => {
     const action = {
@@ -87,7 +91,10 @@ const VehiculoDetails = () => {
       },
       "REPAIR": () => {
         setStatusComponent(
-          <div>El vehiculo se encuentra en reparacion.</div>
+          <div className="d-flex flex-column justify-content-between h-90">
+            <div>El vehiculo se encuentra en reparacion.</div>
+            <ButtonPrimary className="rounded w-100" onClick={handleFinishRepair}>Finalizar reparacion</ButtonPrimary>
+          </div>
         );
       },
       "AVAILABLE": () => {
@@ -219,7 +226,7 @@ const VehiculoDetails = () => {
               <div className="d-flex justify-content-center align-items-center">
                 <BadgeCarStatus status={selectedCar?.status}/>
               </div>
-              <div className="mt-3">
+              <div className="mt-3 h-100">
                 {statusComponent}
               </div>
             </div>

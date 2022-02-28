@@ -154,6 +154,10 @@ const CarState = (props) => {
     }
   }
 
+  const finishCarRepair = async (carId) => {
+    return await axios.put(`/cars/${carId}/finish-repair`);
+  }
+
   return (
     <CarContext.Provider
       value={{
@@ -167,6 +171,7 @@ const CarState = (props) => {
         getCarById,
         deleteDocumentById,
         getLastEventByTypeEvent,
+        finishCarRepair,
       }}
     >
       {children}

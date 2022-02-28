@@ -103,12 +103,12 @@ const EventState = (props) => {
     return data;
   };
 
-  const createRepairRequest = async (carId, providerId, problemId) => {
+  const createRepairRequest = async (carId, providerId, problems, estimatedDate) => {
     const repairRequestEvent = {
       carId,
       providerId,
-      problemId,
-      createdAt: Date.now(),
+      problems,
+      estimatedDate: estimatedDate === "" ? null : estimatedDate,
     };
     const response = await axios.post("/events/repair-requests/", repairRequestEvent);
     const data = response.data;

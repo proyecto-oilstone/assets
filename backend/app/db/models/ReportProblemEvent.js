@@ -6,7 +6,8 @@ module.exports = (sequelize) => {
     {
       problem: { type: DataTypes.STRING, allowNull: false },
       description: { type: DataTypes.TEXT, allowNull: true },
-      resolved: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
+      resolved: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false }, // if the report problem was resolved
+      resolving: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false }, // if the report problem is resolving
       data: { type: DataTypes.BLOB("long"), allowNull: true },
       data_name: { type: DataTypes.STRING, allowNull: true },
       data_type: { type: DataTypes.STRING, allowNull: true },

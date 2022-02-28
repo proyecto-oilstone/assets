@@ -136,3 +136,7 @@ code {
 .icon-yellow {
   filter: invert(71%) sepia(81%) saturate(610%) hue-rotate(359deg) brightness(102%) contrast(103%);
 }
+
+.h-90 {
+  height: 90% !important;
+}

@@ -13,5 +13,6 @@ router.delete("/autos/:id", deleteCar)
 router.get("/:id/vtv", controller.downloadVTVByCarId);
 router.get("/:id/seguro", controller.downloadSeguroByCarId);
 router.get("/dashboard", controller.dashboardInfo);
+router.put("/:id/finish-repair", controller.finishRepair);
 
 module.exports = router;
