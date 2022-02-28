@@ -12,6 +12,7 @@ const getSectorDetail = async (req, res) => {
         model: Cars,
         attributes: ["id", "patente", "activo", "año"],
         where: {},
+        required: false,
       },
     ],
   };
