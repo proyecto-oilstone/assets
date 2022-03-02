@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import { ADD_PROVIDER, SET_PROVIDERS, DELETE_PROVIDER, SELECT_PROVIDER } from "../types";
+import { ADD_PROVIDER, SET_PROVIDERS, DELETE_PROVIDER, SELECT_PROVIDER, } from "../types";
 import ProviderReducer from "./ProviderReducer";
 import ProviderContext from "./ProviderContext";
 import axios from "../../helpers/axios";
@@ -16,7 +16,7 @@ const ProviderState = (props) => {
   const [state, dispatch] = useReducer(ProviderReducer, initialState);
 
   const createProvider = async (provider) => {
-    provider.type = providerTypes[provider.type.value];
+    provider.type = 2;
     let response = await axios.post("/provider/provider", provider);
     provider = response.data.provider;
     dispatch({
@@ -27,7 +27,49 @@ const ProviderState = (props) => {
   };
 
   const getProviders = async () => {
-    const response = await axios.get("/provider/providers");
+    const response = await axios.get("/provider/providers?type=2");
+    const providers = responseToArray(response.data);
+    dispatch({
+      type: SET_PROVIDERS,
+      payload: providers,
+    });
+    return providers;
+  };
+
+  const createWorkshop = async (workshop) => {
+    workshop.type = 1;
+    let response = await axios.post("/provider/provider", workshop);
+    workshop = response.data.provider;
+    dispatch({
+      type: ADD_PROVIDER,
+      payload: workshop,
+    });
+    return workshop;
+  };
+
+  const getWorkshops = async () => {
+    const response = await axios.get("/provider/providers?type=1");
+    const providers = responseToArray(response.data);
+    dispatch({
+      type: SET_PROVIDERS,
+      payload: providers,
+    });
+    return providers;
+  };
+
+  const createOtherProvider = async (provider) => {
+    provider.type = 3;
+    let response = await axios.post("/provider/provider", provider);
+    provider = response.data.provider;
+    dispatch({
+      type: ADD_PROVIDER,
+      payload: provider,
+    });
+    return provider;
+  };
+
+  const getOtherProviders = async () => {
+    const response = await axios.get("/provider/providers?type=3");
     const providers = responseToArray(response.data);
     dispatch({
       type: SET_PROVIDERS,
@@ -96,6 +138,10 @@ const ProviderState = (props) => {
         editProvider,
         deleteProvider,
         getProviderById,
+        getWorkshops,
+        createWorkshop,
+        createOtherProvider,
+        getOtherProviders,
       }}
     >
       {children}
