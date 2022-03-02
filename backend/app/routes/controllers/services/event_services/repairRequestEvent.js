@@ -46,15 +46,20 @@ module.exports = {
    * any driver or reserver driver before repair
    * @param {Number} carId 
    */
-  finishCarRepair: async (carId) => {
+  finishCarRepair: async (carId, problemsIds) => {
     const car = await getCarDetail(carId);
     if (car.status !== "REPAIR") throw new Error("nothing to repair");
     const resolvingProblems = await getAllResolvingProblemsByCarId(carId);
-    const resolvingProblemsIds = resolvingProblems.map(problem => problem.id);
+    let resolvingProblemsIds = resolvingProblems.map(problem => problem.id);
     const pendingProblems = await getAllPendingProblemsByCarId(carId);
-    const hasMoreProblems = pendingProblems.length > 0;
+    const hasMoreRepairingProblems = problemsIds.length < resolvingProblemsIds.length;
+    const hasMoreProblems = pendingProblems.length > 0 || hasMoreRepairingProblems;
+    resolvingProblemsIds = problemsIds.filter(rp => resolvingProblemsIds.includes(rp));
+
     let newCarStatus = null;
-    if (hasMoreProblems) {
+    if (hasMoreRepairingProblems) {
+      newCarStatus = "REPAIR";
+    } else if (hasMoreProblems) {
       newCarStatus = "INFORMED";
     } else {
       const lastDriverEvent = await getLastDriverEventByCarId(carId);
@@ -68,7 +73,7 @@ module.exports = {
         newCarStatus = "AVAILABLE";
       }
     }
-
+    
     await updateCarStatus(car.id, newCarStatus);
     await resolveProblems(resolvingProblemsIds);
   },

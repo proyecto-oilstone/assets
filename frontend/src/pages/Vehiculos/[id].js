@@ -20,6 +20,7 @@ import UploadSeguroModal from "../../components/Modals/UploadSeguroModal";
 import styles from "./Vehiculos.module.css";
 import BadgeCarStatus from "../../components/Badges/CarStatus";
 import ProblemsSection from "../../components/ProblemsSection";
+import FinishRepairModal from "../../components/Modals/FinishRepairModal";
 
 const VehiculoDetails = () => {
   const { selectedCar, getCarById, deleteDocumentById, getLastEventByTypeEvent, finishCarRepair } = useContext(CarContext);
@@ -28,12 +29,14 @@ const VehiculoDetails = () => {
   const [showWariningDeleteDocument, setShowWariningDeleteDocument] = useState(false);
   const [showModalUploadVTV, setShowModalUploadVTV] = useState(false);
   const [showModalUploadSeguro, setShowModalUploadSeguro] = useState(false);
+  const [showModalFinishRepair, setShowModalFinishRepair] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState(null);
   const toggleShowWarningDeleteDocument = () => setShowWariningDeleteDocument(!showWariningDeleteDocument);
   const [showFileModal, setShowFileModal] = useState(false);
   const toggleFileModal = () => setShowFileModal(!showFileModal);
   const toggleShowModalUploadVTV = () => setShowModalUploadVTV(!showModalUploadVTV);
   const toggleShowModalUploadSeguro = () => setShowModalUploadSeguro(!showModalUploadSeguro);
+  const toggleShowModalFinishRepair = () => setShowModalFinishRepair(!showModalFinishRepair);
   const [activeTab, setActiveTab] = useState('basic-data');
   const [activeCalendarTab, setActiveCalendarTab] = useState('problems');
   const [statusComponent, setStatusComponent] = useState("");
@@ -56,11 +59,6 @@ const VehiculoDetails = () => {
       getEventsByCarId(selectedCar.id);
     }
   }, [selectedCar]);
-
-  const handleFinishRepair = async () => {
-    await finishCarRepair(selectedCar.id);
-    getCarById(selectedCar.id);
-  }
 
   useEffect(() => {
     const action = {
@@ -93,7 +91,7 @@ const VehiculoDetails = () => {
         setStatusComponent(
           <div className="d-flex flex-column justify-content-between h-90">
             <div>El vehiculo se encuentra en reparacion.</div>
-            <ButtonPrimary className="rounded w-100" onClick={handleFinishRepair}>Finalizar reparacion</ButtonPrimary>
+            <ButtonPrimary className="rounded w-100" onClick={toggleShowModalFinishRepair}>Finalizar reparacion</ButtonPrimary>
           </div>
         );
       },
@@ -203,8 +201,6 @@ const VehiculoDetails = () => {
                 </div>
                 
                 <div className="mt-3">
-                  <ReportProblem />
-                  <RepairEvent />
                   <StoreWorkshop buttonClassName="mx-2"/>
                 </div>
               </Tab>
@@ -256,6 +252,7 @@ const VehiculoDetails = () => {
 
         <UploadVTVModal show={showModalUploadVTV} toggle={toggleShowModalUploadVTV}/>
         <UploadSeguroModal show={showModalUploadSeguro} toggle={toggleShowModalUploadSeguro}/>
+        <FinishRepairModal show={showModalFinishRepair} toggle={toggleShowModalFinishRepair}/>
       </Container>
     </Layout>
   );

@@ -154,8 +154,8 @@ const CarState = (props) => {
     }
   }
 
-  const finishCarRepair = async (carId) => {
-    return await axios.put(`/cars/${carId}/finish-repair`);
+  const finishCarRepair = async (carId, problemsIds) => {
+    return await axios.put(`/cars/${carId}/finish-repair`, { ids: problemsIds });
   }
 
   return (
