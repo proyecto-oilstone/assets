@@ -5,9 +5,9 @@ import ProviderContext from "../../../contexts/providers/ProviderContext";
 import ButtonPrimary from "../../Buttons/Primary/ButtonPrimary";
 import Select from "react-select";
 
-const CreateProviderModal = (props) => {
-  const { show, toggle, edit = false, provider = null } = props;
-  const { createProvider, editProvider } = useContext(ProviderContext);
+const CreateOtherProviderModal = (props) => {
+  const { show, toggle, edit = false, provider = null,} = props;
+  const { createOtherProvider, editProvider } = useContext(ProviderContext);
   const [nombreCorto, setNombreCorto] = useState("");
   const [nombreLargo, setNombreLargo] = useState("");
   const [observaciones, setObservaciones] = useState("");
@@ -15,10 +15,10 @@ const CreateProviderModal = (props) => {
 
   const providerTypes = [
     {
-      label: "Alquiler",
-      value: "RENTAL"
-    },
-  ];
+        label: "Lavadero",
+        value: "CAR_WASH"
+      },
+];
 
   const resetFields = () => {
     setNombreCorto("");
@@ -33,7 +33,7 @@ const CreateProviderModal = (props) => {
       params.id = provider.id;
       editProvider(params);
     } else {
-      createProvider(params);
+      createOtherProvider(params);
     }
     resetFields();
     toggle();
@@ -122,4 +122,4 @@ const CreateProviderModal = (props) => {
   );
 };
 
-export default CreateProviderModal;
+export default CreateOtherProviderModal;

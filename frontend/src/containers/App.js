@@ -23,6 +23,8 @@ import EventState from "../contexts/events/EventState";
 import Sectores from "../pages/Sectores";
 import SectorDetails from "../pages/Sectores/[id]";
 import SectorState from "../contexts/sectors/SectorState";
+import Workshops from "../pages/Workshops/index";
+import OtherProvider from "../pages/OtherProviders";
 
 function App() {
 
@@ -95,6 +97,15 @@ function App() {
         <Route path="/usuarios" element={<PrivateRoute/>}>
           <Route path="/usuarios" element={<Usuarios />} />
         </Route>
+
+      <Route path="/talleres" element={<PrivateRoute/>}>
+        <Route path="/talleres" element={<Workshops />} />
+      </Route>
+
+      <Route path="/otrosProveedores" element={<PrivateRoute/>}>
+        <Route path="/otrosProveedores" element={<OtherProvider />} />
+      </Route>
+
       </Routes>
     </Providers>
   );

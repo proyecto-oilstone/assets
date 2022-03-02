@@ -7,11 +7,18 @@ const { typeProviderToString } = require("../../../../utils/functions");
  */
 
 const getProvider = async (req, res) => {
+
+  const { type } = req.query;
+
   let query = {
     where: {},
     attributes: ["id", "nombreLargo", "nombreCorto", "observaciones", "type"],
     order: [["nombreLargo", "ASC"]],
   };
+
+  if(type) {
+    query.where = {...query.where, type: type};
+  }
 
   let providers = await Provider.findAll(query);
 

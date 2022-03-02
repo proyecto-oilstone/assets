@@ -5,9 +5,9 @@ import ProviderContext from "../../../contexts/providers/ProviderContext";
 import ButtonPrimary from "../../Buttons/Primary/ButtonPrimary";
 import Select from "react-select";
 
-const CreateProviderModal = (props) => {
+const CreateWorkshopModal = (props) => {
   const { show, toggle, edit = false, provider = null } = props;
-  const { createProvider, editProvider } = useContext(ProviderContext);
+  const { createWorkshop, editProvider } = useContext(ProviderContext);
   const [nombreCorto, setNombreCorto] = useState("");
   const [nombreLargo, setNombreLargo] = useState("");
   const [observaciones, setObservaciones] = useState("");
@@ -15,10 +15,10 @@ const CreateProviderModal = (props) => {
 
   const providerTypes = [
     {
-      label: "Alquiler",
-      value: "RENTAL"
+        label: "Taller",
+        value: "WORKSHOP"
     },
-  ];
+];
 
   const resetFields = () => {
     setNombreCorto("");
@@ -33,7 +33,7 @@ const CreateProviderModal = (props) => {
       params.id = provider.id;
       editProvider(params);
     } else {
-      createProvider(params);
+      createWorkshop(params);
     }
     resetFields();
     toggle();
@@ -54,7 +54,7 @@ const CreateProviderModal = (props) => {
     <div></div>
     <div className="d-flex align-items-center flex-column">
       <div><img className="icon-xl" src="/icons/alquiler.svg"/></div>
-      <div className="h4">{edit ? `Editar Proveedor: ${provider?.nombreCorto}` : `Crear Proveedor`}</div>
+      <div className="h4">{edit ? `Editar Taller: ${provider?.nombreCorto}` : `Crear Taller`}</div>
     </div>
   </>);
 
@@ -122,4 +122,4 @@ const CreateProviderModal = (props) => {
   );
 };
 
-export default CreateProviderModal;
+export default CreateWorkshopModal;
