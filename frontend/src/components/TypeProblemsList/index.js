@@ -5,7 +5,7 @@ import CreateTypeProblemsModal from '../Modals/CreateTypeProblemModal';
 import ButtonPrimary from '../Buttons/Primary/ButtonPrimary';
 import ProblemsTypeContext from '../../contexts/problemTypes/ProblemsTypeContext';
 
-const SectorList = ({ onCreate }) => {
+const TypeProblemsList = ({ onCreate }) => {
   const { problemsTypes, getProblemsTypes, deleteProblemType } = useContext(ProblemsTypeContext);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedProblemType, setSelectedProblemType] = useState(null);
@@ -41,7 +41,7 @@ const SectorList = ({ onCreate }) => {
         </div>
       </div>
       <CustomReactTable
-        defaultSort="problema"
+        defaultSort="problem"
         onEdit={showEditProblemTypeModal}
         onDelete={(typeProblem) => deleteProblemType(typeProblem.id)}
         columns={columns}
@@ -59,4 +59,5 @@ const SectorList = ({ onCreate }) => {
 
 }
 
-export default SectorList
+export default TypeProblemsList;
+

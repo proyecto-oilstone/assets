@@ -26,7 +26,9 @@ import SectorState from "../contexts/sectors/SectorState";
 import Workshops from "../pages/Workshops/index";
 import OtherProvider from "../pages/OtherProviders";
 import TipoProblemas from "../pages/TipoProblemas";
+import TipoResoluciones from "../pages/TipoResoluciones";
 import ProblemsTypeState from "../contexts/problemTypes/ProblemsTypeState";
+import ResolutionsTypeState from "../contexts/resolutionTypes/ResolutionsTypeState";
 
 function App() {
 
@@ -45,6 +47,7 @@ function App() {
     EventState,
     CarTypeState,
     ProblemsTypeState,
+    ResolutionsTypeState,
     ProviderState,
     CarState,
     SectorState,
@@ -75,6 +78,10 @@ function App() {
 
         <Route path="/tipo-de-problemas" element={<PrivateRoute/>}>
           <Route path="/tipo-de-problemas" element={<TipoProblemas />}/>
+        </Route>
+
+        <Route path="/tipo-de-resoluciones" element={<PrivateRoute/>}>
+          <Route path="/tipo-de-resoluciones" element={<TipoResoluciones />}/>
         </Route>
 
         <Route path="/tipo-de-vehiculos/:id" element={<PrivateRoute/>}>
