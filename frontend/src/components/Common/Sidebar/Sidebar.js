@@ -113,6 +113,7 @@ const Sidebar = (props) => {
             <NavItem className="ps-3" title="Tipos de Vehiculo" to="/tipo-de-vehiculos" withArrow={false} icon="car-types.svg"/>
             <NavItem className="ps-3" title="Sectores" to="/sectores" withArrow={false} icon="sector.svg"/>
             <NavItem className="ps-3" to="/usuarios" title="Usuarios" withArrow={false} icon="user-icon.svg"/>
+            <NavItem className="ps-3" to="/tipo-de-problemas" title="Tipos de problemas" withArrow={false} icon="triangle-exclamation-solid.svg"/>
           </MultipleNavItem>
         </ul>
       </nav>

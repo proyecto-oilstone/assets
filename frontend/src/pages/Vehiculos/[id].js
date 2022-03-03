@@ -6,8 +6,6 @@ import { useParams } from 'react-router-dom'
 import EventContext from "../../contexts/events/EventContext";
 import { baseURL } from "../../helpers/constants";
 import { getCarStatus } from "../../helpers/utils";
-import RepairEvent from "../../components/Events/RepairEvent";
-import ReportProblem from "../../components/Events/ReportProblem";
 import AssignDriver from "../../components/Events/AssignDriver";
 import StoreWorkshop from "../../components/Events/StoreWorkshop";
 import CustomModal from "../../components/Modals/CustomModal/CustomModal";
@@ -21,9 +19,10 @@ import styles from "./Vehiculos.module.css";
 import BadgeCarStatus from "../../components/Badges/CarStatus";
 import ProblemsSection from "../../components/ProblemsSection";
 import FinishRepairModal from "../../components/Modals/FinishRepairModal";
+import EventsList from "../../components/Events/EventsList";
 
 const VehiculoDetails = () => {
-  const { selectedCar, getCarById, deleteDocumentById, getLastEventByTypeEvent, finishCarRepair } = useContext(CarContext);
+  const { selectedCar, getCarById, deleteDocumentById, getLastEventByTypeEvent } = useContext(CarContext);
   const { unAssignDriver, unAssignReservedDriver, getEventsByCarId, eventsByCar } = useContext(EventContext);
   const { id } = useParams();
   const [showWariningDeleteDocument, setShowWariningDeleteDocument] = useState(false);
@@ -236,6 +235,9 @@ const VehiculoDetails = () => {
             onSelect={(k) => setActiveCalendarTab(k)}
             className="mb-3"
           >
+            {/* <Tab eventKey="events" title="Eventos">
+              <EventsList/>
+            </Tab> */}
             <Tab eventKey="calendar" title="Calendario">
               <ReactBigCalendar events={eventsByCar} expandEvents/>
             </Tab>
