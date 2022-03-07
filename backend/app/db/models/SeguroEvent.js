@@ -8,6 +8,7 @@ module.exports = (sequelize) => {
       name: { type: DataTypes.STRING, allowNull: false },
       data: { type: DataTypes.BLOB("long"), allowNull: false },
       expirationDate: { type: DataTypes.STRING, allowNull: true }, // yyyy-mm-dd
+      Seguro:{ type: DataTypes.BOOLEAN, defaultValue: true },
     },
     { sequelize: sequelize, modelName: "SeguroEvent", timestamps: false }
   );

@@ -58,6 +58,8 @@ const SectorList = ({ onCreate }) => {
         onEdit={showEditSectorModal}
         onDelete={(sector) => deleteSector(sector.id)}
         columns={columns}
+        withEdit
+      withDelete
         data={sectors}
         downloadCSV={downloadCSV}
         CSVFilename="sectores.csv"

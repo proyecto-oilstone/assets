@@ -84,6 +84,8 @@ const CarTypeList = ({ onCreate }) => {
       columns={columns}
       data={carTypes}
       downloadCSV={downloadCSV}
+      withEdit
+      withDelete
       CSVFilename="tipo vehiculos.csv"
       containerClassName="bg-white p-4 rounded shadow-sm hover-shadow mb-3"
       deleteModalTitle="Eliminar tipo de vehiculo"

@@ -45,7 +45,7 @@ import ModalWarningDelete from '../../Modals/WarningDelete';
  * deleteModalDescription
  */
 const CustomReactTable = (props) => {
-  const { defaultFilters, columns, data, downloadCSV, CSVFilename = "file.csv", onDelete = () => { }, onEdit = () => { }, onFile = () => { }, withEdit = true, withDelete = true, withFiles = false, defaultSort = "", containerClassName, deleteModalTitle = "", deleteModalDescription = "" } = props;
+  const { defaultFilters, columns, data, downloadCSV, CSVFilename = "file.csv", onDelete = () => { }, onEdit = () => { }, onFile = () => { }, withEdit, withDelete, withFiles = false, defaultSort = "", containerClassName, deleteModalTitle = "", deleteModalDescription = "" } = props;
   const [tableColumns, setTableColumns] = useState([]);
   const [CSVColumns, setCSVColumns] = useState([]);
   const tableColumnsMemo = useMemo(() => tableColumns, [tableColumns]);

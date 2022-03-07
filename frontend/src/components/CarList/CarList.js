@@ -158,7 +158,6 @@ const CarList = ({ onCreate }) => {
     getProviders();
   }, []);
 
-
   return (<>
     <div className="d-flex justify-content-between mb-3">
       <div>
@@ -179,6 +178,8 @@ const CarList = ({ onCreate }) => {
       downloadCSV={downloadCSV}
       CSVFilename="vehiculos.csv"
       withFiles
+      withEdit
+      withDelete
       containerClassName="bg-white p-4 rounded shadow-sm hover-shadow mb-3"
       deleteModalTitle="Eliminar vehiculo"
       deleteModalDescription="el vehiculo con patente {{patente}}"

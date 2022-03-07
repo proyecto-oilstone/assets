@@ -21,6 +21,7 @@ import styles from "./Vehiculos.module.css";
 import BadgeCarStatus from "../../components/Badges/CarStatus";
 import ProblemsSection from "../../components/ProblemsSection";
 import FinishRepairModal from "../../components/Modals/FinishRepairModal";
+import FilesList from "../../components/FilesList/FilesList";
 
 const VehiculoDetails = () => {
   const { selectedCar, getCarById, deleteDocumentById, getLastEventByTypeEvent, finishCarRepair } = useContext(CarContext);
@@ -67,19 +68,19 @@ const VehiculoDetails = () => {
           <div>El vehiculo se encuentra fuera de servicio, se requiere que se cargue la documentacion obligatoria</div>
           <div>Se requiere:</div>
           <ul>
-            {selectedCar.VTV === null && <li>VTV</li>}
-            {selectedCar.seguro === null && <li>Seguro</li>}
+            {selectedCar.VTV === null && <li>VTV <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadVTV}>Añadir VTV</span></li>}
+            {selectedCar.seguro === null && <li>Seguro <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadSeguro}>Añadir seguro</span></li>}
           </ul>
         </>);
       },
       "IN_USE": () => {
         setStatusComponent(
-          <div>El vehiculo esta siendo utilizado por <span className="fw-bold">{selectedCar.driver}</span></div>
+          <div>El vehiculo esta siendo utilizado por <span className="fw-bold">{selectedCar.driver}</span> <span onClick={onUnAssignDriver} role="button" className="btn-link cursor-pointer">{selectedCar.isReserved ? "Quitar reserva" : "Desasignar conductor"}</span></div>
         );
       },
       "RESERVED": () => {
         setStatusComponent(
-          <div>El vehiculo esta reservado por <span className="fw-bold">{selectedCar.driver}</span></div>
+          <div>El vehiculo esta reservado por <span className="fw-bold">{selectedCar.driver}</span> <span onClick={onUnAssignDriver} role="button" className="btn-link cursor-pointer">{selectedCar.isReserved ? "Quitar reserva" : "Desasignar conductor"}</span></div>
         );
       },
       "INFORMED": () => {
@@ -98,7 +99,8 @@ const VehiculoDetails = () => {
       "AVAILABLE": () => {
         setStatusComponent(<div>
           <div>El vehiculo se encuentra en backup.</div>
-          <div>Se puede asignar o reservar un conductor</div>
+          <div>Se puede asignar o reservar un conductor <span> <AssignDriver /></span></div>
+          <StoreWorkshop buttonClassName="mx-2"/>
         </div>);
       },
       "EXPIRED_DOCUMENTATION": () => {
@@ -147,7 +149,7 @@ const VehiculoDetails = () => {
   const handleOnClick= () => {
     setShowFileModal(true);
   }
-
+console.log(selectedCar?.documento.files.length)
   return (
     <Layout>
       <Container className="mt-4">
@@ -179,8 +181,8 @@ const VehiculoDetails = () => {
                   </div>
                 </div>
               </Tab>
-              <Tab eventKey="status" title="Estado">
-                <div><span className="fw-bold">Estado del vehiculo: </span><span>{getCarStatus(selectedCar?.status)}</span></div>
+              <Tab eventKey="status" title="Documentos">
+                {/* <div><span className="fw-bold">Estado del vehiculo: </span><span>{getCarStatus(selectedCar?.status)}</span></div>
                 <div><span className="fw-bold">Documentacion obligatoria: </span></div>
                 <ul>
                   <li>VTV: {selectedCar?.VTV !== null ? <><a href={`${baseURL}/cars/${selectedCar?.id}/vtv`} className="text-decoration-none link-primary">Descargar VTV</a><span className={vtvExpiration === null && "d-none"}> Vencimiento {vtvExpiration?.replace(/-/g, '/')}</span></> : <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadVTV}>Añadir VTV</span>}</li>
@@ -202,7 +204,12 @@ const VehiculoDetails = () => {
                 
                 <div className="mt-3">
                   <StoreWorkshop buttonClassName="mx-2"/>
-                </div>
+                </div> */}
+                {selectedCar?.allFiles.length >= 1 ?
+                
+                <FilesList  document={selectedCar.allFiles[0]} selectedCar={selectedCar} /> 
+                : <div>Sin Papeles</div>}
+              
               </Tab>
               <Tab eventKey="provider" title="Proveedor">
                 <div><span className="fw-bold">Proveedor: </span><span>{selectedCar?.proveedor}</span></div>
@@ -222,6 +229,9 @@ const VehiculoDetails = () => {
               <div className="d-flex justify-content-center align-items-center">
                 <BadgeCarStatus status={selectedCar?.status}/>
               </div>
+
+               
+
               <div className="mt-3 h-100">
                 {statusComponent}
               </div>

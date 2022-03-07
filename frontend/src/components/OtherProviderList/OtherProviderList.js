@@ -67,6 +67,8 @@ const OtherProviderList = ({ onCreate }) => {
      onDelete={(provider) => deleteProvider(provider.id)}
      columns={columns}
      data={providers}
+     withEdit
+      withDelete
      downloadCSV={downloadCSV}
      CSVFilename="talleres.csv"
      containerClassName="bg-white p-4 rounded shadow-sm hover-shadow mb-3"
