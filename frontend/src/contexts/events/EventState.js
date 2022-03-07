@@ -86,12 +86,12 @@ const EventState = (props) => {
    * @param {Number} carId 
    * @returns {Event}
    */
-  const reportProblem = async (problem, description, carId, prm, data) => {
+  const reportProblem = async (problemTypeId, description, carId, prm, data) => {
     const formData = new FormData();
     formData.append('carId', carId);
     formData.append('data', data);
     formData.append('prm', prm);
-    formData.append('problem', problem);
+    formData.append('problemTypeId', problemTypeId);
     formData.append('description', description);
     const response = await axios.post(`/events/report-problems`, formData);
     return response.data;
@@ -103,11 +103,12 @@ const EventState = (props) => {
     return data;
   };
 
-  const createRepairRequest = async (carId, providerId, problems, estimatedDate) => {
+  const createRepairRequest = async (carId, providerId, repairTypeId, problems, estimatedDate) => {
     const repairRequestEvent = {
       carId,
       providerId,
       problems,
+      repairTypeId,
       estimatedDate: estimatedDate === "" ? null : estimatedDate,
     };
     const response = await axios.post("/events/repair-requests/", repairRequestEvent);

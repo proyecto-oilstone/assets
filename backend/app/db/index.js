@@ -67,6 +67,8 @@ SeguroEvent.belongsTo(Event, { foreignKey: {name: "id", allowNull: false}, targe
 
 RepairRequestEvent.belongsTo(ReportProblemEvent, { foreignKey: "problemId", targetKey: "id" });
 RepairRequestEvent.belongsTo(Provider, { foreignKey: "providerId", targetKey: "id" });
+ReportProblemEvent.belongsTo(ProblemType, { foreignKey: "problemTypeId", targetKey: "id" });
+RepairRequestEvent.belongsTo(ResolutionType, { foreignKey: "repairTypeId", targetKey: "id" });
 
 WorkshopEvent.belongsTo(Provider, { foreignKey: {name: "providerId", allowNull: false}, targetKey: "id" });
 

@@ -148,7 +148,6 @@ const VehiculoDetails = () => {
   const handleOnClick= () => {
     setShowFileModal(true);
   }
-console.log(selectedCar?.documento.files.length)
   return (
     <Layout>
       <Container className="mt-4">

@@ -6,12 +6,17 @@ module.exports = {
    * /events/repair-requests [POST]
    * @param {RepairRequestEvent}
    * @returns 201 and the @RepairRequestEvent created
-   * @returns TODO: 403 validation errors
+   * @returns 403 validation errors
    */
   postRepairRequestEvent: async (req, res) => {
-    const event = await repairRequestEventService.postRepairRequestEvent(req.body);
-    if (event) {
-      res.status(201).json(event);
+    const body = req.body;
+    if (body.carId && body.providerId && body.repairTypeId) {
+      const event = await repairRequestEventService.postRepairRequestEvent(body);
+      if (event) {
+        res.status(201).json(event);
+      } else {
+        res.sendStatus(403);
+      }
     } else {
       res.sendStatus(403);
     }

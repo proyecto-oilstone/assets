@@ -1,29 +1,32 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import CustomModal from "../CustomModal/CustomModal";
 import ButtonPrimary from "../../Buttons/Primary/ButtonPrimary";
 import EventContext from "../../../contexts/events/EventContext";
 import CarContext from "../../../contexts/cars/CarContext";
 import Select from "react-select";
-import SelectProviders from '../../Selects/Providers';
+import ResolutionsTypeContext from "../../../contexts/resolutionTypes/ResolutionsTypeContext";
+import { setLabelAndValue } from "../../../helpers/utils";
+import ProviderContext from "../../../contexts/providers/ProviderContext";
 
 const ResolveProblemModal = (props) => {
   const { show, toggle, problems } = props;
   const { selectedCar, getCarById } = useContext(CarContext);
+  const { providers ,getWorkshops } = useContext(ProviderContext);
+  const { resolutionsTypes, getResolutionsTypes } = useContext(ResolutionsTypeContext);
   const { createRepairRequest } = useContext(EventContext);
   const [selectedProvider, setSelectedProvider] = useState(null);
-  const [problemsSelected, setProblemsSelected] = useState([]);
   const [estimatedDate, setEstimatedDate] = useState("");
+  const [repairTypeSelected, setRepairTypeSelected] = useState(null);
 
   const resetFields = () => {
     setSelectedProvider(null);
-    setProblemsSelected([]);
     setEstimatedDate("");
   }
 
   const handleOnClick = async () => {
-    const problemsIds = problemsSelected.map(problem => problem.value);
-    await createRepairRequest(selectedCar.id, selectedProvider.id, problemsIds, estimatedDate);
+    const problemsIds = problems.map(problem => problem.id);
+    await createRepairRequest(selectedCar.id, selectedProvider.id, repairTypeSelected.id, problemsIds, estimatedDate);
     getCarById(selectedCar.id);
     resetFields();
     toggle();
@@ -37,22 +40,27 @@ const ResolveProblemModal = (props) => {
     </div>
   </>);
 
+  useEffect(() => {
+    getResolutionsTypes();
+    getWorkshops();
+  }, []);
+
   return (
     <CustomModal size="lg" show={show} centered toggle={toggle} HeaderComponent={header} headerClassName="d-flex justify-content-between px-3 py-4">
       <Form>
 
         <Row className="my-4">
           <Col sm="6">
-            <Form.Label column sm="12">Ingresa uno o mas problemas a reparar</Form.Label>
+            <Form.Label column sm="12">Ingresa el tipo de reparacion</Form.Label>
             <Col sm="12">
-              <Select isSearchable isMulti value={problemsSelected} onChange={setProblemsSelected} options={problems} />
+              <Select isSearchable value={repairTypeSelected} onChange={setRepairTypeSelected} options={setLabelAndValue(resolutionsTypes, "resolution", "id")} />
             </Col>
           </Col>
 
           <Col sm="6">
             <Form.Label column sm="12">Ingresa el taller a donde va a ser reparado</Form.Label>
             <Col sm="12">
-              <SelectProviders value={selectedProvider} onChange={setSelectedProvider} filter={provider => provider.type === "WORKSHOP"}/>
+              <Select value={selectedProvider} onChange={setSelectedProvider} options={setLabelAndValue(providers, "nombreCorto", "id")}/>
             </Col>
           </Col>
 
@@ -67,9 +75,9 @@ const ResolveProblemModal = (props) => {
           </Col>
         </Row>
 
-        <span className={`text-muted ${problemsSelected.length === 0 && "invisible"}`}>Al resolver {problemsSelected.length === 1 ? "este problema" : "estos problemas"} el estado del vehiculo pasara a informado.</span>
+        <span className={`text-muted ${problems.length === 0 && "invisible"}`}>Al resolver {problems.length === 1 ? "este problema" : "estos " + problems.length + " problemas"} el estado del vehiculo pasara a informado.</span>
         <div className="d-flex flex-row-reverse mt-4">
-          <ButtonPrimary disabled={selectedProvider === null || problemsSelected.length === 0} className={`mt-2 button-modal-end`} onClick={handleOnClick}>Reportar</ButtonPrimary>
+          <ButtonPrimary disabled={selectedProvider === null || repairTypeSelected === null} className={`mt-2 button-modal-end`} onClick={handleOnClick}>Reportar</ButtonPrimary>
         </div>
       </Form>
     </CustomModal>

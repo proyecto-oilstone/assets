@@ -47,7 +47,7 @@ const FinishRepairModal = (props) => {
         <Row className="my-4">
           <Form.Label column sm="12">Ingresa los problemas que se repararon</Form.Label>
           <Col sm="12">
-            <Select isSearchable isMulti value={problemsSelected} onChange={setProblemsSelected} options={setLabelAndValue(resolvingProblems, "problem", "id")} />
+            <Select isSearchable isMulti value={problemsSelected} onChange={setProblemsSelected} options={setLabelAndValue(resolvingProblems, "description", "id")} />
           </Col>
         </Row>
 

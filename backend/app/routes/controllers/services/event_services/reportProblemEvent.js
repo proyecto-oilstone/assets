@@ -4,10 +4,10 @@ const getCarDetail = require("../cars_services/getCarDetail");
 const { updateCarStatus } = require("../cars_services/updateStatus");
 
 module.exports = {
-  postReportProblemEvent: async ({ prm, data, problem, description, carId }) => {
+  postReportProblemEvent: async ({ prm, data, problemTypeId, description, carId }) => {
     const event = {
       carId,
-      problem,
+      problemTypeId,
       description,
       resolved: false,
       data: data !== null ? data.buffer : null,

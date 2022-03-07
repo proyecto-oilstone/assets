@@ -1,26 +1,30 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import CustomModal from "../CustomModal/CustomModal";
 import ButtonPrimary from "../../Buttons/Primary/ButtonPrimary";
 import EventContext from "../../../contexts/events/EventContext";
 import CarContext from "../../../contexts/cars/CarContext";
+import Select from "react-select";
+import ProblemsTypeContext from "../../../contexts/problemTypes/ProblemsTypeContext";
+import { setLabelAndValue } from "../../../helpers/utils";
 
 const CreateProblemModal = (props) => {
   const { show, toggle, showWarning } = props;
   const { selectedCar, getCarById } = useContext(CarContext);
   const { reportProblem } = useContext(EventContext);
-  const [title, setTitle] = useState("");
+  const { problemsTypes, getProblemsTypes } = useContext(ProblemsTypeContext);
+  const [problemSelected, setProblemSelected] = useState(null);
   const [description, setDescription] = useState("");
   const [prm, setPrm] = useState(null);
   const [data, setData] = useState(null);
 
   const resetFields = () => {
-    setTitle("");
+    setProblemSelected("");
     setDescription("");
   }
 
   const handleOnClick = async () => {
-    await reportProblem(title, description, selectedCar.id, prm, data);
+    await reportProblem(problemSelected.id, description, selectedCar.id, prm, data);
     getCarById(selectedCar.id);
     resetFields();
     toggle();
@@ -34,6 +38,11 @@ const CreateProblemModal = (props) => {
     </div>
   </>);
 
+  useEffect(() => {
+    getProblemsTypes();
+  }, []);
+  
+
   return (
     <CustomModal size="lg" show={show} centered toggle={toggle} HeaderComponent={header} headerClassName="d-flex justify-content-between px-3 py-4">
       <h6>Datos del problema</h6>
@@ -45,11 +54,12 @@ const CreateProblemModal = (props) => {
                 Problema
               </Form.Label>
               <Col sm="12">
-                <Form.Control
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  type="text"
-                  placeholder="Ingresa un titulo para el problema"
+                <Select
+                  placeholder="Tipo de problema"
+                  isSearchable
+                  value={problemSelected}
+                  onChange={setProblemSelected}
+                  options={setLabelAndValue(problemsTypes, "problem", "id")}
                 />
               </Col>
             </Row>
@@ -108,7 +118,7 @@ const CreateProblemModal = (props) => {
 
         <span className={`text-muted ${!showWarning && "d-none"}`}>Este vehiculo no presenta ningun problema, al reportar este problema el estado del vehiculo pasara a informado</span>
         <div className="d-flex flex-row-reverse">
-          <ButtonPrimary disabled={title === "" || description === ""} className={`mt-2 button-modal-end`} onClick={handleOnClick}>Reportar</ButtonPrimary>
+          <ButtonPrimary disabled={problemSelected === null || description === ""} className={`mt-2 button-modal-end`} onClick={handleOnClick}>Reportar</ButtonPrimary>
         </div>
       </Form>
     </CustomModal>
