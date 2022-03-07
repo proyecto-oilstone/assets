@@ -25,6 +25,10 @@ import SectorDetails from "../pages/Sectores/[id]";
 import SectorState from "../contexts/sectors/SectorState";
 import Workshops from "../pages/Workshops/index";
 import OtherProvider from "../pages/OtherProviders";
+import TipoProblemas from "../pages/TipoProblemas";
+import TipoResoluciones from "../pages/TipoResoluciones";
+import ProblemsTypeState from "../contexts/problemTypes/ProblemsTypeState";
+import ResolutionsTypeState from "../contexts/resolutionTypes/ResolutionsTypeState";
 
 function App() {
 
@@ -42,6 +46,8 @@ function App() {
     SidebarState,
     EventState,
     CarTypeState,
+    ProblemsTypeState,
+    ResolutionsTypeState,
     ProviderState,
     CarState,
     SectorState,
@@ -68,6 +74,14 @@ function App() {
 
         <Route path="/tipo-de-vehiculos" element={<PrivateRoute/>}>
           <Route path="/tipo-de-vehiculos" element={<TipoVehiculos />}/>
+        </Route>
+
+        <Route path="/tipo-de-problemas" element={<PrivateRoute/>}>
+          <Route path="/tipo-de-problemas" element={<TipoProblemas />}/>
+        </Route>
+
+        <Route path="/tipo-de-resoluciones" element={<PrivateRoute/>}>
+          <Route path="/tipo-de-resoluciones" element={<TipoResoluciones />}/>
         </Route>
 
         <Route path="/tipo-de-vehiculos/:id" element={<PrivateRoute/>}>
@@ -98,13 +112,13 @@ function App() {
           <Route path="/usuarios" element={<Usuarios />} />
         </Route>
 
-      <Route path="/talleres" element={<PrivateRoute/>}>
-        <Route path="/talleres" element={<Workshops />} />
-      </Route>
+        <Route path="/talleres" element={<PrivateRoute/>}>
+          <Route path="/talleres" element={<Workshops />} />
+        </Route>
 
-      <Route path="/otrosProveedores" element={<PrivateRoute/>}>
-        <Route path="/otrosProveedores" element={<OtherProvider />} />
-      </Route>
+        <Route path="/otrosProveedores" element={<PrivateRoute/>}>
+          <Route path="/otrosProveedores" element={<OtherProvider />} />
+        </Route>
 
       </Routes>
     </Providers>
