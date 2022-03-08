@@ -14,7 +14,8 @@ const CreateProblemTypeModal = (props) => {
     setProblem("");
   }
 
-  const handleOnClick = () => {
+  const handleOnClick = (e) => {
+    e.preventDefault();
     const params = { problem };
     if(edit){
       params.id = problemType.id;
@@ -42,7 +43,7 @@ const CreateProblemTypeModal = (props) => {
 
   return (
     <CustomModal show={show} centered toggle={toggle} HeaderComponent={header} headerClassName="d-flex justify-content-between px-3 py-4">
-      <Form>
+      <Form onSubmit={handleOnClick}>
         <Form.Group as={Row} className="mb-2">
           <Col sm="12">
             <Row>

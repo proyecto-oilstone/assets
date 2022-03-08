@@ -8,6 +8,7 @@ import Select from "react-select";
 import ResolutionsTypeContext from "../../../contexts/resolutionTypes/ResolutionsTypeContext";
 import { setLabelAndValue } from "../../../helpers/utils";
 import ProviderContext from "../../../contexts/providers/ProviderContext";
+import ButtonSecondary from "../../Buttons/Secondary";
 
 const ResolveProblemModal = (props) => {
   const { show, toggle, problems } = props;
@@ -18,10 +19,20 @@ const ResolveProblemModal = (props) => {
   const [selectedProvider, setSelectedProvider] = useState(null);
   const [estimatedDate, setEstimatedDate] = useState("");
   const [repairTypeSelected, setRepairTypeSelected] = useState(null);
+  const [step, setStep] = useState(1);
 
   const resetFields = () => {
     setSelectedProvider(null);
     setEstimatedDate("");
+  }
+  
+  const closeModal = () => {
+    setStep(1);
+    toggle();
+  }
+
+  const generateReport = () => {
+    closeModal();
   }
 
   const handleOnClick = async () => {
@@ -29,7 +40,7 @@ const ResolveProblemModal = (props) => {
     await createRepairRequest(selectedCar.id, selectedProvider.id, repairTypeSelected.id, problemsIds, estimatedDate);
     getCarById(selectedCar.id);
     resetFields();
-    toggle();
+    setStep(step+1);
   }
   
   const header = () => (<>
@@ -47,7 +58,7 @@ const ResolveProblemModal = (props) => {
 
   return (
     <CustomModal size="lg" show={show} centered toggle={toggle} HeaderComponent={header} headerClassName="d-flex justify-content-between px-3 py-4">
-      <Form>
+      <Form className={step !== 1 && "d-none"}>
 
         <Row className="my-4">
           <Col sm="6">
@@ -80,6 +91,14 @@ const ResolveProblemModal = (props) => {
           <ButtonPrimary disabled={selectedProvider === null || repairTypeSelected === null} className={`mt-2 button-modal-end`} onClick={handleOnClick}>Reportar</ButtonPrimary>
         </div>
       </Form>
+
+      <div className={step !== 2 && "d-none"}>
+        <div>Se han reportado los problemas, deseas generar un documento con la <span role="button" className="link-primary cursor-pointer">solicitud de reparacion</span> para enviar al proveedor?</div>
+        <div className="d-flex flex-row-reverse mt-4">
+          <ButtonSecondary className={`mt-2 button-modal-end ms-2`} onClick={closeModal}>No</ButtonSecondary>
+          <ButtonPrimary className={`mt-2 button-modal-end`} onClick={generateReport}>Si</ButtonPrimary>
+        </div>
+      </div>
     </CustomModal>
   );
 };

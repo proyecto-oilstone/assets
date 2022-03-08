@@ -63,14 +63,14 @@ const ProblemsSection = () => {
       {problemNotResolved.map((eventProblem, index) => 
         <div
           key={eventProblem.id}
-          style={{cursor: eventProblem.resolving ? "" : "pointer"}}
-          className={`${styles.eventProblemContainer} ${eventProblem.resolving && styles.noHover}`}
+          style={{cursor: eventProblem.resolving || selectedCar?.status === "REPAIR" ? "" : "pointer"}}
+          className={`${styles.eventProblemContainer} ${(eventProblem.resolving || selectedCar?.status === "REPAIR") && styles.noHover}`}
           onClick={() => !eventProblem.resolving && toggleChecked(index)}
         >
           <Form.Check.Input type="checkbox"
             id={`checkbox-problem-${eventProblem.id}`}
             checked={eventProblem.checked}
-            className={eventProblem.resolving && "invisible"}
+            className={(eventProblem.resolving || selectedCar?.status === "REPAIR") && "invisible"}
           />
           <Form.Check.Label><span className="ms-2">{eventProblem.description}<span className="ms-2">{eventProblem.resolving && <Badge bg="primary">Resolviendo</Badge>}</span></span></Form.Check.Label>
           

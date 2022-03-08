@@ -152,7 +152,7 @@ const VehiculoDetails = () => {
     <Layout>
       <Container className="mt-4">
         <Row className="g-2">
-          <Col sm="8" className="container-details-id p-4">
+          <Col sm="8" className={`container-details-id p-4 ${styles.tabContainer}`}>
             <Tabs
               id="controlled-tab-example"
               activeKey={activeTab}
@@ -237,16 +237,16 @@ const VehiculoDetails = () => {
           </Col>
         </Row>
 
-        <div className="container-details-id mt-5">
+        <div className={`container-details-id my-5 ${styles.tabCalendarContainer}`}>
           <Tabs
             id="controlled-tab-example"
             activeKey={activeCalendarTab}
             onSelect={(k) => setActiveCalendarTab(k)}
             className="mb-3"
           >
-            {/* <Tab eventKey="events" title="Eventos">
+            <Tab eventKey="events" title="Eventos">
               <EventsList/>
-            </Tab> */}
+            </Tab>
             <Tab eventKey="calendar" title="Calendario">
               <ReactBigCalendar events={eventsByCar} expandEvents/>
             </Tab>

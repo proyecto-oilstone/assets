@@ -21,6 +21,9 @@ module.exports = {
 
     let availableStatuses = ["IN_USE", "AVAILABLE", "INFORMED", "REPAIR", "RESERVED"];
     let newCarStatus = "INFORMED";
+    if (car.status === "REPAIR") {
+      newCarStatus = "REPAIR";
+    }
 
     const isValidStatus = availableStatuses.some(status => status === car.status);
     if (isValidStatus) {
