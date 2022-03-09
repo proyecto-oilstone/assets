@@ -9,6 +9,7 @@ import ResolutionsTypeContext from "../../../contexts/resolutionTypes/Resolution
 import { setLabelAndValue } from "../../../helpers/utils";
 import ProviderContext from "../../../contexts/providers/ProviderContext";
 import ButtonSecondary from "../../Buttons/Secondary";
+import PDFReportProblems from "./PDFReportProblems";
 
 const ResolveProblemModal = (props) => {
   const { show, toggle, problems } = props;
@@ -20,26 +21,27 @@ const ResolveProblemModal = (props) => {
   const [estimatedDate, setEstimatedDate] = useState("");
   const [repairTypeSelected, setRepairTypeSelected] = useState(null);
   const [step, setStep] = useState(1);
+  const [isRenderingPDF, setIsRenderingPDF] = useState(false);
 
   const resetFields = () => {
     setSelectedProvider(null);
     setEstimatedDate("");
+    setStep(1);
   }
   
   const closeModal = () => {
-    setStep(1);
+    resetFields();
     toggle();
   }
 
   const generateReport = () => {
-    closeModal();
+    setIsRenderingPDF(true);
   }
 
   const handleOnClick = async () => {
     const problemsIds = problems.map(problem => problem.id);
     await createRepairRequest(selectedCar.id, selectedProvider.id, repairTypeSelected.id, problemsIds, estimatedDate);
     getCarById(selectedCar.id);
-    resetFields();
     setStep(step+1);
   }
   
@@ -93,10 +95,10 @@ const ResolveProblemModal = (props) => {
       </Form>
 
       <div className={step !== 2 && "d-none"}>
-        <div>Se han reportado los problemas, deseas generar un documento con la <span role="button" className="link-primary cursor-pointer">solicitud de reparacion</span> para enviar al proveedor?</div>
+        <div>Se han reportado los problemas, deseas generar un documento con la <span role="button" className="link-primary cursor-pointer" onClick={generateReport}>solicitud de reparacion</span> para enviar al proveedor?</div>
         <div className="d-flex flex-row-reverse mt-4">
           <ButtonSecondary className={`mt-2 button-modal-end ms-2`} onClick={closeModal}>No</ButtonSecondary>
-          <ButtonPrimary className={`mt-2 button-modal-end`} onClick={generateReport}>Si</ButtonPrimary>
+          <PDFReportProblems problems={problems} car={selectedCar} estimatedDate={estimatedDate}/>
         </div>
       </div>
     </CustomModal>

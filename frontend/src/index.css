@@ -140,3 +140,9 @@ code {
 .h-90 {
   height: 90% !important;
 }
+
+.out-of-DOM {
+  position: absolute;
+  left: 99999px;
+  width: 100%;
+}
