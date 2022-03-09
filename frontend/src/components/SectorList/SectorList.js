@@ -35,6 +35,12 @@ const SectorList = ({ onCreate }) => {
     showInTable: true,
   },
   {
+    label: 'Supervisor',
+    key: 'supervisor',
+    export: true,
+    showInTable: true,
+  },
+  {
     label: 'Observaciones',
     key: 'observaciones',
     export: true,

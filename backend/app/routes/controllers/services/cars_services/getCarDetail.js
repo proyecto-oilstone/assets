@@ -44,11 +44,11 @@ const getCarDetail = async (id) => {
 
   let VTVQuery = {
     where: { id: car.VTV },
-    attributes: ["id", "name", "type", "VTV"],
+    attributes: ["id", "name", "type", "VTV", "expirationDate"],
   };
   let SeguroQuery = {
     where: { id: car.seguro },
-    attributes: ["id", "name", "type", "Seguro"],
+    attributes: ["id", "name", "type", "Seguro", "expirationDate"],
   }
   const VTV = await VTVEvent.findOne(VTVQuery);
   const Seguro = await SeguroEvent.findOne(SeguroQuery)

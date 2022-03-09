@@ -11,7 +11,7 @@ const getSectorDetail = async (req, res) => {
 
   let query = {
     where: { id },
-    attributes: ["id", "nombreLargo", "nombreCorto", "observaciones"],
+    attributes: ["id", "nombreLargo", "nombreCorto", "supervisor", "observaciones"],
     order: [["id", "ASC"]],
     include: [
       {
@@ -34,6 +34,7 @@ const getSectorDetail = async (req, res) => {
     nombreLargo: sector.nombreLargo,
     nombreCorto: sector.nombreCorto,
     observaciones: sector.observaciones,
+    supervisor: sector.supervisor,
     vehiculos: sector.dataValues.Cars?.map((car) => {
       car = {
         id: car.id,
