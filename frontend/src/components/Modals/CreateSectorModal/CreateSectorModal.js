@@ -11,15 +11,17 @@ const CreateSectorModal = (props) => {
   const [nombreCorto, setNombreCorto] = useState("");
   const [nombreLargo, setNombreLargo] = useState("");
   const [observaciones, setObservaciones] = useState("");
+  const [supervisor, setSupervisor] = useState("");
     
   const resetFields = () => {
     setNombreCorto("");
     setNombreLargo("");
     setObservaciones("");
+    setSupervisor("");
   }
 
   const handleOnClick = () => {
-    const params = {nombreCorto, nombreLargo, observaciones};
+    const params = {nombreCorto, nombreLargo, supervisor, observaciones};
     if(edit){
       params.id = sector.id;
       editSector(params)
@@ -35,6 +37,7 @@ const CreateSectorModal = (props) => {
       setNombreCorto(sector.nombreCorto);
       setNombreLargo(sector.nombreLargo);
       setObservaciones(sector.observaciones);
+      setSupervisor(sector.supervisor);
     }
   }, [sector])
 
@@ -79,6 +82,23 @@ const CreateSectorModal = (props) => {
                   onChange={(e) => setNombreLargo(e.target.value)}
                   type="text"
                   placeholder="Ingresar un nombre largo"
+                />
+              </Col>
+            </Row>
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Col sm="12">
+            <Row>
+              <Form.Label column sm="12">
+                Supervisor
+              </Form.Label>
+              <Col sm="12">
+                <Form.Control
+                  value={supervisor}
+                  onChange={(e) => setSupervisor(e.target.value)}
+                  type="text"
+                  placeholder="Ingresar el nombre del supervisor"
                 />
               </Col>
             </Row>

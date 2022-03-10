@@ -1,4 +1,10 @@
-.svg{
-    width: 1.5rem;
-    height: 1.5rem;
+.actionsCell {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    width: 130px;
+  }
+
+.link{
+    margin-right: 1.5rem !important;
+    
 }

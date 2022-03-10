@@ -7,12 +7,13 @@ const { Sector } = require("../../../../db/index");
  */
 
 const postSector = async (req, res) => {
-  const { nombreLargo, nombreCorto, observaciones } = req.body;
+  const { nombreLargo, nombreCorto, observaciones, supervisor } = req.body;
   try {
     const sector = await Sector.create({
       nombreLargo,
       nombreCorto,
       observaciones,
+      supervisor,
     });
     res.status(200).json({
       message: "Sector created",

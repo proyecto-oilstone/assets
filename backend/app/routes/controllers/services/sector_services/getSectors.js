@@ -8,7 +8,7 @@ const { Sector } = require("../../../../db/index");
 const getSectors = async (req, res) => {
   let query = {
     where: {},
-    attributes: ["id", "nombreLargo", "nombreCorto", "observaciones"],
+    attributes: ["id", "nombreLargo", "nombreCorto","supervisor", "observaciones"],
     order: [["id", "ASC"]],
   };
 
