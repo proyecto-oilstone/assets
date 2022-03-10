@@ -1,13 +1,24 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import EventContext from '../../../contexts/events/EventContext';
-import { eventTypes } from '../../../helpers/constants';
 
 const EventsList = () => {
   const { eventsByCar } = useContext(EventContext);
+  const [orderEvents, setOrderEvents] = useState([]);
+  useEffect(() => {
+    const sortByCreatedAt = (a,b) => {
+      a = new Date(a.createdAt);
+      b = new Date(b.createdAt);
+      return a < b ? -1 : a > b ? 1 : 0;
+    };
+    setOrderEvents(eventsByCar.sort(sortByCreatedAt));
+  }, [eventsByCar]);
+  
+
   const getTitle = (event) => {
+
     const title = {
-      "DRIVER": "Se asigno al conductor " + event.driver,
-      "REPORT_PROBLEM": "Problema reportado " + event.description,
+      "DRIVER": (event.isReserved && event.driver) ? "Se reservo al conductor " + event.driver : (event.isReserved && event.driver === null) ? "Se quito la reseva del conductor": (event.driver === null) ? "Se quito al conductor" : "Se asigno al conductor " + event.driver,
+      "REPORT_PROBLEM": "Problema reportado " + event?.ProblemType?.problem,
       "REPAIR_REQUEST": "Se realizo un pedido de reparacion",
       "WORKSHOP": "Se almaceno en taller",
       "VTV": "Vencimiento VTV",
@@ -22,7 +33,7 @@ const EventsList = () => {
   }
 
   return (
-    <div>{eventsByCar.map(event => 
+    <div>{orderEvents.map(event => 
       <div key={event.id}><span className="fw-bold">{getDate(event)}</span> <span>{getTitle(event)}</span></div>
     )}</div>
   );

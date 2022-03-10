@@ -39,16 +39,13 @@ const getCarDetail = async (id) => {
       }
     ],
   };
-
   let car = await Cars.findOne(query);
 
   let VTVQuery = {
     where: { id: car.VTV },
-    attributes: ["id", "name", "type", "VTV"],
   };
   let SeguroQuery = {
     where: { id: car.seguro },
-    attributes: ["id", "name", "type", "Seguro"],
   }
   const VTV = await VTVEvent.findOne(VTVQuery);
   const Seguro = await SeguroEvent.findOne(SeguroQuery)
@@ -59,10 +56,6 @@ const getCarDetail = async (id) => {
   const allFiles = []
   if(car.dataValues.Files){
     allFiles.push(car.dataValues.Files)
-    if(VTV?.dataValues !== undefined && Seguro?.dataValues !== undefined){
-      allFiles[0].push(VTV.dataValues)
-      allFiles[0].push(Seguro.dataValues)
-    }
   }
   
   car = {

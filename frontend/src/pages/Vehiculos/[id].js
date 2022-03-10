@@ -244,7 +244,7 @@ const VehiculoDetails = () => {
             onSelect={(k) => setActiveCalendarTab(k)}
             className="mb-3"
           >
-            <Tab eventKey="events" title="Eventos">
+            <Tab eventKey="events" title="Historia">
               <EventsList/>
             </Tab>
             <Tab eventKey="calendar" title="Calendario">

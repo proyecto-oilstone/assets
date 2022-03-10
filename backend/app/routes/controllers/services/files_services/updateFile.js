@@ -10,9 +10,8 @@ const { Files } = require("../../../../db/index");
  * @returns {File} created
  */
 
-const postFile = async (type, name, data, carId, expirationDate = null) => {
-  const document = null; // TODO: what is this?
-  return Files.create({type, name, data, CarId: carId, expirationDate, document});
+const updateFile = async ({id, type, name, data, expirationDate}) => {
+  return Files.update({type, name, data, expirationDate}, { where: {id}});
 };
 
-module.exports = postFile;
+module.exports = updateFile;

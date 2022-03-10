@@ -5,11 +5,11 @@ const deleteFileById = require("./services/files_services/deleteFileById");
 const downloadFiles = require("./services/files_services/downloadFile");
 const controller = require("./files/files")
 const getFiles = require("./services/files_services/getFiles");
-const postFile = require("./services/files_services/postFile");
+const postFiles = require("./services/files_services/postFiles");
 const postImage = require("./services/files_services/postImage");
 
 
-router.post('/files', upload.array("file", 10), postFile );
+router.post('/files', upload.array("file", 10), postFiles );
 router.get('/files', controller.getFiles );
 router.get('/files/:id', downloadFiles)
 router.delete('/files/:fileId/car/:carId', deleteFileById);

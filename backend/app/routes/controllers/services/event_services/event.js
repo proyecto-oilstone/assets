@@ -51,7 +51,14 @@ const getAttributesWithoutBlobFields = (modelEvent) => {
  * @return {EventModel} 
  */
 const getChildrenEventModelsWithoutBlobFields = (eventModel) => {
-  return eventModel.childrenModels.map(model => ({ model, attributes: getAttributesWithoutBlobFields(model) }));
+  return eventModel.childrenModels.map(
+    model => {
+      const childrenEvent = { model, attributes: getAttributesWithoutBlobFields(model), };
+      if (model.include !== undefined) 
+        childrenEvent.include = model.include;
+      return childrenEvent;
+    }
+  );
 }
 
 module.exports = {
@@ -90,7 +97,7 @@ module.exports = {
         Cars,
       ]
     };
-
+    
     let events = await Event.findAll(query);
     const removeInvalidEvents = event => event;
     events = events.map(formatEventWithTypeEvent);
@@ -111,7 +118,6 @@ module.exports = {
     const params = {
       Event: {
         type: eventTypes[type],
-        createdAt: event.createdAt,
         carId: event.carId,
       }
     };

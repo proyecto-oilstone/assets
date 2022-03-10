@@ -72,7 +72,7 @@ const ProblemsSection = () => {
             checked={eventProblem.checked}
             className={(eventProblem.resolving || selectedCar?.status === "REPAIR") && "invisible"}
           />
-          <Form.Check.Label><span className="ms-2">{eventProblem.description}<span className="ms-2">{eventProblem.resolving && <Badge bg="primary">Resolviendo</Badge>}</span></span></Form.Check.Label>
+          <Form.Check.Label><span className="ms-2">{eventProblem.ProblemType.problem}<span className="ms-2">{eventProblem.resolving && <Badge bg="primary">Resolviendo</Badge>}</span></span></Form.Check.Label>
           
         </div>
       )}

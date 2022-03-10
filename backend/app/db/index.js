@@ -39,6 +39,11 @@ const { Cars, CarType, Provider, Files, Users, Sector, Event, DriverEvent, Repor
 Cars.belongsTo(Sector)
 Sector.hasMany(Cars)
 
+Files.hasOne(VTVEvent, { foreignKey: {name: "vtvFileId", allowNull: true}, targetKey: "id" });
+Files.hasOne(SeguroEvent, { foreignKey: {name: "seguroFileId", allowNull: true}, targetKey: "id" });
+Files.hasOne(ReportProblemEvent, { foreignKey: {name: "prmFileId", allowNull: true}, targetKey: "id" });
+Files.hasOne(ReportProblemEvent, { foreignKey: {name: "dataFileId", allowNull: true}, targetKey: "id" });
+
 Cars.hasMany(Files)
 Files.belongsTo(Cars)
 
@@ -69,6 +74,8 @@ RepairRequestEvent.belongsTo(ReportProblemEvent, { foreignKey: "problemId", targ
 RepairRequestEvent.belongsTo(Provider, { foreignKey: "providerId", targetKey: "id" });
 ReportProblemEvent.belongsTo(ProblemType, { foreignKey: "problemTypeId", targetKey: "id" });
 RepairRequestEvent.belongsTo(ResolutionType, { foreignKey: "repairTypeId", targetKey: "id" });
+
+ReportProblemEvent.include = [ProblemType];
 
 WorkshopEvent.belongsTo(Provider, { foreignKey: {name: "providerId", allowNull: false}, targetKey: "id" });
 

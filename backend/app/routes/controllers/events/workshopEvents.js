@@ -23,7 +23,7 @@ module.exports = {
      * @param {Number} id of car
      * @returns 200 and all @WorkshopEvent of car
      */
-     getWorkshopEventsByCarId: async (req, res) => {
+    getWorkshopEventsByCarId: async (req, res) => {
         res.status(200).json(await workshopService.getWorkshopEventsByCarId(req.params.id));
-    }
+    },
 }
