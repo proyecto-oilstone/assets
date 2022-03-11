@@ -6,7 +6,7 @@ import ButtonPrimary from '../Buttons/Primary/ButtonPrimary';
 import ButtonSecondary from '../Buttons/Secondary';
 import CreateProblemModal from '../Modals/CreateProblemModal';
 import ResolveProblemModal from '../Modals/ResolveProblemModal';
-import WarningRepairModal from '../Modals/WarningRepairModal';
+import ResolvingProblemModal from '../Modals/ResolvingProblemModal';
 import CustomReactTable from '../Table/CustomReactTable';
 import FilterBoolean from '../Table/CustomReactTable/FilterBoolean';
 import styles from "./ProblemsSection.module.css";
@@ -18,10 +18,10 @@ const ProblemsSection = () => {
   const onlyNotResolved = eventProblem => eventProblem.resolved === false;
   const [problemNotResolved, setProblemNotResolved] = useState([]);
   const [modalCreateProblem, setModalCreateProblem] = useState(false);
-  const [modalResolveProblem, setModalResolveProblem] = useState(false);
+  const [modalResolveProblems, setModalResolveProblems] = useState(false);
   const [modalWarningRepair, setModalWarningRepair] = useState(false);
   const toggleModalCreateProblem = () => setModalCreateProblem(!modalCreateProblem);
-  const toggleModalResolveProblem = () => setModalResolveProblem(!modalResolveProblem);
+  const toggleModalResolveProblems = () => setModalResolveProblems(!modalResolveProblems);
   const toggleWarningRepair = () => setModalWarningRepair(!modalWarningRepair);
   const [selectedProblems, setSelectedProblems] = useState([]);
   const [problemsOfCreateProblemModal, setProblemsOfCreateProblemModal] = useState([]);
@@ -48,12 +48,6 @@ const ProblemsSection = () => {
 
   const openCreateProblemModal = () => {
     setModalCreateProblem(true);
-  }
-
-  const openResolveProblemModal = () => {
-    setModalResolveProblem(true);
-    const checkedProblems = problemNotResolved.filter(p => p.checked);
-    setProblemsOfCreateProblemModal(checkedProblems);
   }
 
   useEffect(() => {
@@ -95,7 +89,7 @@ const ProblemsSection = () => {
             <span>Solicitar Reparacion</span>
           </ButtonSecondary>
 
-          <ButtonSecondary onClick={openCreateProblemModal} className={`ms-2 rounded d-flex ${action !== "accepting" && "d-none"}`}>
+          <ButtonSecondary onClick={toggleModalResolveProblems} className={`ms-2 rounded d-flex ${action !== "accepting" && "d-none"}`}>
             <span>Aceptar Reparacion</span>
           </ButtonSecondary>
         </div>
@@ -112,8 +106,8 @@ const ProblemsSection = () => {
         </div>
       }
       <CreateProblemModal show={modalCreateProblem} toggle={toggleModalCreateProblem} showWarning={problemNotResolved.length === 0}/>
-      <WarningRepairModal show={modalWarningRepair} toggle={toggleWarningRepair} amountProblems={selectedProblems.length}/>
-      <ResolveProblemModal show={modalResolveProblem} toggle={toggleModalResolveProblem} problems={problemsOfCreateProblemModal}/>
+      <ResolvingProblemModal show={modalWarningRepair} toggle={toggleWarningRepair} selectedProblems={selectedProblems} onConfirm={() => setSelectedProblems([])}/>
+      <ResolveProblemModal show={modalResolveProblems} toggle={toggleModalResolveProblems} selectedProblems={selectedProblems} onConfirm={() => setSelectedProblems([])}/>
     </div>
   )
 }

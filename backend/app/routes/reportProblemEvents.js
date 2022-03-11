@@ -6,7 +6,7 @@ router.post("/", upload.fields([
     { name: 'prm', maxCount: 1 },
     { name: 'data', maxCount: 1 }
 ]), controller.postReportProblemEvent);
-
 router.get("/car/:id", controller.getReportProblemEventsByCarId);
+router.put("/car/:id/resolving", controller.resolvingProblems);
 
 module.exports = router;

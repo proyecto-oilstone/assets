@@ -62,7 +62,7 @@ const EventState = (props) => {
     return data;
   };
   
-  /*
+  /**
    * Store one car in one workshop
    * @param {Number} carId car to store in workshop
    * @param {Provider} workshop provider of type workshop
@@ -79,7 +79,7 @@ const EventState = (props) => {
     return data;
   }
 
-  /*
+  /**
    * Report one problem of one car
    * @param {String} problem 
    * @param {String} description 
@@ -94,6 +94,17 @@ const EventState = (props) => {
     formData.append('problemTypeId', problemTypeId);
     formData.append('description', description);
     const response = await axios.post(`/events/report-problems`, formData);
+    return response.data;
+  };
+
+  /**
+   * Set the problems of one car in 'resolving' true
+   * @param {Number} carId
+   * @param {Array} of Number problemsIds
+   */
+  const resolvingProblems = async (carId, problemsIds, providerId, estimatedDate) => {
+    const params = { ids: problemsIds, providerId, estimatedDate: estimatedDate === "" ? null : estimatedDate };
+    const response = await axios.put(`/events/report-problems/car/${carId}/resolving`, params);
     return response.data;
   };
 
@@ -176,6 +187,7 @@ const EventState = (props) => {
   return (
     <EventContext.Provider
       value={{
+        resolvingProblems,
         createDriverEvent,
         getDriversByCarId,
         unAssignDriver,

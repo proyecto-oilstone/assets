@@ -5,48 +5,20 @@ const { getLastDriverEventByCarId } = require("./driverEvent");
 const { getEventsByCarIdAndEventType, postEvent } = require("./event");
 const { resolvingReportsProblems, getAllPendingProblemsByCarId, getAllResolvingProblemsByCarId, resolveProblems } = require("./reportProblemEvent");
 
+const createRepairRequestProblems = (carId, reportProblems) => {
+  const problems = reportProblems.map(problem => ({ carId, problemId: problem.id, repairTypeId: problem.typeResolutionId }));
+  problems.forEach(problem => postEvent(problem, RepairRequestEvent));
+}
+
 module.exports = {
-  postRepairRequestEvent: async (event) => {
-    const car = await getCarDetail(event.carId);
-    let newCarStatus = null;
-    if (event.problems !== null && event.providerId !== null) {
-      if (car.status === "INFORMED" || car.status === "REPAIR") {// should be informed first or in repair to create other problem
-        newCarStatus = "REPAIR";
-      }
-    }
-
-    if (newCarStatus) {
-      if (event.problems !== null) {
-        let problemsNotResolvingIds = await getAllPendingProblemsByCarId(event.carId);
-        problemsNotResolvingIds = problemsNotResolvingIds.map(problem => problem.id);
-        const onlyCarProblems = (problemId) => problemsNotResolvingIds.some(id => id === problemId);
-        const problems = event.problems.filter(onlyCarProblems); // Just in case there is an problemId of another car
-        delete event.problems;
-
-        const events = await Promise.all(problems.map(problemId => {
-          const params = { ...event, problemId };
-          return postEvent(params, RepairRequestEvent);
-        }));
-
-        if (events) {
-          const reportProblemsIds = events.map(e => e.problemId);
-          await updateCarStatus(car.id, newCarStatus);
-          await resolvingReportsProblems(reportProblemsIds); // set the problems to resolving=true
-          return problemsNotResolvingIds;
-        }
-      }
-    } else {
-      return null;
-    }
-  },
-
   /**
    * Finish the current resolving problems of one car. If the car still have another problems the status of car
    * will be informed, if the car has not more problems the car status will be available/in use/reserved if has 
    * any driver or reserver driver before repair
    * @param {Number} carId 
    */
-  finishCarRepair: async (carId, problemsIds) => {
+  finishCarRepair: async (carId, reportProblems) => {
+    const problemsIds = reportProblems.map(rp => rp.id);
     const car = await getCarDetail(carId);
     if (car.status !== "REPAIR") throw new Error("nothing to repair");
     const resolvingProblems = await getAllResolvingProblemsByCarId(carId);
@@ -74,8 +46,10 @@ module.exports = {
       }
     }
     
+    await createRepairRequestProblems(car.id, reportProblems);
     await updateCarStatus(car.id, newCarStatus);
     await resolveProblems(resolvingProblemsIds);
+
   },
 
   getRepairRequestEventsByCarId: async (carId) => {
