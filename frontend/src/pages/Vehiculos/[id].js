@@ -205,7 +205,7 @@ const VehiculoDetails = () => {
                 </div> */}
                 {selectedCar?.allFiles.length >= 1 ?
                 
-                <FilesList  document={selectedCar.allFiles[0]} selectedCar={selectedCar} /> 
+                <FilesList  document={selectedCar.allFiles[0]} car={selectedCar} /> 
                 : <div>Sin Papeles</div>}
               
               </Tab>

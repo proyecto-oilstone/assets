@@ -1,4 +1,4 @@
-import { ADD_CAR, DELETE_CAR, SET_CARS, SELECT_CAR } from "../types";
+import { ADD_CAR, DELETE_CAR, SET_CARS, SELECT_CAR, SET_FILES, DELETE_FILE } from "../types";
 
 const CarReducer = (state, action) => {
   const { payload, type } = action;
@@ -24,6 +24,18 @@ const CarReducer = (state, action) => {
       ...state,
       selectedCar: payload,
     };
+
+  case SET_FILES:
+    return {
+      ...state,
+      files: payload,
+    }
+  
+  case DELETE_FILE:
+    return {
+      ...state,
+      files: state.files.filter((file) => file.id !== payload),
+    }
   default:
     return state;
   }

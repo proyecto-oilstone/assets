@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useReducer } from "react";
-import { ADD_CAR, DELETE_CAR, SET_CARS, SELECT_CAR } from "../types";
+import { ADD_CAR, DELETE_CAR, SET_CARS, SELECT_CAR, SET_FILES, DELETE_FILE } from "../types";
 import CarReducer from "./CarReducer";
 import CarContext from "./CarContext";
 import axios from "../../helpers/axios";
@@ -15,6 +15,7 @@ const CarState = (props) => {
   const { getDriversByCarId } = useContext(EventContext);
   const initialState = {
     cars: [],
+    files: [],
     selectedCar: null,
   };
 
@@ -158,11 +159,42 @@ const CarState = (props) => {
     return await axios.put(`/cars/${carId}/finish-repair`, { ids: problemsIds });
   }
 
+  const deleteDocument = async (documentId, carId) => {
+    try {
+
+      await axios.delete(`/files/files/${documentId}/car/${carId}`);
+      const currentDocuments = state.selectedCar.documento;
+      const newSelectedCar = JSON.parse(JSON.stringify(state.selectedCar));
+      newSelectedCar.documento = currentDocuments.filter(document => document.id !== documentId);
+      selectCar(newSelectedCar);
+      dispatch({
+        type: DELETE_FILE,
+        payload: documentId,
+      });
+      return true
+    } catch (err){
+      return false
+    }
+  }
+
+  const getFilesById = async (carId) => {
+    const response = await axios.get(`/cars/files/${carId}`);
+    
+    const files = responseToArray(response.data);
+    console.log(files)
+    dispatch({
+      type: SET_FILES,
+      payload: files,
+    });
+    return files;
+  }
+
   return (
     <CarContext.Provider
       value={{
         cars: state.cars,
         selectedCar: state.selectedCar,
+        files: state.files,
         createCar,
         getCars,
         editCar,
@@ -172,6 +204,8 @@ const CarState = (props) => {
         deleteDocumentById,
         getLastEventByTypeEvent,
         finishCarRepair,
+        getFilesById,
+        deleteDocument
       }}
     >
       {children}
