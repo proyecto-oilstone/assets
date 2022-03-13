@@ -1,5 +1,5 @@
 import React, { useMemo, useEffect, useState, useRef } from 'react';
-import { useTable, useSortBy, usePagination } from "react-table";
+import { useTable, useSortBy, usePagination, useRowSelect } from "react-table";
 import styles from "./CustomReactTable.module.css";
 import { CSVLink } from "react-csv";
 import { findAndReplaceWithKey } from '../../../helpers/utils';
@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import Filters from './Filters';
 import Search from '../../Search';
 import ModalWarningDelete from '../../Modals/WarningDelete';
+import { Form } from "react-bootstrap";
+import useSelectionCheckbox from '../../../hooks/useSelectionCheckbox';
 
 /**
  * Props
@@ -36,6 +38,8 @@ import ModalWarningDelete from '../../Modals/WarningDelete';
  * 
  * withFiles (optional default false): Upload files column
  * 
+ * withFilters (optional default true) Show or hide the filters in table
+ * 
  * defaultSort (optional String): to dafault sort one column
  * 
  * containerClassName (optional): className to container of table
@@ -45,7 +49,7 @@ import ModalWarningDelete from '../../Modals/WarningDelete';
  * deleteModalDescription
  */
 const CustomReactTable = (props) => {
-  const { defaultFilters, columns, data, downloadCSV, CSVFilename = "file.csv", onDelete = () => { }, onEdit = () => { }, onFile = () => { }, withEdit, withDelete, withFiles = false, defaultSort = "", containerClassName, deleteModalTitle = "", deleteModalDescription = "" } = props;
+  const { selectableRows = false, onSelectedRowsChange = () => {}, defaultFilters, columns, data, downloadCSV, CSVFilename = "file.csv", onDelete = () => { }, onEdit = () => { }, onFile = () => { }, withEdit, withDelete, withFiles = false, defaultSort = "", containerClassName, deleteModalTitle = "", deleteModalDescription = "", withFilters = true } = props;
   const [tableColumns, setTableColumns] = useState([]);
   const [CSVColumns, setCSVColumns] = useState([]);
   const tableColumnsMemo = useMemo(() => tableColumns, [tableColumns]);
@@ -80,7 +84,13 @@ const CustomReactTable = (props) => {
 
   useEffect(() => {
     setFilteredData(data.filter(applyFilters));
-  }, [data, filters]);
+  }, [filters]);
+
+  useEffect(() => {
+    let copyData = data.filter(applyFilters);
+    setFilteredData(copyData);
+  }, [data]);
+  
 
   const removeSearchFilter = () => {
     setFilters(filters.filter(filter => filter.key !== "search"));
@@ -190,6 +200,12 @@ const CustomReactTable = (props) => {
     }
   }, [downloadCSV]);
 
+  
+  const tableHooks = [useSortBy, usePagination];
+  if (selectableRows) {
+    tableHooks.push(useRowSelect);
+    tableHooks.push(useSelectionCheckbox);
+  }
   const tableInstance = useTable({
     columns: tableColumnsMemo,
     data: filteredData,
@@ -202,8 +218,7 @@ const CustomReactTable = (props) => {
       ]
     }
   },
-  useSortBy,
-  usePagination,
+  ...tableHooks
   );
   const {
     getTableProps,
@@ -219,7 +234,16 @@ const CustomReactTable = (props) => {
     setPageSize,
     canPreviousPage,
     canNextPage,
+    state: { selectedRowIds },
   } = tableInstance;
+
+  useEffect(() => {
+    if (selectableRows) {
+      const selectedRows = filteredData.filter((_, index) => selectedRowIds[index] === true);
+      onSelectedRowsChange(selectedRows);
+    }
+  }, [selectedRowIds, filteredData]);
+  
 
   const SelectAmountRows = () => (
     <div className="ms-3">
@@ -244,9 +268,11 @@ const CustomReactTable = (props) => {
       <div className="mb-2">
         <Search value={searchValue} onChange={setSearchValue}/>
       </div>
-      <div>
-        <Filters filters={filters} setFilters={setFilters} columns={columns}><SelectAmountRows/></Filters>
-      </div>
+      {withFilters &&
+        <div>
+          <Filters filters={filters} setFilters={setFilters} columns={columns}><SelectAmountRows/></Filters>
+        </div>
+      }
       <table className={`table table-striped table-bordered table-hover ${styles.table}`} {...getTableProps()}>
         <thead>
           {// Loop over the header rows

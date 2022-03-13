@@ -29,16 +29,14 @@ const VehiculoDetails = () => {
   const [showWariningDeleteDocument, setShowWariningDeleteDocument] = useState(false);
   const [showModalUploadVTV, setShowModalUploadVTV] = useState(false);
   const [showModalUploadSeguro, setShowModalUploadSeguro] = useState(false);
-  const [showModalFinishRepair, setShowModalFinishRepair] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState(null);
   const toggleShowWarningDeleteDocument = () => setShowWariningDeleteDocument(!showWariningDeleteDocument);
   const [showFileModal, setShowFileModal] = useState(false);
   const toggleFileModal = () => setShowFileModal(!showFileModal);
   const toggleShowModalUploadVTV = () => setShowModalUploadVTV(!showModalUploadVTV);
   const toggleShowModalUploadSeguro = () => setShowModalUploadSeguro(!showModalUploadSeguro);
-  const toggleShowModalFinishRepair = () => setShowModalFinishRepair(!showModalFinishRepair);
   const [activeTab, setActiveTab] = useState('basic-data');
-  const [activeCalendarTab, setActiveCalendarTab] = useState('problems');
+  const [activeCalendarTab, setActiveCalendarTab] = useState('events');
   const [statusComponent, setStatusComponent] = useState("");
   const lastVTVEvent = getLastEventByTypeEvent(eventsByCar, "VTV");
   const lastSeguroEvent = getLastEventByTypeEvent(eventsByCar, "SEGURO");
@@ -89,9 +87,8 @@ const VehiculoDetails = () => {
       },
       "REPAIR": () => {
         setStatusComponent(
-          <div className="d-flex flex-column justify-content-between h-90">
+          <div>
             <div>El vehiculo se encuentra en reparacion.</div>
-            <ButtonPrimary className="rounded w-100" onClick={toggleShowModalFinishRepair}>Finalizar reparacion</ButtonPrimary>
           </div>
         );
       },
@@ -263,7 +260,6 @@ const VehiculoDetails = () => {
 
         <UploadVTVModal show={showModalUploadVTV} toggle={toggleShowModalUploadVTV}/>
         <UploadSeguroModal show={showModalUploadSeguro} toggle={toggleShowModalUploadSeguro}/>
-        <FinishRepairModal show={showModalFinishRepair} toggle={toggleShowModalFinishRepair}/>
       </Container>
     </Layout>
   );

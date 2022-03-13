@@ -6,6 +6,9 @@ import ButtonPrimary from '../Buttons/Primary/ButtonPrimary';
 import ButtonSecondary from '../Buttons/Secondary';
 import CreateProblemModal from '../Modals/CreateProblemModal';
 import ResolveProblemModal from '../Modals/ResolveProblemModal';
+import ResolvingProblemModal from '../Modals/ResolvingProblemModal';
+import CustomReactTable from '../Table/CustomReactTable';
+import FilterBoolean from '../Table/CustomReactTable/FilterBoolean';
 import styles from "./ProblemsSection.module.css";
 
 const ProblemsSection = () => {
@@ -15,20 +18,36 @@ const ProblemsSection = () => {
   const onlyNotResolved = eventProblem => eventProblem.resolved === false;
   const [problemNotResolved, setProblemNotResolved] = useState([]);
   const [modalCreateProblem, setModalCreateProblem] = useState(false);
-  const [modalResolveProblem, setModalResolveProblem] = useState(false);
+  const [modalResolveProblems, setModalResolveProblems] = useState(false);
+  const [modalWarningRepair, setModalWarningRepair] = useState(false);
   const toggleModalCreateProblem = () => setModalCreateProblem(!modalCreateProblem);
-  const toggleModalResolveProblem = () => setModalResolveProblem(!modalResolveProblem);
-  const showResolveProblemsButton = selectedCar?.status === "INFORMED" && problemNotResolved.some(p => p.checked);
+  const toggleModalResolveProblems = () => setModalResolveProblems(!modalResolveProblems);
+  const toggleWarningRepair = () => setModalWarningRepair(!modalWarningRepair);
+  const [selectedProblems, setSelectedProblems] = useState([]);
   const [problemsOfCreateProblemModal, setProblemsOfCreateProblemModal] = useState([]);
+  const [action, setAction] = useState("none"); // none - reparing - accepting
+
+  const filterComponentResolving = ({ value, setValue }) => (
+    <FilterBoolean value={value} setValue={setValue}/>
+  );
+
+  const columns = [
+    {
+    label: 'Tipo de problema',
+    key: (problem) => problem.ProblemType.problem,
+    showInTable: true,
+  },
+  {
+    label: 'Resolviendo',
+    key: (problem) => problem.resolving === true ? "Si" : "No",
+    onFilter: (problem, value) => value === 'Si' ? (problem.resolving === true) : (value === 'No' ? problem.resolving === false : false),
+    showInTable: true,
+    filterComponent: filterComponentResolving,
+  },
+  ];
 
   const openCreateProblemModal = () => {
     setModalCreateProblem(true);
-  }
-
-  const openResolveProblemModal = () => {
-    setModalResolveProblem(true);
-    const checkedProblems = problemNotResolved.filter(p => p.checked);
-    setProblemsOfCreateProblemModal(checkedProblems);
   }
 
   useEffect(() => {
@@ -36,48 +55,59 @@ const ProblemsSection = () => {
     const problemNotResolved = problemEvents.filter(onlyNotResolved);
     setProblemNotResolved(problemNotResolved.map(problem => ({ ...problem, checked: false })));
   }, [eventsByCar]);
+
+  const guessAction = (rows) => {
+    if (rows.length === 0) {
+      setAction("none");
+    } else if (rows.length === 1) {
+      const problem = rows[0];
+      if (!problem.resolving && !problem.resolved) {
+        setAction("reparing");
+      } else if (problem.resolving && !problem.resolved) {
+        setAction("accepting");
+      }
+    }
+  };
   
-  const toggleChecked = (index) => {
-    const problemNotResolvedCopy = JSON.parse(JSON.stringify(problemNotResolved));
-    problemNotResolvedCopy[index].checked = !problemNotResolvedCopy[index].checked;
-    setProblemNotResolved(problemNotResolvedCopy);
-  }
+  const hadleSelectedRowsChange = (rows) => {
+    guessAction(rows);
+    setSelectedProblems(rows);
+  };
+
+  const showWarningRepairModal = () => setModalWarningRepair(true);
 
   return (
     <div>
       {problemNotResolved.length > 0
-        ? 
+        ? <>
         <div className="d-flex mb-4">
           <ButtonPrimary onClick={openCreateProblemModal} className="rounded d-flex align-items-center">
             <img className="me-2 icon-xsm icon-white" src="/icons/plus.png"/><span>Nuevo problema</span>
           </ButtonPrimary>
-          <ButtonSecondary onClick={openResolveProblemModal} className={`ms-3 rounded ${!showResolveProblemsButton && "d-none"}`}>
-            Resolver problemas
+
+          <ButtonSecondary onClick={showWarningRepairModal} className={`ms-2 rounded d-flex ${action !== "reparing" && "d-none"}`}>
+            <span>Solicitar Reparacion</span>
+          </ButtonSecondary>
+
+          <ButtonSecondary onClick={toggleModalResolveProblems} className={`ms-2 rounded d-flex ${action !== "accepting" && "d-none"}`}>
+            <span>Aceptar Reparacion</span>
           </ButtonSecondary>
         </div>
+        <CustomReactTable
+          columns={columns}
+          data={problemNotResolved}
+          selectableRows
+          onSelectedRowsChange={hadleSelectedRowsChange}
+        />
+        </>
         : 
         <div>
           <p>Este vehiculo no presenta ningun problema <span onClick={openCreateProblemModal} role="button" className="link-primary cursor-pointer">reportar problema</span></p>
         </div>
       }
-      {problemNotResolved.map((eventProblem, index) => 
-        <div
-          key={eventProblem.id}
-          style={{cursor: eventProblem.resolving || selectedCar?.status === "REPAIR" ? "" : "pointer"}}
-          className={`${styles.eventProblemContainer} ${(eventProblem.resolving || selectedCar?.status === "REPAIR") && styles.noHover}`}
-          onClick={() => !eventProblem.resolving && toggleChecked(index)}
-        >
-          <Form.Check.Input type="checkbox"
-            id={`checkbox-problem-${eventProblem.id}`}
-            checked={eventProblem.checked}
-            className={(eventProblem.resolving || selectedCar?.status === "REPAIR") && "invisible"}
-          />
-          <Form.Check.Label><span className="ms-2">{eventProblem.ProblemType.problem}<span className="ms-2">{eventProblem.resolving && <Badge bg="primary">Resolviendo</Badge>}</span></span></Form.Check.Label>
-          
-        </div>
-      )}
       <CreateProblemModal show={modalCreateProblem} toggle={toggleModalCreateProblem} showWarning={problemNotResolved.length === 0}/>
-      <ResolveProblemModal show={modalResolveProblem} toggle={toggleModalResolveProblem} problems={problemsOfCreateProblemModal}/>
+      <ResolvingProblemModal show={modalWarningRepair} toggle={toggleWarningRepair} selectedProblems={selectedProblems} onConfirm={() => setSelectedProblems([])}/>
+      <ResolveProblemModal show={modalResolveProblems} toggle={toggleModalResolveProblems} selectedProblems={selectedProblems} onConfirm={() => setSelectedProblems([])}/>
     </div>
   )
 }

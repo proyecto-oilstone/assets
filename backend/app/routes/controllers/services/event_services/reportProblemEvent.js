@@ -3,6 +3,16 @@ const { getEventsByCarIdAndEventType, postEvent } = require("./event");
 const getCarDetail = require("../cars_services/getCarDetail");
 const { updateCarStatus } = require("../cars_services/updateStatus");
 
+/**
+ * set resolving=true to a list of problems
+ * @param {Array} reportsProblemsIds ids of ReportProblemEvent
+ */
+const resolvingReportsProblems = async (reportsProblemsIds, providerId, estimatedDate) => {
+  let now = new Date()
+  now = now.toISOString().split('T')[0];
+  return ReportProblemEvent.update({ resolving: true, resolvingDate: now, resolved: false, providerId, estimatedDate }, { where: { id: reportsProblemsIds } });
+};
+
 module.exports = {
   postReportProblemEvent: async (eventParam) => {
     const event = {
@@ -35,20 +45,16 @@ module.exports = {
     return getEventsByCarIdAndEventType(carId, ReportProblemEvent);
   },
 
-  /**
-   * set resolving=true to a list of problems
-   * @param {Array} reportsProblemsIds ids of ReportProblemEvent
-   */
-  resolvingReportsProblems: async (reportsProblemsIds) => {
-    return ReportProblemEvent.update({ resolving: true, resolved: false }, { where: { id: reportsProblemsIds } });
-  },
+  resolvingReportsProblems,
 
   /**
    * Finish to resolve all current resolving problems of one car. one resolving problem is one problem with resolving=true
    * @param {Number} carId 
    */
   resolveProblems: async (reportsProblemsIds) => {
-    return ReportProblemEvent.update({ resolving: false, resolved: true }, { where: { id: reportsProblemsIds } });
+    let now = new Date()
+    now = now.toISOString().split('T')[0];
+    return ReportProblemEvent.update({ resolving: false, resolved: true, resolvedDate: now, }, { where: { id: reportsProblemsIds } });
   },
 
   /**
@@ -95,4 +101,17 @@ module.exports = {
     return Event.findAll(query);
   },
 
+  /**
+   * Set 'resolving' field in true and set the car status in repair
+   * @param {Number} carId 
+   * @param {Array} problemsIds 
+   * @param {Number} providerId workshop where will be resolving the problems
+   * @param {String} estimatedDate 
+   */
+  resolvingProblems: async (carId, problemsIds, providerId, estimatedDate) => {
+    const car = await getCarDetail(carId);
+    if (car.status !== "INFORMED") throw new Error("car must be informed first");
+    await resolvingReportsProblems(problemsIds, providerId, estimatedDate);
+    await updateCarStatus(car.id, "REPAIR");
+  },
 }

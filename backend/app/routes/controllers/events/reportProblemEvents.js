@@ -44,5 +44,24 @@ module.exports = {
    */
   getReportProblemEventsByCarId: async (req, res) => {
     res.status(200).json(await reportProblemEventService.getReportProblemEventsByCarId(req.params.id));
-  }
+  },
+
+  /**
+   * Set the 'resolving' field in true for multiple problems
+   * @param {Array} id of problems ids
+   * @returns 200 ok if the problems was changed
+   * @returns 403 if the car status is not informed
+   */
+  resolvingProblems: async (req, res) => {
+    const problemsIds = req.body.ids;
+    const { providerId, estimatedDate } = req.body;
+    const carId = req.params.id;
+    try {
+      await reportProblemEventService.resolvingProblems(carId, problemsIds, providerId, estimatedDate);
+      res.status(200).json({ message: "successful" });
+    } catch (e) {
+      res.status(403).json({ message: e.message });
+    }
+  },
+
 }
