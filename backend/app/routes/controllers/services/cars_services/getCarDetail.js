@@ -27,7 +27,7 @@ const getCarDetail = async (id) => {
       },
       {
         model: Files,
-        attributes: ["id", "name", "type", "document"],
+        attributes: ["id", "name", "type", "document", "expirationDate"],
         where: {},
         required: false,
       },
