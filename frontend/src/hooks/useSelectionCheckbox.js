@@ -1,9 +1,8 @@
 import React, { forwardRef, useEffect, useMemo, useRef } from 'react'
 import { Form } from 'react-bootstrap';
-import { useLocation } from 'react-router-dom';
 
 const IndeterminateCheckbox = forwardRef(
-  ({ indeterminate, ...rest }, ref) => {
+  ({ indeterminate, className, ...rest }, ref) => {
     const defaultRef = useRef();
     const resolvedRef = ref || defaultRef;
 
@@ -11,12 +10,12 @@ const IndeterminateCheckbox = forwardRef(
       resolvedRef.current.indeterminate = indeterminate
     }, [resolvedRef, indeterminate]);
 
-    return (<Form.Check type="checkbox" ref={resolvedRef} {...rest} />);
+    return (<Form.Check type="checkbox" className={className} ref={resolvedRef} {...rest} />);
   }
 );
 IndeterminateCheckbox.displayName = "CustomReactTableCheckbox";
 
-export default hooks => {
+export default (criteria = () => true) => hooks => {
   hooks.visibleColumns.push(columns => [
     {
       id: 'selection',
@@ -27,7 +26,7 @@ export default hooks => {
       // ),
       Cell: ({ row }) => (
         <div>
-          <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+          <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} className={!criteria(row.original) && "invisible"}/>
         </div>
       ),
     },

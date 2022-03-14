@@ -15,16 +15,35 @@ const CreateProblemModal = (props) => {
   const { problemsTypes, getProblemsTypes } = useContext(ProblemsTypeContext);
   const [problemSelected, setProblemSelected] = useState(null);
   const [description, setDescription] = useState("");
+  const [priority, setPriority] = useState(null);
   const [prm, setPrm] = useState(null);
   const [data, setData] = useState(null);
+
+  const priorities = [
+    {
+      label: "Baja",
+      value: "Baja"
+    },
+    {
+      label: "Media",
+      value: "Media"
+    },
+    {
+      label: "Alta",
+      value: "Alta"
+    },
+  ];
 
   const resetFields = () => {
     setProblemSelected("");
     setDescription("");
+    setPriority(null);
+    setPrm(null);
+    setData(null);
   }
 
   const handleOnClick = async () => {
-    await reportProblem(problemSelected.id, description, selectedCar.id, prm, data);
+    await reportProblem(problemSelected.id, description, selectedCar.id, prm, data, priority.value);
     getCarById(selectedCar.id);
     resetFields();
     toggle();
@@ -84,6 +103,19 @@ const CreateProblemModal = (props) => {
           </Col>
         </Form.Group>
 
+        <Form.Group as={Row} className="mt-4">
+          <Col sm="12">
+            <Row>
+              <Form.Label column sm="12">
+                Prioridad
+              </Form.Label>
+              <Col sm="12">
+                <Select value={priority} onChange={setPriority} options={priorities} />
+              </Col>
+            </Row>
+          </Col>
+        </Form.Group>
+
         <h6 className="mt-5">Adjuntar archivos</h6>
         <Form.Group as={Row}>
           <Col sm="12">
@@ -118,7 +150,7 @@ const CreateProblemModal = (props) => {
 
         <span className={`text-muted ${!showWarning && "d-none"}`}>Este vehiculo no presenta ningun problema, al reportar este problema el estado del vehiculo pasara a informado</span>
         <div className="d-flex flex-row-reverse">
-          <ButtonPrimary disabled={problemSelected === null || description === ""} className={`mt-2 button-modal-end`} onClick={handleOnClick}>Reportar</ButtonPrimary>
+          <ButtonPrimary disabled={priority === null || problemSelected === null || description === ""} className={`mt-2 button-modal-end`} onClick={handleOnClick}>Reportar</ButtonPrimary>
         </div>
       </Form>
     </CustomModal>

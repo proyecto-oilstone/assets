@@ -7,6 +7,7 @@ import ButtonSecondary from '../Buttons/Secondary';
 import CreateProblemModal from '../Modals/CreateProblemModal';
 import ResolveProblemModal from '../Modals/ResolveProblemModal';
 import ResolvingProblemModal from '../Modals/ResolvingProblemModal';
+import PDFReportProblems from '../PDF/PDFReportProblems';
 import CustomReactTable from '../Table/CustomReactTable';
 import FilterBoolean from '../Table/CustomReactTable/FilterBoolean';
 import styles from "./ProblemsSection.module.css";
@@ -24,7 +25,8 @@ const ProblemsSection = () => {
   const toggleModalResolveProblems = () => setModalResolveProblems(!modalResolveProblems);
   const toggleWarningRepair = () => setModalWarningRepair(!modalWarningRepair);
   const [selectedProblems, setSelectedProblems] = useState([]);
-  const [problemsOfCreateProblemModal, setProblemsOfCreateProblemModal] = useState([]);
+  const showAllCheckboxsInitialValue = () => (p) => !(selectedCar?.status === "REPAIR" && p?.resolving === false);
+  const [selectableRowsCheckboxCriteria, setSelectableRowsCheckboxCriteria] = useState(showAllCheckboxsInitialValue);
   const [action, setAction] = useState("none"); // none - reparing - accepting
 
   const filterComponentResolving = ({ value, setValue }) => (
@@ -32,7 +34,7 @@ const ProblemsSection = () => {
   );
 
   const columns = [
-    {
+  {
     label: 'Tipo de problema',
     key: (problem) => problem.ProblemType.problem,
     showInTable: true,
@@ -43,6 +45,11 @@ const ProblemsSection = () => {
     onFilter: (problem, value) => value === 'Si' ? (problem.resolving === true) : (value === 'No' ? problem.resolving === false : false),
     showInTable: true,
     filterComponent: filterComponentResolving,
+  },
+  {
+    label: 'Prioridad',
+    key: "priority",
+    showInTable: true,
   },
   ];
 
@@ -55,6 +62,23 @@ const ProblemsSection = () => {
     const problemNotResolved = problemEvents.filter(onlyNotResolved);
     setProblemNotResolved(problemNotResolved.map(problem => ({ ...problem, checked: false })));
   }, [eventsByCar]);
+
+  useEffect(() => {
+    setSelectableRowsCheckboxCriteria(showAllCheckboxsInitialValue);
+  }, [selectedCar]);
+  
+
+  const showAllCheckboxs = () => setSelectableRowsCheckboxCriteria(showAllCheckboxsInitialValue);
+  const showOnlyResolvingCheckboxs = () => setSelectableRowsCheckboxCriteria(() => (p) => !p.resolving);
+  const showOnlyNotResolvingCheckboxs = () => setSelectableRowsCheckboxCriteria(() => (p) => p.resolving);
+
+  useEffect(() => {
+    switch (action) {
+      case "none": showAllCheckboxs(); break;
+      case "reparing": showOnlyResolvingCheckboxs(); break;
+      case "accepting": showOnlyNotResolvingCheckboxs(); break;
+    }
+  }, [action]);
 
   const guessAction = (rows) => {
     if (rows.length === 0) {
@@ -92,11 +116,16 @@ const ProblemsSection = () => {
           <ButtonSecondary onClick={toggleModalResolveProblems} className={`ms-2 rounded d-flex ${action !== "accepting" && "d-none"}`}>
             <span>Aceptar Reparacion</span>
           </ButtonSecondary>
+
+          {action === "accepting" &&
+            <PDFReportProblems problems={selectedProblems} car={selectedCar} className="ms-2 rounded">Generar reporte</PDFReportProblems>
+          }
         </div>
         <CustomReactTable
           columns={columns}
           data={problemNotResolved}
           selectableRows
+          selectableRowsCheckboxCriteria={selectableRowsCheckboxCriteria}
           onSelectedRowsChange={hadleSelectedRowsChange}
         />
         </>

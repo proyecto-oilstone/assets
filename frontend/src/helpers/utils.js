@@ -118,3 +118,21 @@ export function dateToDDMMYYYY(date) {
     return "Fecha invalida";
   }
 }
+
+/**
+ * 
+ * @param {String|Date} date1 
+ * @param {String|Date} date2 
+ * @returns diff in days between date1 and date2
+ */
+export function dateDiffInDays(date1, date2) {
+  if (typeof date1 === "string") {
+    date1 = new Date(date1);
+  }
+  if (typeof date2 === "string") {
+    date2 = new Date(date2);
+  }
+  const diff = date1.getTime() - date2.getTime();
+  const days = Math.ceil(diff / (1000 * 3600 * 24));
+  return days;
+}

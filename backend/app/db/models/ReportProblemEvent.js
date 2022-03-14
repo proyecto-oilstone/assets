@@ -5,6 +5,7 @@ module.exports = (sequelize) => {
   ReportProblemEvent.init(
     {
       description: { type: DataTypes.TEXT, allowNull: true },
+      priority: { type: DataTypes.STRING, allowNull: true },
       resolved: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false }, // if the report problem was resolved
       resolving: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false }, // if the report problem is resolving
       estimatedDate: { type: DataTypes.STRING, allowNull: true }, // yyyy-mm-dd

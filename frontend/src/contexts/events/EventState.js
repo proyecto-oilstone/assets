@@ -86,13 +86,14 @@ const EventState = (props) => {
    * @param {Number} carId 
    * @returns {Event}
    */
-  const reportProblem = async (problemTypeId, description, carId, prm, data) => {
+  const reportProblem = async (problemTypeId, description, carId, prm, data, priority) => {
     const formData = new FormData();
     formData.append('carId', carId);
     formData.append('data', data);
     formData.append('prm', prm);
     formData.append('problemTypeId', problemTypeId);
     formData.append('description', description);
+    formData.append('priority', priority);
     const response = await axios.post(`/events/report-problems`, formData);
     return response.data;
   };

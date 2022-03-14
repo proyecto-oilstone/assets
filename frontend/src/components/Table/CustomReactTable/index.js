@@ -49,7 +49,7 @@ import useSelectionCheckbox from '../../../hooks/useSelectionCheckbox';
  * deleteModalDescription
  */
 const CustomReactTable = (props) => {
-  const { selectableRows = false, onSelectedRowsChange = () => {}, defaultFilters, columns, data, downloadCSV, CSVFilename = "file.csv", onDelete = () => { }, onEdit = () => { }, onFile = () => { }, withEdit, withDelete, withFiles = false, defaultSort = "", containerClassName, deleteModalTitle = "", deleteModalDescription = "", withFilters = true } = props;
+  const { selectableRowsCheckboxCriteria = () => true, selectableRows = false, onSelectedRowsChange = () => {}, defaultFilters, columns, data, downloadCSV, CSVFilename = "file.csv", onDelete = () => { }, onEdit = () => { }, onFile = () => { }, withEdit, withDelete, withFiles = false, defaultSort = "", containerClassName, deleteModalTitle = "", deleteModalDescription = "", withFilters = true } = props;
   const [tableColumns, setTableColumns] = useState([]);
   const [CSVColumns, setCSVColumns] = useState([]);
   const tableColumnsMemo = useMemo(() => tableColumns, [tableColumns]);
@@ -204,7 +204,7 @@ const CustomReactTable = (props) => {
   const tableHooks = [useSortBy, usePagination];
   if (selectableRows) {
     tableHooks.push(useRowSelect);
-    tableHooks.push(useSelectionCheckbox);
+    tableHooks.push(useSelectionCheckbox(selectableRowsCheckboxCriteria));
   }
   const tableInstance = useTable({
     columns: tableColumnsMemo,

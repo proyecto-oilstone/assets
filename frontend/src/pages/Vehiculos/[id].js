@@ -18,7 +18,6 @@ import UploadSeguroModal from "../../components/Modals/UploadSeguroModal";
 import styles from "./Vehiculos.module.css";
 import BadgeCarStatus from "../../components/Badges/CarStatus";
 import ProblemsSection from "../../components/ProblemsSection";
-import FinishRepairModal from "../../components/Modals/FinishRepairModal";
 import FilesList from "../../components/FilesList/FilesList";
 import EventsList from "../../components/Events/EventsList";
 
@@ -42,6 +41,22 @@ const VehiculoDetails = () => {
   const lastSeguroEvent = getLastEventByTypeEvent(eventsByCar, "SEGURO");
   const vtvExpiration = lastVTVEvent !== null ? lastVTVEvent.expirationDate : "No hay vtv cargada";
   const seguroExpiration = lastSeguroEvent ? lastSeguroEvent.expirationDate : "No hay seguro cargado";
+  const [events, setEvents] = useState([]);
+  
+  useEffect(() => {
+    const copyEvents = JSON.parse(JSON.stringify(eventsByCar));
+    const formatedEvents = [];
+    copyEvents.forEach(copyEvent => {
+      if (copyEvent.type === "REPAIR_REQUEST") {
+        const findEvent = copyEvents.find(event => event.id === copyEvent.problemId);
+        findEvent.repairTypeId = copyEvent.repairTypeId;
+      } else {
+        formatedEvents.push(copyEvent);
+      }
+    });
+    setEvents(formatedEvents);
+  }, [eventsByCar])
+  
 
   useEffect(() => {
     const carId = parseInt(id);
@@ -242,10 +257,10 @@ const VehiculoDetails = () => {
             className="mb-3"
           >
             <Tab eventKey="events" title="Historia">
-              <EventsList/>
+              <EventsList events={events}/>
             </Tab>
             <Tab eventKey="calendar" title="Calendario">
-              <ReactBigCalendar events={eventsByCar} expandEvents/>
+              <ReactBigCalendar events={events} expandEvents/>
             </Tab>
             <Tab eventKey="problems" title="Problemas">
               <ProblemsSection/>

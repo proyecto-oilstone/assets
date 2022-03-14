@@ -11,7 +11,7 @@ module.exports = {
    */
   postReportProblemEvent: async (req, res) => {
     let { prm, data } = req.files;
-    const { problemTypeId, description, carId } = req.body;
+    const { problemTypeId, description, carId, priority } = req.body;
     prm = prm === undefined ? null : prm[0];
     data = data === undefined ? null : data[0];
     if (problemTypeId && description && carId) {
@@ -23,6 +23,7 @@ module.exports = {
         problemTypeId,
         description,
         carId,
+        priority
       };
 
       const event = await reportProblemEventService.postReportProblemEvent(params);
