@@ -1,4 +1,5 @@
 const { Sector, Cars } = require("../../../../db/index");
+const { statusCarToString } = require("../../../../utils/functions");
 
 /**
  * Finds a sector by id, includes cars DB model
@@ -16,7 +17,7 @@ const getSectorDetail = async (req, res) => {
     include: [
       {
         model: Cars,
-        attributes: ["id", "patente", "año"],
+        attributes: ["id", "patente", "año", "status"],
         where: {},
         required: false,
       },
@@ -40,6 +41,7 @@ const getSectorDetail = async (req, res) => {
         id: car.id,
         patente: car.patente,
         año: car.año,
+        status: statusCarToString(car.status),
       };
       return car;
     }),

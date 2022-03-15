@@ -51,6 +51,8 @@ const TypeProblemsList = ({ onCreate }) => {
         containerClassName="bg-white p-4 rounded shadow-sm hover-shadow mb-3"
         deleteModalTitle="Eliminar tipo de problema"
         deleteModalDescription="el tipo de problema {{problem}}"
+        withDelete
+        withEdit
       />
       <CreateTypeProblemsModal show={showEditModal} toggle={toggleEditModal} edit problemType={selectedProblemType} />
     </>
