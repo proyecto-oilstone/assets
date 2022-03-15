@@ -5,6 +5,7 @@ import SectorContext from "../../contexts/sectors/SectorContext";
 import { NavLink, useParams } from 'react-router-dom';
 import styles from "./Sectores.module.css";
 import { Link } from 'react-router-dom';
+import SectorCarList from "../../components/SectorCarList";
 
 const SectorDetails = () => {
   const { selectedSector, getSectorById } = useContext(SectorContext);
@@ -35,14 +36,10 @@ const SectorDetails = () => {
         </Col>
         </ Row>
         <div className={`container-details-id my-5 ${styles.tabCalendarContainer}`}>
-              <div><span className="fw-bold">Autos en el sector:</span><div>{selectedSector?.vehiculos[0] !== undefined 
+              <div><div>{selectedSector?.vehiculos[0] !== undefined 
                 ?
-                <div>{selectedSector?.vehiculos.map(vehiculo => (
-                  <div className={styles.carContainer} key={vehiculo.id}>
-                    <Link to={`/vehiculos/${vehiculo?.id}`}>{vehiculo?.patente}</Link>
-                    </div>
-                  ))}
-                </div>
+                <SectorCarList sectorCars={selectedSector?.vehiculos} />
+                
                 : <span>Ninguno</span>}</div></div>
           
         </div>
