@@ -24,7 +24,8 @@ const FilesList = ( {document, car}) => {
 
     const onConfirmDeleteDocument = async () => {
       await deleteDocument(selectedDocument.id, selectedCar.id);
-      /* await getFilesById(selectedCar.id); */
+      await getFilesById(selectedCar.id);
+      await getCarById(selectedCar.id);
       setShowWariningDeleteDocument(false);
     };
 

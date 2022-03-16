@@ -14,13 +14,20 @@ const Event = (props) => {
   }
 
   const setDriverTitle = () => {
-    if (event.driver === null) {
-      setTitle("Se desasigno un conductor");
-      setDescription(`Se desasigno al conductor al vehiculo con patente `);
+    if (event.isReserved && event.driver) {
+      setTitle("Se reservo al conductor " + event.driver);
+      setDescription(`Se reservo al conductor al vehiculo con patente `);
+    } else if (event.isReserved && event.driver === null) {
+      setTitle("Se quito la reseva del conductor");
+      setDescription(`Se quito la reseva del conductor al vehiculo con patente `);
+    } else if (event.driver === null) {
+      setTitle("Se quito al conductor");
+      setDescription(`Se quito al conductor del vehiculo con patente `);
     } else {
-      setTitle(`Se asigno un conductor`);
-      setDescription(`Se asigno al conductor ${event.driver} al vehiculo con patente `);
+      setTitle("Se asigno al conductor " + event.driver);
+      setDescription(`Se asigno al conductor ${event.driver} del vehiculo con patente `);
     }
+
   };
 
   const setReportProblemTitle = () => {
