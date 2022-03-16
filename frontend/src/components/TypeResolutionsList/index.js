@@ -51,6 +51,8 @@ const TypeResolutionsList = ({ onCreate }) => {
         containerClassName="bg-white p-4 rounded shadow-sm hover-shadow mb-3"
         deleteModalTitle="Eliminar tipo de resolucion"
         deleteModalDescription="el tipo de resolucion {{resolution}}"
+        withDelete
+        withEdit
       />
       <CreateTypeResolutionModal show={showEditModal} toggle={toggleEditModal} edit resolutionType={selectedResolutionType} />
     </>
