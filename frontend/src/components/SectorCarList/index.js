@@ -38,12 +38,12 @@ const SectorCarList = ({ sectorCars }) => {
     showInTable: true,
   },
   ]);
-  console.log(cars)
+  
   return (
     <>
       <div className="d-flex justify-content-between mb-3">
         <div>
-          <h2>Autos en el Sector</h2>
+          <h2>Autos </h2>
         </div>
       </div>
       <CustomReactTable

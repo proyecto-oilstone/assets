@@ -34,7 +34,7 @@ const StoreWorkshop = (props) => {
     {storeWorkshop && <>
       <Row className="mt-4">
         <Form.Label column sm="12">Ingresa el taller a donde va a ser almacenado</Form.Label>
-        <Col sm="3">
+        <Col sm="12">
           <Select isSearchable value={selectedWorkshop} onChange={setSelectedWorkshop} options={setLabelAndValue(providers, "nombreCorto", "id")} />
         </Col>
       </Row>
