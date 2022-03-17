@@ -43,7 +43,7 @@ const SectorCarList = ({ sectorCars }) => {
     <>
       <div className="d-flex justify-content-between mb-3">
         <div>
-          <h2>Autos en el Sector</h2>
+          <h2>Autos </h2>
         </div>
       </div>
       <CustomReactTable

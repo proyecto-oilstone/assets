@@ -42,7 +42,7 @@ const AssignDriver = (props) => {
     {assigningDriver && <>
       <Row className="mt-4">
         <Form.Label column sm="12">Ingresa el nombre del conductor</Form.Label>
-        <Col sm="5">
+        <Col sm="12">
           <InputGroup onChange={(e) => setDriver(e.target.value)} className="mb-3">
             <FormControl placeholder={`Conductor a ${isReserved ? "reservar" : "asignar"}`} />
 
@@ -62,7 +62,7 @@ const AssignDriver = (props) => {
         <Form.Label column sm="12">
           Sector
         </Form.Label>
-        <Col sm="5">
+        <Col sm="12">
           <Select value={selectedSector} onChange={setSelectedSector} options={setLabelAndValue(sectors, type => `${type.nombreCorto}` , "id")} />
         </Col>
       </Form.Group>

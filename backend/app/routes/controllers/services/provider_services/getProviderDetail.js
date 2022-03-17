@@ -1,5 +1,5 @@
-const { Provider } = require("../../../../db/index");
-const { typeProviderToString } = require("../../../../utils/functions");
+const { Provider, Cars } = require("../../../../db/index");
+const { typeProviderToString, statusCarToString } = require("../../../../utils/functions");
 
 /**
  * Finds a provider by id
@@ -13,6 +13,14 @@ const getProviderDetail = async (req, res) => {
   let query = {
     where: { id },
     attributes: ["id", "nombreLargo", "nombreCorto", "observaciones", "type"],
+    include: [
+      {
+        model: Cars,
+        attributes: ["id", "patente", "año", "status"],
+        where: {},
+        required: false,
+      },
+    ],
   };
   let provider = await Provider.findOne(query);
 
@@ -25,7 +33,16 @@ const getProviderDetail = async (req, res) => {
     nombreCorto: provider.nombreCorto,
     observaciones: provider.observaciones,
     type: typeProviderToString(provider.type),
-  };
+    vehiculos: provider.dataValues.Cars?.map((car) => {
+      car = {
+        id: car.id,
+        patente: car.patente,
+        año: car.año,
+        status: statusCarToString(car.status),
+      };
+      return car;
+    }),
+}
   res.status(200).json(provider);
 };
 
