@@ -32,7 +32,8 @@ const Event = (props) => {
 
   const setReportProblemTitle = () => {
     setTitle("Se reporto un problema");
-    setDescription(`Se reporto el problema ${event.problem} al vehiculo con patente `);
+    setDescription(`Se reporto el problema ${event?.ProblemType?.problem}: ${event?.description} con prioridad ${event?.priority} al vehiculo con patente `);
+
   };
 
   const setWorkshopTitle = () => {
@@ -41,14 +42,16 @@ const Event = (props) => {
   };
 
   const setRepairRequestTitle = () => {
-    if (event.problemId === null && event.providerId === null) {
-      setTitle("Reparacion finalizada");
-      setDescription("Se finalizo la reparacion del vehiculo con patente ");
-    } else {
-      setTitle("Pedido de reparacion");
-      setDescription("Se realizo un pedido de reparacion del vehiculo con patente ");
-    }
+    const report = event?.ReportProblemEvent;
+    setTitle("Se solicito reparacion de problema");
+    setDescription(`Se solicito la reparacion al problema ${report?.ProblemType?.problem}: ${report?.description} del vehiculo con patente `);
   };
+
+  const setRepairedTitle = () => {
+    const report = event?.ReportProblemEvent;
+    setTitle("Se acepto la reparacion de un problema");
+    setDescription(`Se acepto la reparacion al problema ${report?.ProblemType?.problem}: ${report?.description} del vehiculo con patente `);
+  }
 
   const setExpirationTitle = () => {
     setTitle("Vencimiento");
@@ -71,6 +74,7 @@ const Event = (props) => {
     case "REPORT_PROBLEM": setReportProblemTitle(); break;
     case "WORKSHOP": setWorkshopTitle(); break;
     case "REPAIR_REQUEST": setRepairRequestTitle(); break;
+    case "REPAIRED": setRepairedTitle(); break;
     case "EXPIRATION_FILE": setExpirationTitle(); break;
     case "VTV" : setExpirationVTV(); break;
     case "SEGURO" : setExpirationSeguro(); break;

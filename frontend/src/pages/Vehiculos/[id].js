@@ -41,22 +41,6 @@ const VehiculoDetails = () => {
   const lastSeguroEvent = getLastEventByTypeEvent(eventsByCar, "SEGURO");
   const vtvExpiration = lastVTVEvent !== null ? lastVTVEvent.expirationDate : "No hay vtv cargada";
   const seguroExpiration = lastSeguroEvent ? lastSeguroEvent.expirationDate : "No hay seguro cargado";
-  const [events, setEvents] = useState([]);
-  
-  useEffect(() => {
-    const copyEvents = JSON.parse(JSON.stringify(eventsByCar));
-    const formatedEvents = [];
-    copyEvents.forEach(copyEvent => {
-      if (copyEvent.type === "REPAIR_REQUEST") {
-        const findEvent = copyEvents.find(event => event.id === copyEvent.problemId);
-        findEvent.repairTypeId = copyEvent.repairTypeId;
-      } else {
-        formatedEvents.push(copyEvent);
-      }
-    });
-    setEvents(formatedEvents);
-  }, [eventsByCar])
-  
 
   useEffect(() => {
     const carId = parseInt(id);
@@ -192,29 +176,6 @@ const VehiculoDetails = () => {
                 </div>
               </Tab>
               <Tab eventKey="status" title="Documentos">
-                {/* <div><span className="fw-bold">Estado del vehiculo: </span><span>{getCarStatus(selectedCar?.status)}</span></div>
-                <div><span className="fw-bold">Documentacion obligatoria: </span></div>
-                <ul>
-                  <li>VTV: {selectedCar?.VTV !== null ? <><a href={`${baseURL}/cars/${selectedCar?.id}/vtv`} className="text-decoration-none link-primary">Descargar VTV</a><span className={vtvExpiration === null && "d-none"}> Vencimiento {vtvExpiration?.replace(/-/g, '/')}</span></> : <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadVTV}>Añadir VTV</span>}</li>
-                  <li>Seguro: {selectedCar?.seguro !== null ? <><a href={`${baseURL}/cars/${selectedCar?.id}/seguro`} className="text-decoration-none link-primary">Descargar seguro</a><span className={seguroExpiration === null && "d-none"}> Vencimiento {seguroExpiration?.replace(/-/g, '/')}</span></> : <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadSeguro}>Añadir seguro</span>}</li>
-                </ul>
-                <div>
-                  <span className="fw-bold">Papeles: </span><span>{selectedCar?.documento.length > 0 ? selectedCar.documento.map(document => document.document === null?  (
-                    <div className="mt-2 d-flex" key={document.id}>
-                      <a href={`${baseURL}/files/files/${document.id}`} className="text-decoration-none link-primary">
-                        {document.name} 
-                      </a>
-                      <div className="ms-2"><img role="button" className={`icon-sm cursor-pointer`} src="/icons/trash-alt-solid.svg" alt="eliminar" onClick={() => onDeleteDocument(document)} /></div>
-                    </div>
-                  ): null)
-                    : "Sin papeles"
-                  }
-                  </span>
-                </div>
-                
-                <div className="mt-3">
-                  <StoreWorkshop buttonClassName="mx-2"/>
-                </div> */}
                 {selectedCar?.allFiles.length >= 1 ?
                 
                 <FilesList  document={selectedCar.allFiles[0]} car={selectedCar} /> 
@@ -257,10 +218,10 @@ const VehiculoDetails = () => {
             className="mb-3"
           >
             <Tab eventKey="events" title="Historia">
-              <EventsList events={events}/>
+              <EventsList events={eventsByCar}/>
             </Tab>
             <Tab eventKey="calendar" title="Calendario">
-              <ReactBigCalendar events={events} expandEvents/>
+              <ReactBigCalendar events={eventsByCar} expandEvents/>
             </Tab>
             <Tab eventKey="problems" title="Problemas">
               <ProblemsSection/>

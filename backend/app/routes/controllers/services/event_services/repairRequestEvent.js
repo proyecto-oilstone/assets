@@ -1,13 +1,13 @@
-const { RepairRequestEvent } = require("../../../../db/index");
+const { RepairRequestEvent, RepairedEvent } = require("../../../../db/index");
 const getCarDetail = require("../cars_services/getCarDetail");
 const { updateCarStatus } = require("../cars_services/updateStatus");
 const { getLastDriverEventByCarId } = require("./driverEvent");
 const { getEventsByCarIdAndEventType, postEvent } = require("./event");
-const { resolvingReportsProblems, getAllPendingProblemsByCarId, getAllResolvingProblemsByCarId, resolveProblems } = require("./reportProblemEvent");
+const { getAllPendingProblemsByCarId, getAllResolvingProblemsByCarId, resolveProblems } = require("./reportProblemEvent");
 
-const createRepairRequestProblems = (carId, reportProblems) => {
+const createRepairedEvents = (carId, reportProblems) => {
   const problems = reportProblems.map(problem => ({ carId, problemId: problem.id, repairTypeId: problem.typeResolutionId }));
-  problems.forEach(problem => postEvent(problem, RepairRequestEvent));
+  problems.forEach(problem => postEvent(problem, RepairedEvent));
 }
 
 module.exports = {
@@ -46,7 +46,7 @@ module.exports = {
       }
     }
     
-    await createRepairRequestProblems(car.id, reportProblems);
+    await createRepairedEvents(car.id, reportProblems);
     await updateCarStatus(car.id, newCarStatus);
     await resolveProblems(resolvingProblemsIds);
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { dateDiffInDays } from '../../../helpers/utils';
+import { dateDiffInDays, dateToDDMMYYYYHHMM } from '../../../helpers/utils';
 import CustomReactTable from '../../Table/CustomReactTable';
 
 const EventsList = ({ events }) => {
@@ -18,7 +18,8 @@ const EventsList = ({ events }) => {
   ];
 
   useEffect(() => {
-    const eventsCopy = events.map(event => {
+    let eventsCopy = JSON.parse(JSON.stringify(events));
+    eventsCopy = eventsCopy.map(event => {
       event.date = getDate(event);
       event.description = getDescription(event);
       return event;
@@ -31,8 +32,6 @@ const EventsList = ({ events }) => {
     setOrderEvents(eventsCopy.sort(sortByCreatedAt));
   }, [events]);
   
-  const formatDate = (date) => date.toISOString().split('T')[0].replace(/-/g, '/');
-
   const getDescription = (event) => {
     switch (event.type) {
       case "DRIVER": {
@@ -46,7 +45,7 @@ const EventsList = ({ events }) => {
       }
       case "REPORT_PROBLEM": {
         let toReturn = "Se reporto el problema " + event?.ProblemType?.problem;
-        const formatedDateResolving = formatDate(new Date(event.resolvingDate));
+        const formatedDateResolving = dateToDDMMYYYYHHMM(new Date(event.resolvingDate));
         if (event.resolving) {
           return toReturn + ", y fue llevado al taller el " + formatedDateResolving;
         }
@@ -55,9 +54,11 @@ const EventsList = ({ events }) => {
         }
         return toReturn;
       }
+      case "REPAIR_REQUEST": return "Se realizo un pedido de reparacion al problema " + event?.ReportProblemEvent?.ProblemType?.problem;
       case "WORKSHOP": return "Se almaceno en taller";
-      case "VTV": return "Vencimiento VTV";
-      case "SEGURO": return "Vencimiento Seguro";
+      case "VTV": return "Se cargo VTV";
+      case "SEGURO": return "Se cargo Seguro";
+      case "REPAIRED": return "Se completo la reparacion al problema " + event?.ReportProblemEvent?.ProblemType?.problem;
       default: return "Desconocido";
     }
   }
@@ -65,10 +66,11 @@ const EventsList = ({ events }) => {
 
   const getDate = (event) => {
     const date = new Date (event.createdAt);
-    return formatDate(date);
+    return dateToDDMMYYYYHHMM(date);
   }
 
   return (<CustomReactTable
+    defaultSort="createdAt"
     columns={columns}
     data={orderEvents}
     withFilters={false}

@@ -1,14 +1,52 @@
 version: "3"
 services:
-  oilstone:
+  oilstone-backend:
     build: 
-      context: .
-      args: 
-        NODE_ENV: development
-      depends_on:
+      context: ./backend
+      dockerfile: Dockerfile.${NODE_ENV}
+    #command: nodemon --inspect=5858
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+      - "9229:9229"
+    depends_on:
       - "db"
+    environment:
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - BACKEND_PORT=${BACKEND_PORT}
+      - BACKEND_HOST=${BACKEND_HOST}
+      - FRONTEND_HOST=${FRONTEND_HOST}
     volumes:
-      - ./:/app
+      - ./backend:/app/
       - /app/node_modules
-    command: npm run dev
+  oilstone-frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile.${NODE_ENV}
+      args: 
+        - PORT=${FRONTEND_PORT}
+        - REACT_APP_BACKEND_PORT=${BACKEND_PORT}
+        - REACT_APP_BACKEND_HOST=${BACKEND_HOST}
+    volumes:
+      - ./frontend:/app/
+      - /app/node_modules
+      - /app/build
+    ports:
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+    environment:
+      - PORT=${FRONTEND_PORT}
+      - REACT_APP_BACKEND_PORT=${BACKEND_PORT}
+      - REACT_APP_BACKEND_HOST=${BACKEND_HOST}
   db:
+    image: postgres
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    volumes:
+      - '../postgres_data:/var/lib/postgresql/data'
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}

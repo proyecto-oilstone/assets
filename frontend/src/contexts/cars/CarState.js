@@ -182,7 +182,6 @@ const CarState = (props) => {
     const response = await axios.get(`/cars/files/${carId}`);
     
     const files = responseToArray(response.data);
-    console.log(files)
     dispatch({
       type: SET_FILES,
       payload: files,

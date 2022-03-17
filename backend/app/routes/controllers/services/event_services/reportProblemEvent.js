@@ -1,16 +1,23 @@
-const { ReportProblemEvent, Event } = require("../../../../db/index");
+const { ReportProblemEvent, RepairRequestEvent, Event } = require("../../../../db/index");
 const { getEventsByCarIdAndEventType, postEvent } = require("./event");
 const getCarDetail = require("../cars_services/getCarDetail");
 const { updateCarStatus } = require("../cars_services/updateStatus");
 
 /**
  * set resolving=true to a list of problems
+ * @param {Number} carId
  * @param {Array} reportsProblemsIds ids of ReportProblemEvent
+ * @param {Number} providerId id of the provider of type workshop where will be repaired
+ * @param {String} estimatedDate
  */
-const resolvingReportsProblems = async (reportsProblemsIds, providerId, estimatedDate) => {
+const resolvingReportsProblems = async (carId, reportsProblemsIds, providerId, estimatedDate) => {
   let now = new Date()
   now = now.toISOString().split('T')[0];
-  return ReportProblemEvent.update({ resolving: true, resolvingDate: now, resolved: false, providerId, estimatedDate }, { where: { id: reportsProblemsIds } });
+  reportsProblemsIds.forEach(reportProblemId => {
+    const repairRequestEvent = { carId, problemId: reportProblemId, estimatedDate };
+    postEvent(repairRequestEvent, RepairRequestEvent);
+  });
+  return ReportProblemEvent.update({ resolving: true, resolvingDate: now, resolved: false, providerId }, { where: { id: reportsProblemsIds } });
 };
 
 module.exports = {
@@ -111,7 +118,7 @@ module.exports = {
   resolvingProblems: async (carId, problemsIds, providerId, estimatedDate) => {
     const car = await getCarDetail(carId);
     if (car.status !== "INFORMED") throw new Error("car must be informed first");
-    await resolvingReportsProblems(problemsIds, providerId, estimatedDate);
+    await resolvingReportsProblems(carId, problemsIds, providerId, estimatedDate);
     await updateCarStatus(car.id, "REPAIR");
   },
 }

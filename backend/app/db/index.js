@@ -34,7 +34,7 @@ modelDefiners.forEach((model) => model(sequelize));
 
 //Relaciones
 
-const { Cars, CarType, Provider, Files, Users, Sector, Event, DriverEvent, ReportProblemEvent, RepairRequestEvent, WorkshopEvent, VTVEvent, SeguroEvent, ProblemType, ResolutionType } = sequelize.models;
+const { Cars, CarType, Provider, Files, Users, Sector, Event, DriverEvent, ReportProblemEvent, RepairRequestEvent, RepairedEvent, WorkshopEvent, VTVEvent, SeguroEvent, ProblemType, ResolutionType } = sequelize.models;
 
 Cars.belongsTo(Sector)
 Sector.hasMany(Cars)
@@ -57,25 +57,30 @@ CarType.hasMany(Cars);
 Event.belongsTo(Cars, { foreignKey: {name: "carId", allowNull: false}, targetKey: "id" });
 Event.hasOne(DriverEvent, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
 Event.hasOne(ReportProblemEvent, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
+Event.hasOne(RepairedEvent, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
 Event.hasOne(RepairRequestEvent, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
 Event.hasOne(WorkshopEvent, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
 Event.hasOne(SeguroEvent, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
 Event.hasOne(VTVEvent, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
 
-Event.childrenModels = [DriverEvent, ReportProblemEvent, RepairRequestEvent, WorkshopEvent, SeguroEvent, VTVEvent];
+Event.childrenModels = [DriverEvent, ReportProblemEvent, RepairRequestEvent, WorkshopEvent, SeguroEvent, VTVEvent, RepairedEvent];
 DriverEvent.belongsTo(Event, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
 ReportProblemEvent.belongsTo(Event, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
+RepairedEvent.belongsTo(Event, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
 RepairRequestEvent.belongsTo(Event, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
 WorkshopEvent.belongsTo(Event, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
 VTVEvent.belongsTo(Event, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
 SeguroEvent.belongsTo(Event, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
 
-RepairRequestEvent.belongsTo(ReportProblemEvent, { foreignKey: "problemId", targetKey: "id" });
 ReportProblemEvent.belongsTo(Provider, { foreignKey: "providerId", targetKey: "id" });
+RepairRequestEvent.belongsTo(ReportProblemEvent, { foreignKey: "problemId", targetKey: "id" });
+RepairedEvent.belongsTo(ReportProblemEvent, { foreignKey: "problemId", targetKey: "id" });
 ReportProblemEvent.belongsTo(ProblemType, { foreignKey: "problemTypeId", targetKey: "id" });
-RepairRequestEvent.belongsTo(ResolutionType, { foreignKey: "repairTypeId", targetKey: "id" });
+RepairedEvent.belongsTo(ResolutionType, { foreignKey: "repairTypeId", targetKey: "id" });
 
 ReportProblemEvent.include = [ProblemType];
+RepairRequestEvent.include = [ReportProblemEvent];
+RepairedEvent.include = [ReportProblemEvent, ResolutionType];
 
 WorkshopEvent.belongsTo(Provider, { foreignKey: {name: "providerId", allowNull: false}, targetKey: "id" });
 

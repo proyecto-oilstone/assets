@@ -54,11 +54,25 @@ const getChildrenEventModelsWithoutBlobFields = (eventModel) => {
   return eventModel.childrenModels.map(
     model => {
       const childrenEvent = { model, attributes: getAttributesWithoutBlobFields(model), };
-      if (model.include !== undefined) 
-        childrenEvent.include = model.include;
+      if (model.include !== undefined) {
+        childrenEvent.include = getRelationatedIncludes(model);
+      }
       return childrenEvent;
     }
   );
+}
+
+const getRelationatedIncludes = (model, maxRelations = 5) => {
+  if (maxRelations <= 0) return undefined;
+  const toReturn = [];
+  model.include.forEach(model => {
+    const childrenEvent = { model };
+    if (model.include) {
+      childrenEvent.include = getRelationatedIncludes(model, maxRelations-1);
+    }
+    toReturn.push(childrenEvent);
+  });
+  return toReturn;
 }
 
 module.exports = {

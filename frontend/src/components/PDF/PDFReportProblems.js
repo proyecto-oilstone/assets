@@ -7,7 +7,7 @@ const PDFReportProblems = (props) => {
   const { children, className = "", problems, car } = props;
   const [estimatedDate, setEstimatedDate] = useState("");
 
-  const firstEstimatedDate = () => problems.length > 0 ? problems[0].estimatedDate : "";
+  const firstEstimatedDate = () => problems.length > 0 ? (problems[0].estimatedDate || "") : "";
 
   useEffect(() => {
     setEstimatedDate(firstEstimatedDate());

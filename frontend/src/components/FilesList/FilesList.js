@@ -6,6 +6,7 @@ import CarContext from '../../contexts/cars/CarContext';
 import CustomModal from "../../components/Modals/CustomModal/CustomModal";
 import ButtonPrimary from "../../components/Buttons/Primary/ButtonPrimary";
 import ButtonSecondary from "../../components/Buttons/Secondary";
+import { dateToDDMMYYYY } from '../../helpers/utils';
 
 
 const FilesList = ( {document, car}) => {
@@ -45,13 +46,13 @@ const FilesList = ( {document, car}) => {
     const [columns, setColumns] = useState([{
       label: 'Nombre',
       key: 'name',
-      export: true,
+      export: false,
       showInTable: true,
     },
     {
       label: 'Fecha de vencimiento',
-      key: 'expirationDate',
-      export: true,
+      key: (document) => dateToDDMMYYYY(new Date(document.expirationDate)),
+      export: false,
       showInTable: true,
     },
     {
@@ -64,7 +65,7 @@ const FilesList = ( {document, car}) => {
          : `${baseURL}/cars/${selectedCar?.id}/seguro` } className={styles.link}>
              <img className="icon-sm cursor-pointer" src="/icons/download.svg" />
              </a><img role="button" className="icon-sm cursor-pointer" alt="eliminar" src="/icons/trash-alt-solid.svg" onClick={() => onDeleteDocument(cell.row.original)} /></div>),
-      export: true,
+      export: false,
       showInTable: true,
     },
     ]);

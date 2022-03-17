@@ -38,7 +38,7 @@ const SectorCarList = ({ sectorCars }) => {
     showInTable: true,
   },
   ]);
-  console.log(cars)
+  
   return (
     <>
       <div className="d-flex justify-content-between mb-3">
