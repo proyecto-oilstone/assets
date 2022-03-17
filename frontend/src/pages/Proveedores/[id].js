@@ -39,7 +39,9 @@ const ProveedorDetails = () => {
                 ?
                 <SectorCarList sectorCars={selectedProvider?.vehiculos} />
                 
-                : <span>Ninguno</span>}</div></div>
+                :<div>{selectedProvider?.type === 'RENTAL'? <h1>No hay autos de este proveedor</h1>
+                 : selectedProvider?.type ==='WORKSHOP' ? <h1>No hay autos almacenados en este taller</h1>
+                  : <h1>No hay autos en este lavadero</h1>}</div>}</div></div>
           
         </div>
       </Container>
