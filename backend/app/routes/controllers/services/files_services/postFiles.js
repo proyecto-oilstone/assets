@@ -18,7 +18,7 @@ const postFiles = async (req, res) => {
                 name: file.originalname,
                 type: file.mimetype,
                 data: file.buffer,
-                document,
+                document: "permanent",
                 CarId,
                 expirationDate: expiration !== "" ? expiration : null,
 

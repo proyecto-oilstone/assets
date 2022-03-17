@@ -100,7 +100,13 @@ const VehiculoDetails = () => {
       },
       "EXPIRED_DOCUMENTATION": () => {
         setStatusComponent(
+          <>
           <div>El vehiculo cuenta con documentacion requerida que esta vencida.</div>
+          <ul>
+            {selectedCar.VTV === null && <li>VTV <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadVTV}>Añadir VTV</span></li>}
+            {selectedCar.seguro === null && <li>Seguro <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadSeguro}>Añadir seguro</span></li>}
+          </ul>
+          </>
         );
       },
       "DISCHARGED": () => {
