@@ -81,6 +81,7 @@ RepairedEvent.belongsTo(ResolutionType, { foreignKey: "repairTypeId", targetKey:
 ReportProblemEvent.include = [ProblemType];
 RepairRequestEvent.include = [ReportProblemEvent];
 RepairedEvent.include = [ReportProblemEvent, ResolutionType];
+WorkshopEvent.include = [Provider];
 
 WorkshopEvent.belongsTo(Provider, { foreignKey: {name: "providerId", allowNull: false}, targetKey: "id" });
 

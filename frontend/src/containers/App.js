@@ -29,6 +29,7 @@ import TipoProblemas from "../pages/TipoProblemas";
 import TipoResoluciones from "../pages/TipoResoluciones";
 import ProblemsTypeState from "../contexts/problemTypes/ProblemsTypeState";
 import ResolutionsTypeState from "../contexts/resolutionTypes/ResolutionsTypeState";
+import Reportes from "../pages/Reportes";
 
 function App() {
 
@@ -114,6 +115,10 @@ function App() {
 
         <Route path="/talleres" element={<PrivateRoute/>}>
           <Route path="/talleres" element={<Workshops />} />
+        </Route>
+
+        <Route path="/reportes" element={<PrivateRoute/>}>
+          <Route path="/reportes" element={<Reportes />} />
         </Route>
 
         <Route path="/otrosProveedores" element={<PrivateRoute/>}>

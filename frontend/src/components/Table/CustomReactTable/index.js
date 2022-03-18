@@ -156,7 +156,7 @@ const CustomReactTable = (props) => {
   
 
   useEffect(() => {
-    const withHeaderAndAccessor = column => ({ ...column, Header: column.label, accessor: column.key });
+    const withHeaderAndAccessor = column => ({ ...column, Header: column.label, accessor: "accesor" in column ? column.accesor : column.key });
     const onlyExportableColumns = column => column.export;
     const onlyVisibleColumns = column => column.showInTable;
     const addLinks = column => {

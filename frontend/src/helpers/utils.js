@@ -136,3 +136,34 @@ export function dateDiffInDays(date1, date2) {
   const days = Math.ceil(diff / (1000 * 3600 * 24));
   return days;
 }
+
+export function getDescriptionEvent(event) {
+  switch (event.type) {
+    case "DRIVER": {
+      if (event.isReserved && event.driver)
+        return "Se reservo al conductor " + event.driver;
+      if (event.isReserved && event.driver === null)
+        return "Se quito la reseva del conductor";
+      if (event.driver === null)
+        return "Se quito al conductor";
+      return "Se asigno al conductor " + event.driver;
+    }
+    case "REPORT_PROBLEM": {
+      let toReturn = "Se reporto el problema " + event?.ProblemType?.problem;
+      const formatedDateResolving = dateToDDMMYYYYHHMM(new Date(event.resolvingDate));
+      if (event.resolving) {
+        return toReturn + ", y fue llevado al taller el " + formatedDateResolving;
+      }
+      if (event.resolved) {
+        return toReturn + ", fue llevado al taller el " + formatedDateResolving + " y estuvo " + ` ${dateDiffInDays(event.resolvedDate, event.resolvingDate)} dias en reparacion`
+      }
+      return toReturn;
+    }
+    case "REPAIR_REQUEST": return "Se realizo un pedido de reparacion al problema " + event?.ReportProblemEvent?.ProblemType?.problem;
+    case "WORKSHOP": return "Se almaceno en taller";
+    case "VTV": return "Se cargo VTV";
+    case "SEGURO": return "Se cargo Seguro";
+    case "REPAIRED": return "Se completo la reparacion al problema " + event?.ReportProblemEvent?.ProblemType?.problem;
+    default: return "Desconocido";
+  }
+}
