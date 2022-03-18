@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import Filters from './Filters';
 import Search from '../../Search';
 import ModalWarningDelete from '../../Modals/WarningDelete';
-import { Form } from "react-bootstrap";
 import useSelectionCheckbox from '../../../hooks/useSelectionCheckbox';
 
 /**
@@ -47,6 +46,16 @@ import useSelectionCheckbox from '../../../hooks/useSelectionCheckbox';
  * deleteModalTitle
  * 
  * deleteModalDescription
+ * 
+ * extraActions (optional Array): to add more actions in column of actions. This should be an Array of Components, each component will receibe the row as parameter
+ * 
+ * selectableRows (optional default false): if is true the rows of table will be selectable
+ * 
+ * selectableRowsCheckboxCriteria (optional): If is present, should be a function that receibe a data as parameter and should return true to show the checkbox and false to hide it. selectableRows should be true to work
+ * 
+ * onSelectedRowsChange (optional): to handle the rows selected. Should be a function that receibe a rows as parameter
+ * 
+ * defaultFilters (optional): if you want to set any default filter when the table finish to render
  */
 const CustomReactTable = (props) => {
   const { extraActions = [], selectableRowsCheckboxCriteria = () => true, selectableRows = false, onSelectedRowsChange = () => {}, defaultFilters, columns, data, downloadCSV, CSVFilename = "file.csv", onDelete = () => { }, onEdit = () => { }, onFile = () => { }, withEdit, withDelete, withFiles = false, defaultSort = "", containerClassName, deleteModalTitle = "", deleteModalDescription = "", withFilters = true } = props;

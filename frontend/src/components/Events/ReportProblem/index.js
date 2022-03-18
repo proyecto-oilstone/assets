@@ -40,7 +40,7 @@ const ReportProblem = (props) => {
 
       <div className='mt-2'>
         <ButtonSecondary className="me-3" onClick={toggleIsReportingProblem}>Cancelar</ButtonSecondary>
-        <ButtonPrimary onClick={handleReportProblem} disabled={problemTitle === "" || problemDescription === ""}>Reportar</ButtonPrimary>
+        <ButtonPrimary onClick={handleReportProblem} disabled={problemTitle === "" || problemDescription === ""}>Informar</ButtonPrimary>
       </div>
     </>}
   </>);

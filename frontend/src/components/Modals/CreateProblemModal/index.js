@@ -53,7 +53,7 @@ const CreateProblemModal = (props) => {
     <div></div>
     <div className="d-flex align-items-center flex-column">
       <div><img className="icon-xl icon-yellow" src="/icons/triangle-exclamation-solid.svg"/></div>
-      <div className="h4">Reportar problema</div>
+      <div className="h4">Informar problema</div>
     </div>
   </>);
 
@@ -148,9 +148,9 @@ const CreateProblemModal = (props) => {
           </Col>
         </Form.Group>
 
-        <span className={`text-muted ${!showWarning && "d-none"}`}>Este vehiculo no presenta ningun problema, al reportar este problema el estado del vehiculo pasara a informado</span>
+        <span className={`text-muted ${!showWarning && "d-none"}`}>Este vehiculo no presenta ningun problema, al informar este problema el estado del vehiculo pasara a informado</span>
         <div className="d-flex flex-row-reverse">
-          <ButtonPrimary disabled={priority === null || problemSelected === null || description === ""} className={`mt-2 button-modal-end`} onClick={handleOnClick}>Reportar</ButtonPrimary>
+          <ButtonPrimary disabled={priority === null || problemSelected === null || description === ""} className={`mt-2 button-modal-end`} onClick={handleOnClick}>Informar</ButtonPrimary>
         </div>
       </Form>
     </CustomModal>

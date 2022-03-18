@@ -5,12 +5,8 @@ import CarContext from "../../contexts/cars/CarContext";
 import { Link, useParams } from 'react-router-dom'
 import EventContext from "../../contexts/events/EventContext";
 import { baseURL } from "../../helpers/constants";
-import { getCarStatus } from "../../helpers/utils";
 import AssignDriver from "../../components/Events/AssignDriver";
 import StoreWorkshop from "../../components/Events/StoreWorkshop";
-import CustomModal from "../../components/Modals/CustomModal/CustomModal";
-import ButtonPrimary from "../../components/Buttons/Primary/ButtonPrimary";
-import ButtonSecondary from "../../components/Buttons/Secondary";
 import ReactBigCalendar from "../../components/ReactBigCalendar";
 import PostImageModal from "../../components/Modals/PostImageModal/PostImageModal";
 import UploadVTVModal from "../../components/Modals/UploadVTVModal";
@@ -22,14 +18,11 @@ import FilesList from "../../components/FilesList/FilesList";
 import EventsList from "../../components/Events/EventsList";
 
 const VehiculoDetails = () => {
-  const { selectedCar, getCarById, deleteDocumentById } = useContext(CarContext);
+  const { selectedCar, getCarById } = useContext(CarContext);
   const { unAssignDriver, unAssignReservedDriver, getEventsByCarId, eventsByCar } = useContext(EventContext);
   const { id } = useParams();
-  const [showWariningDeleteDocument, setShowWariningDeleteDocument] = useState(false);
   const [showModalUploadVTV, setShowModalUploadVTV] = useState(false);
   const [showModalUploadSeguro, setShowModalUploadSeguro] = useState(false);
-  const [selectedDocument, setSelectedDocument] = useState(null);
-  const toggleShowWarningDeleteDocument = () => setShowWariningDeleteDocument(!showWariningDeleteDocument);
   const [showFileModal, setShowFileModal] = useState(false);
   const toggleFileModal = () => setShowFileModal(!showFileModal);
   const toggleShowModalUploadVTV = () => setShowModalUploadVTV(!showModalUploadVTV);
@@ -128,18 +121,6 @@ const VehiculoDetails = () => {
     getCarById(selectedCar.id);
   };
 
-  const onConfirmDeleteDocument = async () => {
-    await deleteDocumentById(selectedDocument.id, selectedCar.id);
-    setShowWariningDeleteDocument(false);
-  };
-
-  const warningDeleteComponentFooter = (
-    <div className="d-flex flex-row-reverse p-4">
-      <ButtonPrimary onClick={onConfirmDeleteDocument} variant="danger" className="mx-2">Borrar</ButtonPrimary>
-      <ButtonSecondary onClick={() => setShowWariningDeleteDocument(false)}>Cancelar</ButtonSecondary>
-    </div>
-  );
-
   const handleOnClick= () => {
     setShowFileModal(true);
   }
@@ -200,8 +181,6 @@ const VehiculoDetails = () => {
                 <BadgeCarStatus status={selectedCar?.status}/>
               </div>
 
-               
-
               <div className="mt-3 h-100">
                 {statusComponent}
               </div>
@@ -228,9 +207,6 @@ const VehiculoDetails = () => {
           </Tabs>
         </div>
 
-        <CustomModal show={showWariningDeleteDocument} toggle={toggleShowWarningDeleteDocument} title={"Eliminar documento"} footerComponent={warningDeleteComponentFooter}>
-          <div>¿Estas seguro que queres eliminar el documento <span className="fw-bold">{selectedDocument?.name}</span>?</div>
-        </CustomModal>
         <PostImageModal show = {showFileModal} toggle = {toggleFileModal} car = {selectedCar} />
 
         <UploadVTVModal show={showModalUploadVTV} toggle={toggleShowModalUploadVTV}/>

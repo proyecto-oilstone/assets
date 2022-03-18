@@ -131,7 +131,7 @@ const ProblemsSection = () => {
         </>
         : 
         <div>
-          <p>Este vehiculo no presenta ningun problema <span onClick={openCreateProblemModal} role="button" className="link-primary cursor-pointer">reportar problema</span></p>
+          <p>Este vehiculo no presenta ningun problema <span onClick={openCreateProblemModal} role="button" className="link-primary cursor-pointer">informar problema</span></p>
         </div>
       }
       <CreateProblemModal show={modalCreateProblem} toggle={toggleModalCreateProblem} showWarning={problemNotResolved.length === 0}/>

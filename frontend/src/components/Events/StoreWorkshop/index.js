@@ -30,7 +30,7 @@ const StoreWorkshop = (props) => {
   }, []);
 
   return (canStoreInWorkshop && <>
-    <ButtonPrimary className={storeWorkshop ? "d-none" : `mt-2 ${buttonClassName}`} onClick={toggleStoreWorkshop}>Almacenar vehiculo</ButtonPrimary>
+    <ButtonPrimary className={storeWorkshop ? "d-none" : `mt-2 ${buttonClassName}`} onClick={toggleStoreWorkshop}>Estacionar vehiculo</ButtonPrimary>
     {storeWorkshop && <>
       <Row className="mt-4">
         <Form.Label column sm="12">Ingresa el taller a donde va a ser almacenado</Form.Label>
@@ -41,7 +41,7 @@ const StoreWorkshop = (props) => {
 
       <div className='mt-2'>
         <ButtonSecondary className="me-3" onClick={toggleStoreWorkshop}>Cancelar</ButtonSecondary>
-        <ButtonPrimary onClick={handleStoreWorkshop} disabled={selectedWorkshop === null}>Almacenar</ButtonPrimary>
+        <ButtonPrimary onClick={handleStoreWorkshop} disabled={selectedWorkshop === null}>Estacionar</ButtonPrimary>
       </div>
     </>}
   </>);
