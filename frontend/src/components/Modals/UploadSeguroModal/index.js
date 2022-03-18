@@ -9,7 +9,7 @@ import CustomModal from "../CustomModal/CustomModal";
 const UploadSeguroModal = (props) => {
   const { show, toggle } = props;
   const { uploadSeguro } = useContext(EventContext);
-  const { selectedCar, getCarById } = useContext(CarContext);
+  const { selectedCar, getCarById, getFilesById } = useContext(CarContext);
   const [file, setFile] = useState(null);
   const [expirationDate, setExpirationDate] = useState("");
 
@@ -19,6 +19,7 @@ const UploadSeguroModal = (props) => {
     setFile(null);
     setExpirationDate("");
     getCarById(selectedCar.id);
+    getFilesById(selectedCar.id);
   };
 
   const buttonUpload = (

@@ -14,7 +14,7 @@ const checkCarFiles = async (carId) => {
   if (hasMandatoryDocumentation && car.status === "OUT_OF_SERVICE") {
     await updateCarStatus(car.id, "AVAILABLE");
     car.status = "AVAILABLE";
-  } else if (car.documento.length === 0 && car.status !== "OUT_OF_SERVICE") {
+  } else {
     await updateCarStatus(car.id, "OUT_OF_SERVICE");
     car.status = "OUT_OF_SERVICE";
   }

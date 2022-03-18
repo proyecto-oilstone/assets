@@ -49,7 +49,7 @@ import useSelectionCheckbox from '../../../hooks/useSelectionCheckbox';
  * deleteModalDescription
  */
 const CustomReactTable = (props) => {
-  const { selectableRowsCheckboxCriteria = () => true, selectableRows = false, onSelectedRowsChange = () => {}, defaultFilters, columns, data, downloadCSV, CSVFilename = "file.csv", onDelete = () => { }, onEdit = () => { }, onFile = () => { }, withEdit, withDelete, withFiles = false, defaultSort = "", containerClassName, deleteModalTitle = "", deleteModalDescription = "", withFilters = true } = props;
+  const { extraActions = [], selectableRowsCheckboxCriteria = () => true, selectableRows = false, onSelectedRowsChange = () => {}, defaultFilters, columns, data, downloadCSV, CSVFilename = "file.csv", onDelete = () => { }, onEdit = () => { }, onFile = () => { }, withEdit, withDelete, withFiles = false, defaultSort = "", containerClassName, deleteModalTitle = "", deleteModalDescription = "", withFilters = true } = props;
   const [tableColumns, setTableColumns] = useState([]);
   const [CSVColumns, setCSVColumns] = useState([]);
   const tableColumnsMemo = useMemo(() => tableColumns, [tableColumns]);
@@ -69,6 +69,7 @@ const CustomReactTable = (props) => {
   const EditButton = ({ data }) => (<img role="button" className="icon-sm cursor-pointer" src="/icons/edit-solid.svg" alt="editar" onClick={() => onEdit(data)} />)
   const CustomLink = ({ to, children }) => (<Link to={to}>{children}</Link>)
   const FilesButton = ({ data }) => (<img role="button" className={`${"Files" in data && data.Files !== null ? "invisible" : ""} icon-sm cursor-pointer`} src="/icons/pdf-text-file-svgrepo-com.svg" alt="archivos" onClick={() => onFile(data)} />)
+  const ExtraActionsButtons = ({ data }) => extraActions.map(extraAction => extraAction(data));
 
   const applyFilters = (row) => {
     return filters.every(filter => {
@@ -164,14 +165,15 @@ const CustomReactTable = (props) => {
 
     const actionColumn = {
       Header: "Acciones", className: styles.actionsCell, Cell: ({ cell }) => (
-        <div className="d-flex justify-content-between">
+        <div className="d-flex justify-content-between align-items-center">
           {withDelete && <DeleteButton data={cell.row.original} />}
           {withEdit && <EditButton data={cell.row.original} />}
           {withFiles && <FilesButton data={cell.row.original} />}
+          {extraActions.length > 0 && <ExtraActionsButtons data={cell.row.original} />}
         </div>
       )
     };
-    if (withEdit || withDelete || withFiles) {
+    if (withEdit || withDelete || withFiles || extraActions.length > 0) {
       tableColumns.push(actionColumn);
     }
     setTableColumns(tableColumns);

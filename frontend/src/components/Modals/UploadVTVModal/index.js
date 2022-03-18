@@ -9,7 +9,7 @@ import CustomModal from "../CustomModal/CustomModal";
 const UploadVTVModal = (props) => {
   const { show, toggle } = props;
   const { uploadVTV } = useContext(EventContext);
-  const { selectedCar, getCarById } = useContext(CarContext);
+  const { selectedCar, getCarById, getFilesById } = useContext(CarContext);
   const [file, setFile] = useState(null);
   const [expirationDate, setExpirationDate] = useState("");
 
@@ -19,6 +19,7 @@ const UploadVTVModal = (props) => {
     setFile(null);
     setExpirationDate("");
     getCarById(selectedCar.id);
+    getFilesById(selectedCar.id);
   };
 
   const buttonUpload = (

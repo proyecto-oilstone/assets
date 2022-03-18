@@ -40,16 +40,6 @@ const getCarDetail = async (id) => {
     ],
   };
   let car = await Cars.findOne(query);
-
-  let VTVQuery = {
-    where: { id: car.VTV },
-  };
-  let SeguroQuery = {
-    where: { id: car.seguro },
-  }
-  const VTV = await VTVEvent.findOne(VTVQuery);
-  const Seguro = await SeguroEvent.findOne(SeguroQuery)
-
   if (!car) {
     return null;
   }

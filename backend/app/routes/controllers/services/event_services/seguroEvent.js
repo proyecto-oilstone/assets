@@ -1,4 +1,4 @@
-const { SeguroEvent, db } = require("../../../../db/index");
+const { SeguroEvent, db, Event } = require("../../../../db/index");
 const { QueryTypes } = require('sequelize');
 const putCar = require("../cars_services/putCar");
 const checkCarFiles = require("../files_services/checkCarFiles");
@@ -35,5 +35,9 @@ module.exports = {
   renove: async ({ type, name, data, expirationDate, id}) => {
     const event = await getSeguroEventById(id);
     await updateFile({ id: event.seguroFileId, type, name, data, expirationDate });
+  },
+
+  getSeguroEventByFileId: async (fileId) => {
+    return SeguroEvent.findOne({ where: { seguroFileId: fileId }, include: Event });
   },
 }

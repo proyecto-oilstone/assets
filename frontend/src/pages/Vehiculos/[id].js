@@ -22,7 +22,7 @@ import FilesList from "../../components/FilesList/FilesList";
 import EventsList from "../../components/Events/EventsList";
 
 const VehiculoDetails = () => {
-  const { selectedCar, getCarById, deleteDocumentById, getLastEventByTypeEvent } = useContext(CarContext);
+  const { selectedCar, getCarById, deleteDocumentById } = useContext(CarContext);
   const { unAssignDriver, unAssignReservedDriver, getEventsByCarId, eventsByCar } = useContext(EventContext);
   const { id } = useParams();
   const [showWariningDeleteDocument, setShowWariningDeleteDocument] = useState(false);
@@ -37,10 +37,6 @@ const VehiculoDetails = () => {
   const [activeTab, setActiveTab] = useState('basic-data');
   const [activeCalendarTab, setActiveCalendarTab] = useState('events');
   const [statusComponent, setStatusComponent] = useState("");
-  const lastVTVEvent = getLastEventByTypeEvent(eventsByCar, "VTV");
-  const lastSeguroEvent = getLastEventByTypeEvent(eventsByCar, "SEGURO");
-  const vtvExpiration = lastVTVEvent !== null ? lastVTVEvent.expirationDate : "No hay vtv cargada";
-  const seguroExpiration = lastSeguroEvent ? lastSeguroEvent.expirationDate : "No hay seguro cargado";
 
   useEffect(() => {
     const carId = parseInt(id);
@@ -122,11 +118,6 @@ const VehiculoDetails = () => {
       await unAssignDriver(selectedCar.id);
     }
     getCarById(selectedCar.id);
-  };
-
-  const onDeleteDocument = async (document) => {
-    setSelectedDocument(document);
-    setShowWariningDeleteDocument(true);
   };
 
   const onConfirmDeleteDocument = async () => {

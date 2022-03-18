@@ -1,4 +1,4 @@
-const { VTVEvent, db } = require("../../../../db/index");
+const { VTVEvent, db, Event } = require("../../../../db/index");
 const { QueryTypes } = require('sequelize');
 const putCar = require("../cars_services/putCar");
 const checkCarFiles = require("../files_services/checkCarFiles");
@@ -44,6 +44,10 @@ module.exports = {
   renove: async ({ type, name, data, expirationDate, id}) => {
     const event = await getVTVEventById(id);
     await updateFile({ id: event.vtvFileId, type, name, data, expirationDate });
+  },
+
+  getVtvEventByFileId: async (fileId) => {
+    return VTVEvent.findOne({ where: { vtvFileId: fileId }, include: Event });
   },
 
 }
