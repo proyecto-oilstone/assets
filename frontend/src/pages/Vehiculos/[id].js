@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Layout from "../../components/Common/Layout/Layout";
 import { Col, Container, Row, Tab, Tabs } from "react-bootstrap";
 import CarContext from "../../contexts/cars/CarContext";
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import EventContext from "../../contexts/events/EventContext";
 import { baseURL } from "../../helpers/constants";
 import { getCarStatus } from "../../helpers/utils";
@@ -90,13 +90,21 @@ const VehiculoDetails = () => {
       "AVAILABLE": () => {
         setStatusComponent(<div>
           <div>El vehiculo se encuentra en backup.</div>
+          {selectedCar.stored ? <div>El vehiculo se encuentra en el taller: <Link to ={`/proveedores/${selectedCar.WorkshopId}`}>{selectedCar.workshopName}</Link></div> : <>
+          <StoreWorkshop buttonClassName="mx-2"/> </>}
           <div>Se puede asignar o reservar un conductor <span> <AssignDriver /></span></div>
-          <StoreWorkshop buttonClassName="mx-2"/>
+          
         </div>);
       },
       "EXPIRED_DOCUMENTATION": () => {
         setStatusComponent(
+          <>
           <div>El vehiculo cuenta con documentacion requerida que esta vencida.</div>
+          <ul>
+            {selectedCar.VTV === null && <li>VTV <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadVTV}>Añadir VTV</span></li>}
+            {selectedCar.seguro === null && <li>Seguro <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadSeguro}>Añadir seguro</span></li>}
+          </ul>
+          </>
         );
       },
       "DISCHARGED": () => {

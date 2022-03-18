@@ -72,6 +72,7 @@ const EventState = (props) => {
     const workshopEvent = {
       carId,
       providerId: workshop.id,
+      providerName: workshop.nombreLargo,
       createdAt: Date.now(),
     };
     const response = await axios.post(`/events/workshop`, workshopEvent);

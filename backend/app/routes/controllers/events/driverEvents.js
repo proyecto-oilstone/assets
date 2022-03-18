@@ -1,4 +1,5 @@
 const driverEventService = require("../services/event_services/driverEvent");
+const { Cars,} = require("../../../db/index");
 
 module.exports = {
     /**
@@ -10,6 +11,11 @@ module.exports = {
      */
     postDriverEvent: async (req, res) => {
         const event = await driverEventService.postDriverEvent(req.body);
+        await Cars.update({
+            stored: false,
+            WorkshopName: null,
+            WorkshopId: null,
+        }, { where: { id: req.body.carId } });
         if (event) {
             res.status(201).json(event);
         } else {

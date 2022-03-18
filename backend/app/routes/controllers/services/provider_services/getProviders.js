@@ -1,5 +1,5 @@
-const { Provider } = require("../../../../db/index");
-const { typeProviderToString } = require("../../../../utils/functions");
+const { Provider, Cars } = require("../../../../db/index");
+const { typeProviderToString, statusCarToString } = require("../../../../utils/functions");
 
 /**
  * Finds all the providers
@@ -14,6 +14,14 @@ const getProvider = async (req, res) => {
     where: {},
     attributes: ["id", "nombreLargo", "nombreCorto", "observaciones", "type"],
     order: [["nombreLargo", "ASC"]],
+    include: [
+      {
+        model: Cars,
+        attributes: ["id", "patente", "año", "status"],
+        where: {},
+        required: false,
+      },
+    ],
   };
 
   if(type) {
@@ -25,9 +33,18 @@ const getProvider = async (req, res) => {
   providers = providers.map((provider) => {
     provider = {
       ...provider.dataValues,
+      vehiculos: provider.dataValues.Cars?.map((car) => {
+        car = {
+          id: car.id,
+          patente: car.patente,
+          año: car.año,
+          status: statusCarToString(car.status),
+        };
+        return car;
+      }),
     };
     provider.type = typeProviderToString(provider.type);
-    const { ...rest } = provider;
+    const {Cars, ...rest } = provider;
     return rest;
   });
   providers = { ...providers };

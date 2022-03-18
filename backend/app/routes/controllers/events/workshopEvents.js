@@ -1,4 +1,5 @@
 const workshopService = require("../services/event_services/workshopServiceEvent");
+const { Cars,} = require("../../../db/index");
 
 module.exports = {
     /**
@@ -9,7 +10,21 @@ module.exports = {
      * @returns TODO: 403 validation errors
      */
     postWorkshopEvent: async (req, res) => {
-        const event = await workshopService.postWorkshopEvent(req.body);
+        const { carId, providerId, createdAt, providerName} = req.body;
+        const obj = {
+            carId,
+            providerId,
+            createdAt,
+        }
+
+        await Cars.update({
+            stored: true,
+            workshopName: providerName,
+            WorkshopId: providerId,
+        }, { where: { id: carId } });
+
+
+        const event = await workshopService.postWorkshopEvent(obj);
         if (event) {
             res.status(201).json(event);
         } else {
