@@ -142,6 +142,7 @@ const VehiculoDetails = () => {
                     <div><span className="fw-bold">Marca: </span><span>{selectedCar?.marca}</span></div>
                     <div><span className="fw-bold">Año: </span><span>{selectedCar?.año}</span></div>
                     <div><span className="fw-bold">Tipo de vehiculo: </span><span>{selectedCar?.modelo}</span></div>
+                    <div><span className="fw-bold">Proveedor: </span><span>{selectedCar?.proveedor}</span></div>
                   </div>
 
                   <div className="d-flex p-2"> 
@@ -161,9 +162,6 @@ const VehiculoDetails = () => {
                 <FilesList  document={selectedCar.allFiles[0]} car={selectedCar} /> 
                 : <div>Sin Papeles</div>}
               
-              </Tab>
-              <Tab eventKey="provider" title="Proveedor">
-                <div><span className="fw-bold">Proveedor: </span><span>{selectedCar?.proveedor}</span></div>
               </Tab>
               <Tab eventKey="assigned" title="Asignacion">
                 <div><span className="fw-bold">Asignacion actual: </span><span>{selectedCar?.driver ? <>El vehiculo esta {selectedCar.isReserved ? "reservado" : "asignado"} a {selectedCar.driver} <span onClick={onUnAssignDriver} role="button" className="btn-link cursor-pointer">{selectedCar.isReserved ? "Quitar reserva" : "Desasignar conductor"}</span></> : "No hay ningun conductor asignado"}</span></div>

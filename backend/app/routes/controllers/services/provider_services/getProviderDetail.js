@@ -27,21 +27,43 @@ const getProviderDetail = async (req, res) => {
   if (!provider) {
     return res.status(404).send("Provider not found");
   }
+
+  let cars = await Cars.findAll({where: {WorkshopId: provider.id}, attributes: ["id", "patente", "año", "status", "WorkshopId"], required: false});
+  
+let allCars
+let arr
+let arr2
+
+
+  if(cars){
+    arr = provider.dataValues.Cars?.map((car) => {
+      return {
+        id: car.id,
+        patente: car.patente,
+        año: car.año,
+        status: statusCarToString(car.status),
+      }
+    })
+    arr2 = cars.map(car => {
+      return {
+        id: car.id,
+        patente: car.patente,
+        año: car.año,
+        status: statusCarToString(car.status),
+      }
+    })
+    
+    allCars = [...arr, ...arr2]
+  }
+
   provider = {
     id: provider.id,
     nombreLargo: provider.nombreLargo,
     nombreCorto: provider.nombreCorto,
     observaciones: provider.observaciones,
     type: typeProviderToString(provider.type),
-    vehiculos: provider.dataValues.Cars?.map((car) => {
-      car = {
-        id: car.id,
-        patente: car.patente,
-        año: car.año,
-        status: statusCarToString(car.status),
-      };
-      return car;
-    }),
+    vehiculos: allCars,
+    
 }
   res.status(200).json(provider);
 };
