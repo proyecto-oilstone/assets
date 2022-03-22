@@ -30,6 +30,9 @@ import TipoResoluciones from "../pages/TipoResoluciones";
 import ProblemsTypeState from "../contexts/problemTypes/ProblemsTypeState";
 import ResolutionsTypeState from "../contexts/resolutionTypes/ResolutionsTypeState";
 import Reportes from "../pages/Reportes";
+import GaragesState from "../contexts/garages/GaragesState";
+import Garages from "../pages/Garages";
+import GarageDetails from "../pages/Garages/[id]";
 
 function App() {
 
@@ -52,6 +55,7 @@ function App() {
     ProviderState,
     CarState,
     SectorState,
+    GaragesState,
     BrowserRouter,
   ]);
 
@@ -123,6 +127,14 @@ function App() {
 
         <Route path="/otrosProveedores" element={<PrivateRoute/>}>
           <Route path="/otrosProveedores" element={<OtherProvider />} />
+        </Route>
+
+        <Route path="/garages" element={<PrivateRoute/>}>
+          <Route path="/garages" element={<Garages />} />
+        </Route>
+        
+        <Route path ="/garages/:id" element={<PrivateRoute/>}>
+          <Route path ="/garages/:id" element={<GarageDetails />} />
         </Route>
 
       </Routes>

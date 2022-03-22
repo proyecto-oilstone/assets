@@ -34,10 +34,13 @@ modelDefiners.forEach((model) => model(sequelize));
 
 //Relaciones
 
-const { Cars, CarType, Provider, Files, Users, Sector, Event, DriverEvent, ReportProblemEvent, RepairRequestEvent, RepairedEvent, WorkshopEvent, VTVEvent, SeguroEvent, ProblemType, ResolutionType } = sequelize.models;
+const { Cars, CarType, Provider, Files, Users, Sector, Event, DriverEvent, ReportProblemEvent, RepairRequestEvent, RepairedEvent, WorkshopEvent, VTVEvent, SeguroEvent, ProblemType, ResolutionType, Garage } = sequelize.models;
 
 Cars.belongsTo(Sector)
 Sector.hasMany(Cars)
+
+Cars.belongsTo(Garage)
+Garage.hasMany(Cars)
 
 Files.hasOne(VTVEvent, { foreignKey: {name: "vtvFileId", allowNull: true}, targetKey: "id" });
 Files.hasOne(SeguroEvent, { foreignKey: {name: "seguroFileId", allowNull: true}, targetKey: "id" });

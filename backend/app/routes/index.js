@@ -15,6 +15,7 @@ const vtvRouter = require("./vtvEvents");
 const segurosRouter = require("./segurosEvents");
 const problemsTypesRouter = require("./problemsTypesRouter");
 const resolutionsTypesRouter = require("./resolutionsTypesRouter");
+const garageRouter = require("./controllers/garage");
 
 const router = Router();
 
@@ -32,6 +33,7 @@ router.use("/events/workshop", workshopEventsRouter);
 router.use("/events/vtv", vtvRouter);
 router.use("/events/seguros", segurosRouter);
 router.use("/events", eventsRouter);
+router.use("/garage", garageRouter);
 
 router.use("/files", filesRouter)
 router.use("/sector", sectorRouter)
