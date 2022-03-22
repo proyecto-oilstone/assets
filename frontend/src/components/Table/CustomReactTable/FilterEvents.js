@@ -3,7 +3,7 @@ import FilterSelect from './FilterSelect';
 
 const FilterEvents = ({ value, setValue }) => {
   const eventValues = [{
-    label: "Asignacion/desasignacion conductor",
+    label: "Asignacion/reserva de conductor",
     value: "DRIVER"
   },
   {

@@ -83,7 +83,7 @@ const CustomReactTable = (props) => {
   const applyFilters = (row) => {
     return filters.every(filter => {
       if ("onFilter" in filter && typeof filter.onFilter === "function") {
-        return filter.onFilter(row, filter.value);
+        return filter.onFilter(row, filter.value, filter.objectValue);
       } else {
         const rowValue = row[filter.key].toLowerCase();
         const filterValue = filter.value.toLowerCase();

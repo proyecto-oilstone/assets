@@ -3,7 +3,7 @@ import { Form } from 'react-bootstrap';
 
 const FilterSelect = ({ values, value, setValue }) => {
   const handleOnChange = (value) => {
-    const selectedValue = values.find(v => v.value === value);
+    const selectedValue = values.find(v => v.value == value);
     setValue(selectedValue);
   }
   return (

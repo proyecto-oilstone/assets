@@ -137,6 +137,19 @@ export function dateDiffInDays(date1, date2) {
   return days;
 }
 
+export function getShortDescriptionEvent(event) {
+  switch (event.type) {
+    case "DRIVER": return event.isReserved ? "Reserva conductor" : "Asignacion conductor"
+    case "REPORT_PROBLEM": return "Problema informado"
+    case "REPAIR_REQUEST": return "Pedido de reparacion";
+    case "WORKSHOP": return "Almacenado en taller";
+    case "VTV": return "Carga VTV";
+    case "SEGURO": return "Carga Seguro";
+    case "REPAIRED": return "Problema finalizado";
+    default: return "Desconocido";
+  }
+}
+
 export function getDescriptionEvent(event) {
   switch (event.type) {
     case "DRIVER": {
@@ -160,10 +173,10 @@ export function getDescriptionEvent(event) {
       return toReturn;
     }
     case "REPAIR_REQUEST": return "Se realizo un pedido de reparacion al problema " + event?.ReportProblemEvent?.ProblemType?.problem;
-    case "WORKSHOP": return "Se almaceno en taller";
+    case "WORKSHOP": return "Se almaceno en el taller " + event?.Provider.nombreCorto;
     case "VTV": return "Se cargo VTV";
     case "SEGURO": return "Se cargo Seguro";
-    case "REPAIRED": return "Se completo la reparacion al problema " + event?.ReportProblemEvent?.ProblemType?.problem;
+    case "REPAIRED": return "Se completo la reparacion al problema " + event?.ReportProblemEvent?.ProblemType?.problem + ", con el tipo de resolucion " + event?.ResolutionType?.resolution;
     default: return "Desconocido";
   }
 }

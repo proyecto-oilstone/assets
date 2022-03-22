@@ -44,6 +44,7 @@ const Filters = ({ children, columns, filters, setFilters }) => {
       label: filterValue.label,
       key: selectedFilter.key,
       value: filterValue.value,
+      objectValue: filterValue,
       onFilter: selectedFilter.onFilter,
     };
     const copyFilters = Array.from(filters);

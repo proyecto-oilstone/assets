@@ -1,27 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { dateToDDMMYYYYHHMM, getDescriptionEvent } from '../../helpers/utils';
+import { dateToDDMMYYYYHHMM, getDescriptionEvent, getShortDescriptionEvent, setLabelAndValue } from '../../helpers/utils';
 import CustomReactTable from '../Table/CustomReactTable';
 import ExportCSVButton from '../Buttons/ExportCSV';
-import FilterSelect from '../Table/CustomReactTable/FilterSelect';
-import FilterBoolean from '../Table/CustomReactTable/FilterBoolean';
 import EventContext from '../../contexts/events/EventContext';
 import FilterEvents from '../Table/CustomReactTable/FilterEvents';
+import FilterDates, { onFilterDates } from '../Table/CustomReactTable/FilterDates';
+import FilterSelect from '../Table/CustomReactTable/FilterSelect';
+import ResolutionsTypeContext from '../../contexts/resolutionTypes/ResolutionsTypeContext';
 
 const ReportList = () => {
   const { events, getAllEvents } = useContext(EventContext); 
+  const { resolutionsTypes, getResolutionsTypes } = useContext(ResolutionsTypeContext);
   const [downloadCSV, setDownloadCSV] = useState(false);
   const [reports, setReports] = useState([]);
 
-  const filterComponentStatus = ({ value, setValue }) => (
-    <FilterSelect value={value} setValue={setValue} values={[]}/>
-  );
-
-  const filterComponentVtv = ({ value, setValue }) => (
-    <FilterBoolean value={value} setValue={setValue}/>
-  );
-
-  const filterComponentSeguro = ({ value, setValue }) => (
-    <FilterBoolean value={value} setValue={setValue}/>
+  const FilterRepairType = ({ value, setValue }) => (
+    <FilterSelect value={value} values={setLabelAndValue(resolutionsTypes, "resolution", "resolution")} setValue={setValue}/>
   );
 
   const generateReports = (events) => {
@@ -29,8 +23,8 @@ const ReportList = () => {
     const withoutExpirationFiles = e => e.type !== "EXPIRATION_FILE";
     reports = reports.filter(withoutExpirationFiles);
     reports.forEach(report => {
-      console.log(report);
       report.date = dateToDDMMYYYYHHMM(new Date(report.createdAt));
+      report.filterDate = new Date(report.createdAt);
       report.description = getDescriptionEvent(report);
       report.carPatente = report.car.patente;
     });
@@ -42,6 +36,8 @@ const ReportList = () => {
     key: "date",
     export: true,
     showInTable: true,
+    filterComponent: FilterDates,
+    onFilter: onFilterDates
   },
   {
     label: 'Descripcion',
@@ -55,15 +51,22 @@ const ReportList = () => {
     export: true,
     showInTable: true,
   },
-
   {
     label: 'Tipo de evento',
     key: "type",
     export: false,
+    onExport: (event) => getShortDescriptionEvent(event),
     showInTable: false,
     filterComponent: FilterEvents
   },
-  //TODO: more fields
+  {
+    label: 'Tipo de reparacion',
+    key: "type-repair",
+    export: false,
+    showInTable: false,
+    filterComponent: FilterRepairType,
+    onFilter: (event, value) => "ResolutionType" in event ? event.ResolutionType.resolution === value : false,
+  },
   ]);
 
   useEffect(() => {
@@ -72,6 +75,22 @@ const ReportList = () => {
     else if (events && events.length > 0)
       generateReports(events);
   }, [events]);
+
+  useEffect(() => {
+    getResolutionsTypes();
+  }, []);
+
+  useEffect(() => {
+    if (resolutionsTypes.length > 0) {
+      const copyColumns = Array.from(columns);
+      copyColumns.forEach(col => {
+        if (col.label === "Tipo de reparacion") {
+          col.filterComponent = FilterRepairType;
+        }
+      });
+      setColumns(copyColumns);
+    }
+  }, [resolutionsTypes]);
 
   return (<>
     <div className="d-flex justify-content-between mb-3">
