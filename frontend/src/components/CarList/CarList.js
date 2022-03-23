@@ -23,6 +23,13 @@ const CarList = ({ onCreate }) => {
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const toggleEditModal = () => setShowEditModal(!showEditModal);
   const toggleFileModal = () => setShowFileModal(!showFileModal);
+  const [tableCars, setTableCars] = useState([]);
+
+  useEffect(() => {
+    const tableCars = cars.map(car => ({ ...car, sector: car.Sector !== null ? car.Sector.nombreCorto : "No asignado" }));
+    setTableCars(tableCars);
+  }, [cars]);
+  
   const statusValues = [{
     label: "En uso",
     value: "IN_USE"
@@ -134,6 +141,18 @@ const CarList = ({ onCreate }) => {
     showInTable: false,
     filterComponent: filterComponentSeguro,
   },
+  {
+    label: 'Sector',
+    key: "sector",
+    export: false,
+    showInTable: false,
+  },
+  {
+    label: 'Conductor',
+    key: "currentDriver",
+    export: false,
+    showInTable: false,
+  },
   ]);
 
   const { ExportButton, downloadCSV } = useExportButton({ columns, setColumns });
@@ -177,7 +196,7 @@ const CarList = ({ onCreate }) => {
       onFile={showFileCarModal}
       onDelete={(car) => deleteCar(car.id)}
       columns={columns}
-      data={cars}
+      data={tableCars}
       downloadCSV={downloadCSV}
       CSVFilename="vehiculos.csv"
       withFiles
