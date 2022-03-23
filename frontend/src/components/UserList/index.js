@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import CustomReactTable from '../Table/CustomReactTable';
-import ExportCSVButton from '../Buttons/ExportCSV';
 import AuthContext from '../../contexts/auth/AuthContext';
+import useExportButton from '../../hooks/useExportButton';
 
 const UserList = () => {
   const { users, getUsers } = useContext(AuthContext);
-  const [downloadCSV, setDownloadCSV] = useState(false);
 
   useEffect(() => {
     getUsers();
@@ -37,13 +36,15 @@ const UserList = () => {
   },
   ]);
 
+  const { ExportButton, downloadCSV } = useExportButton({ columns, setColumns });
+
   return (<>
     <div className="d-flex justify-content-between mb-3">
       <div>
         <h2>Usuarios</h2>
       </div>
       <div className="d-flex flex-row-reverse">
-        <ExportCSVButton onClick={() => setDownloadCSV(true)} exportableColumns={columns} setExportableColumns={setColumns}/>
+        <ExportButton />
       </div>
     </div>
     <CustomReactTable

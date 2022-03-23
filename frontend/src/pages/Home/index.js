@@ -19,7 +19,7 @@ const Home = () => {
   return (
     <Layout activeSection="home">
       <Container className="mt-5">
-        <h2 className="mb-3">Dashboard</h2>
+        <h2 className="mb-3">Gestion de taller</h2>
         <DashboardCards/>
         <div className="mt-5 bg-white p-4 rounded shadow-sm hover-shadow">
           <ReactBigCalendar events={events} withFilters linkeableEvents/>

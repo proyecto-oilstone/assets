@@ -1,26 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { dateDiffInDays, dateToDDMMYYYYHHMM, getDescriptionEvent } from '../../../helpers/utils';
+import { dateToDDMMYYYYHHMM, getDescriptionEvent } from '../../../helpers/utils';
+import useExportButton from '../../../hooks/useExportButton';
 import CustomReactTable from '../../Table/CustomReactTable';
+import FilterDates, { onFilterDates } from '../../Table/CustomReactTable/FilterDates';
 
 const EventsList = ({ events }) => {
   const [orderEvents, setOrderEvents] = useState([]);
 
-  const columns = [{
+  const [columns, setColumns] = useState([{
     label: 'Fecha',
     key: 'date',
+    export: true,
     showInTable: true,
+    filterComponent: FilterDates,
+    onFilter: onFilterDates,
   },
   {
     label: 'Descripcion',
     key: 'description',
+    export: true,
     showInTable: true,
   },
-  ];
+  ]);
 
   useEffect(() => {
     let eventsCopy = JSON.parse(JSON.stringify(events));
     eventsCopy = eventsCopy.map(event => {
       event.date = getDate(event);
+      event.filterDate = new Date(event.createdAt);
       event.description = getDescriptionEvent(event);
       return event;
     });
@@ -37,12 +44,21 @@ const EventsList = ({ events }) => {
     return dateToDDMMYYYYHHMM(date);
   }
 
-  return (<CustomReactTable
+  const { ExportButton, downloadCSV } = useExportButton({ columns, setColumns });
+
+  return (
+  <>
+  <div className="mb-2">
+    <ExportButton/>
+  </div>
+  <CustomReactTable
     defaultSort="createdAt"
+    downloadCSV={downloadCSV}
+    CSVFilename="historia.csv"
     columns={columns}
     data={orderEvents}
-    withFilters={false}
-  />);
+  />
+  </>);
 }
 
 export default EventsList;

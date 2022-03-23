@@ -12,7 +12,7 @@ import styles from "./ExportButton.module.css";
  *      - key: unique number or string
  */
 const ExportCSVButton = (props) => {
-  const { onClick, className = "", exportableColumns, setExportableColumns } = props;
+  const { onClick, className = "", arrowClassName = "", exportableColumns, setExportableColumns } = props;
   const drop = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -43,10 +43,11 @@ const ExportCSVButton = (props) => {
   }, [isOpen]);
   
 
-  return (<>
+  return (
+  <div className="d-flex flex-row-reverse">
     <div
       ref={drop}
-      className={`dropdown bg-secondary-button p-3 ps-1 ${styles.dropdownToggle}`}
+      className={`dropdown bg-secondary-button p-3 ps-1 ${styles.dropdownToggle} ${arrowClassName}`}
       onClick={() => setIsOpen(!isOpen)}
     >
     </div>
@@ -73,7 +74,7 @@ const ExportCSVButton = (props) => {
         <span>Exportar</span>
       </div>
     </ButtonSecondary>
-  </>);
+  </div>);
 };
 
 export default ExportCSVButton;

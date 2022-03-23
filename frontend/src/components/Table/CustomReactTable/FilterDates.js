@@ -32,9 +32,10 @@ const FilterDates = ({ value, setValue }) => {
 
 
 export default FilterDates;
-export const onFilterDates = (row, _, { from, to }) => {
+export const onFilterDates = (row, _, { from, to }, key = "filterDate") => {
   from = new Date(from);
   to = new Date(to);
   to.setDate(to.getDate() + 1); // para tomar el dia inclusive
-  return row.filterDate.getTime() <= to.getTime() && row.filterDate.getTime() >= from.getTime();
+  if (row[key] === null || row[key] === false || row[key] === "") return false;
+  return row[key].getTime() <= to.getTime() && row[key].getTime() >= from.getTime();
 }

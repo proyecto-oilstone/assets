@@ -42,7 +42,7 @@ const CreateGarageModal = (props) => {
   const header = () => (<>
     <div></div>
     <div className="d-flex align-items-center flex-column">
-      <div><img className="icon-xl" src="/icons/car-types.svg"/></div>
+      <div><img className="icon-xl" src="/icons/garage.svg"/></div>
       <div className="h4">{edit ? `Editar garage: ${garage?.nombreCorto}` : "Crear garage"}</div>
     </div>
   </>);

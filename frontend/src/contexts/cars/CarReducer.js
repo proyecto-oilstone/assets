@@ -17,7 +17,7 @@ const CarReducer = (state, action) => {
   case DELETE_CAR:
     return {
       ...state,
-      cars: state.cars.filter((car) => car.id !== payload),
+      cars: state.cars.map((car) => car.id === payload ? { ...car, status: "DISCHARGED" } : car),
     };
   case SELECT_CAR:
     return {

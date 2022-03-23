@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Badge, Form } from 'react-bootstrap';
 import CarContext from '../../contexts/cars/CarContext';
 import EventContext from '../../contexts/events/EventContext';
+import { dateToDDMMYYYYHHMM, fromDDMMYYYYToDate } from '../../helpers/utils';
+import useExportButton from '../../hooks/useExportButton';
 import ButtonPrimary from '../Buttons/Primary/ButtonPrimary';
 import ButtonSecondary from '../Buttons/Secondary';
 import CreateProblemModal from '../Modals/CreateProblemModal';
@@ -10,7 +11,7 @@ import ResolvingProblemModal from '../Modals/ResolvingProblemModal';
 import PDFReportProblems from '../PDF/PDFReportProblems';
 import CustomReactTable from '../Table/CustomReactTable';
 import FilterBoolean from '../Table/CustomReactTable/FilterBoolean';
-import styles from "./ProblemsSection.module.css";
+import FilterDates, { onFilterDates } from '../Table/CustomReactTable/FilterDates';
 
 const ProblemsSection = () => {
   const { eventsByCar } = useContext(EventContext);
@@ -33,34 +34,76 @@ const ProblemsSection = () => {
     <FilterBoolean value={value} setValue={setValue}/>
   );
 
-  const columns = [
+  const [columns, setColumns] = useState([
+  {
+    label: 'Fecha',
+    key: "date",
+    export: true,
+    showInTable: true,
+    filterComponent: FilterDates,
+    onFilter: onFilterDates,
+  },
   {
     label: 'Tipo de problema',
-    key: (problem) => problem.ProblemType.problem,
+    key: "problem",
+    export: true,
     showInTable: true,
   },
   {
+    label: 'Fecha estimada',
+    key: "estimatedDate",
+    export: true,
+    showInTable: true,
+    filterComponent: FilterDates,
+    onFilter: (row, _, value) => onFilterDates(row, _, value, "estimatedDateFilter"),
+  },
+  {
     label: 'Resolviendo',
-    key: (problem) => problem.resolving === true ? "Si" : "No",
+    key: "resolvingString",
     onFilter: (problem, value) => value === 'Si' ? (problem.resolving === true) : (value === 'No' ? problem.resolving === false : false),
+    export: true,
     showInTable: true,
     filterComponent: filterComponentResolving,
   },
   {
     label: 'Prioridad',
     key: "priority",
+    export: true,
     showInTable: true,
   },
-  ];
+  ]);
 
   const openCreateProblemModal = () => {
     setModalCreateProblem(true);
   }
 
+  const getRepairRequestByReportProblemId = (problemId) => {
+    return eventsByCar.find(event => event.type === "REPAIR_REQUEST" && event.problemId === problemId);
+  }
+
+  // Put all 'checked' fields in false, assign fields 'resolving', 'date', 'filterDate', 'estimatedDate', 'estimatedDateFilter'
+  const formatDataToTable = problem => {
+    problem.checked = false;
+    problem.resolvingString = problem.resolving === true ? "Si" : "No";
+    const date = new Date(problem.createdAt);
+    problem.date = dateToDDMMYYYYHHMM(date);
+    problem.filterDate = date;
+    problem.problem = problem.ProblemType.problem;
+    if (problem.resolving) {
+      const repairRequestEvent = getRepairRequestByReportProblemId(problem.id);
+      problem.estimatedDate = repairRequestEvent?.estimatedDate;
+    } else {
+      problem.estimatedDate = "";
+    }
+    problem.estimatedDateFilter = problem.estimatedDate === "" ? null : new Date(problem.estimatedDate);
+    return problem;
+  }
+
   useEffect(() => {
     const problemEvents = eventsByCar.filter(onlyProblemEvent);
-    const problemNotResolved = problemEvents.filter(onlyNotResolved);
-    setProblemNotResolved(problemNotResolved.map(problem => ({ ...problem, checked: false })));
+    let problemNotResolved = problemEvents.filter(onlyNotResolved);
+    problemNotResolved = problemNotResolved.map(formatDataToTable);
+    setProblemNotResolved(problemNotResolved);
   }, [eventsByCar]);
 
   useEffect(() => {
@@ -100,6 +143,8 @@ const ProblemsSection = () => {
 
   const showWarningRepairModal = () => setModalWarningRepair(true);
 
+  const { ExportButton, downloadCSV } = useExportButton({ columns, setColumns });
+
   return (
     <div>
       {problemNotResolved.length > 0
@@ -108,6 +153,8 @@ const ProblemsSection = () => {
           <ButtonPrimary onClick={openCreateProblemModal} className="rounded d-flex align-items-center">
             <img className="me-2 icon-xsm icon-white" src="/icons/plus.png"/><span>Nuevo problema</span>
           </ButtonPrimary>
+
+          <ExportButton className="ms-2 rounded-left" arrowClassName="rounded-right"/>
 
           <ButtonSecondary onClick={showWarningRepairModal} className={`ms-2 rounded d-flex ${action !== "reparing" && "d-none"}`}>
             <span>Solicitar Reparacion</span>
@@ -124,6 +171,8 @@ const ProblemsSection = () => {
         <CustomReactTable
           columns={columns}
           data={problemNotResolved}
+          downloadCSV={downloadCSV}
+          CSVFilename="problemas.csv"
           selectableRows
           selectableRowsCheckboxCriteria={selectableRowsCheckboxCriteria}
           onSelectedRowsChange={hadleSelectedRowsChange}

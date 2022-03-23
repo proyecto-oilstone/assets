@@ -137,6 +137,21 @@ export function dateDiffInDays(date1, date2) {
   return days;
 }
 
+/**
+ * Get the Date from one date in String
+ * @param {String} dateString in DD/MM/YYYY
+ * @returns {Date}
+ */
+export function fromDDMMYYYYToDate(dateString) {
+  let separator = "/";
+  let dateParts = dateString.split(separator);
+  if (dateParts.length === 1) {
+    separator = "-";
+    dateParts = dateString.split(separator);
+  }
+  return new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]); 
+}
+
 export function getShortDescriptionEvent(event) {
   switch (event.type) {
     case "DRIVER": return event.isReserved ? "Reserva conductor" : "Asignacion conductor"

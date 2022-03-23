@@ -1,15 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 import CustomReactTable from '../Table/CustomReactTable';
-import ExportCSVButton from '../Buttons/ExportCSV';
 import CreateTypeResolutionModal from '../Modals/CreateTypeResolutionModal';
 import ButtonPrimary from '../Buttons/Primary/ButtonPrimary';
 import ResolutionsTypeContext from '../../contexts/resolutionTypes/ResolutionsTypeContext';
+import useExportButton from '../../hooks/useExportButton';
 
 const TypeResolutionsList = ({ onCreate }) => {
   const { resolutionsTypes, getResolutionsTypes, deleteResolutionType } = useContext(ResolutionsTypeContext);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedResolutionType, setSelectedResolutionType] = useState(null);
-  const [downloadCSV, setDownloadCSV] = useState(false);
   const toggleEditModal = () => setShowEditModal(!showEditModal);
 
   const showEditProblemTypeModal = (resolutionType) => {
@@ -29,6 +28,8 @@ const TypeResolutionsList = ({ onCreate }) => {
   },
   ]);
 
+  const { ExportButton, downloadCSV } = useExportButton({ columns, setColumns });
+
   return (
     <>
       <div className="d-flex justify-content-between mb-3">
@@ -36,7 +37,7 @@ const TypeResolutionsList = ({ onCreate }) => {
           <h2>Tipo de resoluciones</h2>
         </div>
         <div className="d-flex flex-row-reverse">
-          <ExportCSVButton onClick={() => setDownloadCSV(true)} exportableColumns={columns} setExportableColumns={setColumns}/>
+          <ExportButton />
           <ButtonPrimary className="me-2" onClick={onCreate}>Crear resolucion</ButtonPrimary>
         </div>
       </div>

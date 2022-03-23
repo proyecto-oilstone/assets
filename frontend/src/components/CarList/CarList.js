@@ -5,19 +5,18 @@ import ProviderContext from "../../contexts/providers/ProviderContext";
 import CarTypeContext from "../../contexts/carTypes/CarTypeContext";
 import { getCarStatus, setLabelAndValue } from '../../helpers/utils';
 import CustomReactTable from '../Table/CustomReactTable';
-import ExportCSVButton from '../Buttons/ExportCSV';
 import PostFileModal from '../Modals/PostFileModal/PostFileModal';
 import ButtonPrimary from '../Buttons/Primary/ButtonPrimary';
 import BadgeCarStatus from '../Badges/CarStatus';
 import FilterSelect from '../Table/CustomReactTable/FilterSelect';
 import useQuery from '../../hooks/useQuery';
 import FilterBoolean from '../Table/CustomReactTable/FilterBoolean';
+import useExportButton from '../../hooks/useExportButton';
 
 const CarList = ({ onCreate }) => {
   const { cars, getCars, deleteCar, postFile } = useContext(CarContext);
   const { providers, getProviders } = useContext(ProviderContext);
   const { carTypes } = useContext(CarTypeContext); 
-  const [downloadCSV, setDownloadCSV] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showFileModal, setShowFileModal] = useState(false);
   const [defaultFilters, setDefaultFilters] = useState([]);
@@ -137,6 +136,8 @@ const CarList = ({ onCreate }) => {
   },
   ]);
 
+  const { ExportButton, downloadCSV } = useExportButton({ columns, setColumns });
+
   const showEditCarModal = (car) => {
     const providersAux = setLabelAndValue(providers, "nombreCorto", "id");
     const carTypesAux = setLabelAndValue(carTypes, type => `${type.nombreCorto}` , "id");
@@ -158,13 +159,15 @@ const CarList = ({ onCreate }) => {
     getProviders();
   }, []);
 
+  const onlyNotDischarged = (car) => car.status !== "DISCHARGED";
+
   return (<>
     <div className="d-flex justify-content-between mb-3">
       <div>
         <h2>Vehiculos</h2>
       </div>
       <div className="d-flex flex-row-reverse">
-        <ExportCSVButton onClick={() => setDownloadCSV(true)} exportableColumns={columns} setExportableColumns={setColumns}/>
+        <ExportButton/>
         <ButtonPrimary className="me-2" onClick={onCreate}>Crear vehiculo</ButtonPrimary>
       </div>
     </div>
@@ -180,6 +183,7 @@ const CarList = ({ onCreate }) => {
       withFiles
       withEdit
       withDelete
+      withDeleteCriteria={onlyNotDischarged}
       containerClassName="bg-white p-4 rounded shadow-sm hover-shadow mb-3"
       deleteModalTitle="Eliminar vehiculo"
       deleteModalDescription="el vehiculo con patente {{patente}}"

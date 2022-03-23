@@ -1,15 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 import GarageContext from '../../contexts/garages/GaragesContext';
-import ExportCSVButton from '../Buttons/ExportCSV';
 import CustomReactTable from '../Table/CustomReactTable';
 import ButtonPrimary from '../Buttons/Primary/ButtonPrimary';
 import CreateGarageModal from '../Modals/CreateGarageModal/CreateCarageModal';
+import useExportButton from '../../hooks/useExportButton';
 
 const GarageList = ({ onCreate }) => {
   const { garages, getGarages, deleteGarage } = useContext(GarageContext);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedGarage, setSelectedGarage] = useState(null);
-  const [downloadCSV, setDownloadCSV] = useState(false);
   const toggleEditModal = () => setShowEditModal(!showEditModal);
 
  
@@ -45,13 +44,15 @@ const GarageList = ({ onCreate }) => {
  
   ]);
 
+  const { ExportButton, downloadCSV } = useExportButton({ columns, setColumns });
+
   return (<>
     <div className="d-flex justify-content-between mb-3">
       <div>
         <h2>Garages</h2>
       </div>
       <div className="d-flex flex-row-reverse">
-        <ExportCSVButton onClick={() => setDownloadCSV(true)} exportableColumns={columns} setExportableColumns={setColumns}/>
+        <ExportButton />
         <ButtonPrimary className="me-2" onClick={onCreate}>Crear Garage</ButtonPrimary>
       </div>
     </div>

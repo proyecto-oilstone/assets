@@ -1,16 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
 import ProviderContext from "../../contexts/providers/ProviderContext";
 import CustomReactTable from '../Table/CustomReactTable';
-import ExportCSVButton from '../Buttons/ExportCSV';
 import ButtonPrimary from '../Buttons/Primary/ButtonPrimary';
 import { getProviderType } from '../../helpers/utils';
 import CreateWorkshopModal from '../Modals/CreateWorkshopModal/CreateWorkshopModal';
+import useExportButton from '../../hooks/useExportButton';
 
 const OtherProviderList = ({ onCreate }) => {
   const { providers ,getOtherProviders, deleteProvider } = useContext(ProviderContext);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedProvider, setSelectedProvider] = useState(null);
-  const [downloadCSV, setDownloadCSV] = useState(false);
   const toggleEditModal = () => setShowEditModal(!showEditModal);
 
   const showEditProviderModal = (provider) => {
@@ -51,13 +50,15 @@ const OtherProviderList = ({ onCreate }) => {
   },
   ]);
 
+  const { ExportButton, downloadCSV } = useExportButton({ columns, setColumns });
+
   return (<>
     <div className="d-flex justify-content-between mb-3">
       <div>
         <h2>Otros</h2>
       </div>
       <div className="d-flex flex-row-reverse">
-        <ExportCSVButton onClick={() => setDownloadCSV(true)} exportableColumns={columns} setExportableColumns={setColumns}/>
+        <ExportButton />
         <ButtonPrimary className="me-2" onClick={onCreate}>Crear Proveedor</ButtonPrimary>
       </div>
     </div>

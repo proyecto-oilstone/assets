@@ -58,7 +58,7 @@ import useSelectionCheckbox from '../../../hooks/useSelectionCheckbox';
  * defaultFilters (optional): if you want to set any default filter when the table finish to render
  */
 const CustomReactTable = (props) => {
-  const { extraActions = [], selectableRowsCheckboxCriteria = () => true, selectableRows = false, onSelectedRowsChange = () => {}, defaultFilters, columns, data, downloadCSV, CSVFilename = "file.csv", onDelete = () => { }, onEdit = () => { }, onFile = () => { }, withEdit, withDelete, withFiles = false, defaultSort = "", containerClassName, deleteModalTitle = "", deleteModalDescription = "", withFilters = true } = props;
+  const { extraActions = [], selectableRowsCheckboxCriteria = () => true, selectableRows = false, onSelectedRowsChange = () => {}, defaultFilters, columns, data, downloadCSV, CSVFilename = "file.csv", onDelete = () => { }, onEdit = () => { }, onFile = () => { }, withEdit, withDelete, withDeleteCriteria = () => true, withFiles = false, defaultSort = "", containerClassName, deleteModalTitle = "", deleteModalDescription = "", withFilters = true } = props;
   const [tableColumns, setTableColumns] = useState([]);
   const [CSVColumns, setCSVColumns] = useState([]);
   const tableColumnsMemo = useMemo(() => tableColumns, [tableColumns]);
@@ -74,7 +74,7 @@ const CustomReactTable = (props) => {
     setWarningDelete(data);
   }
 
-  const DeleteButton = ({ data }) => (<img role="button" className={`icon-sm cursor-pointer`} src="/icons/trash-alt-solid.svg" alt="eliminar" onClick={() => handleOnDelete(data)} />)
+  const DeleteButton = ({ data }) => (<img role="button" className={`icon-sm cursor-pointer ${withDeleteCriteria(data) ? "" : "invisible"}`} src="/icons/trash-alt-solid.svg" alt="eliminar" onClick={() => handleOnDelete(data)} />)
   const EditButton = ({ data }) => (<img role="button" className="icon-sm cursor-pointer" src="/icons/edit-solid.svg" alt="editar" onClick={() => onEdit(data)} />)
   const CustomLink = ({ to, children }) => (<Link to={to}>{children}</Link>)
   const FilesButton = ({ data }) => (<img role="button" className={`${"Files" in data && data.Files !== null ? "invisible" : ""} icon-sm cursor-pointer`} src="/icons/pdf-text-file-svgrepo-com.svg" alt="archivos" onClick={() => onFile(data)} />)

@@ -146,3 +146,13 @@ code {
   left: 99999px;
   width: 100%;
 }
+
+.rounded-left {
+  border-top-left-radius: 0.25rem!important;
+  border-bottom-left-radius: 0.25rem!important;
+}
+
+.rounded-right {
+  border-top-right-radius: 0.25rem!important;
+  border-bottom-right-radius: 0.25rem!important;
+}

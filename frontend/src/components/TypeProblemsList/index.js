@@ -1,15 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 import CustomReactTable from '../Table/CustomReactTable';
-import ExportCSVButton from '../Buttons/ExportCSV';
 import CreateTypeProblemsModal from '../Modals/CreateTypeProblemModal';
 import ButtonPrimary from '../Buttons/Primary/ButtonPrimary';
 import ProblemsTypeContext from '../../contexts/problemTypes/ProblemsTypeContext';
+import useExportButton from '../../hooks/useExportButton';
 
 const TypeProblemsList = ({ onCreate }) => {
   const { problemsTypes, getProblemsTypes, deleteProblemType } = useContext(ProblemsTypeContext);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedProblemType, setSelectedProblemType] = useState(null);
-  const [downloadCSV, setDownloadCSV] = useState(false);
   const toggleEditModal = () => setShowEditModal(!showEditModal);
 
   const showEditProblemTypeModal = (problemType) => {
@@ -29,6 +28,8 @@ const TypeProblemsList = ({ onCreate }) => {
   },
   ]);
 
+  const { ExportButton, downloadCSV } = useExportButton({ columns, setColumns });
+
   return (
     <>
       <div className="d-flex justify-content-between mb-3">
@@ -36,7 +37,7 @@ const TypeProblemsList = ({ onCreate }) => {
           <h2>Tipo de problemas</h2>
         </div>
         <div className="d-flex flex-row-reverse">
-          <ExportCSVButton onClick={() => setDownloadCSV(true)} exportableColumns={columns} setExportableColumns={setColumns}/>
+          <ExportButton />
           <ButtonPrimary className="me-2" onClick={onCreate}>Crear Problema</ButtonPrimary>
         </div>
       </div>

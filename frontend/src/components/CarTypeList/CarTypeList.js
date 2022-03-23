@@ -1,17 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
 import CarTypeContext from "../../contexts/carTypes/CarTypeContext";
 import CreateTypeVehicleModal from "../Modals/CreateTypeVehicleModal/CreateTypeVehicleModal";
-import ExportCSVButton from '../Buttons/ExportCSV';
 import CustomReactTable from '../Table/CustomReactTable';
 import ButtonPrimary from '../Buttons/Primary/ButtonPrimary';
 import { getCarTypeType } from '../../helpers/utils';
 import FilterSelect from '../Table/CustomReactTable/FilterSelect';
+import useExportButton from '../../hooks/useExportButton';
 
 const CarTypeList = ({ onCreate }) => {
   const { carTypes, getCarTypes, deleteCarType } = useContext(CarTypeContext);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedCarType, setSelectedCarType] = useState(null);
-  const [downloadCSV, setDownloadCSV] = useState(false);
   const toggleEditModal = () => setShowEditModal(!showEditModal);
 
   const statusValues = [{
@@ -67,13 +66,15 @@ const CarTypeList = ({ onCreate }) => {
   },
   ]);
 
+  const { ExportButton, downloadCSV } = useExportButton({ columns, setColumns });
+
   return (<>
     <div className="d-flex justify-content-between mb-3">
       <div>
         <h2>Tipo de vehiculos</h2>
       </div>
       <div className="d-flex flex-row-reverse">
-        <ExportCSVButton onClick={() => setDownloadCSV(true)} exportableColumns={columns} setExportableColumns={setColumns}/>
+        <ExportButton />
         <ButtonPrimary className="me-2" onClick={onCreate}>Crear tipo de vehiculo</ButtonPrimary>
       </div>
     </div>
