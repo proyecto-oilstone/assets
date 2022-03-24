@@ -34,7 +34,7 @@ modelDefiners.forEach((model) => model(sequelize));
 
 //Relaciones
 
-const { Cars, CarType, Provider, Files, Users, Sector, Event, DriverEvent, ReportProblemEvent, RepairRequestEvent, RepairedEvent, WorkshopEvent, VTVEvent, SeguroEvent, ProblemType, ResolutionType, Garage } = sequelize.models;
+const { Cars, CarType, Provider, Files, Users, Sector, Event, DriverEvent, ReportProblemEvent, RepairRequestEvent, RepairedEvent, WorkshopEvent, VTVEvent, SeguroEvent, ProblemType, ResolutionType, Garage, LastRepairedEvent } = sequelize.models;
 
 Cars.belongsTo(Sector)
 Sector.hasMany(Cars)
@@ -56,6 +56,9 @@ Provider.hasMany(Cars);
 Cars.belongsTo(CarType);
 Cars.hasMany(Event, { foreignKey: {name: "carId", allowNull: false}, targetKey: "id" });
 CarType.hasMany(Cars);
+
+LastRepairedEvent.belongsTo(RepairedEvent, { foreignKey: {name: "repairedEventId", allowNull: false}, targetKey: "id" });
+LastRepairedEvent.belongsTo(Cars, { foreignKey: {name: "carId", allowNull: false}, targetKey: "id" });
 
 Event.belongsTo(Cars, { foreignKey: {name: "carId", allowNull: false}, targetKey: "id" });
 Event.hasOne(DriverEvent, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });

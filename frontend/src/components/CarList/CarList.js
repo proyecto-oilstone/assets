@@ -26,7 +26,7 @@ const CarList = ({ onCreate }) => {
   const [tableCars, setTableCars] = useState([]);
 
   useEffect(() => {
-    const tableCars = cars.map(car => ({ ...car, sector: car.Sector !== null ? car.Sector.nombreCorto : "No asignado" }));
+    const tableCars = cars.map(car => ({ ...car, sector: car.Sector !== null && car.Sector !== undefined ? car.Sector.nombreCorto : "No asignado" }));
     setTableCars(tableCars);
   }, [cars]);
   
