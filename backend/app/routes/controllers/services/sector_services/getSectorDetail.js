@@ -1,9 +1,9 @@
-const { Sector, Cars } = require("../../../../db/index");
+const { Sector, Cars, Event, DriverEvent } = require("../../../../db/index");
 const { statusCarToString } = require("../../../../utils/functions");
 
 /**
  * Finds a sector by id, includes cars DB model
- * @param {Number} req.params.id 
+ * @param {Number} req.params.id
  * @returns {Sector} with information
  */
 
@@ -20,6 +20,23 @@ const getSectorDetail = async (req, res) => {
         attributes: ["id", "patente", "año", "status"],
         where: {},
         required: false,
+        include: [
+          {
+            model: Event,
+            attributes: ["id", "type"],
+            where: {},
+            required: false,
+            include: [
+              {
+                model: DriverEvent,
+                attributes: ["id", "driver", "isReserved"],
+                where: {},
+                required: true,
+                order: [["id", "DESC"]],
+              },
+            ],
+          },
+        ],
       },
     ],
   };
@@ -42,6 +59,9 @@ const getSectorDetail = async (req, res) => {
         patente: car.patente,
         año: car.año,
         status: statusCarToString(car.status),
+        driver: car.Events?.map((event) => {
+          return event.dataValues.DriverEvent?.dataValues.driver;
+        }),
       };
       return car;
     }),

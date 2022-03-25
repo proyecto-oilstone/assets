@@ -31,6 +31,13 @@ const SectorCarList = ({ sectorCars }) => {
       export: true,
       showInTable: true,
     },
+    {
+      label: 'Chofer',
+      key: 'driver',
+      Cell: ({ cell }) => (<div>{cell.row.original.driver[cell.row.original.driver.length - 1]}</div>),
+      export: true,
+      showInTable: true,
+    }
   ]);
 
   const { ExportButton, downloadCSV } = useExportButton({ columns, setColumns });

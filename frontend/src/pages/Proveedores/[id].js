@@ -18,7 +18,6 @@ const ProveedorDetails = () => {
       getProviderById(providerId);
     }  
   }, [id]);
-
   return (
     <Layout>
       <Container className="mt-4">
