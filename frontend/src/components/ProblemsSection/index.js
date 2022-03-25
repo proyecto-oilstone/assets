@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import CarContext from '../../contexts/cars/CarContext';
 import EventContext from '../../contexts/events/EventContext';
-import { dateToDDMMYYYYHHMM, fromDDMMYYYYToDate } from '../../helpers/utils';
+import { dateToDDMMYYYYHHMM } from '../../helpers/utils';
 import useExportButton from '../../hooks/useExportButton';
 import ButtonPrimary from '../Buttons/Primary/ButtonPrimary';
 import ButtonSecondary from '../Buttons/Secondary';
@@ -9,12 +9,13 @@ import CreateProblemModal from '../Modals/CreateProblemModal';
 import ResolveProblemModal from '../Modals/ResolveProblemModal';
 import ResolvingProblemModal from '../Modals/ResolvingProblemModal';
 import PDFReportProblems from '../PDF/PDFReportProblems';
+import PDFLatestRepairedEvents from '../PDF/PDFLatestRepairedEvents';
 import CustomReactTable from '../Table/CustomReactTable';
 import FilterBoolean from '../Table/CustomReactTable/FilterBoolean';
 import FilterDates, { onFilterDates } from '../Table/CustomReactTable/FilterDates';
 
 const ProblemsSection = () => {
-  const { eventsByCar } = useContext(EventContext);
+  const { eventsByCar, getLatestRepairedEventsByCarId } = useContext(EventContext);
   const { selectedCar } = useContext(CarContext);
   const onlyProblemEvent = (event) => event.type === "REPORT_PROBLEM";
   const onlyNotResolved = eventProblem => eventProblem.resolved === false;
@@ -29,6 +30,7 @@ const ProblemsSection = () => {
   const showAllCheckboxsInitialValue = () => (p) => !(selectedCar?.status === "REPAIR" && p?.resolving === false);
   const [selectableRowsCheckboxCriteria, setSelectableRowsCheckboxCriteria] = useState(showAllCheckboxsInitialValue);
   const [action, setAction] = useState("none"); // none - reparing - accepting
+  const [latestRepairedEvents, setLatestRepairedEvents] = useState([]);
 
   const filterComponentResolving = ({ value, setValue }) => (
     <FilterBoolean value={value} setValue={setValue}/>
@@ -104,6 +106,13 @@ const ProblemsSection = () => {
     let problemNotResolved = problemEvents.filter(onlyNotResolved);
     problemNotResolved = problemNotResolved.map(formatDataToTable);
     setProblemNotResolved(problemNotResolved);
+    if (selectedCar) {
+      const fetchLatestRepairedEvents = async () => {
+        const latestRepairedEvents = await getLatestRepairedEventsByCarId(selectedCar.id);
+        setLatestRepairedEvents(latestRepairedEvents);
+      }
+      fetchLatestRepairedEvents();
+    }
   }, [eventsByCar]);
 
   useEffect(() => {
@@ -156,6 +165,10 @@ const ProblemsSection = () => {
 
           <ExportButton className="ms-2 rounded-left" arrowClassName="rounded-right"/>
 
+          {latestRepairedEvents.length > 0 &&
+            <PDFLatestRepairedEvents events={latestRepairedEvents} car={selectedCar} className="ms-2 rounded">Reporte de conformidad</PDFLatestRepairedEvents>
+          }
+
           <ButtonSecondary onClick={showWarningRepairModal} className={`ms-2 rounded d-flex ${action !== "reparing" && "d-none"}`}>
             <span>Solicitar Reparacion</span>
           </ButtonSecondary>
@@ -181,6 +194,9 @@ const ProblemsSection = () => {
         : 
         <div>
           <p>Este vehiculo no presenta ningun problema <span onClick={openCreateProblemModal} role="button" className="link-primary cursor-pointer">informar problema</span></p>
+          {latestRepairedEvents.length > 0 &&
+            <PDFLatestRepairedEvents events={latestRepairedEvents} car={selectedCar} className="ms-2 rounded">Reporte de conformidad</PDFLatestRepairedEvents>
+          }
         </div>
       }
       <CreateProblemModal show={modalCreateProblem} toggle={toggleModalCreateProblem} showWarning={problemNotResolved.length === 0}/>

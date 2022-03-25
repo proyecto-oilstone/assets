@@ -1,6 +1,7 @@
-const { Cars, Provider, CarType, Files } = require("../../../../db/index");
+const { Cars, Provider, CarType, Files, Sector } = require("../../../../db/index");
 const { Op } = require("sequelize");
 const { statusCarToString } = require("../../../../utils/functions");
+const getCurrentCarDriver = require("./getCurrentCarDriver");
 
 /**
  * Gets all the cars, includes all other Database models linked to Cars ,checks req.query for filters
@@ -34,6 +35,12 @@ const getCars = async (req, res) => {
         attributes: ["id", "name", "type", "document"],
         where: {},
         required: false,
+      },
+      {
+        model: Sector,
+        attributes: ["id", "nombreLargo", "nombreCorto", "observaciones"],
+        where: {},
+        required: false,
       }
     ],
   };
@@ -52,7 +59,7 @@ const getCars = async (req, res) => {
 
   let cars = await Cars.findAll(query);
 
-  cars = cars.map((car) => {
+  cars = await Promise.all(cars.map(async (car) => {
     car = {
       ...car.dataValues,
       proveedor: car.dataValues.Provider.nombreLargo,
@@ -60,13 +67,11 @@ const getCars = async (req, res) => {
       marca: car.dataValues.CarType.nombreCorto,
       Files: car.dataValues.Files?.find(file => file.document === "permanent"),
       status: statusCarToString(car.status),
-      
-        
-      
+      currentDriver: await getCurrentCarDriver(car),
     };
     const { Provider, CarType, ...rest } = car;
     return rest;
-  });
+  }));
   cars = { ...cars };
   res.status(200).json(cars);
 };

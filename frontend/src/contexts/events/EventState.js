@@ -188,6 +188,11 @@ const EventState = (props) => {
     return response.data;
   };
 
+  const getLatestRepairedEventsByCarId = async (carId) => {
+    const latestRepairedEvents = await axios.get(`/events/repaired/car/${carId}/latest`);
+    return latestRepairedEvents.data;
+  }
+
   return (
     <EventContext.Provider
       value={{
@@ -205,6 +210,7 @@ const EventState = (props) => {
         finishRepairEvent,
         uploadVTV,
         uploadSeguro,
+        getLatestRepairedEventsByCarId,
         eventsByCar: state.eventsByCar,
         events: state.events,
       }}

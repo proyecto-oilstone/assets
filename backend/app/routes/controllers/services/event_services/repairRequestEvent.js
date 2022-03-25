@@ -1,4 +1,4 @@
-const { RepairRequestEvent, RepairedEvent } = require("../../../../db/index");
+const { RepairRequestEvent, RepairedEvent, LastRepairedEvent } = require("../../../../db/index");
 const getCarDetail = require("../cars_services/getCarDetail");
 const { updateCarStatus } = require("../cars_services/updateStatus");
 const { getLastDriverEventByCarId } = require("./driverEvent");
@@ -7,7 +7,12 @@ const { getAllPendingProblemsByCarId, getAllResolvingProblemsByCarId, resolvePro
 
 const createRepairedEvents = (carId, reportProblems) => {
   const problems = reportProblems.map(problem => ({ carId, problemId: problem.id, repairTypeId: problem.typeResolutionId }));
-  problems.forEach(problem => postEvent(problem, RepairedEvent));
+  return problems.map(problem => postEvent(problem, RepairedEvent));
+}
+
+const updateLastRepairedEvents = async (carId, repairedEventsIds) => {
+  await LastRepairedEvent.destroy({ where: { carId } })
+  return repairedEventsIds.map(repairedEventId => LastRepairedEvent.create({ carId, repairedEventId }))
 }
 
 module.exports = {
@@ -18,7 +23,8 @@ module.exports = {
    * @param {Number} carId 
    */
   finishCarRepair: async (carId, reportProblems) => {
-    const problemsIds = reportProblems.map(rp => rp.id);
+    const onlyIds = (p) => p.id;
+    const problemsIds = reportProblems.map(onlyIds);
     const car = await getCarDetail(carId);
     if (car.status !== "REPAIR") throw new Error("nothing to repair");
     const resolvingProblems = await getAllResolvingProblemsByCarId(carId);
@@ -46,10 +52,11 @@ module.exports = {
       }
     }
     
-    await createRepairedEvents(car.id, reportProblems);
+    let repairedEvents = createRepairedEvents(car.id, reportProblems);
     await updateCarStatus(car.id, newCarStatus);
     await resolveProblems(resolvingProblemsIds);
-
+    repairedEvents = await Promise.all(repairedEvents);
+    await updateLastRepairedEvents(car.id, repairedEvents.map(onlyIds));
   },
 
   getRepairRequestEventsByCarId: async (carId) => {
