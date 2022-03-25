@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from "react";
 import Layout from "../../components/Common/Layout/Layout";
-import { Container, Col,  Row, Tab, Tabs  } from "react-bootstrap";
+import { Container, Col,  Row,   } from "react-bootstrap";
 import SectorContext from "../../contexts/sectors/SectorContext";
-import { NavLink, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styles from "./Sectores.module.css";
-import { Link } from 'react-router-dom';
+
 import SectorCarList from "../../components/SectorCarList";
 
 const SectorDetails = () => {
@@ -36,7 +36,7 @@ const SectorDetails = () => {
         </Col>
         </ Row>
         <div className={`container-details-id my-5 ${styles.tabCalendarContainer}`}>
-              <div><div>{selectedSector?.vehiculos[0] !== undefined 
+              <div><div>{selectedSector?.vehiculos !== undefined 
                 ?
                 <SectorCarList sectorCars={selectedSector?.vehiculos} />
                 

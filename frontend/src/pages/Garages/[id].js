@@ -3,6 +3,7 @@ import Layout from "../../components/Common/Layout/Layout";
 import { Container, Row, Col } from "react-bootstrap";
 import GarageContext from "../../contexts/garages/GaragesContext";
 import { useParams } from 'react-router-dom';
+import SectorCarList from "../../components/SectorCarList";
 
 import styles from "./Garage.module.css";
 
@@ -13,7 +14,6 @@ const GarageDetails = () => {
 
   useEffect(() => {
     const garageId = parseInt(id);
-
     if (!isNaN(garageId) && garageId > 0) {
         getGarageById(garageId);
     }  
@@ -33,16 +33,14 @@ const GarageDetails = () => {
         </div>
       </Col>
       </ Row>
-      {/* <div className={`container-details-id my-5 ${styles.tabCalendarContainer}`}>
-              <div><div>{selectedProvider?.vehiculos[0] !== undefined 
+      <div className={`container-details-id my-5 ${styles.tabCalendarContainer}`}>
+      <div><div>{selectedGarage?.vehiculos !== undefined 
                 ?
-                <SectorCarList sectorCars={selectedProvider?.vehiculos} />
+                <SectorCarList sectorCars={selectedGarage?.vehiculos} />
                 
-                :<div>{selectedProvider?.type === 'RENTAL'? <h1>No hay autos de este proveedor</h1>
-                 : selectedProvider?.type ==='WORKSHOP' ? <h1>No hay autos almacenados en este taller</h1>
-                  : <h1>No hay autos en este lavadero</h1>}</div>}</div></div>
+                : <span>No hay autos estacionados en este garage</span>}</div></div>
           
-        </div> */}
+        </div>
       </Container>
     </Layout>
   );

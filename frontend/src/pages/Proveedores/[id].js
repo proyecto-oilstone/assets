@@ -35,7 +35,7 @@ const ProveedorDetails = () => {
       </Col>
       </ Row>
       <div className={`container-details-id my-5 ${styles.tabCalendarContainer}`}>
-              <div><div>{selectedProvider?.vehiculos[0] !== undefined 
+              <div><div>{selectedProvider?.vehiculos !== undefined 
                 ?
                 <SectorCarList sectorCars={selectedProvider?.vehiculos} />
                 

@@ -10,17 +10,18 @@ module.exports = {
      * @returns TODO: 403 validation errors
      */
     postWorkshopEvent: async (req, res) => {
-        const { carId, providerId, createdAt, providerName} = req.body;
+        const { carId, garageId, createdAt, garageName} = req.body;
         const obj = {
             carId,
-            providerId,
+            garageId,
             createdAt,
         }
 
         await Cars.update({
             stored: true,
-            workshopName: providerName,
-            WorkshopId: providerId,
+            garageName: garageName,
+            WorkshopId: garageId,
+            GarageId: garageId
         }, { where: { id: carId } });
 
 

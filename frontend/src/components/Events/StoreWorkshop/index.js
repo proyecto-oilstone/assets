@@ -7,26 +7,27 @@ import ButtonPrimary from '../../Buttons/Primary/ButtonPrimary';
 import ButtonSecondary from '../../Buttons/Secondary';
 import Select from "react-select";
 import { setLabelAndValue } from '../../../helpers/utils';
+import GaragesContext from '../../../contexts/garages/GaragesContext';
 
 const StoreWorkshop = (props) => {
   const { buttonClassName = "" } = props;
-  const { providers ,getWorkshops } = useContext(ProviderContext);
+  const { garages ,getGarages } = useContext(GaragesContext);
   const { selectedCar, getCarById } = useContext(CarContext);
   const { storeInWorkshop } = useContext(EventContext);
   const [storeWorkshop, setStoreWorkshop] = useState(false);
   const toggleStoreWorkshop = () => setStoreWorkshop(!storeWorkshop);
-  const [selectedWorkshop, setSelectedWorkshop] = useState(null);
+  const [selectedGarage, setSelectedGarage] = useState(null);
   const canStoreInWorkshop = ["AVAILABLE", "RESERVED"].some(status => status === selectedCar?.status);
 
   const handleStoreWorkshop = async () => {
-    await storeInWorkshop(selectedCar.id, selectedWorkshop);
+    await storeInWorkshop(selectedCar.id, selectedGarage);
     getCarById(selectedCar.id);
-    setSelectedWorkshop(null);
+    setSelectedGarage(null);
     toggleStoreWorkshop();
   };
 
   useEffect(() => {
-    getWorkshops();
+    getGarages();
   }, []);
 
   return (canStoreInWorkshop && <>
@@ -35,13 +36,13 @@ const StoreWorkshop = (props) => {
       <Row className="mt-4">
         <Form.Label column sm="12">Ingresa el taller a donde va a ser almacenado</Form.Label>
         <Col sm="12">
-          <Select isSearchable value={selectedWorkshop} onChange={setSelectedWorkshop} options={setLabelAndValue(providers, "nombreCorto", "id")} />
+          <Select isSearchable value={selectedGarage} onChange={setSelectedGarage} options={setLabelAndValue(garages, "nombreCorto", "id")} />
         </Col>
       </Row>
 
       <div className='mt-2'>
         <ButtonSecondary className="me-3" onClick={toggleStoreWorkshop}>Cancelar</ButtonSecondary>
-        <ButtonPrimary onClick={handleStoreWorkshop} disabled={selectedWorkshop === null}>Estacionar</ButtonPrimary>
+        <ButtonPrimary onClick={handleStoreWorkshop} disabled={selectedGarage === null}>Estacionar</ButtonPrimary>
       </div>
     </>}
   </>);

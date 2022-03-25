@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
       VTV: { type: DataTypes.INTEGER, allowNull: true, defaultValue: null },
       seguro: { type: DataTypes.INTEGER, allowNull: true, defaultValue: null },
       stored: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
-      workshopName: { type: DataTypes.STRING, allowNull: true, defaultValue: null},
+      garageName: { type: DataTypes.STRING, allowNull: true, defaultValue: null},
       WorkshopId: { type: DataTypes.INTEGER, allowNull: true, defaultValue: null },
     },
     { sequelize: sequelize, modelName: "Cars" }

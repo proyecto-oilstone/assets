@@ -68,11 +68,13 @@ const EventState = (props) => {
    * @param {Provider} workshop provider of type workshop
    * @returns {Event}
    */
-  const storeInWorkshop = async (carId, workshop) => {
+  const storeInWorkshop = async (carId, garage) => {
     const workshopEvent = {
       carId,
-      providerId: workshop.id,
-      providerName: workshop.nombreLargo,
+      /* providerId: workshop.id, */
+      garageId: garage.id,
+      /* providerName: workshop.nombreLargo, */
+      garageName: garage.nombreCorto,
       createdAt: Date.now(),
     };
     const response = await axios.post(`/events/workshop`, workshopEvent);

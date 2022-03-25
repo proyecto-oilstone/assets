@@ -11,7 +11,7 @@ const { statusCarToString } = require("../../../../utils/functions");
 const getCarDetail = async (id) => {
   let query = {
     where: { id },
-    attributes: ["id", "patente", "año", "status", "VTV", "seguro", "stored", "WorkshopId", "workshopName"],
+    attributes: ["id", "patente", "año", "status", "VTV", "seguro", "stored", "WorkshopId", "garageName"],
     include: [
       {
         model: Provider,
@@ -73,7 +73,7 @@ const getCarDetail = async (id) => {
     image: car.dataValues.Files?.find(file => file.document === "Image"),
     stored: car.stored,
     WorkshopId: car.WorkshopId,
-    workshopName: car.workshopName,
+    garageName: car.garageName,
 
     
     
