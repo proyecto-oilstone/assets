@@ -16,12 +16,8 @@ const postDriverEvent = async (event) => {
       availableStatuses = ["RESERVED", "AVAILABLE", "REPAIR", "IN_USE"];
       newCarStatus = "IN_USE";
     }
-  } else {// wants to unassign one driver
-    availableStatuses = ["INFORMED", "REPAIR", "RESERVED", "AVAILABLE", "DISCHARGED", "EXPIRED_DOCUMENTATION", "IN_USE"];
-    newCarStatus = car.status;
-    if (car.status === "IN_USE" || car.status === "RESERVED" || "AVAILABLE") {
-      newCarStatus = "AVAILABLE";
-    }
+  } else {
+    throw new Error("Invalid driver");
   }
 
   const isValidStatus = availableStatuses.some(status => status === car.status);
@@ -43,12 +39,6 @@ module.exports = {
 
   getDriverEventsByCarId: async (carId) => {
     return getEventsByCarIdAndEventType(carId, DriverEvent);
-  },
-
-  unAssignDriverByCarId: async (event, carId) => {
-    event.carId = carId;
-    event.driver = null;
-    return postDriverEvent(event);
   },
 
   /**

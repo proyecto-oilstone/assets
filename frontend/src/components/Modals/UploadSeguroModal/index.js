@@ -12,12 +12,14 @@ const UploadSeguroModal = (props) => {
   const { selectedCar, getCarById, getFilesById } = useContext(CarContext);
   const [file, setFile] = useState(null);
   const [expirationDate, setExpirationDate] = useState("");
+  const [kilometres, setKilometres] = useState("");
 
   const onUploadFile = async () => {
-    await uploadSeguro(selectedCar.id, file, expirationDate);
+    await uploadSeguro(selectedCar.id, file, expirationDate, kilometres);
     toggle();
     setFile(null);
     setExpirationDate("");
+    setKilometres("");
     getCarById(selectedCar.id);
     getFilesById(selectedCar.id);
   };
@@ -38,12 +40,18 @@ const UploadSeguroModal = (props) => {
         <div className={`mt-4`}>
           {file !== null &&
             <Row className="my-2 d-flex align-items-center">
-              <Col sm="12">
+              <Col sm="6">
                 <Form.Label htmlFor="files">Fecha de vencimiento</Form.Label>
               </Col>
-              <Col sm="12" className="d-flex align-items-center">
+              <Col sm="6">
+                <Form.Label htmlFor="kilometres">Kilometros</Form.Label>
+              </Col>
+              <Col sm="6" className="d-flex align-items-center">
                 <Form.Control className="me-3" type="date" value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} />
                 <span onClick={() => setExpirationDate("")} className={expirationDate === "" ? "invisible" : ""}><img role="button" src="/icons/times-solid.svg" className="icon-sm cursor-pointer" /></span>
+              </Col>
+              <Col sm="6">
+                <Form.Control type="number" name="kilometres" value={kilometres} onChange={(e) => setKilometres(e.target.value)} placeholder="0" min={0}/>
               </Col>
             </Row>
           }

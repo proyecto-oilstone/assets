@@ -4,13 +4,13 @@ const postFile = require("../services/files_services/postFile");
 module.exports = {
   postSeguroEvent: async (req, res) => {
     const { mimetype, originalname, buffer } = req.file;
-    const { carId, createdAt, expirationDate } = req.body;
+    const { carId, expirationDate, kilometres } = req.body;
 
     const fileUploaded = await postFile(mimetype, originalname, buffer, carId, expirationDate === "" ? null : expirationDate);
     const params = {
       seguroFileId: fileUploaded.id,
       carId,
-      createdAt,
+      kilometres,
       expirationDate: expirationDate === "" ? null : expirationDate,
     };
 

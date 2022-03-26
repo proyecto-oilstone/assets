@@ -7,6 +7,7 @@ import ButtonSecondary from '../../Buttons/Secondary';
 import  SectorContext  from '../../../contexts/sectors/SectorContext';
 import Select from "react-select";
 import { setLabelAndValue } from '../../../helpers/utils';
+import KilometresInput from '../../Inputs/KilometresInput';
 
 const AssignDriver = (props) => {
   const { buttonClassName = "" } = props;
@@ -19,9 +20,10 @@ const AssignDriver = (props) => {
   const toggleAssigningDriver = () => setAssigningDriver(!assigningDriver);
   const canAssignDriver = ["AVAILABLE"].some(status => status === selectedCar?.status);
   const [selectedSector, setSelectedSector] = useState(null);
+  const [kilometres, setKilometres] = useState("");
 
   const handleAssignDriver = async () => {
-    await createDriverEvent(driver, selectedCar.id, isReserved);
+    await createDriverEvent(driver, selectedCar.id, isReserved, kilometres);
     getCarById(selectedCar.id);
     toggleAssigningDriver();
     const params = {
@@ -30,15 +32,21 @@ const AssignDriver = (props) => {
     params.id = selectedCar.id;
     
     editCar(params);
-    setDriver("");
+    resetFields();
   };
+
+  const resetFields = () => {
+    setDriver("");
+    setSelectedSector(null);
+    setKilometres("");
+  }
 
   useEffect(() => {
     getSectors();
   }, []);
 
   return (canAssignDriver && <>
-    <ButtonPrimary className={(assigningDriver || selectedCar?.driver !== null) ? "d-none" : `mt-2 ${buttonClassName}`} onClick={toggleAssigningDriver}>Asignar o reservar conductor</ButtonPrimary>
+    <ButtonPrimary className={(assigningDriver) ? "d-none" : `mt-2 ${buttonClassName}`} onClick={toggleAssigningDriver}>Asignar o reservar conductor</ButtonPrimary>
     {assigningDriver && <>
       <Row className="mt-4">
         <Form.Label column sm="12">Ingresa el nombre del conductor</Form.Label>
@@ -66,6 +74,7 @@ const AssignDriver = (props) => {
           <Select value={selectedSector} onChange={setSelectedSector} options={setLabelAndValue(sectors, type => `${type.nombreCorto}` , "id")} />
         </Col>
       </Form.Group>
+      <KilometresInput kilometres={kilometres} setKilometres={setKilometres}/>
 
       <div className='mt-2'>
         <ButtonSecondary className="me-3" onClick={toggleAssigningDriver}>Cancelar</ButtonSecondary>

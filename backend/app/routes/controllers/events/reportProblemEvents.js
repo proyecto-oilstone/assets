@@ -11,7 +11,7 @@ module.exports = {
    */
   postReportProblemEvent: async (req, res) => {
     let { prm, data } = req.files;
-    const { problemTypeId, description, carId, priority } = req.body;
+    const { problemTypeId, description, carId, priority, kilometres } = req.body;
     prm = prm === undefined ? null : prm[0];
     data = data === undefined ? null : data[0];
     if (problemTypeId && description && carId) {
@@ -23,7 +23,8 @@ module.exports = {
         problemTypeId,
         description,
         carId,
-        priority
+        priority,
+        kilometres,
       };
 
       const event = await reportProblemEventService.postReportProblemEvent(params);
@@ -55,10 +56,10 @@ module.exports = {
    */
   resolvingProblems: async (req, res) => {
     const problemsIds = req.body.ids;
-    const { providerId, estimatedDate } = req.body;
+    const { providerId, estimatedDate, kilometres } = req.body;
     const carId = req.params.id;
     try {
-      await reportProblemEventService.resolvingProblems(carId, problemsIds, providerId, estimatedDate);
+      await reportProblemEventService.resolvingProblems(carId, problemsIds, providerId, estimatedDate, kilometres);
       res.status(200).json({ message: "successful" });
     } catch (e) {
       res.status(403).json({ message: e.message });

@@ -75,6 +75,28 @@ const getRelationatedIncludes = (model, maxRelations = 5) => {
   return toReturn;
 }
 
+/**
+ * Get the last kilometres uploaded to one car in one event, if no has any event then returns 0
+ * @param {Number} carId 
+ * @returns {Number}
+ */
+const getLastKilometresUploaded = async (carId) => {
+  const lastKilometresUploaded = await Event.max('kilometres', { where: { carId } });
+  return lastKilometresUploaded !== null ? lastKilometresUploaded : 0;
+}
+
+/**
+ * Return true if the {kilometres} are valid. Kilometres are valid if are higher to the last kilometers uploaded
+ * @param {Number} carId 
+ * @param {Number} kilometres 
+ * @returns {Boolean}
+ */
+const isValidKilometres = async (carId, kilometres) => {
+  if (kilometres === null || kilometres === undefined || kilometres < 0) return false;
+  const lastKilometres = await getLastKilometresUploaded(carId);
+  return lastKilometres <= kilometres;
+}
+
 module.exports = {
   /**
    * Get any @Event by id
@@ -129,9 +151,13 @@ module.exports = {
   postEvent: async (event, eventModel) => {
     const type = eventModel.type;
     const additionalAttributes = getAttributes(eventModel);
+    event.kilometres = parseInt(event.kilometres);
+    event.kilometres = await isValidKilometres(event.carId, event.kilometres) ? event.kilometres : await getLastKilometresUploaded(event.carId);
+
     const params = {
       Event: {
         type: eventTypes[type],
+        kilometres: event.kilometres,
         carId: event.carId,
       }
     };
@@ -146,6 +172,7 @@ module.exports = {
       const event = {
         id: eventCreated.id,
         type,
+        kilometers: eventCreated.kilometers,
         carId: eventCreated.Event.carId,
         createdAt: eventCreated.Event.createdAt,
         updatedAt: eventCreated.Event.updatedAt,
@@ -225,4 +252,7 @@ module.exports = {
     files = files.map(file => ({...file, type: "EXPIRATION_FILE"}));
     return [...events, ...files];
   },
+
+  getLastKilometresUploaded,
+  isValidKilometres,
 };

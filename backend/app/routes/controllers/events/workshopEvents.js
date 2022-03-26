@@ -10,11 +10,11 @@ module.exports = {
      * @returns TODO: 403 validation errors
      */
     postWorkshopEvent: async (req, res) => {
-        const { carId, garageId, createdAt, garageName} = req.body;
+        const { carId, garageId, garageName, kilometres } = req.body;
         const obj = {
             carId,
             garageId,
-            createdAt,
+            kilometres,
         }
 
         await Cars.update({

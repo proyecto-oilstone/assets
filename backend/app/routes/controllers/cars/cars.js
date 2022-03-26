@@ -65,8 +65,9 @@ module.exports = {
   finishRepair: async (req, res) => {
     try {
       const reportProblems = req.body.reportProblems;
+      const kilometres = req.body.kilometres;
       const carId = req.params.id;
-      await finishCarRepair(carId, reportProblems);
+      await finishCarRepair(carId, reportProblems, kilometres);
       res.status(200).send({ message: "repair successful" });
     } catch (err) {
       res.status(200).send({ message: err.message });

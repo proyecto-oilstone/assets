@@ -7,12 +7,14 @@ import Select from "react-select";
 import ResolutionsTypeContext from "../../../contexts/resolutionTypes/ResolutionsTypeContext";
 import { setLabelAndValue } from "../../../helpers/utils";
 import ButtonSecondary from "../../Buttons/Secondary";
+import KilometresInput from "../../Inputs/KilometresInput";
 
 const ResolveProblemModal = (props) => {
   const { show, toggle, selectedProblems, onConfirm } = props;
   const { selectedCar, getCarById, finishCarRepair } = useContext(CarContext);
   const { resolutionsTypes, getResolutionsTypes } = useContext(ResolutionsTypeContext);
   const [typeResolutionProblems, setTypeResolutionProblems] = useState(selectedProblems);
+  const [kilometres, setKilometres] = useState("");
 
   useEffect(() => {
     setTypeResolutionProblems(selectedProblems);
@@ -44,11 +46,17 @@ const ResolveProblemModal = (props) => {
     setTypeResolutionProblems(copyTypeResolutionProblems);
   };
 
+  const resetFields = () => {
+    setTypeResolutionProblems([]);
+    setKilometres("");
+  };
+
   const handleOnConfirm = async () => {
     toggle();
     onConfirm();
-    await finishCarRepair(selectedCar.id, typeResolutionProblems);
+    await finishCarRepair(selectedCar.id, typeResolutionProblems, kilometres);
     getCarById(selectedCar.id);
+    resetFields();
   };
 
   const footer = (
@@ -76,6 +84,11 @@ const ResolveProblemModal = (props) => {
             </Col>
           </Row>
         )}
+        <Row className="my-5">
+          <Col sm="12">
+            <KilometresInput kilometres={kilometres} setKilometres={setKilometres}/>
+          </Col>
+        </Row>
       </Form>
     </CustomModal>
   );

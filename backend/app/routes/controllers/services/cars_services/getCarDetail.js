@@ -1,5 +1,6 @@
 const { Cars, Provider, CarType, Files, Sector, VTVEvent, SeguroEvent } = require("../../../../db/index");
 const { statusCarToString } = require("../../../../utils/functions");
+const eventService = require("../event_services/event");
 
 /**
  * Finds a car by id
@@ -48,6 +49,7 @@ const getCarDetail = async (id) => {
     allFiles.push(car.dataValues.Files)
   }
   
+  const kilometres = await eventService.getLastKilometresUploaded(id);
   car = {
     id: car.id,
     patente: car.patente,
@@ -57,6 +59,7 @@ const getCarDetail = async (id) => {
     proveedor: car.dataValues.Provider.nombreLargo,
     modelo: car.dataValues.CarType.nombreLargo,
     marca: car.dataValues.CarType.nombreCorto,
+    kilometres,
     status: statusCarToString(car.status),
     documento:{
       files : car.dataValues.Files?.map(file => {
@@ -68,16 +71,11 @@ const getCarDetail = async (id) => {
           }})
     },
     allFiles: allFiles,
-      
     Sector: car.dataValues.Sector?.nombreCorto,
     image: car.dataValues.Files?.find(file => file.document === "Image"),
     stored: car.stored,
     WorkshopId: car.WorkshopId,
     garageName: car.garageName,
-
-    
-    
-    
   };
   return car;
 };

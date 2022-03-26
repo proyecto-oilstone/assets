@@ -14,12 +14,12 @@ const EventState = (props) => {
 
   const [state, dispatch] = useReducer(EventReducer, initialState);
 
-  const createDriverEvent = async (driver, carId, isReserved) => {
+  const createDriverEvent = async (driver, carId, isReserved, kilometres) => {
     const driverEvent = {
       carId,
       driver,
       isReserved,
-      createdAt: Date.now(),
+      kilometres,
     }
     let response = await axios.post("/events/driver", driverEvent);
     
@@ -31,36 +31,6 @@ const EventState = (props) => {
     const data = response.data;
     return data;
   };
-
-  /**
-   * Unassign the current driver of one car
-   * @param {Number} carId 
-   * @returns {Event}
-   */
-  const unAssignDriver = async (carId) => {
-    const params = {
-      isReserved: false,
-      createdAt: Date.now(),
-    };
-    const response = await axios.put(`/events/driver/unassign/car/${carId}`, params);
-    const data = response.data;
-    return data;
-  };
-
-  /**
-   * Unassign current reserved driver of one car
-   * @param {Number} carId 
-   * @returns {Event}
-   */
-  const unAssignReservedDriver = async (carId) => {
-    const params = {
-      isReserved: true,
-      createdAt: Date.now(),
-    };
-    const response = await axios.put(`/events/driver/unassign/car/${carId}`, params);
-    const data = response.data;
-    return data;
-  };
   
   /**
    * Store one car in one workshop
@@ -68,14 +38,12 @@ const EventState = (props) => {
    * @param {Provider} workshop provider of type workshop
    * @returns {Event}
    */
-  const storeInWorkshop = async (carId, garage) => {
+  const storeInWorkshop = async (carId, garage, kilometres) => {
     const workshopEvent = {
       carId,
-      /* providerId: workshop.id, */
       garageId: garage.id,
-      /* providerName: workshop.nombreLargo, */
       garageName: garage.nombreCorto,
-      createdAt: Date.now(),
+      kilometres,
     };
     const response = await axios.post(`/events/workshop`, workshopEvent);
     const data = response.data;
@@ -89,7 +57,7 @@ const EventState = (props) => {
    * @param {Number} carId 
    * @returns {Event}
    */
-  const reportProblem = async (problemTypeId, description, carId, prm, data, priority) => {
+  const reportProblem = async (problemTypeId, description, carId, prm, data, priority, kilometres) => {
     const formData = new FormData();
     formData.append('carId', carId);
     formData.append('data', data);
@@ -97,6 +65,7 @@ const EventState = (props) => {
     formData.append('problemTypeId', problemTypeId);
     formData.append('description', description);
     formData.append('priority', priority);
+    formData.append('kilometres', kilometres);
     const response = await axios.post(`/events/report-problems`, formData);
     return response.data;
   };
@@ -106,8 +75,8 @@ const EventState = (props) => {
    * @param {Number} carId
    * @param {Array} of Number problemsIds
    */
-  const resolvingProblems = async (carId, problemsIds, providerId, estimatedDate) => {
-    const params = { ids: problemsIds, providerId, estimatedDate: estimatedDate === "" ? null : estimatedDate };
+  const resolvingProblems = async (carId, problemsIds, providerId, estimatedDate, kilometres) => {
+    const params = { ids: problemsIds, providerId, estimatedDate: estimatedDate === "" ? null : estimatedDate, kilometres };
     const response = await axios.put(`/events/report-problems/car/${carId}/resolving`, params);
     return response.data;
   };
@@ -168,22 +137,22 @@ const EventState = (props) => {
     return data;
   };
 
-  const uploadVTV = async (carId, file, expirationDate) => {
+  const uploadVTV = async (carId, file, expirationDate, kilometres) => {
     const formData = new FormData();
     formData.append('vtv', file);
     formData.append('carId', carId);
-    formData.append('createdAt', new Date());
     formData.append('expirationDate', expirationDate);
+    formData.append('kilometres', kilometres);
     const response = await axios.post('/events/vtv', formData);
     return response.data;
   };
 
-  const uploadSeguro = async (carId, file, expirationDate) => {
+  const uploadSeguro = async (carId, file, expirationDate, kilometres) => {
     const formData = new FormData();
     formData.append('seguro', file);
     formData.append('carId', carId);
-    formData.append('createdAt', new Date());
     formData.append('expirationDate', expirationDate);
+    formData.append('kilometres', kilometres);
     const response = await axios.post('/events/seguros', formData);
     return response.data;
   };
@@ -199,8 +168,6 @@ const EventState = (props) => {
         resolvingProblems,
         createDriverEvent,
         getDriversByCarId,
-        unAssignDriver,
-        unAssignReservedDriver,
         storeInWorkshop,
         reportProblem,
         getReportProblems,

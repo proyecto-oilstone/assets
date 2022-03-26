@@ -60,12 +60,16 @@ const VehiculoDetails = () => {
       },
       "IN_USE": () => {
         setStatusComponent(
-          <div>El vehiculo esta siendo utilizado por <span className="fw-bold">{selectedCar.driver}</span> <span onClick={onUnAssignDriver} role="button" className="btn-link cursor-pointer">{selectedCar.isReserved ? "Quitar reserva" : "Desasignar conductor"}</span></div>
+          <div>El vehiculo esta siendo utilizado por <span className="fw-bold">{selectedCar.driver}</span>
+            <StoreWorkshop buttonClassName="mx-2"/>
+          </div>
         );
       },
       "RESERVED": () => {
         setStatusComponent(
-          <div>El vehiculo esta reservado por <span className="fw-bold">{selectedCar.driver}</span> <span onClick={onUnAssignDriver} role="button" className="btn-link cursor-pointer">{selectedCar.isReserved ? "Quitar reserva" : "Desasignar conductor"}</span></div>
+          <div>El vehiculo esta reservado por <span className="fw-bold">{selectedCar.driver}</span>
+            <StoreWorkshop buttonClassName="mx-2"/>
+          </div>
         );
       },
       "INFORMED": () => {
@@ -143,6 +147,7 @@ const VehiculoDetails = () => {
                     <div><span className="fw-bold">Año: </span><span>{selectedCar?.año}</span></div>
                     <div><span className="fw-bold">Tipo de vehiculo: </span><span>{selectedCar?.modelo}</span></div>
                     <div><span className="fw-bold">Proveedor: </span><span>{selectedCar?.proveedor}</span></div>
+                    <div><span className="fw-bold">Kilometros: </span><span>{selectedCar?.kilometres}</span></div>
                   </div>
 
                   <div className="d-flex p-2"> 
@@ -164,7 +169,7 @@ const VehiculoDetails = () => {
               
               </Tab>
               <Tab eventKey="assigned" title="Asignacion">
-                <div><span className="fw-bold">Asignacion actual: </span><span>{selectedCar?.driver ? <>El vehiculo esta {selectedCar.isReserved ? "reservado" : "asignado"} a {selectedCar.driver} <span onClick={onUnAssignDriver} role="button" className="btn-link cursor-pointer">{selectedCar.isReserved ? "Quitar reserva" : "Desasignar conductor"}</span></> : "No hay ningun conductor asignado"}</span></div>
+                <div><span className="fw-bold">Asignacion actual: </span><span>{selectedCar?.driver ? <>El vehiculo esta {selectedCar.isReserved ? "reservado" : "asignado"} a {selectedCar.driver}</> : "No hay ningun conductor asignado"}</span></div>
                 <div><span className="fw-bold">Sector: </span><span>{selectedCar?.Sector ? selectedCar?.Sector : "El vehiculo no esta asignado a un sector" }</span></div>
                 <div className="mt-3">
                   <AssignDriver />

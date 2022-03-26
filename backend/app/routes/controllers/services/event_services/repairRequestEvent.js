@@ -5,8 +5,8 @@ const { getLastDriverEventByCarId } = require("./driverEvent");
 const { getEventsByCarIdAndEventType, postEvent } = require("./event");
 const { getAllPendingProblemsByCarId, getAllResolvingProblemsByCarId, resolveProblems } = require("./reportProblemEvent");
 
-const createRepairedEvents = (carId, reportProblems) => {
-  const problems = reportProblems.map(problem => ({ carId, problemId: problem.id, repairTypeId: problem.typeResolutionId }));
+const createRepairedEvents = (carId, reportProblems, kilometres) => {
+  const problems = reportProblems.map(problem => ({ carId, problemId: problem.id, repairTypeId: problem.typeResolutionId, kilometres }));
   return problems.map(problem => postEvent(problem, RepairedEvent));
 }
 
@@ -22,7 +22,7 @@ module.exports = {
    * any driver or reserver driver before repair
    * @param {Number} carId 
    */
-  finishCarRepair: async (carId, reportProblems) => {
+  finishCarRepair: async (carId, reportProblems, kilometres) => {
     const onlyIds = (p) => p.id;
     const problemsIds = reportProblems.map(onlyIds);
     const car = await getCarDetail(carId);
@@ -52,7 +52,7 @@ module.exports = {
       }
     }
     
-    let repairedEvents = createRepairedEvents(car.id, reportProblems);
+    let repairedEvents = createRepairedEvents(car.id, reportProblems, kilometres);
     await updateCarStatus(car.id, newCarStatus);
     await resolveProblems(resolvingProblemsIds);
     repairedEvents = await Promise.all(repairedEvents);

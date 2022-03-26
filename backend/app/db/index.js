@@ -87,9 +87,9 @@ RepairedEvent.belongsTo(ResolutionType, { foreignKey: "repairTypeId", targetKey:
 ReportProblemEvent.include = [ProblemType];
 RepairRequestEvent.include = [ReportProblemEvent];
 RepairedEvent.include = [ReportProblemEvent, ResolutionType];
-WorkshopEvent.include = [Provider];
+WorkshopEvent.include = [Garage];
 
-WorkshopEvent.belongsTo(Provider, { foreignKey: {name: "providerId", allowNull: false}, targetKey: "id" });
+WorkshopEvent.belongsTo(Garage, { foreignKey: {name: "garageId", allowNull: false}, targetKey: "id" });
 
 const db = {};
 

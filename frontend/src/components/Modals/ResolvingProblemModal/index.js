@@ -8,6 +8,7 @@ import ButtonSecondary from '../../Buttons/Secondary';
 import CustomModal from '../CustomModal/CustomModal';
 import Select from "react-select";
 import { setLabelAndValue } from "../../../helpers/utils";
+import KilometresInput from "../../Inputs/KilometresInput";
 
 const ResolvingProblemModal = (props) => {
   const { show, toggle, selectedProblems, onConfirm } = props;
@@ -16,16 +17,18 @@ const ResolvingProblemModal = (props) => {
   const { resolvingProblems } = useContext(EventContext);
   const [selectedProvider, setSelectedProvider] = useState(null);
   const [estimatedDate, setEstimatedDate] = useState("");
+  const [kilometres, setKilometres] = useState("");
 
   const resetFields = () => {
     setSelectedProvider(null);
     setEstimatedDate("");
+    setKilometres("");
   }
 
   const handleOnConfirm = async () => {
     toggle();
     onConfirm();
-    await resolvingProblems(selectedCar.id, selectedProblems.map(p => p.id), selectedProvider.id, estimatedDate);
+    await resolvingProblems(selectedCar.id, selectedProblems.map(p => p.id), selectedProvider.id, estimatedDate, kilometres);
     getCarById(selectedCar.id);
     resetFields();
   }
@@ -61,6 +64,10 @@ const ResolvingProblemModal = (props) => {
                 <span onClick={() => setEstimatedDate("")} className={`ms-2 ${estimatedDate === "" ? "invisible" : ""}`}><img role="button" src="/icons/times-solid.svg" className="icon-sm cursor-pointer" /></span>
               </div>
             </Col>
+          </Col>
+
+          <Col sm="6" className="mt-3">
+            <KilometresInput kilometres={kilometres} setKilometres={setKilometres}/>
           </Col>
         </Row>
       </div>

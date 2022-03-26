@@ -7,6 +7,7 @@ import CarContext from "../../../contexts/cars/CarContext";
 import Select from "react-select";
 import ProblemsTypeContext from "../../../contexts/problemTypes/ProblemsTypeContext";
 import { setLabelAndValue } from "../../../helpers/utils";
+import KilometresInput from "../../Inputs/KilometresInput";
 
 const CreateProblemModal = (props) => {
   const { show, toggle, showWarning } = props;
@@ -18,6 +19,7 @@ const CreateProblemModal = (props) => {
   const [priority, setPriority] = useState(null);
   const [prm, setPrm] = useState(null);
   const [data, setData] = useState(null);
+  const [kilometres, setKilometres] = useState("");
 
   const priorities = [
     {
@@ -40,10 +42,11 @@ const CreateProblemModal = (props) => {
     setPriority(null);
     setPrm(null);
     setData(null);
+    setKilometres("");
   }
 
   const handleOnClick = async () => {
-    await reportProblem(problemSelected.id, description, selectedCar.id, prm, data, priority.value);
+    await reportProblem(problemSelected.id, description, selectedCar.id, prm, data, priority.value, kilometres);
     getCarById(selectedCar.id);
     resetFields();
     toggle();
@@ -114,6 +117,10 @@ const CreateProblemModal = (props) => {
               </Col>
             </Row>
           </Col>
+        </Form.Group>
+
+        <Form.Group as={Row} className="mt-4">
+          <KilometresInput kilometres={kilometres} setKilometres={setKilometres}/>
         </Form.Group>
 
         <h6 className="mt-5">Adjuntar archivos</h6>

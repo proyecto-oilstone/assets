@@ -155,9 +155,9 @@ const CarState = (props) => {
     }
   }
 
-  const finishCarRepair = async (carId, typeResolutionProblems) => {
+  const finishCarRepair = async (carId, typeResolutionProblems, kilometres) => {
     const params = typeResolutionProblems.map(trp => ({ id: trp.id, typeResolutionId: trp.repairTypeSelected.id }));
-    return await axios.put(`/cars/${carId}/finish-repair`, { reportProblems: params });
+    return await axios.put(`/cars/${carId}/finish-repair`, { reportProblems: params, kilometres });
   }
 
   const deleteDocument = async (documentId, carId) => {

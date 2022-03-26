@@ -8,6 +8,7 @@ import ButtonSecondary from '../../Buttons/Secondary';
 import Select from "react-select";
 import { setLabelAndValue } from '../../../helpers/utils';
 import GaragesContext from '../../../contexts/garages/GaragesContext';
+import KilometresInput from '../../Inputs/KilometresInput';
 
 const StoreWorkshop = (props) => {
   const { buttonClassName = "" } = props;
@@ -17,14 +18,20 @@ const StoreWorkshop = (props) => {
   const [storeWorkshop, setStoreWorkshop] = useState(false);
   const toggleStoreWorkshop = () => setStoreWorkshop(!storeWorkshop);
   const [selectedGarage, setSelectedGarage] = useState(null);
-  const canStoreInWorkshop = ["AVAILABLE", "RESERVED"].some(status => status === selectedCar?.status);
+  const [kilometres, setKilometres] = useState("");
+  const canStoreInWorkshop = ["AVAILABLE", "RESERVED", "IN_USE"].some(status => status === selectedCar?.status);
 
   const handleStoreWorkshop = async () => {
-    await storeInWorkshop(selectedCar.id, selectedGarage);
+    await storeInWorkshop(selectedCar.id, selectedGarage, kilometres);
     getCarById(selectedCar.id);
-    setSelectedGarage(null);
+    resetFields();
     toggleStoreWorkshop();
   };
+  
+  const resetFields = () => {
+    setKilometres("");
+    setSelectedGarage(null);
+  }
 
   useEffect(() => {
     getGarages();
@@ -38,9 +45,10 @@ const StoreWorkshop = (props) => {
         <Col sm="12">
           <Select isSearchable value={selectedGarage} onChange={setSelectedGarage} options={setLabelAndValue(garages, "nombreCorto", "id")} />
         </Col>
+        <KilometresInput kilometres={kilometres} setKilometres={setKilometres}/>
       </Row>
 
-      <div className='mt-2'>
+      <div className='mt-3'>
         <ButtonSecondary className="me-3" onClick={toggleStoreWorkshop}>Cancelar</ButtonSecondary>
         <ButtonPrimary onClick={handleStoreWorkshop} disabled={selectedGarage === null}>Estacionar</ButtonPrimary>
       </div>
