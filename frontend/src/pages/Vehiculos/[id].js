@@ -87,7 +87,7 @@ const VehiculoDetails = () => {
       "AVAILABLE": () => {
         setStatusComponent(<div>
           <div>El vehiculo se encuentra en backup.</div>
-          {selectedCar.stored ? <div>El vehiculo se encuentra en el taller: <Link to ={`/garages/${selectedCar.WorkshopId}`}>{selectedCar.garageName}</Link></div> : <>
+          {selectedCar.stored ? <div>El vehiculo se encuentra en: <Link to ={`/garages/${selectedCar.WorkshopId}`}>{selectedCar.garageName}</Link></div> : <>
           <StoreWorkshop buttonClassName="mx-2"/> </>}
           <div>Se puede asignar o reservar un conductor <span> <AssignDriver /></span></div>
           

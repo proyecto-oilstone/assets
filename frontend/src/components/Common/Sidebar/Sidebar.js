@@ -91,6 +91,9 @@ const Sidebar = (props) => {
         <div className="d-flex justify-content-center">
           <img src="/logo.png" alt="logo" className="cursor-pointer" role="button" onClick={() => navigate("/home")}/>
         </div>
+        <div className="d-flex justify-content-center">
+          <h6>Gestión de taller</h6>
+        </div>
         <ul className={styles.navItems}>
           <NavItem className="ps-3 mb-2" title="Pagina Principal" to="/home" icon="home.svg" withArrow={false} />
 

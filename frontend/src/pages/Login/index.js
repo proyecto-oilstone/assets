@@ -35,6 +35,7 @@ const Login = () => {
     <div className={`background-gray vw-100 vh-100`}>
       <div className={`d-flex justify-content-center flex-column align-items-center ${styles.container}`}>
         <img className={`mb-4`} src="/logo.png" alt="logo" />
+        <h4>Gestión de Taller</h4>
         <div className={`p-4 ${styles.container}`}>
           <Form>
             <Form.Group className="mb-3" controlId="formBasicEmail">
