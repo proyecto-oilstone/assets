@@ -89,7 +89,7 @@ RepairRequestEvent.include = [ReportProblemEvent];
 RepairedEvent.include = [ReportProblemEvent, ResolutionType];
 WorkshopEvent.include = [Garage];
 
-WorkshopEvent.belongsTo(Garage, { foreignKey: {name: "garageId", allowNull: false}, targetKey: "id" });
+WorkshopEvent.belongsTo(Garage, { foreignKey: {name: "garageId", defautValue: null}, targetKey: "id" });
 
 const db = {};
 
