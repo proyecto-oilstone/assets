@@ -1,8 +1,8 @@
 const { RepairRequestEvent, RepairedEvent, LastRepairedEvent } = require("../../../../db/index");
 const getCarDetail = require("../cars_services/getCarDetail");
 const { updateCarStatus } = require("../cars_services/updateStatus");
-const { getLastDriverEventByCarId } = require("./driverEvent");
 const { getEventsByCarIdAndEventType, postEvent } = require("./event");
+const {getLastEventDifferent} = require("./getLastEventDifferent");
 const { getAllPendingProblemsByCarId, getAllResolvingProblemsByCarId, resolveProblems } = require("./reportProblemEvent");
 
 const createRepairedEvents = (carId, reportProblems, kilometres) => {
@@ -40,9 +40,9 @@ module.exports = {
     } else if (hasMoreProblems) {
       newCarStatus = "INFORMED";
     } else {
-      const lastDriverEvent = await getLastDriverEventByCarId(carId);
-      if (lastDriverEvent) {
-        if (lastDriverEvent.isReserved) {
+      const lastEventBeforeRepair = await getLastEventDifferent(carId, ["REPORT_PROBLEM", "REPAIR_REQUEST", "REPAIRED"]);
+      if (lastEventBeforeRepair.type === "DRIVER") {
+        if (lastEventBeforeRepair.isReserved) {
           newCarStatus = "RESERVED";
         } else {
           newCarStatus = "IN_USE";

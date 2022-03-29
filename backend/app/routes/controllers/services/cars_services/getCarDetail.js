@@ -1,6 +1,7 @@
 const { Cars, Provider, CarType, Files, Sector, VTVEvent, SeguroEvent } = require("../../../../db/index");
 const { statusCarToString } = require("../../../../utils/functions");
 const eventService = require("../event_services/event");
+const getCurrentCarDriver = require("./getCurrentCarDriver");
 
 /**
  * Finds a car by id
@@ -77,6 +78,7 @@ const getCarDetail = async (id) => {
     WorkshopId: car.WorkshopId,
     garageName: car.garageName,
   };
+  car.currentDriver = await getCurrentCarDriver(car);
   return car;
 };
 

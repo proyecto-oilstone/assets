@@ -6,6 +6,7 @@ import "moment/locale/es";
 import Event from "./Event.js";
 import Filters from './Filters.js';
 import CarContext from '../../contexts/cars/CarContext.js';
+import { getShortDescriptionEvent } from '../../helpers/utils.js';
 
 const localizer = momentLocalizer(moment);
 
@@ -112,7 +113,7 @@ const ReactBigCalendar = (props) => {
         currentEvent.end.setSeconds(currentEvent.end.getSeconds() + duration);
       } else {
         const nextEvent = getNextEventDifferent(skipEvents, modifiedEvents, i+1);
-        currentEvent.title = currentEvent.id;
+        currentEvent.title = getShortDescriptionEvent(currentEvent);
         if (isExpirationEvent(currentEvent.type)) {
           currentEvent.start = new Date(currentEvent.expirationDate);
         } else {

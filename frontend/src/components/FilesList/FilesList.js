@@ -6,7 +6,7 @@ import { dateToDDMMYYYY, fromDDMMYYYYToDate } from '../../helpers/utils';
 import useExportButton from '../../hooks/useExportButton';
 import FilterDates, { onFilterDates } from '../Table/CustomReactTable/FilterDates';
 
-const FilesList = ({ car }) => {
+const FilesList = () => {
   const { selectedCar, files,  getCarById, deleteDocument, getFilesById } = useContext(CarContext);
   const [formatedFiles, setFormatedFiles] = useState([]);
 
@@ -28,9 +28,8 @@ const FilesList = ({ car }) => {
   };
 
   useEffect(() => {
-    getFilesById(car.id)
-    getCarById(car.id);
-  },[]);
+    getFilesById(selectedCar.id)
+  },[selectedCar]);
 
   const [columns, setColumns] = useState([{
     label: 'Nombre',

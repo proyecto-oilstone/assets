@@ -36,7 +36,6 @@ const VehiculoDetails = () => {
 
     if (!isNaN(carId) && carId > 0) {
       getCarById(carId);
-      getEventsByCarId(carId);
     }  
   }, [id]);
 
@@ -60,14 +59,14 @@ const VehiculoDetails = () => {
       },
       "IN_USE": () => {
         setStatusComponent(
-          <div>El vehiculo esta siendo utilizado por <span className="fw-bold">{selectedCar.driver}</span>
+          <div>El vehiculo esta siendo utilizado por <span className="fw-bold">{selectedCar.currentDriver}</span>
             <StoreWorkshop buttonClassName="mx-2"/>
           </div>
         );
       },
       "RESERVED": () => {
         setStatusComponent(
-          <div>El vehiculo esta reservado por <span className="fw-bold">{selectedCar.driver}</span>
+          <div>El vehiculo esta reservado por <span className="fw-bold">{selectedCar.currentDriver}</span>
             <StoreWorkshop buttonClassName="mx-2"/>
           </div>
         );
@@ -164,12 +163,12 @@ const VehiculoDetails = () => {
               <Tab eventKey="status" title="Documentos">
                 {selectedCar?.allFiles.length >= 1 ?
                 
-                <FilesList  document={selectedCar.allFiles[0]} car={selectedCar} /> 
+                <FilesList document={selectedCar.allFiles[0]} /> 
                 : <div>Sin Papeles</div>}
               
               </Tab>
               <Tab eventKey="assigned" title="Asignacion">
-                <div><span className="fw-bold">Asignacion actual: </span><span>{selectedCar?.driver ? <>El vehiculo esta {selectedCar.isReserved ? "reservado" : "asignado"} a {selectedCar.driver}</> : "No hay ningun conductor asignado"}</span></div>
+                <div><span className="fw-bold">Asignacion actual: </span><span>{selectedCar?.currentDriver ? <>El vehiculo esta {selectedCar.status === "RESERVED" ? "reservado" : "asignado"} a {selectedCar.currentDriver}</> : "No hay ningun conductor asignado"}</span></div>
                 <div><span className="fw-bold">Sector: </span><span>{selectedCar?.Sector ? selectedCar?.Sector : "El vehiculo no esta asignado a un sector" }</span></div>
                 <div className="mt-3">
                   <AssignDriver />

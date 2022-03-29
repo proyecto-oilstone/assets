@@ -42,13 +42,18 @@ const ExportCSVButton = (props) => {
     }
   }, [isOpen]);
   
+  const onClickDropdown = () => {
+    setTimeout(() => {
+      setIsOpen(!isOpen);
+    }, 85);
+  };
 
   return (
   <div className="d-flex flex-row-reverse">
     <div
       ref={drop}
       className={`dropdown bg-secondary-button p-3 ps-1 ${styles.dropdownToggle} ${arrowClassName}`}
-      onClick={() => setIsOpen(!isOpen)}
+      onClick={onClickDropdown}
     >
     </div>
     <div className="position-relative">

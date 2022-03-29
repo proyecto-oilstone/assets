@@ -5,12 +5,7 @@ import styles from "./styles.module.css";
 
 const PDFLatestRepairedEvents = (props) => {
   const { children, className = "", events, car } = props;
-
-  useEffect(() => {
-    console.log(events);
-  }, [events])
   
-
   return (
     <ReactToPdf>
       {({toPdf, targetRef}) =>  (<>

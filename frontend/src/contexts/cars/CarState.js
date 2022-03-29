@@ -128,16 +128,6 @@ const CarState = (props) => {
   const getCarById = async (carId) => {
     const response = await axios.get(`/cars/autos/${carId}`);
     const car = response.data;
-    if (!("driver" in car) || car.driver === null) {
-      const driverEvents = await getDriversByCarId(car.id);
-      if (!("events" in car)) {
-        car.events = {};
-      }
-      car.events.drivers = driverEvents;
-      const lastDriverEvent = getLastDriverEvent(driverEvents);
-      car.driver = lastDriverEvent ? lastDriverEvent.driver : null;
-      car.isReserved = lastDriverEvent ? lastDriverEvent.isReserved : false;
-    }
     selectCar(car);
     return car;
   }
