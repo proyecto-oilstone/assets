@@ -37,8 +37,8 @@ const Event = (props) => {
   };
 
   const setWorkshopTitle = () => {
-    setTitle(`Almacenado en el taller`);
-    setDescription("Se almaceno el el taller el vehiculo con patente ")
+    setTitle(`Almacenado en el Garage`);
+    setDescription(`Se almaceno en el garage: ${car?.garageName} el vehiculo con patente `)
   };
 
   const setRepairRequestTitle = () => {
@@ -87,7 +87,7 @@ const Event = (props) => {
     const isDDMMYYYYFormat = DDMMYYYYFormats.some(type => event.type === type);
     return isDDMMYYYYFormat ? dateToDDMMYYYY(date) : dateToDDMMYYYYHHMM(date);
   };
-
+console.log(car)
   return (<>
     <div className={`p-1`} style={{ backgroundColor: eventsColors[event.type], color: eventsTextColors[event.type] }} onClick={toggleShowEvent}>{title}</div>
     <CustomModal centered show={showEvent} toggle={toggleShowEvent} title={title}>
