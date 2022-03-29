@@ -19,7 +19,7 @@ const StoreWorkshop = (props) => {
   const toggleStoreWorkshop = () => setStoreWorkshop(!storeWorkshop);
   const [selectedGarage, setSelectedGarage] = useState(null);
   const [kilometres, setKilometres] = useState("");
-  const canStoreInWorkshop = ["AVAILABLE", "RESERVED", "IN_USE"].some(status => status === selectedCar?.status);
+  const canStoreInWorkshop = ["RESERVED", "IN_USE"].some(status => status === selectedCar?.status);
 
   const handleStoreWorkshop = async () => {
     await storeInWorkshop(selectedCar.id, selectedGarage, kilometres);
