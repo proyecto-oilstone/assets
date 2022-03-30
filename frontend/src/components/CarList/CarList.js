@@ -86,6 +86,8 @@ const CarList = ({ onCreate }) => {
         statusFilter.key = "status";
         setDefaultFilters([statusFilter]);
       }
+    } else {
+      setDefaultFilters([]);
     }
   }, [query]);
 
