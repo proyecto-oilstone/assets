@@ -13,7 +13,7 @@ module.exports = {
         const event = await driverEventService.postDriverEvent(req.body);
         await Cars.update({
             stored: false,
-            WorkshopName: null,
+            garageName: null,
             WorkshopId: null,
         }, { where: { id: req.body.carId } });
         if (event) {
