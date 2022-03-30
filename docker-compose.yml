@@ -1,6 +1,7 @@
 version: "3"
 services:
   oilstone-backend:
+    restart: always   
     build: 
       context: ./backend
       dockerfile: Dockerfile.${NODE_ENV}
@@ -21,6 +22,7 @@ services:
       - ./backend:/app/
       - /app/node_modules
   oilstone-frontend:
+    restart: always
     build: 
       context: ./frontend
       dockerfile: Dockerfile.${NODE_ENV}
@@ -39,6 +41,7 @@ services:
       - REACT_APP_BACKEND_PORT=${BACKEND_PORT}
       - REACT_APP_BACKEND_HOST=${BACKEND_HOST}
   db:
+    restart: always
     image: postgres
     ports:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
