@@ -59,6 +59,16 @@ const ReactBigCalendar = (props) => {
     label: "Conductor",
     value: "DRIVER",
     checked: false,
+  },
+  {
+    label: "Creacion de vehiculo",
+    value: "NEW_CAR",
+    checked: false,
+  },
+  {
+    label: "Baja de vehiculo",
+    value: "DISCHARGED_CAR",
+    checked: false,
   },]);
   
   const isExpirationEvent = (event) => {

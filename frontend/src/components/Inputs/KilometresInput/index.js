@@ -10,13 +10,15 @@ const KilometresInput = ({ kilometres, setKilometres }) => {
     <Row>
       <Form.Label column sm="12" htmlFor={id}>Kilometros</Form.Label>
       <Col sm="12">
-        <Form.Control type="number" id={id} min={selectedCar?.kilometres} value={kilometres} onChange={(e) => setKilometres(e.target.value)} placeholder="0"/>
-        <div className={`text-secondary ${kilometres === "" && "invisible"} mt-2`}>
-          {kilometres >= selectedCar?.kilometres ?
-            (parseInt(kilometres) - selectedCar?.kilometres) + " kilometros mas desde el ultimo evento reportado"
-            : "La cantidad de kilometros no puede ser inferior a la cantidad actual"
-          }
-        </div>
+        <Form.Control type="number" id={id} min={selectedCar ? selectedCar.kilometres : 0} value={kilometres} onChange={(e) => setKilometres(e.target.value)} placeholder="0"/>
+        {selectedCar !== null &&
+          <div className={`text-secondary ${kilometres === "" && "invisible"} mt-2`}>
+            {kilometres >= selectedCar?.kilometres ?
+              (parseInt(kilometres) - selectedCar?.kilometres) + " kilometros mas desde el ultimo evento reportado"
+              : "La cantidad de kilometros no puede ser inferior a la cantidad actual"
+            }
+          </div>
+        }
       </Col>
     </Row>
   );

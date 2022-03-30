@@ -42,6 +42,8 @@ export const eventTypes = {
   "VTV": 5,
   "SEGURO": 6,
   "REPAIRED": 7,
+  "NEW_CAR": 8,
+  "DISCHARGED_CAR": 9,
 };
 export const eventsColors = {
   "DRIVER": "#77dd77",
@@ -51,7 +53,9 @@ export const eventsColors = {
   "WORKSHOP": "#fdfd96",
   "VTV": "#ff6961",
   "SEGURO": "#ff6961",
-  "EXPIRATION_FILE": "#ff6961"
+  "EXPIRATION_FILE": "#ff6961",
+  "NEW_CAR": "#fdfd96",
+  "DISCHARGED_CAR": "#fdfd96",
 }
 export const eventsTextColors = {
   "DRIVER": "rgb(108, 117, 125)",
@@ -61,5 +65,7 @@ export const eventsTextColors = {
   "WORKSHOP": "rgb(108, 117, 125)",
   "VTV": "#ffffff",
   "SEGURO": "#ffffff",
-  "EXPIRATION_FILE": "#ffffff"
+  "EXPIRATION_FILE": "#ffffff",
+  "NEW_CAR": "rgb(108, 117, 125",
+  "DISCHARGED_CAR": "rgb(108, 117, 125",
 }

@@ -14,7 +14,7 @@ import FilterBoolean from '../Table/CustomReactTable/FilterBoolean';
 import useExportButton from '../../hooks/useExportButton';
 
 const CarList = ({ onCreate }) => {
-  const { cars, getCars, deleteCar, postFile } = useContext(CarContext);
+  const { cars, getCars, deleteCar, postFile, deselectCar } = useContext(CarContext);
   const { providers, getProviders } = useContext(ProviderContext);
   const { carTypes } = useContext(CarTypeContext); 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -174,6 +174,7 @@ const CarList = ({ onCreate }) => {
   }
 
   useEffect(() => {
+    deselectCar();
     getCars();
     getProviders();
   }, []);

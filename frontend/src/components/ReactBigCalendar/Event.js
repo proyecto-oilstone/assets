@@ -68,6 +68,16 @@ const Event = (props) => {
     setDescription(`Vencimiento de el seguro del vehiculo con patente `)
   };
 
+  const setNewCarTitle = () => {
+    setTitle("Creacion del vehiculo");
+    setDescription(`Se creo el vehiculo con patente `)
+  };
+
+  const setDischargedCarTitle = () => {
+    setTitle("Vehiculo dado de baja");
+    setDescription(`Se dio de baja al vehiculo con patente `)
+  };
+
   useEffect(() => {
     switch (event.type) {
     case "DRIVER": setDriverTitle(); break;
@@ -78,6 +88,8 @@ const Event = (props) => {
     case "EXPIRATION_FILE": setExpirationTitle(); break;
     case "VTV" : setExpirationVTV(); break;
     case "SEGURO" : setExpirationSeguro(); break;
+    case "NEW_CAR": setNewCarTitle(); break;
+    case "DISCHARGED_CAR": setDischargedCarTitle(); break;
     default: setTitle("Desconocido");
     }
   }, [event, car]);
@@ -87,7 +99,7 @@ const Event = (props) => {
     const isDDMMYYYYFormat = DDMMYYYYFormats.some(type => event.type === type);
     return isDDMMYYYYFormat ? dateToDDMMYYYY(date) : dateToDDMMYYYYHHMM(date);
   };
-console.log(car)
+
   return (<>
     <div className={`p-1`} style={{ backgroundColor: eventsColors[event.type], color: eventsTextColors[event.type] }} onClick={toggleShowEvent}>{title}</div>
     <CustomModal centered show={showEvent} toggle={toggleShowEvent} title={title}>

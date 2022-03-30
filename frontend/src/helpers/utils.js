@@ -161,6 +161,8 @@ export function getShortDescriptionEvent(event) {
     case "VTV": return "Carga VTV";
     case "SEGURO": return "Carga Seguro";
     case "REPAIRED": return "Problema finalizado";
+    case "NEW_CAR": return "Nuevo vehiculo";
+    case "DISCHARGED_CAR": return "Baja de vehiculo";
     default: return "Desconocido";
   }
 }
@@ -192,6 +194,8 @@ export function getDescriptionEvent(event) {
     case "VTV": return "Se cargo VTV";
     case "SEGURO": return "Se cargo Seguro";
     case "REPAIRED": return "Se completo la reparacion al problema " + event?.ReportProblemEvent?.ProblemType?.problem + ", con el tipo de resolucion " + event?.ResolutionType?.resolution;
+    case "NEW_CAR": return "Vehiculo creado";
+    case "DISCHARGED_CAR": return "Vehiculo dado de baja";
     default: return "Desconocido";
   }
 }
