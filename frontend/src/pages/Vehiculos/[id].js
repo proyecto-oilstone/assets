@@ -30,6 +30,7 @@ const VehiculoDetails = () => {
   const [activeTab, setActiveTab] = useState('basic-data');
   const [activeCalendarTab, setActiveCalendarTab] = useState('events');
   const [statusComponent, setStatusComponent] = useState("");
+  const hasMandatoryDocumentation = selectedCar?.VTV !== null && selectedCar?.seguro !== null
 
   useEffect(() => {
     const carId = parseInt(id);
@@ -50,11 +51,16 @@ const VehiculoDetails = () => {
       "OUT_OF_SERVICE": () => {
         setStatusComponent(<>
           <div>El vehiculo se encuentra fuera de servicio, se requiere que se cargue la documentacion obligatoria</div>
-          <div>Se requiere:</div>
-          <ul>
-            {selectedCar.VTV === null && <li>VTV <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadVTV}>Añadir VTV</span></li>}
-            {selectedCar.seguro === null && <li>Seguro <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadSeguro}>Añadir seguro</span></li>}
-          </ul>
+          {hasMandatoryDocumentation
+          ? <StoreWorkshop/>
+          : <>
+            <div>Se requiere:</div>
+            <ul>
+              {selectedCar.VTV === null && <li>VTV <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadVTV}>Añadir VTV</span></li>}
+              {selectedCar.seguro === null && <li>Seguro <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadSeguro}>Añadir seguro</span></li>}
+            </ul>
+          </>
+          }
         </>);
       },
       "IN_USE": () => {

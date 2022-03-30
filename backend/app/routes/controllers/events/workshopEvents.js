@@ -16,6 +16,7 @@ module.exports = {
             garageId,
             kilometres,
         }
+        const event = await workshopService.postWorkshopEvent(obj);
 
         await Cars.update({
             stored: true,
@@ -25,7 +26,6 @@ module.exports = {
         }, { where: { id: carId } });
 
 
-        const event = await workshopService.postWorkshopEvent(obj);
         if (event) {
             res.status(201).json(event);
         } else {

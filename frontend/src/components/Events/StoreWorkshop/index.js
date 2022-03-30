@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 import CarContext from '../../../contexts/cars/CarContext';
 import EventContext from '../../../contexts/events/EventContext';
-import ProviderContext from '../../../contexts/providers/ProviderContext';
 import ButtonPrimary from '../../Buttons/Primary/ButtonPrimary';
 import ButtonSecondary from '../../Buttons/Secondary';
 import Select from "react-select";
@@ -19,7 +18,7 @@ const StoreWorkshop = (props) => {
   const toggleStoreWorkshop = () => setStoreWorkshop(!storeWorkshop);
   const [selectedGarage, setSelectedGarage] = useState(null);
   const [kilometres, setKilometres] = useState("");
-  const canStoreInWorkshop = ["RESERVED", "IN_USE"].some(status => status === selectedCar?.status);
+  const canStoreInWorkshop = ["RESERVED", "IN_USE", "OUT_OF_SERVICE"].some(status => status === selectedCar?.status);
 
   const handleStoreWorkshop = async () => {
     await storeInWorkshop(selectedCar.id, selectedGarage, kilometres);

@@ -11,10 +11,7 @@ const { updateCarStatus } = require("../cars_services/updateStatus");
 const checkCarFiles = async (carId) => {
   const car = await getCarDetail(carId);
   const hasMandatoryDocumentation = car.VTV !== null && car.seguro !== null;
-  if (hasMandatoryDocumentation && car.status === "OUT_OF_SERVICE") {
-    await updateCarStatus(car.id, "AVAILABLE");
-    car.status = "AVAILABLE";
-  } else {
+  if (!hasMandatoryDocumentation) {
     await updateCarStatus(car.id, "OUT_OF_SERVICE");
     car.status = "OUT_OF_SERVICE";
   }
