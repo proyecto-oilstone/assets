@@ -2,10 +2,12 @@ const { WorkshopEvent } = require("../../../../db/index");
 const { postEvent, getEventsByCarIdAndEventType } = require("./event");
 const getCarDetail = require("../cars_services/getCarDetail");
 const { updateCarStatus } = require("../cars_services/updateStatus");
+const { checkDocumentation } = require("./checkDocumentation");
 
 module.exports = {
   postWorkshopEvent: async (event) => {
     const car = await getCarDetail(event.carId);
+    checkDocumentation(car);
     const hasMandatoryDocumentation = car.VTV !== null && car.seguro !== null;
     if (!hasMandatoryDocumentation) throw new Error("Invalid documentations of car");
     let availableStatuses = ["IN_USE", "DISCHARGED", "RESERVED", "OUT_OF_SERVICE", "REPAIR"];

@@ -14,12 +14,13 @@ const EventState = (props) => {
 
   const [state, dispatch] = useReducer(EventReducer, initialState);
 
-  const createDriverEvent = async (driver, carId, isReserved, kilometres) => {
+  const createDriverEvent = async (driver, carId, isReserved, kilometres, garageId) => {
     const driverEvent = {
       carId,
       driver,
       isReserved,
       kilometres,
+      garageId: isReserved ? garageId : null,
     }
     let response = await axios.post("/events/driver", driverEvent);
     
