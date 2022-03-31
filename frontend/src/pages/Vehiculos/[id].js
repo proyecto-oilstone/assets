@@ -81,7 +81,7 @@ const VehiculoDetails = () => {
       },
       "RESERVED": () => {
         setStatusComponent(<>
-          <div>El vehiculo esta reservado por <span className="fw-bold">{selectedCar.currentDriver}</span></div>
+          <div>El vehiculo esta reservado por <span className="fw-bold">{selectedCar.currentDriver}</span> en el garage <span className="fw-bold">{selectedCar?.garageName}</span></div>
           <div className="d-flex justify-content-between mt-3">
             <StoreWorkshop isActive={activeAction === "store" || activeAction === ""} onActive={() => setActiveAction("store")} onDeactive={deactiveActiveSection}/>
             <AssignDriver isActive={activeAction === "assign-driver" || activeAction === ""} onActive={() => setActiveAction("assign-driver")} onDeactive={deactiveActiveSection}/>

@@ -1,5 +1,6 @@
 const driverEventService = require("../services/event_services/driverEvent");
 const { Cars, } = require("../../../db/index");
+const getGarageDetail = require("../services/garage_services/getGarageDetail");
 
 module.exports = {
   /**
@@ -16,10 +17,18 @@ module.exports = {
       return;
     }
     const event = await driverEventService.postDriverEvent(params);
+    let stored = event.isReserved;
+    let garageName = null;
+    let garageId = null;
+    if (stored) {
+      const garage = await getGarageDetail(event.garageId);
+      garageName = garage.nombreCorto; //TODO: remove garageName from Cars
+    }
+
     await Cars.update({
-      stored: false,
-      garageName: null,
-      WorkshopId: null,
+      stored: stored,
+      garageName: garageName,
+      GarageId: garageId,
     }, { where: { id: req.body.carId } });
     if (event) {
       res.status(201).json(event);

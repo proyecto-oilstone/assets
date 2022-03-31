@@ -171,7 +171,7 @@ export function getDescriptionEvent(event) {
   switch (event.type) {
     case "DRIVER": {
       if (event.isReserved && event.driver)
-        return "Se reservo al conductor " + event.driver + ", en el garage " + event.Garage.nombreCorto;
+        return "Se reservo al conductor " + event.driver + ", en el garage " + event?.Garage?.nombreCorto;
       if (event.isReserved && event.driver === null)
         return "Se quito la reseva del conductor";
       if (event.driver === null)

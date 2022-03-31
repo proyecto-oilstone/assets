@@ -16,7 +16,7 @@ const vtvRouter = require("./vtvEvents");
 const segurosRouter = require("./segurosEvents");
 const problemsTypesRouter = require("./problemsTypesRouter");
 const resolutionsTypesRouter = require("./resolutionsTypesRouter");
-const garageRouter = require("./controllers/garage");
+const garageRouter = require("./garageRouter");
 
 const router = Router();
 

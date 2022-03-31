@@ -1,9 +1,7 @@
 const { Garage, Cars, Event, DriverEvent } = require("../../../../db/index");
 const { statusCarToString } = require("../../../../utils/functions");
 
-const getGarageDetail = async (req, res) => {
-  const { id } = req.params;
-
+const getGarageDetail = async (id) => {
   let query = {
     where: { id },
     attributes: ["id", "nombreLargo", "nombreCorto", "observaciones"],
@@ -58,8 +56,8 @@ const getGarageDetail = async (req, res) => {
       return car;
     }),
   };
-
-  res.status(200).json(garage);
+  
+  return garage;
 };
 
 module.exports = getGarageDetail;
