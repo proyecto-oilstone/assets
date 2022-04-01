@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import { ADD_GARAGE, DELETE_GARAGE, SET_GARAGES, SELECT_GARAGE } from "../types";
+import { ADD_GARAGE, DELETE_GARAGE, SET_GARAGES, SELECT_GARAGE, SET_HAS_GARAGES } from "../types";
 import GaragesReducer from "./GaragesReducer";
 import GaragesContext from "./GaragesContext";
 import axios from "../../helpers/axios";
@@ -9,6 +9,7 @@ const GaragesState = (props) => {
 const { children } = props;
 const initialState = {
     garages: [],
+    hasGarages: false,
     selectedGarage: null,
 };
 
@@ -26,11 +27,16 @@ const createGarage = async (garage) => {
 }
 
 const getGarages = async () => {
+    if (state.hasGarages) return state.garages;
     const response = await axios.get("/garage/garages");
     const garages = responseToArray(response.data);
     dispatch({
         type: SET_GARAGES,
         payload: garages,
+    });
+    dispatch({
+        type: SET_HAS_GARAGES,
+        payload: true,
     });
     return garages;
 }

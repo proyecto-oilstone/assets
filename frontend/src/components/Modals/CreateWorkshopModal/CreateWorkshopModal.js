@@ -53,7 +53,7 @@ const CreateWorkshopModal = (props) => {
   const header = () => (<>
     <div></div>
     <div className="d-flex align-items-center flex-column">
-      <div><img className="icon-xl" src="/icons/alquiler.svg"/></div>
+      <div><img className="icon-xl" src="/icons/workshop.svg"/></div>
       <div className="h4">{edit ? `Editar Taller: ${provider?.nombreCorto}` : `Crear Taller`}</div>
     </div>
   </>);

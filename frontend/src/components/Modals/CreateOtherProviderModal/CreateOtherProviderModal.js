@@ -53,7 +53,7 @@ const CreateOtherProviderModal = (props) => {
   const header = () => (<>
     <div></div>
     <div className="d-flex align-items-center flex-column">
-      <div><img className="icon-xl" src="/icons/alquiler.svg"/></div>
+      <div><img className="icon-xl" src="/icons/provider.svg"/></div>
       <div className="h4">{edit ? `Editar Proveedor: ${provider?.nombreCorto}` : `Crear Proveedor`}</div>
     </div>
   </>);

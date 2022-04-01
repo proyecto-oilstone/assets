@@ -30,3 +30,4 @@ export const ADD_GARAGE = "ADD_GARAGE";
 export const SET_GARAGES = "SET_GARAGES";
 export const SELECT_GARAGE = "SELECT_GARAGE";
 export const DELETE_GARAGE = "DELETE_GARAGE";
+export const SET_HAS_GARAGES = "SET_HAS_GARAGES";

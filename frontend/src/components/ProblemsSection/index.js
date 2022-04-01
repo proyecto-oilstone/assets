@@ -90,7 +90,7 @@ const ProblemsSection = () => {
     const date = new Date(problem.createdAt);
     problem.date = dateToDDMMYYYYHHMM(date);
     problem.filterDate = date;
-    problem.problem = problem.ProblemType.problem;
+    problem.problem = problem?.ProblemType?.problem;
     if (problem.resolving) {
       const repairRequestEvent = getRepairRequestByReportProblemId(problem.id);
       problem.estimatedDate = repairRequestEvent?.estimatedDate;
