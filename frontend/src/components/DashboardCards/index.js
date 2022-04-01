@@ -54,9 +54,9 @@ const DashboardCards = () => {
         <div className="fw-bold h3">{dashboardData ? dashboardData.total.REPAIR : 0}</div>
       </Card>
 
-      <Card status="AVAILABLE">
-        <div className="h6">Vehiculos en backup</div>
-        <div className="fw-bold h3">{dashboardData ? dashboardData.total.AVAILABLE : 0}</div>
+      <Card status="INFORMED">
+        <div className="h6">Vehiculos informados</div>
+        <div className="fw-bold h3">{dashboardData ? dashboardData.total.INFORMED : 0}</div>
       </Card>
 
       <Card status="IN_USE">
