@@ -1,18 +1,20 @@
 const { DriverEvent } = require("../../../../db/index");
 const getCarDetail = require("../cars_services/getCarDetail");
 const { updateCarStatus } = require("../cars_services/updateStatus");
+const { checkDocumentation } = require("./checkDocumentation");
 const { postEvent, getEventsByCarIdAndEventType } = require("./event");
 
 const postDriverEvent = async (event) => {
   const car = await getCarDetail(event.carId);
+  checkDocumentation(car);
   let availableStatuses;
   let newCarStatus;
   if (event.driver !== null) {// wants to assign driver
     if (event.isReserved) {// wants to reserve one driver
-      availableStatuses = ["AVAILABLE", "IN_USE"];
+      availableStatuses = ["AVAILABLE", "IN_USE", "OUT_OF_SERVICE"];
       newCarStatus = "RESERVED";
     } else { // wants to assign one driver
-      availableStatuses = ["RESERVED", "AVAILABLE", "REPAIR", "IN_USE"];
+      availableStatuses = ["RESERVED", "AVAILABLE", "REPAIR", "IN_USE", "OUT_OF_SERVICE"];
       newCarStatus = "IN_USE";
     }
   } else {

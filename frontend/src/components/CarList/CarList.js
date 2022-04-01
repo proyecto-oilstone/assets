@@ -3,7 +3,7 @@ import CarContext from "../../contexts/cars/CarContext";
 import CreateVehiculoModal from "../Modals/CreateVehiculoModal/CreateVehiculoModal";
 import ProviderContext from "../../contexts/providers/ProviderContext";
 import CarTypeContext from "../../contexts/carTypes/CarTypeContext";
-import { getCarStatus, setLabelAndValue } from '../../helpers/utils';
+import { getCarStatus, getFormattedPatente, isPatenteValid, setLabelAndValue } from '../../helpers/utils';
 import CustomReactTable from '../Table/CustomReactTable';
 import PostFileModal from '../Modals/PostFileModal/PostFileModal';
 import ButtonPrimary from '../Buttons/Primary/ButtonPrimary';
@@ -14,7 +14,7 @@ import FilterBoolean from '../Table/CustomReactTable/FilterBoolean';
 import useExportButton from '../../hooks/useExportButton';
 
 const CarList = ({ onCreate }) => {
-  const { cars, getCars, deleteCar, postFile } = useContext(CarContext);
+  const { cars, getCars, deleteCar, postFile, deselectCar } = useContext(CarContext);
   const { providers, getProviders } = useContext(ProviderContext);
   const { carTypes } = useContext(CarTypeContext); 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -26,7 +26,11 @@ const CarList = ({ onCreate }) => {
   const [tableCars, setTableCars] = useState([]);
 
   useEffect(() => {
-    const tableCars = cars.map(car => ({ ...car, sector: car.Sector !== null && car.Sector !== undefined ? car.Sector.nombreCorto : "No asignado" }));
+    const tableCars = cars.map(car => (
+      { ...car,
+        sector: car.Sector !== null && car.Sector !== undefined ? car.Sector.nombreCorto : "No asignado",
+        patente: isPatenteValid(car.patente) ? getFormattedPatente(car.patente) : car.patente, 
+     }));
     setTableCars(tableCars);
   }, [cars]);
   
@@ -86,6 +90,8 @@ const CarList = ({ onCreate }) => {
         statusFilter.key = "status";
         setDefaultFilters([statusFilter]);
       }
+    } else {
+      setDefaultFilters([]);
     }
   }, [query]);
 
@@ -174,6 +180,7 @@ const CarList = ({ onCreate }) => {
   }
 
   useEffect(() => {
+    deselectCar();
     getCars();
     getProviders();
   }, []);

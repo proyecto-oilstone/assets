@@ -37,8 +37,8 @@ const Event = (props) => {
   };
 
   const setWorkshopTitle = () => {
-    setTitle(`Almacenado en el taller`);
-    setDescription("Se almaceno el el taller el vehiculo con patente ")
+    setTitle(`Almacenado en el Garage`);
+    setDescription(`Se almaceno en el garage: ${car?.garageName} el vehiculo con patente `)
   };
 
   const setRepairRequestTitle = () => {
@@ -68,6 +68,16 @@ const Event = (props) => {
     setDescription(`Vencimiento de el seguro del vehiculo con patente `)
   };
 
+  const setNewCarTitle = () => {
+    setTitle("Creacion del vehiculo");
+    setDescription(`Se creo el vehiculo con patente `)
+  };
+
+  const setDischargedCarTitle = () => {
+    setTitle("Vehiculo dado de baja");
+    setDescription(`Se dio de baja al vehiculo con patente `)
+  };
+
   useEffect(() => {
     switch (event.type) {
     case "DRIVER": setDriverTitle(); break;
@@ -78,6 +88,8 @@ const Event = (props) => {
     case "EXPIRATION_FILE": setExpirationTitle(); break;
     case "VTV" : setExpirationVTV(); break;
     case "SEGURO" : setExpirationSeguro(); break;
+    case "NEW_CAR": setNewCarTitle(); break;
+    case "DISCHARGED_CAR": setDischargedCarTitle(); break;
     default: setTitle("Desconocido");
     }
   }, [event, car]);

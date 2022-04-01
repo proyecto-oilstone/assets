@@ -7,6 +7,8 @@ module.exports = {
     "VTV": 5,
     "SEGURO": 6,
     "REPAIRED": 7,
+    "NEW_CAR": 8,
+    "DISCHARGED_CAR": 9,
   },
   carStates: {
     "OUT_OF_SERVICE": 1,

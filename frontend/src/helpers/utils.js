@@ -161,6 +161,8 @@ export function getShortDescriptionEvent(event) {
     case "VTV": return "Carga VTV";
     case "SEGURO": return "Carga Seguro";
     case "REPAIRED": return "Problema finalizado";
+    case "NEW_CAR": return "Nuevo vehiculo";
+    case "DISCHARGED_CAR": return "Baja de vehiculo";
     default: return "Desconocido";
   }
 }
@@ -169,7 +171,7 @@ export function getDescriptionEvent(event) {
   switch (event.type) {
     case "DRIVER": {
       if (event.isReserved && event.driver)
-        return "Se reservo al conductor " + event.driver;
+        return "Se reservo al conductor " + event.driver + ", en el garage " + event?.Garage?.nombreCorto;
       if (event.isReserved && event.driver === null)
         return "Se quito la reseva del conductor";
       if (event.driver === null)
@@ -192,6 +194,68 @@ export function getDescriptionEvent(event) {
     case "VTV": return "Se cargo VTV";
     case "SEGURO": return "Se cargo Seguro";
     case "REPAIRED": return "Se completo la reparacion al problema " + event?.ReportProblemEvent?.ProblemType?.problem + ", con el tipo de resolucion " + event?.ResolutionType?.resolution;
+    case "NEW_CAR": return "Vehiculo creado";
+    case "DISCHARGED_CAR": return "Vehiculo dado de baja";
     default: return "Desconocido";
   }
+}
+
+export function onlyLetters(str) {
+  return /^[a-zA-Z]+$/.test(str);
+}
+
+export function onlyNumbers(str) {
+  return str.match(/^[0-9]+$/) != null;
+}
+
+/**
+ * Format one patente of one car, Example:
+ * input="abc123" output="ABC 123"
+ * input="AB123CD" output="AB 123 CD"
+ * @param {String} patente 
+ * @returns {String}
+ */
+export function getFormattedPatente(patente) {
+  let type;
+  if (patente.length === 6)
+    type = "old";
+  else if (patente.length === 7)
+    type = "new";
+  else throw new Error("Invalid lenght of patente");
+
+  if (type === "old") {// ABC-123
+    const firstThreeCharacters = patente.substring(0,3);
+    const lastThreeCharacters = patente.substring(3,6);
+    const isValid = onlyLetters(firstThreeCharacters) && onlyNumbers(lastThreeCharacters);
+    if (isValid) {
+      return firstThreeCharacters.toUpperCase() + " " + lastThreeCharacters.toUpperCase();
+    } else {
+      throw new Error("Invalid old format");
+    }
+  }
+
+  if (type === "new") {// AB-123-CD
+    const firstTwoCharacters = patente.substring(0,2);
+    const middleCharacters = patente.substring(2,5);
+    const lastTwoCharacters = patente.substring(5,7);
+    const isValid = onlyLetters(firstTwoCharacters) && onlyNumbers(middleCharacters) && onlyLetters(lastTwoCharacters);
+    if (isValid) {
+      return firstTwoCharacters.toUpperCase() + " " + middleCharacters + " " + lastTwoCharacters.toUpperCase();
+    } else {
+      throw new Error("Invalid new format");
+    }
+  }
+}
+
+export function isPatenteValid(patente) {
+  try {
+    getFormattedPatente(patente);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+export function removeSpaces(str) {
+  return str.replace(/\s/g,'');
 }

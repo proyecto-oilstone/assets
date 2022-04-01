@@ -1,4 +1,5 @@
-const { Cars, Files } = require("../../../../db/index");
+const { Cars, DischargedCarEvent, } = require("../../../../db/index");
+const eventService = require("../event_services/event");
 const { updateCarStatus } = require("./updateStatus");
 
 /**
@@ -17,6 +18,7 @@ const deleteCar = async (req, res) => {
       return res.status(500).send("El vehiculo no existe");
     }
     await updateCarStatus(car.id, "DISCHARGED");
+    await eventService.postEvent({ carId: car.id }, DischargedCarEvent);
     return res.status(200).json({ message: "Car deleted" });
   } catch (err) {
     res.status(500).send(err.message);

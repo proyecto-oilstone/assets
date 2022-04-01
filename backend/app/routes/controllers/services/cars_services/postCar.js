@@ -1,6 +1,7 @@
-const { Cars } = require("../../../../db/index");
+const { Cars, NewCarEvent } = require("../../../../db/index");
 const { carStates } = require("../../../../utils/constants");
 const { statusCarToString } = require("../../../../utils/functions");
+const eventService = require("../event_services/event");
 
 /**
  * Creates a new car
@@ -10,7 +11,7 @@ const { statusCarToString } = require("../../../../utils/functions");
  */
 
 const postCars = async (req, res) => {
-  const { patente, ProviderId, CarTypeId, año } = req.body;
+  const { patente, ProviderId, CarTypeId, año, kilometres, } = req.body;
 
   try {
     const car = await Cars.create({
@@ -28,6 +29,7 @@ const postCars = async (req, res) => {
     } catch (error) {
       throw new Error("problemas seteando el cartypeid");
     }
+    await eventService.postEvent({ carId: car.id, kilometres }, NewCarEvent);
     car.status = statusCarToString(car.status);
     res.status(200).json({
       message: "Car created",

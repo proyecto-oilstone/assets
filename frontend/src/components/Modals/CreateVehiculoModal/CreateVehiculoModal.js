@@ -7,6 +7,8 @@ import CarTypeContext from "../../../contexts/carTypes/CarTypeContext";
 import CarContext from "../../../contexts/cars/CarContext";
 import ButtonPrimary from "../../Buttons/Primary/ButtonPrimary";
 import SelectProviders from "../../Selects/Providers";
+import KilometresInput from "../../Inputs/KilometresInput";
+import PatenteInput from "../../Inputs/PatenteInput";
 
 const CreateVehiculoModal = (props) => {
   const { show, toggle, edit = false, vehicle = null } = props;
@@ -16,6 +18,8 @@ const CreateVehiculoModal = (props) => {
   const [año, setAño] = useState("");
   const [selectedProvider, setSelectedProvider] = useState(null);
   const [selectedCarType, setSelectedCarType] = useState(null);
+  const [kilometres, setKilometres] = useState("");
+  const [isValidPatente, setIsValidPatente] = useState(false);
 
   useEffect(() => {
     if (vehicle) {
@@ -29,6 +33,7 @@ const CreateVehiculoModal = (props) => {
   const resetFields = () => {
     setPatente("");
     setAño("");
+    setKilometres("");
     setSelectedProvider(null);
     setSelectedCarType(null);
   }
@@ -38,6 +43,7 @@ const CreateVehiculoModal = (props) => {
     const params = {
       patente,
       año,
+      kilometres,
       ProviderId: selectedProvider.id,
       CarTypeId: selectedCarType.id,
     };
@@ -62,6 +68,10 @@ const CreateVehiculoModal = (props) => {
     </div>
   </>);
 
+  const checkDisabled = () => {
+    return !isValidPatente || selectedCarType === null || selectedProvider === null || kilometres === "" || año === "";
+  }
+
   return (
     <CustomModal centered size="lg" show={show} toggle={toggle} HeaderComponent={header} headerClassName="d-flex justify-content-between px-3 py-4">
       <Form>
@@ -73,12 +83,7 @@ const CreateVehiculoModal = (props) => {
                 Patente
               </Form.Label>
               <Col sm="12">
-                <Form.Control
-                  value={patente}
-                  onChange={(e) => setPatente(e.target.value)}
-                  type="text"
-                  placeholder="Ingresar patente"
-                />
+                <PatenteInput value={patente} onChange={(patente) => setPatente(patente)} setIsValid={setIsValidPatente}/>
               </Col>
             </Row>
           </Col>
@@ -100,6 +105,9 @@ const CreateVehiculoModal = (props) => {
             </Row>
           </Col>
 
+          <Col sm="6" className="mt-2">
+            <KilometresInput kilometres={kilometres} setKilometres={setKilometres} />
+          </Col>
         </Form.Group>
 
         <h6 className="mt-4">Proveedor</h6>
@@ -127,7 +135,7 @@ const CreateVehiculoModal = (props) => {
         </Form.Group>
 
         <div className="d-flex flex-row-reverse">
-          <ButtonPrimary className={`mt-2 button-modal-end`} onClick={handleOnClick}>{edit ? "Guardar" : "Crear"}</ButtonPrimary>
+          <ButtonPrimary disabled={checkDisabled()} className={`mt-2 button-modal-end`} onClick={handleOnClick}>{edit ? "Guardar" : "Crear"}</ButtonPrimary>
         </div>
       </Form>
     </CustomModal>

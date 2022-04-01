@@ -19,8 +19,9 @@ const GarageList = ({ onCreate }) => {
   };
 
   useEffect(() => {
-    getGarages();
-  }, []);
+    if (garages.length === 0)
+      getGarages();
+  }, [garages])
 
   const [columns, setColumns] = useState([{
     label: 'Nombre Corto',

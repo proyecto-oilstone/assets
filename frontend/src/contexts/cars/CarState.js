@@ -86,6 +86,13 @@ const CarState = (props) => {
     });
   }
 
+  const deselectCar = () => {
+    dispatch({
+      type: SELECT_CAR,
+      payload: null,
+    });
+  }
+
   /**
    * From all events of drivers of one car, return the last event of driver
    * @param {Array} of {DriverEvent} driverEvents 
@@ -195,7 +202,8 @@ const CarState = (props) => {
         getLastEventByTypeEvent,
         finishCarRepair,
         getFilesById,
-        deleteDocument
+        deleteDocument,
+        deselectCar,
       }}
     >
       {children}

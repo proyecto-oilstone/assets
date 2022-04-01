@@ -16,6 +16,7 @@ import BadgeCarStatus from "../../components/Badges/CarStatus";
 import ProblemsSection from "../../components/ProblemsSection";
 import FilesList from "../../components/FilesList/FilesList";
 import EventsList from "../../components/Events/EventsList";
+import ReserveDriver from "../../components/Events/ReserveDriver";
 
 const VehiculoDetails = () => {
   const { selectedCar, getCarById } = useContext(CarContext);
@@ -30,6 +31,9 @@ const VehiculoDetails = () => {
   const [activeTab, setActiveTab] = useState('basic-data');
   const [activeCalendarTab, setActiveCalendarTab] = useState('events');
   const [statusComponent, setStatusComponent] = useState("");
+  const hasMandatoryDocumentation = selectedCar?.VTV !== null && selectedCar?.seguro !== null
+  const [activeAction, setActiveAction] = useState("");
+  const deactiveActiveSection = () => setActiveAction("");
 
   useEffect(() => {
     const carId = parseInt(id);
@@ -49,27 +53,40 @@ const VehiculoDetails = () => {
     const action = {
       "OUT_OF_SERVICE": () => {
         setStatusComponent(<>
-          <div>El vehiculo se encuentra fuera de servicio, se requiere que se cargue la documentacion obligatoria</div>
-          <div>Se requiere:</div>
-          <ul>
-            {selectedCar.VTV === null && <li>VTV <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadVTV}>Añadir VTV</span></li>}
-            {selectedCar.seguro === null && <li>Seguro <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadSeguro}>Añadir seguro</span></li>}
-          </ul>
+          {hasMandatoryDocumentation
+          ? <div>
+              <div>El vehiculo se encuentra fuera de servicio, se pueden realizar las siguientes acciones</div>
+                <div className="d-flex justify-content-between mt-3">
+                    <StoreWorkshop isActive={activeAction === "store" || activeAction === ""} onActive={() => setActiveAction("store")} onDeactive={deactiveActiveSection}/>
+                    <AssignDriver  isActive={activeAction === "assign-driver" || activeAction === ""} onActive={() => setActiveAction("assign-driver")} onDeactive={deactiveActiveSection}/>
+                    <ReserveDriver isActive={activeAction === "reserve-driver" || activeAction === ""} onActive={() => setActiveAction("reserve-driver")} onDeactive={deactiveActiveSection}/>
+                </div>
+            </div>
+          : <>
+            <div>El vehiculo se encuentra fuera de servicio, se requiere que se cargue la documentacion obligatoria</div>
+            <div>Se requiere:</div>
+            <ul>
+              {selectedCar.VTV === null && <li>VTV <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadVTV}>Añadir VTV</span></li>}
+              {selectedCar.seguro === null && <li>Seguro <span role="button" className="btn-link cursor-pointer" onClick={toggleShowModalUploadSeguro}>Añadir seguro</span></li>}
+            </ul>
+          </>
+          }
         </>);
       },
       "IN_USE": () => {
-        setStatusComponent(
-          <div>El vehiculo esta siendo utilizado por <span className="fw-bold">{selectedCar.currentDriver}</span>
-            <StoreWorkshop buttonClassName="mx-2"/>
-          </div>
-        );
+        setStatusComponent(<>
+          <div>El vehiculo esta siendo utilizado por <span className="fw-bold">{selectedCar.currentDriver}</span></div>
+          <StoreWorkshop buttonClassName="mx-2" isActive={activeAction === "store" || activeAction === ""} onActive={() => setActiveAction("store")} onDeactive={deactiveActiveSection}/>
+        </>);
       },
       "RESERVED": () => {
-        setStatusComponent(
-          <div>El vehiculo esta reservado por <span className="fw-bold">{selectedCar.currentDriver}</span>
-            <StoreWorkshop buttonClassName="mx-2"/>
+        setStatusComponent(<>
+          <div>El vehiculo esta reservado por <span className="fw-bold">{selectedCar.currentDriver}</span> en el garage <span className="fw-bold">{selectedCar?.garageName}</span></div>
+          <div className="d-flex justify-content-between mt-3">
+            <StoreWorkshop isActive={activeAction === "store" || activeAction === ""} onActive={() => setActiveAction("store")} onDeactive={deactiveActiveSection}/>
+            <AssignDriver isActive={activeAction === "assign-driver" || activeAction === ""} onActive={() => setActiveAction("assign-driver")} onDeactive={deactiveActiveSection}/>
           </div>
-        );
+        </>);
       },
       "INFORMED": () => {
         setStatusComponent(
@@ -87,8 +104,13 @@ const VehiculoDetails = () => {
         setStatusComponent(<div>
           <div>El vehiculo se encuentra en backup.</div>
           {selectedCar.stored ? <div>El vehiculo se encuentra en: <Link to ={`/garages/${selectedCar.WorkshopId}`}>{selectedCar.garageName}</Link></div> : <>
-          <StoreWorkshop buttonClassName="mx-2"/> </>}
-          <div>Se puede asignar o reservar un conductor <span> <AssignDriver /></span></div>
+          </>}
+          <div>Se puede asignar o reservar un conductor</div>
+
+          <div className="d-flex justify-content-between mt-3">
+            <AssignDriver isActive={activeAction === "assign-driver" || activeAction === ""} onActive={() => setActiveAction("assign-driver")} onDeactive={deactiveActiveSection}/>
+            <ReserveDriver isActive={activeAction === "reserve-driver" || activeAction === ""} onActive={() => setActiveAction("reserve-driver")} onDeactive={deactiveActiveSection}/>
+          </div>
           
         </div>);
       },
@@ -112,7 +134,7 @@ const VehiculoDetails = () => {
     if (selectedCar) {
       action[selectedCar.status]();
     }
-  }, [selectedCar]);
+  }, [selectedCar, activeAction]);
   
 
   const onUnAssignDriver = async () => {
@@ -170,9 +192,6 @@ const VehiculoDetails = () => {
               <Tab eventKey="assigned" title="Asignacion">
                 <div><span className="fw-bold">Asignacion actual: </span><span>{selectedCar?.currentDriver ? <>El vehiculo esta {selectedCar.status === "RESERVED" ? "reservado" : "asignado"} a {selectedCar.currentDriver}</> : "No hay ningun conductor asignado"}</span></div>
                 <div><span className="fw-bold">Sector: </span><span>{selectedCar?.Sector ? selectedCar?.Sector : "El vehiculo no esta asignado a un sector" }</span></div>
-                <div className="mt-3">
-                  <AssignDriver />
-                </div>
               </Tab>
             </Tabs>
           </Col>
