@@ -297,7 +297,7 @@ const CustomReactTable = (props) => {
                       {column.render('Header')}
                       <span>
                         {column.isSorted &&
-                          <img src="./icons/caret-right-solid.svg" className={`icon-sm ${styles.iconSort} ${column.isSortedDesc ? styles.desc : styles.asc}`} />
+                          <img src="/icons/caret-right-solid.svg" className={`icon-sm ${styles.iconSort} ${column.isSortedDesc ? styles.desc : styles.asc}`} />
                         }
                       </span>
                     </th>

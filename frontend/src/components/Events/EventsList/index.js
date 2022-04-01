@@ -21,6 +21,12 @@ const EventsList = ({ events }) => {
     export: true,
     showInTable: true,
   },
+  {
+    label: 'Kilometros',
+    key: 'kilometres',
+    export: true,
+    showInTable: true,
+  },
   ]);
 
   useEffect(() => {

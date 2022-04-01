@@ -8,6 +8,7 @@ import CarContext from "../../../contexts/cars/CarContext";
 import ButtonPrimary from "../../Buttons/Primary/ButtonPrimary";
 import SelectProviders from "../../Selects/Providers";
 import KilometresInput from "../../Inputs/KilometresInput";
+import PatenteInput from "../../Inputs/PatenteInput";
 
 const CreateVehiculoModal = (props) => {
   const { show, toggle, edit = false, vehicle = null } = props;
@@ -18,6 +19,7 @@ const CreateVehiculoModal = (props) => {
   const [selectedProvider, setSelectedProvider] = useState(null);
   const [selectedCarType, setSelectedCarType] = useState(null);
   const [kilometres, setKilometres] = useState("");
+  const [isValidPatente, setIsValidPatente] = useState(false);
 
   useEffect(() => {
     if (vehicle) {
@@ -66,6 +68,10 @@ const CreateVehiculoModal = (props) => {
     </div>
   </>);
 
+  const checkDisabled = () => {
+    return !isValidPatente || selectedCarType === null || selectedProvider === null || kilometres === "" || año === "";
+  }
+
   return (
     <CustomModal centered size="lg" show={show} toggle={toggle} HeaderComponent={header} headerClassName="d-flex justify-content-between px-3 py-4">
       <Form>
@@ -77,12 +83,7 @@ const CreateVehiculoModal = (props) => {
                 Patente
               </Form.Label>
               <Col sm="12">
-                <Form.Control
-                  value={patente}
-                  onChange={(e) => setPatente(e.target.value)}
-                  type="text"
-                  placeholder="Ingresar patente"
-                />
+                <PatenteInput value={patente} onChange={(patente) => setPatente(patente)} setIsValid={setIsValidPatente}/>
               </Col>
             </Row>
           </Col>
@@ -134,7 +135,7 @@ const CreateVehiculoModal = (props) => {
         </Form.Group>
 
         <div className="d-flex flex-row-reverse">
-          <ButtonPrimary className={`mt-2 button-modal-end`} onClick={handleOnClick}>{edit ? "Guardar" : "Crear"}</ButtonPrimary>
+          <ButtonPrimary disabled={checkDisabled()} className={`mt-2 button-modal-end`} onClick={handleOnClick}>{edit ? "Guardar" : "Crear"}</ButtonPrimary>
         </div>
       </Form>
     </CustomModal>

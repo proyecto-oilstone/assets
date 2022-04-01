@@ -18,6 +18,7 @@ const formatEventWithTypeEvent = event => {
       eventWithType.carId = event.carId;
       eventWithType.createdAt = event.createdAt;
       eventWithType.updatedAt = event.updatedAt;
+      eventWithType.kilometres = event.kilometres;
       eventWithType.car = event.Car;
     }
   });
@@ -108,7 +109,7 @@ module.exports = {
       where: {
         id,
       },
-      attributes: ["id", "type", "createdAt", "updatedAt", "carId"],
+      attributes: ["id", "type", "kilometres", "createdAt", "updatedAt", "carId"],
       include: Event.childrenModels
     };
     
@@ -127,7 +128,7 @@ module.exports = {
       where: {
         carId,
       },
-      attributes: ["id", "type", "createdAt", "updatedAt", "carId"],
+      attributes: ["id", "type", "kilometres", "createdAt", "updatedAt", "carId"],
       include: [
         ...getChildrenEventModelsWithoutBlobFields(Event),
         Cars,
@@ -203,7 +204,7 @@ module.exports = {
         carId,
         type: eventTypes[type],
       },
-      attributes: ["id", "createdAt", "updatedAt", "carId"],
+      attributes: ["id", "kilometres", "createdAt", "updatedAt", "carId"],
       include: [
         {
           model: eventModel,
@@ -236,7 +237,7 @@ module.exports = {
 
   getAllEvents: async () => {
     let query = {
-      attributes: ["id", "type", "createdAt", "updatedAt", "carId"],
+      attributes: ["id", "type", "kilometres", "createdAt", "updatedAt", "carId"],
       include: [
         ...getChildrenEventModelsWithoutBlobFields(Event),
         Cars,
