@@ -1,7 +1,8 @@
 version: "3"
 services:
   oilstone-backend:
-    restart: always
+
+    restart: always   
     build: 
       context: ./backend
       dockerfile: Dockerfile.${NODE_ENV}
