@@ -259,3 +259,12 @@ export function isPatenteValid(patente) {
 export function removeSpaces(str) {
   return str.replace(/\s/g,'');
 }
+
+export function numberWithDots(x) {
+  if (x === undefined) return "";
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+export function numberWithoutDots(x) {
+  return x.replace(/\./g, '');
+}
