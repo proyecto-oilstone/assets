@@ -1,4 +1,4 @@
-import { ADD_CAR, DELETE_CAR, SET_CARS, SELECT_CAR, SET_FILES, DELETE_FILE } from "../types";
+import { ADD_CAR, DELETE_CAR, UNDO_DELETE_CAR, SET_CARS, SELECT_CAR, SET_FILES, DELETE_FILE } from "../types";
 
 const CarReducer = (state, action) => {
   const { payload, type } = action;
@@ -19,6 +19,11 @@ const CarReducer = (state, action) => {
       ...state,
       cars: state.cars.map((car) => car.id === payload ? { ...car, status: "DISCHARGED" } : car),
     };
+  case UNDO_DELETE_CAR:
+    return {
+      ...state,
+      cars: state.cars.map((car) => car.id === payload ? { ...car, status: "OUT_OF_SERVICE" } : car),
+    }
   case SELECT_CAR:
     return {
       ...state,

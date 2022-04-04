@@ -6,6 +6,7 @@ export const ADD_CAR = "ADD_CAR";
 export const SET_CARS = "SET_CARS";
 export const SELECT_CAR = "SELECT_CAR";
 export const DELETE_CAR = "DELETE_CAR";
+export const UNDO_DELETE_CAR = "UNDO_DELETE_CAR";
 export const ADD_CAR_TYPE = "ADD_CAR_TYPE";
 export const SET_CAR_TYPE = "SET_CAR_TYPE";
 export const DELETE_CAR_TYPE = "DELETE_CAR_TYPE";
