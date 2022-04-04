@@ -83,7 +83,7 @@ const CreateVehiculoModal = (props) => {
                 Patente
               </Form.Label>
               <Col sm="12">
-                <PatenteInput value={patente} onChange={(patente) => setPatente(patente)} setIsValid={setIsValidPatente}/>
+              <PatenteInput value={patente} edit={edit} vehicle={vehicle} onChange={(patente) => setPatente(patente)} setIsValid={setIsValidPatente}/>
               </Col>
             </Row>
           </Col>
