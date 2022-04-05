@@ -37,7 +37,7 @@ const ProviderState = (props) => {
   };
 
   const createWorkshop = async (workshop) => {
-    workshop.type = 1;
+    workshop.type = providerTypes["WORKSHOP"];
     let response = await axios.post("/provider/provider", workshop);
     workshop = response.data.provider;
     dispatch({
@@ -58,7 +58,7 @@ const ProviderState = (props) => {
   };
 
   const createOtherProvider = async (provider) => {
-    provider.type = 3;
+    provider.type = providerTypes[provider.type];
     let response = await axios.post("/provider/provider", provider);
     provider = response.data.provider;
     dispatch({
@@ -69,7 +69,7 @@ const ProviderState = (props) => {
   };
 
   const getOtherProviders = async () => {
-    const response = await axios.get("/provider/providers?type=3");
+    const response = await axios.get("/provider/providers?type=" + providerTypes["CAR_WASH"]);
     const providers = responseToArray(response.data);
     dispatch({
       type: SET_PROVIDERS,
@@ -79,7 +79,7 @@ const ProviderState = (props) => {
   };
 
   const editProvider = async (provider) => {
-    provider.type = providerTypes[provider.type.value];
+    provider.type = providerTypes[provider.type];
     const response = await axios.put(`/provider/provider/${provider.id}`, provider);
     const editedProvider = response.data;
     let newProviders = JSON.parse(JSON.stringify(state.providers));

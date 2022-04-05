@@ -77,7 +77,7 @@ const CustomReactTable = (props) => {
   const DeleteButton = ({ data }) => (<img role="button" className={`icon-sm cursor-pointer ${withDeleteCriteria(data) ? "" : "invisible"}`} src="/icons/trash-alt-solid.svg" alt="eliminar" onClick={() => handleOnDelete(data)} />)
   const EditButton = ({ data }) => (<img role="button" className="icon-sm cursor-pointer" src="/icons/edit-solid.svg" alt="editar" onClick={() => onEdit(data)} />)
   const CustomLink = ({ to, children }) => (<Link to={to}>{children}</Link>)
-  const FilesButton = ({ data }) => (<img role="button" className={`${"Files" in data && data.Files !== null ? "invisible" : ""} icon-sm cursor-pointer`} src="/icons/pdf-text-file-svgrepo-com.svg" alt="archivos" onClick={() => onFile(data)} />)
+  const FilesButton = ({ data }) => (<img role="button" className={`icon-sm cursor-pointer`} src="/icons/pdf-text-file-svgrepo-com.svg" alt="archivos" onClick={() => onFile(data)} />)
   const ExtraActionsButtons = ({ data }) => extraActions.map(extraAction => extraAction(data));
 
   const applyFilters = (row) => {

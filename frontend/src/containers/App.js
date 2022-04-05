@@ -125,8 +125,8 @@ function App() {
           <Route path="/reportes" element={<Reportes />} />
         </Route>
 
-        <Route path="/otrosProveedores" element={<PrivateRoute/>}>
-          <Route path="/otrosProveedores" element={<OtherProvider />} />
+        <Route path="/otros-proveedores" element={<PrivateRoute/>}>
+          <Route path="/otros-proveedores" element={<OtherProvider />} />
         </Route>
 
         <Route path="/garages" element={<PrivateRoute/>}>

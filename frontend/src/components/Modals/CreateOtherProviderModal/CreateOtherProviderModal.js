@@ -15,10 +15,10 @@ const CreateOtherProviderModal = (props) => {
 
   const providerTypes = [
     {
-        label: "Lavadero",
-        value: "CAR_WASH"
-      },
-];
+      label: "Lavadero",
+      value: "CAR_WASH"
+    },
+  ];
 
   const resetFields = () => {
     setNombreCorto("");
@@ -28,7 +28,7 @@ const CreateOtherProviderModal = (props) => {
   }
 
   const handleOnClick = () => {
-    const params = { nombreCorto, nombreLargo, observaciones, };
+    const params = { nombreCorto, nombreLargo, observaciones, type: selectedType.value };
     if (edit) {
       params.id = provider.id;
       editProvider(params);

@@ -3,8 +3,8 @@ import ProviderContext from "../../contexts/providers/ProviderContext";
 import CustomReactTable from '../Table/CustomReactTable';
 import ButtonPrimary from '../Buttons/Primary/ButtonPrimary';
 import { getProviderType } from '../../helpers/utils';
-import CreateWorkshopModal from '../Modals/CreateWorkshopModal/CreateWorkshopModal';
 import useExportButton from '../../hooks/useExportButton';
+import CreateOtherProviderModal from '../Modals/CreateOtherProviderModal/CreateOtherProviderModal';
 
 const OtherProviderList = ({ onCreate }) => {
   const { providers ,getOtherProviders, deleteProvider } = useContext(ProviderContext);
@@ -63,20 +63,20 @@ const OtherProviderList = ({ onCreate }) => {
       </div>
     </div>
     <CustomReactTable
-     defaultSort="nombreCorto"
-     onEdit={showEditProviderModal}
-     onDelete={(provider) => deleteProvider(provider.id)}
-     columns={columns}
-     data={providers}
-     withEdit
+      defaultSort="nombreCorto"
+      onEdit={showEditProviderModal}
+      onDelete={(provider) => deleteProvider(provider.id)}
+      columns={columns}
+      data={providers}
+      withEdit
       withDelete
-     downloadCSV={downloadCSV}
-     CSVFilename="talleres.csv"
-     containerClassName="bg-white p-4 rounded shadow-sm hover-shadow mb-3"
-     deleteModalTitle="Eliminar taller"
-     deleteModalDescription="el taller {{nombreCorto}}"
+      downloadCSV={downloadCSV}
+      CSVFilename="talleres.csv"
+      containerClassName="bg-white p-4 rounded shadow-sm hover-shadow mb-3"
+      deleteModalTitle="Eliminar taller"
+      deleteModalDescription="el taller {{nombreCorto}}"
     />
-    <CreateWorkshopModal show={showEditModal} toggle={toggleEditModal} edit provider={selectedProvider} />
+    <CreateOtherProviderModal show={showEditModal} toggle={toggleEditModal} edit provider={selectedProvider} />
   </>);
 }
 
