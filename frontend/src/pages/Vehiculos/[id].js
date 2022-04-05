@@ -17,6 +17,7 @@ import ProblemsSection from "../../components/ProblemsSection";
 import FilesList from "../../components/FilesList/FilesList";
 import EventsList from "../../components/Events/EventsList";
 import ReserveDriver from "../../components/Events/ReserveDriver";
+import { numberWithDots } from "../../helpers/utils";
 
 const VehiculoDetails = () => {
   const { selectedCar, getCarById } = useContext(CarContext);
@@ -168,7 +169,7 @@ const VehiculoDetails = () => {
                     <div><span className="fw-bold">Año: </span><span>{selectedCar?.año}</span></div>
                     <div><span className="fw-bold">Tipo de vehiculo: </span><span>{selectedCar?.modelo}</span></div>
                     <div><span className="fw-bold">Proveedor: </span><span>{selectedCar?.proveedor}</span></div>
-                    <div><span className="fw-bold">Kilometros: </span><span>{selectedCar?.kilometres}</span></div>
+                    <div><span className="fw-bold">Kilometros: </span><span>{numberWithDots(selectedCar?.kilometres)}</span></div>
                   </div>
 
                   <div className="d-flex p-2"> 

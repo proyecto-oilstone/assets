@@ -105,7 +105,7 @@ const Sidebar = (props) => {
           <MultipleNavItem className="mb-2" title="Proveedores" defaultOpen>
             <NavItem className="ps-3" title="Alquiler" to="/proveedores" withArrow={false} icon="alquiler.svg"/>
             <NavItem className="ps-3" title="Taller" to="/talleres" withArrow={false} icon="workshop.svg"/>
-            <NavItem className="ps-3" title="Otros" to="/otrosProveedores" withArrow={false} icon="provider.svg"/>
+            <NavItem className="ps-3" title="Otros" to="/otros-proveedores" withArrow={false} icon="provider.svg"/>
           </MultipleNavItem>
 
           {/* <MultipleNavItem className="mb-2" title="Sectores" defaultOpen>

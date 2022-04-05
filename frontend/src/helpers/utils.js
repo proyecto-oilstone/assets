@@ -190,7 +190,7 @@ export function getDescriptionEvent(event) {
       return toReturn;
     }
     case "REPAIR_REQUEST": return "Se realizo un pedido de reparacion al problema " + event?.ReportProblemEvent?.ProblemType?.problem;
-    case "WORKSHOP": return "Se almaceno en el garage " + event?.Garage.nombreCorto;
+    case "WORKSHOP": return "Se almaceno en el garage " + event?.Garage?.nombreCorto;
     case "VTV": return "Se cargo VTV";
     case "SEGURO": return "Se cargo Seguro";
     case "REPAIRED": return "Se completo la reparacion al problema " + event?.ReportProblemEvent?.ProblemType?.problem + ", con el tipo de resolucion " + event?.ResolutionType?.resolution;
@@ -258,4 +258,13 @@ export function isPatenteValid(patente) {
 
 export function removeSpaces(str) {
   return str.replace(/\s/g,'');
+}
+
+export function numberWithDots(x) {
+  if (x === undefined) return "";
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+export function numberWithoutDots(x) {
+  return x.replace(/\./g, '');
 }

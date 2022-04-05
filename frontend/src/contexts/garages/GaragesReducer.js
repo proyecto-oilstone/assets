@@ -1,4 +1,4 @@
-import { ADD_GARAGE, SET_GARAGES, DELETE_GARAGE, SELECT_GARAGE } from "../types";
+import { ADD_GARAGE, SET_GARAGES, DELETE_GARAGE, SELECT_GARAGE, SET_HAS_GARAGES } from "../types";
 
 const GaragesReducer = (state, action) => {
   const { payload, type } = action;
@@ -23,6 +23,11 @@ const GaragesReducer = (state, action) => {
     return {
       ...state,
       selectedGarage: payload,
+    };
+  case SET_HAS_GARAGES:
+    return {
+      ...state,
+      hasGarages: payload,
     };
   default:
     return state;

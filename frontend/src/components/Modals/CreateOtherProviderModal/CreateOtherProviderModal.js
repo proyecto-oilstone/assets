@@ -15,10 +15,10 @@ const CreateOtherProviderModal = (props) => {
 
   const providerTypes = [
     {
-        label: "Lavadero",
-        value: "CAR_WASH"
-      },
-];
+      label: "Lavadero",
+      value: "CAR_WASH"
+    },
+  ];
 
   const resetFields = () => {
     setNombreCorto("");
@@ -28,7 +28,7 @@ const CreateOtherProviderModal = (props) => {
   }
 
   const handleOnClick = () => {
-    const params = { nombreCorto, nombreLargo, observaciones, };
+    const params = { nombreCorto, nombreLargo, observaciones, type: selectedType.value };
     if (edit) {
       params.id = provider.id;
       editProvider(params);
@@ -53,7 +53,7 @@ const CreateOtherProviderModal = (props) => {
   const header = () => (<>
     <div></div>
     <div className="d-flex align-items-center flex-column">
-      <div><img className="icon-xl" src="/icons/alquiler.svg"/></div>
+      <div><img className="icon-xl" src="/icons/provider.svg"/></div>
       <div className="h4">{edit ? `Editar Proveedor: ${provider?.nombreCorto}` : `Crear Proveedor`}</div>
     </div>
   </>);

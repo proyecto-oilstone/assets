@@ -6,11 +6,12 @@ const { getLastDriverEventByCarId } = require("../event_services/getLastDriverEv
  * 
  * @param {Car} car
  * @returns {String} with the name of driver
- * @returns {String} empty if car status is not in_use or reserved or not have any driver assigned
+ * @returns {String} empty if car status is not in_use, reserved, informed, repair or not have any driver assigned
  */
 const getCurrentCarDriver = async (car) => {
   const status = typeof car.status === "string" ? car.status : statusCarToString(car.status);
-  if (status === "IN_USE" || status === "RESERVED") {
+  const statuses = ["IN_USE", "RESERVED", "INFORMED", "REPAIR"];
+  if (statuses.includes(status)) {
     const lastDriverEvent = await getLastDriverEventByCarId(car.id);
     return lastDriverEvent.driver;
   } else {

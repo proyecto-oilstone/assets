@@ -12,9 +12,10 @@ import FilterSelect from '../Table/CustomReactTable/FilterSelect';
 import useQuery from '../../hooks/useQuery';
 import FilterBoolean from '../Table/CustomReactTable/FilterBoolean';
 import useExportButton from '../../hooks/useExportButton';
+import ModalWarningDelete from '../Modals/WarningDelete';
 
 const CarList = ({ onCreate }) => {
-  const { cars, getCars, deleteCar, postFile, deselectCar } = useContext(CarContext);
+  const { cars, getCars, deleteCar, postFile, deselectCar, undoDeleteCar } = useContext(CarContext);
   const { providers, getProviders } = useContext(ProviderContext);
   const { carTypes } = useContext(CarTypeContext); 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -30,7 +31,7 @@ const CarList = ({ onCreate }) => {
       { ...car,
         sector: car.Sector !== null && car.Sector !== undefined ? car.Sector.nombreCorto : "No asignado",
         patente: isPatenteValid(car.patente) ? getFormattedPatente(car.patente) : car.patente, 
-     }));
+      }));
     setTableCars(tableCars);
   }, [cars]);
   
@@ -185,7 +186,27 @@ const CarList = ({ onCreate }) => {
     getProviders();
   }, []);
 
+  const [warningDelete, setWarningDelete] = useState(null);
+
+  const handleOnDelete = (data) => {
+    setWarningDelete(data);
+  }
+
   const onlyNotDischarged = (car) => car.status !== "DISCHARGED";
+
+  const RemoveOrRestoreAction = ({ file }) => (
+    <a>
+      {file.status === "DISCHARGED" ?
+        <img role="button" className={`icon-sm cursor-pointer`} src="/icons/trash-arrow-up-solid.svg" alt="restablecer" onClick={() => undoDeleteCar(file.id)} />
+        :
+        <img role="button" className={`icon-sm cursor-pointer`} src="/icons/trash-alt-solid.svg" alt="eliminar" onClick={() => handleOnDelete(file)} />
+      }
+    </a>
+  );
+
+  const extraActions = [
+    (file) => (<RemoveOrRestoreAction file={file}/>)
+  ];
 
   return (<>
     <div className="d-flex justify-content-between mb-3">
@@ -201,22 +222,27 @@ const CarList = ({ onCreate }) => {
       defaultSort="patente"
       onEdit={showEditCarModal}
       onFile={showFileCarModal}
-      onDelete={(car) => deleteCar(car.id)}
       columns={columns}
       data={tableCars}
+      extraActions={extraActions}
       downloadCSV={downloadCSV}
       CSVFilename="vehiculos.csv"
       withFiles
       withEdit
-      withDelete
       withDeleteCriteria={onlyNotDischarged}
       containerClassName="bg-white p-4 rounded shadow-sm hover-shadow mb-3"
-      deleteModalTitle="Eliminar vehiculo"
-      deleteModalDescription="el vehiculo con patente {{patente}}"
       defaultFilters={defaultFilters}
     />
     <CreateVehiculoModal center show={showEditModal} toggle={toggleEditModal} edit vehicle={selectedVehicle} />
     <PostFileModal show = {showFileModal} toggle = {toggleFileModal} car = {selectedVehicle} postFile = {postFile}/>
+    <ModalWarningDelete
+      show={warningDelete !== null}
+      toggle={() => setWarningDelete(null)}
+      title={"Eliminar vehiculo"}
+      description={"el vehiculo con patente {{patente}}"}
+      data={warningDelete}
+      onDelete={() => deleteCar(warningDelete.id)}
+    />
   </>);
 }
 

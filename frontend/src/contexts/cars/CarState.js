@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useReducer } from "react";
-import { ADD_CAR, DELETE_CAR, SET_CARS, SELECT_CAR, SET_FILES, DELETE_FILE } from "../types";
+import { ADD_CAR, DELETE_CAR, SET_CARS, SELECT_CAR, SET_FILES, DELETE_FILE, UNDO_DELETE_CAR } from "../types";
 import CarReducer from "./CarReducer";
 import CarContext from "./CarContext";
 import axios from "../../helpers/axios";
@@ -75,6 +75,14 @@ const CarState = (props) => {
     axios.delete(`/cars/autos/${carId}`);
     dispatch({
       type: DELETE_CAR,
+      payload: carId,
+    });
+  }
+
+  const undoDeleteCar = async (carId) => {
+    axios.delete(`/cars/autos/${carId}/undo`);
+    dispatch({
+      type: UNDO_DELETE_CAR,
       payload: carId,
     });
   }
@@ -196,6 +204,7 @@ const CarState = (props) => {
         getCars,
         editCar,
         deleteCar,
+        undoDeleteCar,
         selectCar,
         getCarById,
         deleteDocumentById,

@@ -4,13 +4,17 @@ import CarContext from '../../../contexts/cars/CarContext';
 import { isPatenteValid, onlyLetters, onlyNumbers, removeSpaces } from '../../../helpers/utils';
 
 const PatenteInput = (props) => {
-  const { value, onChange = () => {}, setIsValid } = props;
+  const { value, onChange = () => {}, setIsValid, edit, vehicle } = props;
   const { cars } = useContext(CarContext);
   const [formattedPatente, setFormattedPatente] = useState("");
   const [duplicatedPatente, setDuplicatedPatente] = useState(false);
 
   const checkDuplicatedPatente = () => {
-    const isDuplicated = cars.some(car => car.patente === value);
+    let isDuplicated;
+    if (edit)
+      isDuplicated = cars.some(car => car.patente === value && car.patente !== removeSpaces(vehicle.patente));
+    else
+      isDuplicated = cars.some(car => car.patente === value);
     setDuplicatedPatente(isDuplicated);
   }
 
