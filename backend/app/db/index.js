@@ -34,7 +34,7 @@ modelDefiners.forEach((model) => model(sequelize));
 
 //Relaciones
 
-const { Cars, CarType, Provider, Files, Users, Sector, Event, DriverEvent, ReportProblemEvent, RepairRequestEvent, RepairedEvent, WorkshopEvent, VTVEvent, SeguroEvent, NewCarEvent, DischargedCarEvent, ProblemType, ResolutionType, Garage, LastRepairedEvent } = sequelize.models;
+const { Cars, CarType, Provider, Files, Users, Sector, Event, DriverEvent, ReportProblemEvent, RepairRequestEvent, RepairedEvent, WorkshopEvent, VTVEvent, SeguroEvent, NewCarEvent, EditCarEvent, DischargedCarEvent, ProblemType, ResolutionType, Garage, LastRepairedEvent } = sequelize.models;
 
 Cars.belongsTo(Sector)
 Sector.hasMany(Cars)
@@ -70,8 +70,9 @@ Event.hasOne(SeguroEvent, { foreignKey: {name: "id", allowNull: false}, targetKe
 Event.hasOne(VTVEvent, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
 Event.hasOne(NewCarEvent, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
 Event.hasOne(DischargedCarEvent, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
+Event.hasOne(EditCarEvent, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
 
-Event.childrenModels = [DriverEvent, ReportProblemEvent, RepairRequestEvent, WorkshopEvent, SeguroEvent, VTVEvent, RepairedEvent, NewCarEvent, DischargedCarEvent];
+Event.childrenModels = [DriverEvent, ReportProblemEvent, RepairRequestEvent, WorkshopEvent, SeguroEvent, VTVEvent, RepairedEvent, NewCarEvent, DischargedCarEvent, EditCarEvent];
 DriverEvent.belongsTo(Event, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
 ReportProblemEvent.belongsTo(Event, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
 RepairedEvent.belongsTo(Event, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
@@ -81,6 +82,7 @@ VTVEvent.belongsTo(Event, { foreignKey: {name: "id", allowNull: false}, targetKe
 SeguroEvent.belongsTo(Event, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
 NewCarEvent.belongsTo(Event, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
 DischargedCarEvent.belongsTo(Event, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
+EditCarEvent.belongsTo(Event, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
 
 ReportProblemEvent.belongsTo(Provider, { foreignKey: "providerId", targetKey: "id" });
 RepairRequestEvent.belongsTo(ReportProblemEvent, { foreignKey: "problemId", targetKey: "id" });

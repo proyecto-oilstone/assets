@@ -2,6 +2,7 @@ const { Cars, Provider, CarType, Files, Sector } = require("../../../../db/index
 const { Op } = require("sequelize");
 const { statusCarToString } = require("../../../../utils/functions");
 const getCurrentCarDriver = require("./getCurrentCarDriver");
+const eventService = require("../event_services/event");
 
 /**
  * Gets all the cars, includes all other Database models linked to Cars ,checks req.query for filters
@@ -60,6 +61,7 @@ const getCars = async (req, res) => {
   let cars = await Cars.findAll(query);
 
   cars = await Promise.all(cars.map(async (car) => {
+    const kilometres = await eventService.getLastKilometresUploaded(car.id);
     car = {
       ...car.dataValues,
       proveedor: car.dataValues.Provider.nombreLargo,
@@ -68,6 +70,7 @@ const getCars = async (req, res) => {
       Files: car.dataValues.Files?.find(file => file.document === "permanent"),
       status: statusCarToString(car.status),
       currentDriver: await getCurrentCarDriver(car),
+      kilometres,
     };
     const { Provider, CarType, ...rest } = car;
     return rest;

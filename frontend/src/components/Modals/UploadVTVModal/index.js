@@ -5,6 +5,7 @@ import EventContext from "../../../contexts/events/EventContext";
 import { setLabelAndValue } from "../../../helpers/utils";
 import ButtonPrimary from "../../Buttons/Primary/ButtonPrimary";
 import ButtonSecondary from "../../Buttons/Secondary";
+import KilometresInput from "../../Inputs/KilometresInput";
 import CustomModal from "../CustomModal/CustomModal";
 
 const UploadVTVModal = (props) => {
@@ -40,19 +41,18 @@ const UploadVTVModal = (props) => {
 
         <div className={`mt-4`}>
           {file !== null &&
-            <Row className="my-2 d-flex align-items-center">
-              <Col sm="6">
+            <Row className="my-2">
+              <Col sm="6" className="mt-2">
                 <Form.Label htmlFor="files">Fecha de vencimiento</Form.Label>
+                <Col className="d-flex align-items-center">
+                  <Col sm="12">
+                    <Form.Control className="me-3" type="date" value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} />
+                  </Col>
+                  <span onClick={() => setExpirationDate("")} className={expirationDate === "" ? "invisible" : ""}><img role="button" src="/icons/times-solid.svg" className="icon-sm cursor-pointer" /></span>
+                </Col>
               </Col>
               <Col sm="6">
-                <Form.Label htmlFor="kilometres">Kilometros</Form.Label>
-              </Col>
-              <Col sm="6" className="d-flex align-items-center">
-                <Form.Control className="me-3" type="date" value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} />
-                <span onClick={() => setExpirationDate("")} className={expirationDate === "" ? "invisible" : ""}><img role="button" src="/icons/times-solid.svg" className="icon-sm cursor-pointer" /></span>
-              </Col>
-              <Col sm="6">
-                <Form.Control type="number" name="kilometres" value={kilometres} onChange={(e) => setKilometres(e.target.value)} placeholder="0" min={0}/>
+                <KilometresInput kilometres={kilometres} setKilometres={setKilometres}/>
               </Col>
             </Row>
           }

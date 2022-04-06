@@ -136,16 +136,6 @@ const VehiculoDetails = () => {
       action[selectedCar.status]();
     }
   }, [selectedCar, activeAction]);
-  
-
-  const onUnAssignDriver = async () => {
-    if (selectedCar.isReserved) {
-      await unAssignReservedDriver(selectedCar.id);
-    } else {
-      await unAssignDriver(selectedCar.id);
-    }
-    getCarById(selectedCar.id);
-  };
 
   const handleOnClick= () => {
     setShowFileModal(true);

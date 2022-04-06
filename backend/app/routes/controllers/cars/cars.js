@@ -18,8 +18,8 @@ module.exports = {
 
   editCarById: async (req, res) => {
     const { id } = req.params;
-    const { patente, ProviderId, CarTypeId, año, SectorId } = req.body;
-    const allowedFields = { patente, ProviderId, CarTypeId, año, SectorId };
+    const { patente, ProviderId, CarTypeId, año, SectorId, kilometres } = req.body;
+    const allowedFields = { patente, ProviderId, CarTypeId, año, SectorId, kilometres };
     const car = await putCar(id, allowedFields);
     res.status(200).json(car);
   },

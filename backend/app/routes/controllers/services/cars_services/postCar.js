@@ -29,8 +29,9 @@ const postCars = async (req, res) => {
     } catch (error) {
       throw new Error("problemas seteando el cartypeid");
     }
-    await eventService.postEvent({ carId: car.id, kilometres }, NewCarEvent);
+    const creationEvent = await eventService.postEvent({ carId: car.id, kilometres }, NewCarEvent);
     car.status = statusCarToString(car.status);
+    car.dataValues.kilometres = creationEvent.kilometres;
     res.status(200).json({
       message: "Car created",
       car,

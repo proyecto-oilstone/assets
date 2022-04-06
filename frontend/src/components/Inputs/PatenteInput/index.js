@@ -16,6 +16,7 @@ const PatenteInput = (props) => {
     else
       isDuplicated = cars.some(car => car.patente === value);
     setDuplicatedPatente(isDuplicated);
+    return isDuplicated;
   }
 
   const guessTypePatente = (patente) => {
@@ -81,21 +82,22 @@ const PatenteInput = (props) => {
     patente = removeSpaces(patente).toUpperCase();
     const isValid = checkPatente(patente);
     if (isValid) {
-      setFormattedPatente(format(patente));
+      onChange(patente);
     }
   }
 
   useEffect(() => {
-    const unFormatted = removeSpaces(formattedPatente); 
-    onChange(unFormatted);
-    const isValidPatente = (unFormatted.length === 6 || unFormatted.length === 7) && isPatenteValid(unFormatted);
-    if (isValidPatente) {
-      const isDuplicated = cars.some(car => car.patente === unFormatted);
-      setIsValid(!isDuplicated);
+    const isValid = checkPatente(value);
+    if (isValid) {
+      setFormattedPatente(format(value));
+    }
+    const isComplete = (value.length === 6 || value.length === 7) && isPatenteValid(value);
+    if (isComplete) {
+      setIsValid(!checkDuplicatedPatente());
     } else {
       setIsValid(false);
     }
-  }, [formattedPatente]);
+  }, [value]);
 
   return (<>
     <Form.Control

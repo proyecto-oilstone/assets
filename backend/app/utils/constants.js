@@ -9,6 +9,7 @@ module.exports = {
     "REPAIRED": 7,
     "NEW_CAR": 8,
     "DISCHARGED_CAR": 9,
+    "EDIT_CAR": 10,
   },
   carStates: {
     "OUT_OF_SERVICE": 1,
