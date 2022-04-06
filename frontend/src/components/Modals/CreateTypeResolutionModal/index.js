@@ -43,25 +43,23 @@ const CreateTypeResolutionModal = (props) => {
 
   return (
     <CustomModal show={show} centered toggle={toggle} HeaderComponent={header} headerClassName="d-flex justify-content-between px-3 py-4">
-      <Form onSubmit={handleOnClick}>
-        <Form.Group as={Row} className="mb-2">
-          <Col sm="12">
-            <Row>
-              <Form.Label column sm="12">
-                Tipo de resolucion
-              </Form.Label>
-              <Col sm="12">
-                <Form.Control
-                  value={resolution}
-                  onChange={(e) => setResolution(e.target.value)}
-                  type="text"
-                  placeholder="Ingresa el tipo de resolucion"
-                />
-              </Col>
-            </Row>
-          </Col>
-        </Form.Group>
-      </Form>
+      <Form.Group as={Row} className="mb-2">
+        <Col sm="12">
+          <Row>
+            <Form.Label column sm="12">
+              Tipo de resolucion
+            </Form.Label>
+            <Col sm="12">
+              <Form.Control
+                value={resolution}
+                onChange={(e) => setResolution(e.target.value)}
+                type="text"
+                placeholder="Ingresa el tipo de resolucion"
+              />
+            </Col>
+          </Row>
+        </Col>
+      </Form.Group>
       <div className="d-flex flex-row-reverse">
         <ButtonPrimary className={`mt-2 button-modal-end`} onClick={handleOnClick}>{edit ? "Guardar" : "Crear"}</ButtonPrimary>
       </div>

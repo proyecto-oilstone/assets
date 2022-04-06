@@ -13,7 +13,7 @@ const getCurrentCarDriver = async (car) => {
   const statuses = ["IN_USE", "RESERVED", "INFORMED", "REPAIR"];
   if (statuses.includes(status)) {
     const lastDriverEvent = await getLastDriverEventByCarId(car.id);
-    return lastDriverEvent.driver;
+    return lastDriverEvent !== null ? lastDriverEvent.driver : "";
   } else {
     return "";
   }

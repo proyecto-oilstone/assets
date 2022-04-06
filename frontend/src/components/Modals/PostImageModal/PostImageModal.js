@@ -38,17 +38,15 @@ const PostImageModal = (props) => {
 
   return (
     <CustomModal show={show} toggle={toggle} title="Subir Archivos">
-      <Form >
-        <Form.Label htmlFor="files">Archivos</Form.Label>
-        <Form.Control type="file" id="file" onChange={handleChange}  />
+      <Form.Label htmlFor="files">Archivos</Form.Label>
+      <Form.Control type="file" id="file" onChange={handleChange}  />
 
-        <div className="d-flex align-items-center">
-          <ButtonPrimary className="mt-4" onClick={handleOnClick}>Subir</ButtonPrimary>
-          <div className="mt-4 ms-3">
-            <LoadingSmall isLoading={isLoading}/>
-          </div>
+      <div className="d-flex align-items-center">
+        <ButtonPrimary className="mt-4" onClick={handleOnClick}>Subir</ButtonPrimary>
+        <div className="mt-4 ms-3">
+          <LoadingSmall isLoading={isLoading}/>
         </div>
-      </Form>
+      </div>
     </CustomModal>
   );
 }

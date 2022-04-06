@@ -43,19 +43,17 @@ const FinishRepairModal = (props) => {
 
   return (
     <CustomModal size="lg" show={show} centered toggle={toggle} HeaderComponent={header} headerClassName="d-flex justify-content-between px-3 py-4">
-      <Form>
-        <Row className="my-4">
-          <Form.Label column sm="12">Ingresa los problemas que se repararon</Form.Label>
-          <Col sm="12">
-            <Select isSearchable isMulti value={problemsSelected} onChange={setProblemsSelected} options={setLabelAndValue(resolvingProblems, (p) => p.ProblemType.problem, "id")} />
-          </Col>
-        </Row>
+      <Row className="my-4">
+        <Form.Label column sm="12">Ingresa los problemas que se repararon</Form.Label>
+        <Col sm="12">
+          <Select isSearchable isMulti value={problemsSelected} onChange={setProblemsSelected} options={setLabelAndValue(resolvingProblems, (p) => p.ProblemType.problem, "id")} />
+        </Col>
+      </Row>
 
-        <span className={`text-muted`}>{hasMoreProblems ? "Al finalizar estos problemas el estado del vehiculo pasara a informado ya que este presenta mas problemas." : "Al finalizar estos problemas el estado del vehiculo pasara al estado original antes de ser informado."}</span>
-        <div className="d-flex flex-row-reverse">
-          <ButtonPrimary disabled={problemsSelected.length === 0} className={`mt-2 button-modal-end`} onClick={handleOnClick}>Finalizar</ButtonPrimary>
-        </div>
-      </Form>
+      <span className={`text-muted`}>{hasMoreProblems ? "Al finalizar estos problemas el estado del vehiculo pasara a informado ya que este presenta mas problemas." : "Al finalizar estos problemas el estado del vehiculo pasara al estado original antes de ser informado."}</span>
+      <div className="d-flex flex-row-reverse">
+        <ButtonPrimary disabled={problemsSelected.length === 0} className={`mt-2 button-modal-end`} onClick={handleOnClick}>Finalizar</ButtonPrimary>
+      </div>
     </CustomModal>
   );
 };

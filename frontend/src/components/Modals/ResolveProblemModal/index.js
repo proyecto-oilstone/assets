@@ -68,28 +68,26 @@ const ResolveProblemModal = (props) => {
 
   return (
     <CustomModal size="lg" show={show} centered toggle={toggle} HeaderComponent={header} headerClassName="d-flex justify-content-between px-3 py-4" footerComponent={footer}>
-      <Form>
-        <h6>Selecciona el tipo de resolucion de problema que se aplico para los problemas</h6>
-        {typeResolutionProblems.map(problem =>
-          <Row key={problem.id} className="my-4">
-            <Col sm="6"><span className="fw-bold">{problem.ProblemType.problem}:</span> <span>{problem.description}</span></Col>
-            <Col sm="6">
-              <Select 
-                isSearchable
-                value={"repairTypeSelected" in problem ? problem.repairTypeSelected : null}
-                onChange={(repairType) => handleChangeRepairTypeSelected(problem, repairType)}
-                options={setLabelAndValue(resolutionsTypes, "resolution", "id")}
-                placeholder="Resolucion aplicada"
-              />
-            </Col>
-          </Row>
-        )}
-        <Row className="my-5">
-          <Col sm="12">
-            <KilometresInput kilometres={kilometres} setKilometres={setKilometres}/>
+      <h6>Selecciona el tipo de resolucion de problema que se aplico para los problemas</h6>
+      {typeResolutionProblems.map(problem =>
+        <Row key={problem.id} className="my-4">
+          <Col sm="6"><span className="fw-bold">{problem.ProblemType.problem}:</span> <span>{problem.description}</span></Col>
+          <Col sm="6">
+            <Select 
+              isSearchable
+              value={"repairTypeSelected" in problem ? problem.repairTypeSelected : null}
+              onChange={(repairType) => handleChangeRepairTypeSelected(problem, repairType)}
+              options={setLabelAndValue(resolutionsTypes, "resolution", "id")}
+              placeholder="Resolucion aplicada"
+            />
           </Col>
         </Row>
-      </Form>
+      )}
+      <Row className="my-5">
+        <Col sm="12">
+          <KilometresInput kilometres={kilometres} setKilometres={setKilometres}/>
+        </Col>
+      </Row>
     </CustomModal>
   );
 };
