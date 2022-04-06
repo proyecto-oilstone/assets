@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import CustomModal from "../CustomModal/CustomModal";
 import Select from "react-select";
-import { setLabelAndValue } from "../../../helpers/utils";
+import { removeSpaces, setLabelAndValue } from "../../../helpers/utils";
 import CarTypeContext from "../../../contexts/carTypes/CarTypeContext";
 import CarContext from "../../../contexts/cars/CarContext";
 import ButtonPrimary from "../../Buttons/Primary/ButtonPrimary";
@@ -23,10 +23,11 @@ const CreateVehiculoModal = (props) => {
 
   useEffect(() => {
     if (vehicle) {
-      setPatente(vehicle.patente);
+      setPatente(removeSpaces(vehicle.patente));
       setAño(vehicle.año);
       setSelectedProvider(vehicle.provider);
       setSelectedCarType(vehicle.carType);
+      setKilometres(vehicle.kilometres);
     }
   }, [vehicle]);
 
@@ -105,8 +106,8 @@ const CreateVehiculoModal = (props) => {
             </Row>
           </Col>
 
-          <Col sm="6" className={`mt-2 ${edit && "d-none"}`}>
-            <KilometresInput kilometres={kilometres} setKilometres={setKilometres} />
+          <Col sm="6" className={`mt-2`}>
+            <KilometresInput kilometres={kilometres} setKilometres={setKilometres} currentKilometres={vehicle !== null ? vehicle.kilometres : 0} />
           </Col>
         </Form.Group>
 

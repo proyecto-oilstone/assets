@@ -163,6 +163,7 @@ export function getShortDescriptionEvent(event) {
     case "REPAIRED": return "Problema finalizado";
     case "NEW_CAR": return "Nuevo vehiculo";
     case "DISCHARGED_CAR": return "Baja de vehiculo";
+    case "EDIT_CAR": return "Edicion de vehiculo";
     default: return "Desconocido";
   }
 }
@@ -196,6 +197,7 @@ export function getDescriptionEvent(event) {
     case "REPAIRED": return "Se completo la reparacion al problema " + event?.ReportProblemEvent?.ProblemType?.problem + ", con el tipo de resolucion " + event?.ResolutionType?.resolution;
     case "NEW_CAR": return "Vehiculo creado";
     case "DISCHARGED_CAR": return "Vehiculo dado de baja";
+    case "EDIT_CAR": return "Edicion de vehiculo";
     default: return "Desconocido";
   }
 }

@@ -29,6 +29,18 @@ const FilterEvents = ({ value, setValue }) => {
   {
     label: "Reparacion finalizada",
     value: "REPAIRED"
+  },
+  {
+    label: "Nuevo vehiculo",
+    value: "NEW_CAR"
+  },
+  {
+    label: "Vehiculo dado de baja",
+    value: "DISCHARGED_CAR"
+  },
+  {
+    label: "Edicion de vehiculo",
+    value: "EDIT_CAR"
   }
   ];
 

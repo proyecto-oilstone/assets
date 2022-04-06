@@ -78,7 +78,7 @@ const CustomReactTable = (props) => {
   const EditButton = ({ data }) => (<img role="button" className="icon-sm cursor-pointer" src="/icons/edit-solid.svg" alt="editar" onClick={() => onEdit(data)} />)
   const CustomLink = ({ to, children }) => (<Link to={to}>{children}</Link>)
   const FilesButton = ({ data }) => (<img role="button" className={`icon-sm cursor-pointer`} src="/icons/pdf-text-file-svgrepo-com.svg" alt="archivos" onClick={() => onFile(data)} />)
-  const ExtraActionsButtons = ({ data }) => extraActions.map(extraAction => extraAction(data));
+  const ExtraActionsButtons = ({ data }) => extraActions.map((extraAction, index) => (<span key={index}>{extraAction(data)}</span>));
 
   const applyFilters = (row) => {
     return filters.every(filter => {

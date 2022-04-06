@@ -78,6 +78,11 @@ const Event = (props) => {
     setDescription(`Se dio de baja al vehiculo con patente `)
   };
 
+  const setEditCarTitle = () => {
+    setTitle("Vehiculo editado");
+    setDescription(`Se edito el vehiculo con patente `)
+  };
+
   useEffect(() => {
     switch (event.type) {
     case "DRIVER": setDriverTitle(); break;
@@ -90,6 +95,7 @@ const Event = (props) => {
     case "SEGURO" : setExpirationSeguro(); break;
     case "NEW_CAR": setNewCarTitle(); break;
     case "DISCHARGED_CAR": setDischargedCarTitle(); break;
+    case "EDIT_CAR": setEditCarTitle(); break;
     default: setTitle("Desconocido");
     }
   }, [event, car]);

@@ -69,6 +69,11 @@ const ReactBigCalendar = (props) => {
     label: "Baja de vehiculo",
     value: "DISCHARGED_CAR",
     checked: false,
+  },
+  {
+    label: "Vehiculo editado",
+    value: "EDIT_CAR",
+    checked: false,
   },]);
   
   const isExpirationEvent = (event) => {

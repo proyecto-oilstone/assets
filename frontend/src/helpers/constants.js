@@ -44,6 +44,7 @@ export const eventTypes = {
   "REPAIRED": 7,
   "NEW_CAR": 8,
   "DISCHARGED_CAR": 9,
+  "EDIT_CAR": 10,
 };
 export const eventsColors = {
   "DRIVER": "#77dd77",
@@ -56,6 +57,7 @@ export const eventsColors = {
   "EXPIRATION_FILE": "#ff6961",
   "NEW_CAR": "#fdfd96",
   "DISCHARGED_CAR": "#fdfd96",
+  "EDIT_CAR": "#fdfd96",
 }
 export const eventsTextColors = {
   "DRIVER": "rgb(108, 117, 125)",
@@ -68,4 +70,5 @@ export const eventsTextColors = {
   "EXPIRATION_FILE": "#ffffff",
   "NEW_CAR": "rgb(108, 117, 125",
   "DISCHARGED_CAR": "rgb(108, 117, 125",
+  "EDIT_CAR": "rgb(108, 117, 125",
 }

@@ -173,7 +173,7 @@ module.exports = {
       const event = {
         id: eventCreated.id,
         type,
-        kilometers: eventCreated.kilometers,
+        kilometres: eventCreated.Event.kilometres,
         carId: eventCreated.Event.carId,
         createdAt: eventCreated.Event.createdAt,
         updatedAt: eventCreated.Event.updatedAt,
