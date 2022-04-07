@@ -85,7 +85,7 @@ DischargedCarEvent.belongsTo(Event, { foreignKey: {name: "id", allowNull: false}
 EditCarEvent.belongsTo(Event, { foreignKey: {name: "id", allowNull: false}, targetKey: "id" });
 
 ReportProblemEvent.belongsTo(Provider, { foreignKey: "providerId", targetKey: "id" });
-RepairRequestEvent.belongsTo(ReportProblemEvent, { foreignKey: "problemId", targetKey: "id" });
+RepairRequestEvent.belongsTo(ReportProblemEvent, { foreignKey: "problemId", targetKey: "id", onDelete: 'cascade' });
 RepairedEvent.belongsTo(ReportProblemEvent, { foreignKey: "problemId", targetKey: "id" });
 ReportProblemEvent.belongsTo(ProblemType, { foreignKey: "problemTypeId", targetKey: "id" });
 RepairedEvent.belongsTo(ResolutionType, { foreignKey: "repairTypeId", targetKey: "id" });

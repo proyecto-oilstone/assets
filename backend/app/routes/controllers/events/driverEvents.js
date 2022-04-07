@@ -27,8 +27,9 @@ module.exports = {
 
     await Cars.update({
       stored: stored,
-      garageName: garageName,
+      garageName: garageName, //TODO: El garageName no debe estar aca, si el garage cambia de nombre entonces los autos quedan con el nombre viejo y menos si se tiene referencia a "GarageId"
       GarageId: garageId,
+      SectorId: params.sectorId, //TODO: el sectorId debe pertenecer al evento, sino no queda en el historial
     }, { where: { id: req.body.carId } });
     if (event) {
       res.status(201).json(event);

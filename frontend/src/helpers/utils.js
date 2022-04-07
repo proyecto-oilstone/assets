@@ -100,7 +100,7 @@ export function getProviderType(type) {
  */
 export function dateToDDMMYYYYHHMM(date) {
   if (date instanceof Date) {
-    return `${date.getDate()}/${date.getMonth() +1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+    return `${date.getDate()}/${date.getMonth() +1}/${date.getFullYear()} ${date.getHours()}:${(date.getMinutes()<10?'0':'') + date.getMinutes()}`;
   } else {
     return "Fecha invalida";
   }

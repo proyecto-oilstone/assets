@@ -3,7 +3,9 @@ const getCarDetail = require("../cars_services/getCarDetail");
 const { updateCarStatus } = require("../cars_services/updateStatus");
 const { getEventsByCarIdAndEventType, postEvent } = require("./event");
 const {getLastEventDifferent} = require("./getLastEventDifferent");
-const { getAllPendingProblemsByCarId, getAllResolvingProblemsByCarId, resolveProblems } = require("./reportProblemEvent");
+const { resolveProblems } = require("./reportProblemEvent");
+const getAllPendingProblemsByCarId = require("./getAllPendingProblemsByCarId");
+const getAllResolvingProblemsByCarId = require("./getAllResolvingProblemsByCarId");
 
 const createRepairedEvents = (carId, reportProblems, kilometres) => {
   const problems = reportProblems.map(problem => ({ carId, problemId: problem.id, repairTypeId: problem.typeResolutionId, kilometres }));
