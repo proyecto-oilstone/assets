@@ -35,29 +35,27 @@ const UploadVTVModal = (props) => {
 
   return (
     <CustomModal show={show} toggle={toggle} title={"Subir VTV"} footerComponent={buttonUpload}>
-      <Form>
-        <Form.Label htmlFor="files">VTV</Form.Label>
-        <Form.Control type="file" id="file" onChange={(e) => setFile(e.target.files[0])} />
+      <Form.Label htmlFor="files">VTV</Form.Label>
+      <Form.Control type="file" id="file" onChange={(e) => setFile(e.target.files[0])} />
 
-        <div className={`mt-4`}>
-          {file !== null &&
-            <Row className="my-2">
-              <Col sm="6" className="mt-2">
-                <Form.Label htmlFor="files">Fecha de vencimiento</Form.Label>
-                <Col className="d-flex align-items-center">
-                  <Col sm="12">
-                    <Form.Control className="me-3" type="date" value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} />
-                  </Col>
-                  <span onClick={() => setExpirationDate("")} className={expirationDate === "" ? "invisible" : ""}><img role="button" src="/icons/times-solid.svg" className="icon-sm cursor-pointer" /></span>
+      <div className={`mt-4`}>
+        {file !== null &&
+          <Row className="my-2">
+            <Col sm="6" className="mt-2">
+              <Form.Label htmlFor="files">Fecha de vencimiento</Form.Label>
+              <Col className="d-flex align-items-center">
+                <Col sm="12">
+                  <Form.Control className="me-3" type="date" value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} />
                 </Col>
+                <span onClick={() => setExpirationDate("")} className={expirationDate === "" ? "invisible" : ""}><img role="button" src="/icons/times-solid.svg" className="icon-sm cursor-pointer" /></span>
               </Col>
-              <Col sm="6">
-                <KilometresInput kilometres={kilometres} setKilometres={setKilometres}/>
-              </Col>
-            </Row>
-          }
-        </div>
-      </Form>
+            </Col>
+            <Col sm="6">
+              <KilometresInput kilometres={kilometres} setKilometres={setKilometres}/>
+            </Col>
+          </Row>
+        }
+      </div>
     </CustomModal>
   );
 };

@@ -60,7 +60,7 @@ const CrearUsuario = () => {
         <Container>
           <div className={`p-4 ${styles.container}`}>
             <h3 className="mb-4 w-100 text-center">Crear usuario</h3>
-            <Form onSubmit={handleSubmit} as={Row}>
+            <Row>
               <Form.Group as={Col} sm={6} className="mb-3" controlId="name">
                 <Form.Label>Nombre</Form.Label>
                 <Form.Control required type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Ingresa un nombre" />
@@ -100,7 +100,7 @@ const CrearUsuario = () => {
                   Crear
                 </ButtonPrimary>
               </div>
-            </Form>
+            </Row>
           </div>
         </Container>
       </div>

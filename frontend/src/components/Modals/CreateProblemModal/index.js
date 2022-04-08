@@ -68,98 +68,96 @@ const CreateProblemModal = (props) => {
   return (
     <CustomModal size="lg" show={show} centered toggle={toggle} HeaderComponent={header} headerClassName="d-flex justify-content-between px-3 py-4">
       <h6>Datos del problema</h6>
-      <Form>
-        <Form.Group as={Row}>
-          <Col sm="12">
-            <Row>
-              <Form.Label column sm="12">
-                Problema
-              </Form.Label>
-              <Col sm="12">
-                <Select
-                  placeholder="Tipo de problema"
-                  isSearchable
-                  value={problemSelected}
-                  onChange={setProblemSelected}
-                  options={setLabelAndValue(problemsTypes, "problem", "id")}
-                />
-              </Col>
-            </Row>
-          </Col>
-        </Form.Group>
+      <Form.Group as={Row}>
+        <Col sm="12">
+          <Row>
+            <Form.Label column sm="12">
+              Problema
+            </Form.Label>
+            <Col sm="12">
+              <Select
+                placeholder="Tipo de problema"
+                isSearchable
+                value={problemSelected}
+                onChange={setProblemSelected}
+                options={setLabelAndValue(problemsTypes, "problem", "id")}
+              />
+            </Col>
+          </Row>
+        </Col>
+      </Form.Group>
 
-        <Form.Group as={Row} className="mt-4">
-          <Col sm="12">
-            <Row>
-              <Form.Label column sm="12">
-                Descripcion
-              </Form.Label>
-              <Col sm="12">
-                <Form.Control
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  type="text"
-                  placeholder="Ingresa una descripcion al problema"
-                />
-              </Col>
-            </Row>
-          </Col>
-        </Form.Group>
+      <Form.Group as={Row} className="mt-4">
+        <Col sm="12">
+          <Row>
+            <Form.Label column sm="12">
+              Descripcion
+            </Form.Label>
+            <Col sm="12">
+              <Form.Control
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                type="text"
+                placeholder="Ingresa una descripcion al problema"
+              />
+            </Col>
+          </Row>
+        </Col>
+      </Form.Group>
 
-        <Form.Group as={Row} className="mt-4">
-          <Col sm="12">
-            <Row>
-              <Form.Label column sm="12">
-                Prioridad
-              </Form.Label>
-              <Col sm="12">
-                <Select value={priority} onChange={setPriority} options={priorities} />
-              </Col>
-            </Row>
-          </Col>
-        </Form.Group>
+      <Form.Group as={Row} className="mt-4">
+        <Col sm="12">
+          <Row>
+            <Form.Label column sm="12">
+              Prioridad
+            </Form.Label>
+            <Col sm="12">
+              <Select value={priority} onChange={setPriority} options={priorities} />
+            </Col>
+          </Row>
+        </Col>
+      </Form.Group>
 
-        <Form.Group as={Row} className="mt-4">
-          <KilometresInput kilometres={kilometres} setKilometres={setKilometres}/>
-        </Form.Group>
+      <Form.Group as={Row} className="mt-4">
+        <KilometresInput kilometres={kilometres} setKilometres={setKilometres}/>
+      </Form.Group>
 
-        <h6 className="mt-5">Adjuntar archivos</h6>
-        <Form.Group as={Row}>
-          <Col sm="12">
-            <Row>
-              <Form.Label column sm="12">
-                <span>Pedido de reparacion mecanico</span> <span className="text-secondary">(opcional)</span>
-              </Form.Label>
-              <Col sm="12">
-                <Form.Control type="file" id="prm" onChange={(e) => setPrm(e.target.files[0])} />
-              </Col>
-            </Row>
-          </Col>
-        </Form.Group>
+      <h6 className="mt-5">Adjuntar archivos</h6>
+      <Form.Group as={Row}>
+        <Col sm="12">
+          <Row>
+            <Form.Label column sm="12">
+              <span>Pedido de reparacion mecanico</span> <span className="text-secondary">(opcional)</span>
+            </Form.Label>
+            <Col sm="12">
+              <Form.Control type="file" id="prm" onChange={(e) => setPrm(e.target.files[0])} />
+            </Col>
+          </Row>
+        </Col>
+      </Form.Group>
 
-        <Form.Group as={Row} className="my-4">
-          <Col sm="12">
-            <Row>
-              <Col sm="12">
-                <div className="d-flex flex-column">
-                  <Form.Label className="mb-0">
-                    <span>Adjuntar archivo</span> <span className="text-secondary">(opcional)</span>
-                  </Form.Label>
-                  <Form.Text className="text-muted mb-2">Imagen, video, pdf etc.</Form.Text>
-                </div>
-              </Col>
-              <Col sm="12">
-                <Form.Control type="file" id="data" onChange={(e) => setData(e.target.files[0])} />
-              </Col>
-            </Row>
-          </Col>
-        </Form.Group>
+      <Form.Group as={Row} className="my-4">
+        <Col sm="12">
+          <Row>
+            <Col sm="12">
+              <div className="d-flex flex-column">
+                <Form.Label className="mb-0">
+                  <span>Adjuntar archivo</span> <span className="text-secondary">(opcional)</span>
+                </Form.Label>
+                <Form.Text className="text-muted mb-2">Imagen, video, pdf etc.</Form.Text>
+              </div>
+            </Col>
+            <Col sm="12">
+              <Form.Control type="file" id="data" onChange={(e) => setData(e.target.files[0])} />
+            </Col>
+          </Row>
+        </Col>
+      </Form.Group>
 
-        <span className={`text-muted ${!showWarning && "d-none"}`}>Este vehiculo no presenta ningun problema, al informar este problema el estado del vehiculo pasara a informado</span>
-        <div className="d-flex flex-row-reverse">
-          <ButtonPrimary disabled={priority === null || problemSelected === null || description === ""} className={`mt-2 button-modal-end`} onClick={handleOnClick}>Informar</ButtonPrimary>
-        </div>
-      </Form>
+      <span className={`text-muted ${!showWarning && "d-none"}`}>Este vehiculo no presenta ningun problema, al informar este problema el estado del vehiculo pasara a informado</span>
+      <div className="d-flex flex-row-reverse">
+        <ButtonPrimary disabled={priority === null || problemSelected === null || description === ""} className={`mt-2 button-modal-end`} onClick={handleOnClick}>Informar</ButtonPrimary>
+      </div>
     </CustomModal>
   );
 };

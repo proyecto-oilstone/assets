@@ -14,11 +14,12 @@ const EventState = (props) => {
 
   const [state, dispatch] = useReducer(EventReducer, initialState);
 
-  const createDriverEvent = async (driver, carId, isReserved, kilometres, garageId) => {
+  const createDriverEvent = async (driver, carId, isReserved, kilometres, garageId, sectorId) => {
     const driverEvent = {
       carId,
       driver,
       isReserved,
+      sectorId,
       kilometres,
       garageId: isReserved ? garageId : null,
     }

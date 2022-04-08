@@ -12,7 +12,7 @@ import KilometresInput from '../../Inputs/KilometresInput';
 
 const ReserveDriver = (props) => {
   const { buttonClassName = "", isActive, onActive, onDeactive } = props;
-  const { selectedCar, getCarById, editCar } = useContext(CarContext);
+  const { selectedCar, getCarById } = useContext(CarContext);
   const { sectors } = useContext(SectorContext);
   const { createDriverEvent } = useContext(EventContext);
   const { garages, getGarages } = useContext(GaragesContext);
@@ -27,15 +27,9 @@ const ReserveDriver = (props) => {
 
   const handleReserveDriver = async () => {
     const isReserved = true;
-    await createDriverEvent(driver, selectedCar.id, isReserved, kilometres, selectedGarage.id);
+    await createDriverEvent(driver, selectedCar.id, isReserved, kilometres, selectedGarage.id, selectedSector.id);
     getCarById(selectedCar.id);
     toggleReservingDriver();
-    const params = {
-      SectorId : selectedSector.id,
-    }
-    params.id = selectedCar.id;
-    
-    editCar(params);
     resetFields();
     onDeactive();
   };

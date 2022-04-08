@@ -72,11 +72,13 @@ const CarState = (props) => {
   }
 
   const deleteCar = async (carId) => {
-    axios.delete(`/cars/autos/${carId}`);
     dispatch({
       type: DELETE_CAR,
       payload: carId,
     });
+    const response = await axios.delete(`/cars/autos/${carId}`);
+    if (response.data.anyProblemDeleted)
+      alert("El vehiculo que se dio de baja tenia uno o mas problemas informados/resolviendose y fueron eliminados del historial.");
   }
 
   const undoDeleteCar = async (carId) => {

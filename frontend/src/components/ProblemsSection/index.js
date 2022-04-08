@@ -31,6 +31,7 @@ const ProblemsSection = () => {
   const [selectableRowsCheckboxCriteria, setSelectableRowsCheckboxCriteria] = useState(showAllCheckboxsInitialValue);
   const [action, setAction] = useState("none"); // none - reparing - accepting
   const [latestRepairedEvents, setLatestRepairedEvents] = useState([]);
+  const canInformProblem = ["INFORMED", "IN_USE", "RESERVED", "AVAILABLE"].includes(selectedCar?.status);
 
   const filterComponentResolving = ({ value, setValue }) => (
     <FilterBoolean value={value} setValue={setValue}/>
@@ -159,7 +160,7 @@ const ProblemsSection = () => {
       {problemNotResolved.length > 0
         ? <>
         <div className="d-flex mb-4">
-          <ButtonPrimary onClick={openCreateProblemModal} className="rounded d-flex align-items-center">
+          <ButtonPrimary onClick={openCreateProblemModal} className={`rounded d-flex align-items-center ${!canInformProblem && "d-none"}`}>
             <img className="me-2 icon-xsm icon-white" src="/icons/plus.png"/><span>Nuevo problema</span>
           </ButtonPrimary>
 
@@ -169,11 +170,11 @@ const ProblemsSection = () => {
             <PDFLatestRepairedEvents events={latestRepairedEvents} car={selectedCar} className="ms-2 rounded">Reporte de conformidad</PDFLatestRepairedEvents>
           }
 
-          <ButtonSecondary onClick={showWarningRepairModal} className={`ms-2 rounded d-flex ${action !== "reparing" && "d-none"}`}>
+          <ButtonSecondary onClick={showWarningRepairModal} className={`ms-2 rounded d-flex ${action !== "reparing" && "d-none"} ${selectedCar?.status === "OUT_OF_SERVICE" && "d-none"}`}>
             <span>Solicitar Reparacion</span>
           </ButtonSecondary>
 
-          <ButtonSecondary onClick={toggleModalResolveProblems} className={`ms-2 rounded d-flex ${action !== "accepting" && "d-none"}`}>
+          <ButtonSecondary onClick={toggleModalResolveProblems} className={`ms-2 rounded d-flex ${action !== "accepting" && "d-none"} ${selectedCar?.status === "OUT_OF_SERVICE" && "d-none"}`}>
             <span>Aceptar Reparacion</span>
           </ButtonSecondary>
 
@@ -193,7 +194,11 @@ const ProblemsSection = () => {
         </>
         : 
         <div>
+          {canInformProblem ?
           <p>Este vehiculo no presenta ningun problema <span onClick={openCreateProblemModal} role="button" className="link-primary cursor-pointer">informar problema</span></p>
+          :
+          <p>El vehiculo debe estar informado / reservado / backup / en uso para poder informar un problema</p>
+          }
           {latestRepairedEvents.length > 0 &&
             <PDFLatestRepairedEvents events={latestRepairedEvents} car={selectedCar} className="ms-2 rounded">Reporte de conformidad</PDFLatestRepairedEvents>
           }

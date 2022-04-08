@@ -49,48 +49,46 @@ const CreateGarageModal = (props) => {
 
   return (
     <CustomModal centered show={show} toggle={toggle} HeaderComponent={header} headerClassName="d-flex justify-content-between px-3 py-4">
-      <Form>
-        <Form.Group as={Row} className="mb-2">
-          <Col sm="12">
-            <Row>
-              <Form.Label column sm="12">
-                Nombre corto
-              </Form.Label>
-              <Col sm="12">
-                <Form.Control
-                  value={nombreCorto}
-                  onChange={(e) => setNombreCorto(e.target.value)}
-                  type="text"
-                  placeholder="Ingresa un nombre corto"
-                />
-              </Col>
-            </Row>
-          </Col>
-        </Form.Group>
+      <Form.Group as={Row} className="mb-2">
+        <Col sm="12">
+          <Row>
+            <Form.Label column sm="12">
+              Nombre corto
+            </Form.Label>
+            <Col sm="12">
+              <Form.Control
+                value={nombreCorto}
+                onChange={(e) => setNombreCorto(e.target.value)}
+                type="text"
+                placeholder="Ingresa un nombre corto"
+              />
+            </Col>
+          </Row>
+        </Col>
+      </Form.Group>
 
-        <Form.Group as={Row} className="mb-2">
-          <Col sm="12">
-            <Row>
-              <Form.Label column sm="12">
-                Nombre largo
-              </Form.Label>
-              <Col sm="12">
-                <Form.Control
-                  value={nombreLargo}
-                  onChange={(e) => setNombreLargo(e.target.value)}
-                  type="text"
-                  placeholder="Ingresar un nombre largo"
-                />
-              </Col>
-            </Row>
-          </Col>
-        </Form.Group>
+      <Form.Group as={Row} className="mb-2">
+        <Col sm="12">
+          <Row>
+            <Form.Label column sm="12">
+              Nombre largo
+            </Form.Label>
+            <Col sm="12">
+              <Form.Control
+                value={nombreLargo}
+                onChange={(e) => setNombreLargo(e.target.value)}
+                type="text"
+                placeholder="Ingresar un nombre largo"
+              />
+            </Col>
+          </Row>
+        </Col>
+      </Form.Group>
 
-        <Form.Group className="mb-3">
-          <Form.Label>Observaciones</Form.Label>
-          <Form.Control value={observaciones} onChange={(e) => setObservaciones(e.target.value)} as="textarea" rows={3} />
-        </Form.Group>
-      </Form>
+      <Form.Group className="mb-3">
+        <Form.Label>Observaciones</Form.Label>
+        <Form.Control value={observaciones} onChange={(e) => setObservaciones(e.target.value)} as="textarea" rows={3} />
+      </Form.Group>
 
       <div className="d-flex flex-row-reverse">
         <ButtonPrimary className={`mt-2 button-modal-end`} onClick={handleOnClick}>{edit ? "Guardar" : "Crear"}</ButtonPrimary>

@@ -37,31 +37,29 @@ const Login = () => {
         <img className={`mb-4`} src="/logo.png" alt="logo" />
         <h4>Gestión de Taller</h4>
         <div className={`p-4 ${styles.container}`}>
-          <Form>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Direccion de email</Form.Label>
-              <Form.Control value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Ingresa un email" />
-            </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Direccion de email</Form.Label>
+            <Form.Control value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Ingresa un email" />
+          </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Contraseña</Form.Label>
-              <Form.Control value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Contraseña" />
-            </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Label>Contraseña</Form.Label>
+            <Form.Control value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Contraseña" />
+          </Form.Group>
 
-            <div className="invalid-feedback d-block">
-              {errorMessage}
-            </div>
+          <div className="invalid-feedback d-block">
+            {errorMessage}
+          </div>
 
-            <div className="d-flex justify-content-between">
-              <Button onClick={handleLogin} variant="primary" className={styles.button} type="submit">
-                Iniciar sesion
-              </Button>
+          <div className="d-flex justify-content-between">
+            <Button onClick={handleLogin} variant="primary" className={styles.button} type="submit">
+              Iniciar sesion
+            </Button>
 
-              <Button onClick={handleRegister} variant="primary" className={styles.button} type="submit">
-                Registrarse
-              </Button>
-            </div>
-          </Form>
+            <Button onClick={handleRegister} variant="primary" className={styles.button} type="submit">
+              Registrarse
+            </Button>
+          </div>
         </div>
 
         <div className={"mt-4"}>

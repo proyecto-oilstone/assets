@@ -20,7 +20,8 @@ module.exports = {
     const { id } = req.params;
     const { patente, ProviderId, CarTypeId, año, SectorId, kilometres } = req.body;
     const allowedFields = { patente, ProviderId, CarTypeId, año, SectorId, kilometres };
-    const car = await putCar(id, allowedFields);
+    const createEditionEvent = true;
+    const car = await putCar(id, allowedFields, createEditionEvent);
     res.status(200).json(car);
   },
 

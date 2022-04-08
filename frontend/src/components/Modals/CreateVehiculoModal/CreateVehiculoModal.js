@@ -75,70 +75,68 @@ const CreateVehiculoModal = (props) => {
 
   return (
     <CustomModal centered size="lg" show={show} toggle={toggle} HeaderComponent={header} headerClassName="d-flex justify-content-between px-3 py-4">
-      <Form>
-        <h6>Datos basicos del vehículo</h6>
-        <Form.Group as={Row} className="mb-2">
-          <Col sm="6">
-            <Row>
-              <Form.Label column sm="12">
-                Patente
-              </Form.Label>
-              <Col sm="12">
-                <PatenteInput value={patente} edit={edit} vehicle={vehicle} onChange={(patente) => setPatente(patente)} setIsValid={setIsValidPatente}/>
-              </Col>
-            </Row>
-          </Col>
+      <h6>Datos basicos del vehículo</h6>
+      <Form.Group as={Row} className="mb-2">
+        <Col sm="6">
+          <Row>
+            <Form.Label column sm="12">
+              Patente
+            </Form.Label>
+            <Col sm="12">
+              <PatenteInput value={patente} edit={edit} vehicle={vehicle} onChange={(patente) => setPatente(patente)} setIsValid={setIsValidPatente}/>
+            </Col>
+          </Row>
+        </Col>
 
-          <Col sm="6">
-            <Row>
-              <Form.Label column sm="12">
-                Año
-              </Form.Label>
-              <Col sm="12">
-                <Form.Control
-                  value={año}
-                  onChange={(e) => setAño(e.target.value)}
-                  type="number"
-                  min="1900"
-                  placeholder="Ingresar el año"
-                />
-              </Col>
-            </Row>
-          </Col>
+        <Col sm="6">
+          <Row>
+            <Form.Label column sm="12">
+              Año
+            </Form.Label>
+            <Col sm="12">
+              <Form.Control
+                value={año}
+                onChange={(e) => setAño(e.target.value)}
+                type="number"
+                min="1900"
+                placeholder="Ingresar el año"
+              />
+            </Col>
+          </Row>
+        </Col>
 
-          <Col sm="6" className={`mt-2`}>
-            <KilometresInput kilometres={kilometres} setKilometres={setKilometres} currentKilometres={vehicle !== null ? vehicle.kilometres : 0} />
-          </Col>
-        </Form.Group>
+        <Col sm="6" className={`mt-2`}>
+          <KilometresInput kilometres={kilometres} setKilometres={setKilometres} currentKilometres={vehicle !== null ? vehicle.kilometres : 0} />
+        </Col>
+      </Form.Group>
 
-        <h6 className="mt-4">Proveedor</h6>
-        <Form.Group as={Row}>
-          <Col sm="6">
-            <Row>
-              <Col sm="12">
-                <SelectProviders value={selectedProvider} onChange={setSelectedProvider} />
-                <Form.Text className="text-muted ms-1">{selectedProvider?.nombreLargo}</Form.Text>
-              </Col>
-            </Row>
-          </Col>
-        </Form.Group>
+      <h6 className="mt-4">Proveedor</h6>
+      <Form.Group as={Row}>
+        <Col sm="6">
+          <Row>
+            <Col sm="12">
+              <SelectProviders value={selectedProvider} onChange={setSelectedProvider} />
+              <Form.Text className="text-muted ms-1">{selectedProvider?.nombreLargo}</Form.Text>
+            </Col>
+          </Row>
+        </Col>
+      </Form.Group>
 
-        <h6 className="mt-2">Tipo de vehículo</h6>
-        <Form.Group as={Row} className="mb-2">
-          <Col sm="6">
-            <Row>
-              <Col sm="12">
-                <Select value={selectedCarType} onChange={setSelectedCarType} options={setLabelAndValue(carTypes, type => `${type.nombreCorto}` , "id")} />
-                <Form.Text className="text-muted ms-1">{selectedCarType?.nombreLargo}</Form.Text>
-              </Col>
-            </Row>
-          </Col>
-        </Form.Group>
+      <h6 className="mt-2">Tipo de vehículo</h6>
+      <Form.Group as={Row} className="mb-2">
+        <Col sm="6">
+          <Row>
+            <Col sm="12">
+              <Select value={selectedCarType} onChange={setSelectedCarType} options={setLabelAndValue(carTypes, type => `${type.nombreCorto}` , "id")} />
+              <Form.Text className="text-muted ms-1">{selectedCarType?.nombreLargo}</Form.Text>
+            </Col>
+          </Row>
+        </Col>
+      </Form.Group>
 
-        <div className="d-flex flex-row-reverse">
-          <ButtonPrimary disabled={checkDisabled()} className={`mt-2 button-modal-end`} onClick={handleOnClick}>{edit ? "Guardar" : "Crear"}</ButtonPrimary>
-        </div>
-      </Form>
+      <div className="d-flex flex-row-reverse">
+        <ButtonPrimary disabled={checkDisabled()} className={`mt-2 button-modal-end`} onClick={handleOnClick}>{edit ? "Guardar" : "Crear"}</ButtonPrimary>
+      </div>
     </CustomModal>
   );
 };

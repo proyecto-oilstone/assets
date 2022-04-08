@@ -60,30 +60,28 @@ const PostFileModal = (props) => {
 
   return (
     <CustomModal show={show} toggle={toggle} title="Subir Archivos">
-      <Form >
-        <Form.Label htmlFor="files">Archivos</Form.Label>
-        <Form.Control type="file" id="file" onChange={handleChange} multiple />
+      <Form.Label htmlFor="files">Archivos</Form.Label>
+      <Form.Control type="file" id="file" onChange={handleChange} multiple />
 
-        <div className={`mt-4 ${(files.length === 0) && "d-none"}`}>
-          {files.map((file, index) => 
-            <Row className="my-2 d-flex align-items-center" key={index}>
-              <Col sm="6">{file.file.name}</Col>
-              <Col sm="6" className="d-flex align-items-center">
-                <span onClick={() => handleChangeExpirationDate(index, "")} className={file.expirationDate === "" ? "invisible" : ""}><img role="button" src="/icons/times-solid.svg" className="icon-sm cursor-pointer" /></span>
-                <Form.Control className="ms-3" type="date" value={file.expirationDate} onChange={(e) => handleChangeExpirationDate(index, e)}/>
-              </Col>
-            </Row>
-          )}
+      <div className={`mt-4 ${(files.length === 0) && "d-none"}`}>
+        {files.map((file, index) => 
+          <Row className="my-2 d-flex align-items-center" key={index}>
+            <Col sm="6">{file.file.name}</Col>
+            <Col sm="6" className="d-flex align-items-center">
+              <span onClick={() => handleChangeExpirationDate(index, "")} className={file.expirationDate === "" ? "invisible" : ""}><img role="button" src="/icons/times-solid.svg" className="icon-sm cursor-pointer" /></span>
+              <Form.Control className="ms-3" type="date" value={file.expirationDate} onChange={(e) => handleChangeExpirationDate(index, e)}/>
+            </Col>
+          </Row>
+        )}
+      </div>
+      
+      <div className="d-flex align-items-center">
+        <ButtonPrimary className="mt-4" onClick={handleOnClick} disabled={files.length === 0}>Subir</ButtonPrimary>
+        <div className="mt-4 ms-3">
+          <LoadingSmall isLoading={isLoading}/>
         </div>
-        
-        <div className="d-flex align-items-center">
-          <ButtonPrimary className="mt-4" onClick={handleOnClick} disabled={files.length === 0}>Subir</ButtonPrimary>
-          <div className="mt-4 ms-3">
-            <LoadingSmall isLoading={isLoading}/>
-          </div>
-        </div>
+      </div>
 
-      </Form>
     </CustomModal>
   );
 }
